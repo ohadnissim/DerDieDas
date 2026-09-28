@@ -1,178 +1,261 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Der Die Das"><link rel="apple-touch-icon" href="img/house-das.webp"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}</style></head><body><title>Der Die Das</title>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Der Die Das"><link rel="apple-touch-icon" href="img/stk-dollhouse.webp"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}</style></head><body><title>Der Die Das</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
 :root{
-  --ground:#F1EEE6; --surface:#FFFFFF; --ink:#2A2622; --muted:#6F695D; --line:#E2DCCF;
-  --paper:#F1EEE6; --lift:0 14px 32px rgba(70,50,20,.12), 0 2px 0 rgba(70,50,20,.06);
-  --der:#2F6FE0; --die:#E0433B; --das:#1E9E57; --star:#F5B400;
+  --ground:#FCF0F7; --ground-2:#F1E4FB; --surface:#FFFFFF; --ink:#3B2352; --muted:#86709C; --line:#EBDDF3;
+  --paper:#F1EEE6;
+  --grape:#9B4DDB; --grape-deep:#6C2BAA; --grape-soft:#EFE2FC;
+  --pink:#FF78B5; --pink-deep:#D24E8E; --pink-soft:#FFE1F0;
+  --der:#2F6FE0; --die:#E0433B; --das:#1E9E57;
   --der-deep:#1F4FAD; --die-deep:#A92B25; --das-deep:#12703C;
   --der-soft:#E2EBFD; --die-soft:#FCE4E2; --das-soft:#DDF4E6;
+  --star:#FFB81F; --star-deep:#D68F00;
   --on-color:#FFFFFF;
+  --lift:0 14px 30px rgba(92,38,130,.14), 0 2px 0 rgba(92,38,130,.06);
+  --blob-a:rgba(255,120,181,.30); --blob-b:rgba(155,77,219,.24); --blob-c:rgba(255,184,31,.18);
+  --glass:rgba(255,255,255,.55); --slot-line:rgba(155,77,219,.38);
   --display:"Baloo 2", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
   --body:"Nunito", ui-rounded, system-ui, -apple-system, sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#16141E; --surface:#221F2E; --ink:#F2EFFA; --muted:#A7A2BD; --line:#353149;
+    --ground:#1C1128; --ground-2:#27163A; --surface:#2F1E45; --ink:#F7EEFF; --muted:#B9A3CF; --line:#44305E;
+    --grape:#B476F0; --grape-deep:#7B3BBF; --grape-soft:#33224D;
+    --pink:#FF8CC2; --pink-deep:#C4477F; --pink-soft:#3E2140;
     --der:#4F86EE; --die:#EC5A52; --das:#2DB36A;
     --der-deep:#2A55A8; --die-deep:#9E302B; --das-deep:#1A7543;
     --der-soft:#1E2944; --die-soft:#3A2024; --das-soft:#173428;
+    --lift:0 14px 30px rgba(0,0,0,.35), 0 2px 0 rgba(0,0,0,.2);
+    --blob-a:rgba(255,120,181,.16); --blob-b:rgba(155,77,219,.20); --blob-c:rgba(255,184,31,.08);
+    --glass:rgba(255,255,255,.06); --slot-line:rgba(200,160,240,.35);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#16141E; --surface:#221F2E; --ink:#F2EFFA; --muted:#A7A2BD; --line:#353149;
+  --ground:#1C1128; --ground-2:#27163A; --surface:#2F1E45; --ink:#F7EEFF; --muted:#B9A3CF; --line:#44305E;
+  --grape:#B476F0; --grape-deep:#7B3BBF; --grape-soft:#33224D;
+  --pink:#FF8CC2; --pink-deep:#C4477F; --pink-soft:#3E2140;
   --der:#4F86EE; --die:#EC5A52; --das:#2DB36A;
   --der-deep:#2A55A8; --die-deep:#9E302B; --das-deep:#1A7543;
   --der-soft:#1E2944; --die-soft:#3A2024; --das-soft:#173428;
+  --lift:0 14px 30px rgba(0,0,0,.35), 0 2px 0 rgba(0,0,0,.2);
+  --blob-a:rgba(255,120,181,.16); --blob-b:rgba(155,77,219,.20); --blob-c:rgba(255,184,31,.08);
+  --glass:rgba(255,255,255,.06); --slot-line:rgba(200,160,240,.35);
   color-scheme:dark;
 }
 [hidden]{display:none!important}
 html,body{height:100%}
-body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);
+body{margin:0;background:linear-gradient(160deg,var(--ground),var(--ground-2));background-color:var(--ground);color:var(--ink);font-family:var(--body);
   -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;overflow:hidden}
 button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer;border:0;background:none;padding:0}
-button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--der);outline-offset:3px}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--grape);outline-offset:3px}
 button:disabled{cursor:default}
 
-.screen{height:100%;display:flex;flex-direction:column;box-sizing:border-box;
-  padding-inline:16px;padding-block:12px 20px;max-width:1100px;margin:0 auto}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px}
-.stars{font-family:var(--display);font-weight:800;font-size:28px;display:flex;align-items:center;gap:6px;
-  font-variant-numeric:tabular-nums}
-.stars .s{color:var(--star);font-size:30px;line-height:1}
-.warn{background:var(--die);color:var(--on-color);font-weight:800;font-size:14px;border-radius:999px;padding:8px 14px;margin-left:auto}
-.icon-btn{width:52px;height:52px;border-radius:50%;background:var(--surface);display:grid;place-items:center;
-  font-size:24px;color:var(--muted);box-shadow:0 2px 0 var(--line)}
+/* ---------- floating background ---------- */
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.blob{position:absolute;border-radius:50%;filter:blur(40px);animation:drift 22s ease-in-out infinite alternate}
+.blob.a{width:46vmax;height:46vmax;left:-14vmax;top:-12vmax;background:var(--blob-a)}
+.blob.b{width:40vmax;height:40vmax;right:-12vmax;top:30vh;background:var(--blob-b);animation-duration:27s}
+.blob.c{width:30vmax;height:30vmax;left:30vw;bottom:-16vmax;background:var(--blob-c);animation-duration:31s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(4vmax,3vmax) scale(1.12)}}
+
+/* ---------- shared ---------- */
+.screen{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;box-sizing:border-box;
+  padding-inline:16px;padding-block:12px 20px;max-width:1000px;margin:0 auto;gap:12px}
+.bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;min-height:60px}
+.bar-mid{display:flex;justify-content:center;align-items:center;gap:10px;min-width:0}
+.bar-end{display:flex;gap:10px;align-items:center;justify-content:flex-end}
+.pill{display:inline-flex;align-items:center;gap:8px;height:52px;padding-inline:16px;border-radius:999px;background:var(--surface);
+  box-shadow:var(--lift);font-family:var(--display);font-weight:800;font-size:26px;font-variant-numeric:tabular-nums;line-height:1}
+.pill .s{color:var(--star);font-size:28px}
+.pill img{width:34px;height:34px;border-radius:10px}
+.icon-btn{width:52px;height:52px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--muted);box-shadow:var(--lift)}
+.icon-btn svg{width:24px;height:24px}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2.4vw,24px);width:100%;max-width:820px;margin-inline:auto}
+.sym{width:.5em;height:.5em;flex:none}
+.tile{background:var(--paper);border-radius:24%;overflow:hidden;display:block}
+.pic{display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:darken}
+.bump{animation:bump .35s ease}
+@keyframes bump{50%{transform:scale(1.25)}}
+.warn{background:var(--die);color:var(--on-color);font-weight:800;font-size:14px;border-radius:999px;padding:8px 14px}
+
+/* 3D candy buttons */
+.candy{position:relative;display:grid;place-items:center;color:var(--on-color);border-radius:50%;transition:transform .12s, box-shadow .12s}
+.candy:active:not(:disabled){transform:translateY(6px) scale(.97)}
+.candy.grape{background:radial-gradient(circle at 35% 30%,#C288F2,var(--grape) 60%);box-shadow:0 10px 0 var(--grape-deep),var(--lift)}
+.candy.grape:active:not(:disabled){box-shadow:0 4px 0 var(--grape-deep)}
+.candy.pink{background:radial-gradient(circle at 35% 30%,#FFB3D6,var(--pink) 60%);box-shadow:0 9px 0 var(--pink-deep),var(--lift)}
+.candy.pink:active:not(:disabled){box-shadow:0 3px 0 var(--pink-deep)}
+.candy:disabled{opacity:.45}
 
 /* ---------- home ---------- */
-.home{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(20px,4vmin,40px);min-height:0}
-.play{width:clamp(140px,26vmin,210px);aspect-ratio:1;max-width:100%;border-radius:50%;
-  background:var(--das);color:var(--on-color);box-shadow:0 10px 0 var(--das-deep);
-  display:grid;place-items:center;transition:transform .12s}
-.play svg{width:46%;height:46%;margin-left:8%}
-.play:active{transform:translateY(6px);box-shadow:0 4px 0 var(--das-deep)}
-.play:disabled{opacity:.4}
-.houses{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,2vw,22px);width:100%;max-width:900px}
-.house{display:flex;flex-direction:column;min-width:0}
-.roof{height:clamp(64px,11vmin,96px);clip-path:polygon(50% 0,100% 100%,0 100%);
-  display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;
-  font-family:var(--display);font-weight:800;font-size:clamp(24px,4.4vmin,38px);color:var(--on-color);line-height:1}
-.house[data-a="der"] .roof{background:var(--der)} .house[data-a="die"] .roof{background:var(--die)} .house[data-a="das"] .roof{background:var(--das)}
+.home{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:clamp(12px,2.4vh,24px);min-height:0}
+.hero{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:clamp(18px,4vw,40px)}
+.play{width:clamp(128px,21vmin,180px);aspect-ratio:1;animation:breathe 2.6s ease-in-out infinite}
+.play svg{width:44%;height:44%;margin-left:8%}
+.quizbtn{width:clamp(92px,14vmin,120px);aspect-ratio:1}
+.quizbtn svg{width:52%;height:52%}
+.quizbtn .due{position:absolute;top:-4px;right:-4px;width:34px;height:34px;border-radius:50%;background:var(--star);color:var(--ink);
+  font-family:var(--display);font-weight:800;font-size:22px;display:grid;place-items:center;box-shadow:0 0 0 4px var(--ground);animation:wiggle 1.4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+.nextsticker{display:flex;align-items:center;gap:6px;background:var(--surface);border-radius:999px;padding:8px 10px 8px 16px;box-shadow:var(--lift)}
+.nextsticker{flex-direction:column;border-radius:28px;padding:12px 14px;gap:8px}
+#slots{display:flex;align-items:center;gap:8px}
+.meter{display:block;width:clamp(120px,22vmin,200px);height:22px;border-radius:999px;background:var(--grape-soft);overflow:hidden;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
+.meter .fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--pink),var(--grape));transition:width .8s cubic-bezier(.3,1.4,.5,1)}
+.gift img{width:100%;height:100%;object-fit:contain;filter:brightness(0);opacity:.28}
+.nextsticker{flex-direction:row!important;gap:12px!important;padding:8px 10px 8px 18px!important;border-radius:999px!important}
+.ns{font-size:clamp(24px,3.6vmin,32px);color:var(--line);line-height:1;transition:color .3s}
+.ns.on{color:var(--star);animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
+.nextsticker .gift{width:64px;height:64px;overflow:hidden;border-radius:50%;background:var(--grape-soft);display:grid;place-items:center;font-family:var(--display);font-weight:800;color:var(--grape);font-size:22px}
+.house{display:flex;flex-direction:column;align-items:stretch;gap:10px;min-width:0}
+.house-top{display:flex;flex-direction:column;align-items:center;gap:0;background:var(--paper);border-radius:28px;padding:10px 10px 12px;box-shadow:var(--lift)}
+.house-img{width:min(100%,clamp(96px,17vmin,150px));aspect-ratio:1;animation:float 3.4s ease-in-out infinite}
+.house[data-a="die"] .house-img{animation-delay:-1.1s} .house[data-a="das"] .house-img{animation-delay:-2.2s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.house-fb{display:grid;place-items:center;width:100%;height:100%;color:var(--on-color);font-size:60px}
+.house-fb.der{background:var(--der)} .house-fb.die{background:var(--die)} .house-fb.das{background:var(--das)}
+.label{display:inline-flex;align-items:center;gap:.25em;font-family:var(--display);font-weight:800;font-size:clamp(24px,4vmin,36px);line-height:1}
+.label.der{color:var(--der)} .label.die{color:var(--die)} .label.das{color:var(--das)}
+.label .sym{width:.58em;height:.58em}
+.rooms{border-radius:24px;padding:8px;min-height:clamp(60px,10vmin,90px);display:flex;flex-wrap:wrap;align-content:flex-start;justify-content:center;gap:6px}
 .house[data-a="der"] .rooms{background:var(--der-soft)} .house[data-a="die"] .rooms{background:var(--die-soft)} .house[data-a="das"] .rooms{background:var(--das-soft)}
-.rooms{margin-inline:6%;border-radius:0 0 18px 18px;padding:12px 8px;min-height:clamp(90px,16vmin,150px);
-  display:flex;flex-wrap:wrap;align-content:flex-start;justify-content:center;gap:4px}
-.w{position:relative;font-size:clamp(30px,5.4vmin,46px);line-height:1;padding:4px;border-radius:12px;transition:opacity .2s}
-.w.learning{opacity:.4}
-.w.mastered::after{content:"★";position:absolute;right:-2px;top:-4px;font-size:15px;color:var(--star)}
-.w .txt{font-family:var(--display);font-size:16px;font-weight:600;color:var(--ink)}
-.empty{color:var(--muted);font-size:15px;text-align:center;padding:8px;align-self:center}
+.w{position:relative;border-radius:16px;transition:opacity .2s}
+.w .tile{width:clamp(44px,7vmin,62px);height:clamp(44px,7vmin,62px)}
+.w.learning{opacity:.45}
+.w.mastered::after{content:"★";position:absolute;right:-4px;top:-6px;font-size:18px;color:var(--star);text-shadow:0 1px 0 var(--star-deep)}
+.w .txt{font-family:var(--display);font-size:15px;font-weight:700;padding:6px}
+.w .emo{font-size:clamp(30px,5vmin,42px);line-height:1;padding:4px}
+.empty{color:var(--muted);font-size:15px;padding:8px}
 
-/* ---------- pictures ---------- */
-.pic{display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:darken}
-.tile{background:var(--paper);border-radius:22%;overflow:hidden;display:block}
-.home .houses{align-items:start}
-.house-top{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%}
-.house-img{width:min(100%,190px);aspect-ratio:1;border-radius:28px;transition:transform .15s}
-.house-top:active .house-img{transform:scale(.96)}
-.house.pics .roof{display:none}
-.house:not(.pics) .house-img{display:none}
-.label{display:inline-flex;align-items:center;gap:.25em;font-family:var(--display);font-weight:800;font-size:clamp(24px,4.2vmin,36px);line-height:1;margin-top:-6px}
-.house[data-a="der"] .label{color:var(--der)} .house[data-a="die"] .label{color:var(--die)} .house[data-a="das"] .label{color:var(--das)}
-.label .sym{width:.6em;height:.6em}
-.house:not(.pics) .label{display:none}
-.house.pics .rooms{border-radius:22px;margin-top:10px}
-.w .tile{width:clamp(48px,8.4vmin,72px);height:clamp(48px,8.4vmin,72px)}
-.w{padding:3px}
-.card-pic{width:min(78%,340px);aspect-ratio:1;flex:0 1 auto;min-height:0;max-height:62%}
-.card-pic .pic{animation:arrive .45s cubic-bezier(.2,1.4,.4,1) both}
-@keyframes arrive{from{transform:scale(.6) translateY(20px);opacity:0}to{transform:none;opacity:1}}
-.yay{position:absolute;left:14px;top:14px;width:clamp(84px,15vmin,130px);aspect-ratio:1;pointer-events:none;z-index:2}
+/* ---------- play & quiz ---------- */
+.dots{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.dot{width:16px;height:16px;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 2px var(--line);transition:background .25s,transform .25s}
+.dot.now{transform:scale(1.4);box-shadow:inset 0 0 0 3px var(--grape)}
+.dot.der{background:var(--der);box-shadow:none} .dot.die{background:var(--die);box-shadow:none} .dot.das{background:var(--das);box-shadow:none}
+.dot.ok{background:var(--star);box-shadow:none} .dot.miss{background:var(--pink);box-shadow:none}
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:16px;min-height:0}
+.card{position:relative;width:min(100%,620px);flex:1;max-height:470px;min-height:0;background:var(--paper);border-radius:40px;box-shadow:var(--lift);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:18px;box-sizing:border-box;transition:box-shadow .25s}
+.card.der{box-shadow:0 0 0 8px var(--der),var(--lift)} .card.die{box-shadow:0 0 0 8px var(--die),var(--lift)} .card.das{box-shadow:0 0 0 8px var(--das),var(--lift)}
+.card.enter{animation:cardin .5s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes cardin{from{transform:translateY(40px) scale(.92);opacity:0}to{transform:none;opacity:1}}
+.card-pic{width:min(76%,330px);aspect-ratio:1;max-height:70%;min-height:0}
+.card-pic .pic{animation:arrive .55s cubic-bezier(.2,1.5,.4,1) both .1s}
+@keyframes arrive{from{transform:scale(.4) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+.emoji{font-size:clamp(96px,24vmin,210px);line-height:1.05}
+.emoji.text{font-family:var(--display);font-weight:800;font-size:clamp(48px,10vmin,90px);color:#3B2352}
+.caption{font-family:var(--display);font-weight:800;font-size:clamp(34px,6.4vmin,58px);line-height:1;min-height:1em;visibility:hidden;color:#3B2352}
+.caption.show{visibility:visible;animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
+.caption .art.der{color:var(--der)} .caption .art.die{color:var(--die)} .caption .art.das{color:var(--das)}
+.listen{position:absolute;right:16px;top:16px;width:64px;height:64px;border-radius:50%;background:var(--surface);box-shadow:var(--lift);display:grid;place-items:center;color:var(--grape)}
+.listen svg{width:30px;height:30px}
+.yay{position:absolute;left:16px;top:16px;width:clamp(84px,14vmin,124px);aspect-ratio:1;pointer-events:none;z-index:2}
 .yay .tile{width:100%;height:100%;box-shadow:var(--lift)}
 .yay .fallback{display:grid;place-items:center;width:100%;height:100%;font-size:clamp(52px,9vmin,80px)}
 .yay.show{animation:yay .6s cubic-bezier(.3,1.7,.5,1) both}
-@keyframes yay{from{transform:scale(.2) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
-.flyer{isolation:isolate;position:fixed;z-index:20;pointer-events:none;border-radius:24px;overflow:hidden;background:var(--paper)}
-.star-img{width:clamp(160px,34vmin,280px);aspect-ratio:1;animation:pop .6s cubic-bezier(.3,1.6,.5,1) both, bob 1.8s ease-in-out .6s infinite}
-.practised .tile{width:clamp(56px,9vmin,84px);height:clamp(56px,9vmin,84px)}
-.row .e .tile{width:40px;height:40px;border-radius:10px}
-
-/* ---------- play ---------- */
-.dots{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;flex:1}
-.dot{width:16px;height:16px;border-radius:50%;background:var(--line);transition:background .25s,transform .25s}
-.dot.now{transform:scale(1.35);box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--muted)}
-.dot.der{background:var(--der)} .dot.die{background:var(--die)} .dot.das{background:var(--das)}
-.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:16px;min-height:0}
-.card{position:relative;width:min(100%,560px);flex:1;max-height:460px;min-height:0;background:var(--paper);border-radius:36px;box-shadow:var(--lift);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  transition:box-shadow .25s}
-.card.der{box-shadow:0 0 0 8px var(--der),var(--lift)} .card.die{box-shadow:0 0 0 8px var(--die),var(--lift)} .card.das{box-shadow:0 0 0 8px var(--das),var(--lift)}
-.emoji{font-size:clamp(96px,26vmin,220px);line-height:1.05}
-.emoji.text{font-family:var(--display);font-weight:800;font-size:clamp(48px,10vmin,90px)}
-.caption{font-family:var(--display);font-weight:800;font-size:clamp(34px,6.5vmin,60px);line-height:1;min-height:1em;visibility:hidden}
-.caption.show{visibility:visible}
-.caption .art.der{color:var(--der)} .caption .art.die{color:var(--die)} .caption .art.das{color:var(--das)}
-.listen{position:absolute;right:14px;top:14px;width:64px;height:64px;border-radius:50%;background:var(--surface);box-shadow:0 2px 0 var(--line);display:grid;place-items:center;color:var(--ink)}
-.listen svg{width:30px;height:30px}
-.sym{width:.5em;height:.5em;flex:none}
-.roof .sym{width:.62em;height:.62em;margin-right:.18em;margin-bottom:.08em}
-.choices,.repeat{display:flex;gap:clamp(10px,2.4vw,24px);width:100%;max-width:900px}
-.choice{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex:1;min-width:0;min-height:clamp(96px,17vmin,150px);border-radius:30px;color:var(--on-color);
-  font-family:var(--display);font-weight:800;font-size:clamp(36px,7.5vmin,68px);line-height:1;
-  transition:transform .12s,opacity .25s,box-shadow .12s}
-.choice[data-a="der"]{background:var(--der);box-shadow:0 8px 0 var(--der-deep)}
-.choice[data-a="die"]{background:var(--die);box-shadow:0 8px 0 var(--die-deep)}
-.choice[data-a="das"]{background:var(--das);box-shadow:0 8px 0 var(--das-deep)}
-.choice:active:not(:disabled){transform:translateY(5px);box-shadow:0 3px 0 transparent}
-.choice.wrong{opacity:.22;animation:shake .4s}
-.choice.right{transform:scale(1.06)}
+@keyframes yay{from{transform:scale(.2) rotate(-35deg);opacity:0}to{transform:none;opacity:1}}
+.choice{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:0;min-height:clamp(100px,17vmin,150px);border-radius:32px;color:var(--on-color);
+  font-family:var(--display);font-weight:800;font-size:clamp(36px,7.2vmin,66px);line-height:1;transition:transform .12s,opacity .25s,box-shadow .12s}
+.choice[data-a="der"]{background:var(--der);box-shadow:0 9px 0 var(--der-deep),var(--lift)}
+.choice[data-a="die"]{background:var(--die);box-shadow:0 9px 0 var(--die-deep),var(--lift)}
+.choice[data-a="das"]{background:var(--das);box-shadow:0 9px 0 var(--das-deep),var(--lift)}
+.choice:active:not(:disabled){transform:translateY(6px) scale(.97);box-shadow:0 3px 0 transparent}
+.choices.enter .choice{animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
+.choices.enter .choice:nth-child(2){animation-delay:.07s} .choices.enter .choice:nth-child(3){animation-delay:.14s}
 .choices.wait .choice{opacity:.5}
+.choice.wrong{opacity:.22;animation:shake .45s}
+.choice.right{transform:scale(1.06)}
 .choice.hint{animation:pulse 1s ease-in-out infinite}
-.repeat{align-items:center;justify-content:center}
-.round{width:clamp(80px,13vmin,110px);aspect-ratio:1;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--ink);box-shadow:0 6px 0 var(--line)}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:none;opacity:1}}
+@keyframes shake{0%,100%{translate:0}20%{translate:-12px}40%{translate:10px}60%{translate:-7px}80%{translate:4px}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.repeat{display:flex;align-items:center;justify-content:center;gap:clamp(14px,3vw,28px);width:100%;max-width:820px;animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
+.round{width:clamp(80px,13vmin,108px);aspect-ratio:1;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--grape);box-shadow:0 7px 0 var(--line),var(--lift)}
 .round svg{width:44%;height:44%}
-.mouth{font-size:clamp(56px,10vmin,90px);line-height:1;animation:bob 1.4s ease-in-out infinite}
-.sign{position:relative;width:clamp(96px,17vmin,150px);aspect-ratio:1;flex:none}
+.round:active{transform:translateY(5px)}
+.sign{position:relative;width:clamp(96px,16vmin,140px);aspect-ratio:1;flex:none;animation:bob 1.6s ease-in-out infinite}
 .sign .tile{width:100%;height:100%;box-shadow:var(--lift)}
 .sign .fallback{display:grid;place-items:center;width:100%;height:100%;font-size:clamp(56px,10vmin,90px)}
 .sign .badge{position:absolute;right:-6px;bottom:-6px;width:40%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;color:var(--on-color);box-shadow:0 0 0 4px var(--ground)}
 .sign .badge .sym{width:52%;height:52%}
 .sign[data-a="der"] .badge{background:var(--der)} .sign[data-a="die"] .badge{background:var(--die)} .sign[data-a="das"] .badge{background:var(--das)}
-.row .n small{display:block;font-weight:600;font-size:14px;color:var(--muted)}
-#addSentence{flex:1 1 100%}
-.go{flex:0 1 260px;min-height:clamp(96px,17vmin,150px);border-radius:30px;background:var(--ink);color:var(--ground);display:grid;place-items:center;
-  box-shadow:0 8px 0 var(--muted);transition:opacity .3s,transform .12s}
-.go svg{width:64px;height:64px}
-.go:disabled{opacity:.25}
-.go:active:not(:disabled){transform:translateY(5px);box-shadow:0 3px 0 var(--muted)}
-@keyframes shake{0%,100%{translate:0}20%{translate:-12px}40%{translate:10px}60%{translate:-7px}80%{translate:4px}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.mouth{font-size:clamp(52px,9vmin,84px);line-height:1;animation:bob 1.4s ease-in-out infinite .3s}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.go{width:clamp(110px,20vmin,200px);height:clamp(96px,16vmin,140px);border-radius:32px;background:var(--grape);color:var(--on-color);display:grid;place-items:center;
+  box-shadow:0 9px 0 var(--grape-deep),var(--lift);transition:opacity .3s,transform .12s}
+.go svg{width:60px;height:60px}
+.go:disabled{opacity:.3}
+.go:not(:disabled){animation:nudge 1.2s ease-in-out infinite}
+.go:active:not(:disabled){transform:translateY(6px);box-shadow:0 3px 0 var(--grape-deep)}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
+/* quiz houses */
+.qhouse{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--paper);border-radius:30px;padding:10px 10px 12px;box-shadow:var(--lift);
+  transition:transform .15s, box-shadow .2s, opacity .25s}
+.qhouse .tile{width:min(100%,130px);aspect-ratio:1}
+.qhouse:active:not(:disabled){transform:scale(.95)}
+.qhouse.right{box-shadow:0 0 0 7px var(--star),var(--lift)}
+.qhouse.hint{box-shadow:0 0 0 7px var(--star),var(--lift);animation:pulse 1s ease-in-out infinite}
+.qhouse.wrong{animation:shake .45s;opacity:.4}
+.qhouses.wait .qhouse{opacity:.55}
+.flyer{position:fixed;z-index:30;pointer-events:none;border-radius:24px;overflow:hidden;background:var(--paper)}
+.spark{position:fixed;z-index:31;pointer-events:none;font-size:22px;line-height:1;margin:-11px 0 0 -11px}
 
-/* ---------- done ---------- */
-.done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;text-align:center}
-.big-star{font-size:clamp(110px,24vmin,200px);line-height:1;color:var(--star);animation:pop .6s cubic-bezier(.3,1.6,.5,1) both}
-.earned{font-family:var(--display);font-weight:800;font-size:clamp(44px,8vmin,72px);line-height:1}
-.practised{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;font-size:clamp(34px,6vmin,52px);max-width:700px}
-.done-actions{display:flex;gap:20px}
-@keyframes pop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
-#confetti{position:fixed;inset:0;pointer-events:none;width:100%;height:100%}
+/* ---------- done / quiz result ---------- */
+.done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;min-height:0}
+.star-img{width:clamp(130px,24vmin,210px);aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--paper);box-shadow:var(--lift);animation:pop .6s cubic-bezier(.3,1.6,.5,1) both, bob 1.8s ease-in-out .6s infinite}
+.big-star{font-size:clamp(110px,22vmin,190px);line-height:1;color:var(--star);animation:pop .6s cubic-bezier(.3,1.6,.5,1) both}
+.earned{font-family:var(--display);font-weight:800;font-size:clamp(44px,8vmin,70px);line-height:1;display:flex;align-items:center;gap:8px}
+.earned .s{color:var(--star)}
+.practised{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:760px}
+.practised .item{position:relative;animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
+.practised .tile{width:clamp(56px,9vmin,80px);height:clamp(56px,9vmin,80px);box-shadow:var(--lift)}
+.practised .emo{font-size:clamp(34px,6vmin,52px)}
+.practised .mark{position:absolute;right:-6px;top:-6px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:16px;font-weight:800;color:var(--on-color);box-shadow:0 0 0 3px var(--ground)}
+.practised .mark.ok{background:var(--star);color:#3B2352} .practised .mark.miss{background:var(--pink)}
+.actions{display:flex;gap:20px;align-items:center}
+.actions .candy{width:clamp(84px,14vmin,112px);aspect-ratio:1}
+.actions .candy svg{width:44%;height:44%}
+/* sticker reveal */
+.reveal{display:block;position:relative;width:clamp(150px,26vmin,220px);aspect-ratio:1;perspective:900px;cursor:pointer}
+.reveal .flip{display:block;position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.3,1.4,.5,1)}
+.reveal.open .flip{transform:rotateY(180deg)}
+.reveal .face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:32px;display:grid;place-items:center}
+.reveal .front{background:radial-gradient(circle at 35% 30%,#FFB3D6,var(--pink) 55%,var(--grape));color:var(--on-color);font-family:var(--display);font-weight:800;font-size:90px;box-shadow:var(--lift);animation:wiggle 1s ease-in-out infinite}
+.reveal .back{transform:rotateY(180deg);background:var(--paper);box-shadow:var(--lift);overflow:hidden}
+.reveal .back::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.7) 45%,transparent 60%);transform:translateX(-120%)}
+.reveal.open .back::after{animation:shine 1.2s ease .7s}
+@keyframes shine{to{transform:translateX(120%)}}
+.reveal .more{position:absolute;right:-8px;top:-8px;z-index:2;background:var(--star);color:#3B2352;font-family:var(--display);font-weight:800;font-size:20px;border-radius:999px;padding:4px 10px;box-shadow:0 0 0 3px var(--ground)}
+
+/* ---------- sticker book ---------- */
+.book{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:12px}
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(96px,15vmin,140px),1fr));gap:clamp(12px,2vw,20px);max-width:900px;margin:0 auto;padding:12px 6px}
+.slot{aspect-ratio:1;border-radius:28px;display:grid;place-items:center}
+.slot.empty{border:3px dashed var(--slot-line);color:var(--slot-line);font-family:var(--display);font-weight:800;font-size:44px;background:var(--glass);box-sizing:border-box}
+.slot.got{background:var(--paper);box-shadow:var(--lift);animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
+.slot.got .pic{border-radius:28px}
+.slot.got:active{animation:wiggle .5s}
+.slot.new{box-shadow:0 0 0 6px var(--star),var(--lift)}
+#confetti{position:fixed;inset:0;pointer-events:none;width:100%;height:100%;z-index:40}
 
 /* ---------- grown-ups ---------- */
-.overlay{position:fixed;inset:0;background:rgba(10,8,20,.45);display:flex;justify-content:center;align-items:flex-start;
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(30,10,45,.5);display:flex;justify-content:center;align-items:flex-start;
   overflow-y:auto;padding-inline:16px;padding-block:calc(16px + env(safe-area-inset-top,0px)) 24px;-webkit-user-select:text;user-select:text}
-.sheet{width:100%;max-width:640px;background:var(--surface);border-radius:24px;padding:20px 20px 24px;box-sizing:border-box;
+.sheet{width:100%;max-width:660px;background:var(--surface);border-radius:26px;padding:20px 20px 24px;box-sizing:border-box;
   display:flex;flex-direction:column;gap:22px;font-size:16px}
 .sheet header{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .sheet h2{font-family:var(--display);font-weight:800;font-size:26px;margin:0;line-height:1.1}
 .sheet h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:800}
 .sheet p{margin:0;line-height:1.5}
-.note{background:var(--ground);border-radius:14px;padding:12px 14px;color:var(--muted);font-size:15px}
-.btn{border-radius:12px;padding:10px 16px;font-weight:700;background:var(--ground);color:var(--ink);min-height:44px}
-.btn.primary{background:var(--ink);color:var(--surface)}
+.note{background:var(--grape-soft);border-radius:14px;padding:12px 14px;color:var(--ink);font-size:15px}
+.note.hot{background:var(--pink-soft)}
+.btn{border-radius:12px;padding:10px 16px;font-weight:700;background:var(--grape-soft);color:var(--ink);min-height:44px}
+.btn.primary{background:var(--grape);color:var(--on-color)}
 .btn.danger{color:var(--die)}
 .btn.danger.armed{background:var(--die);color:var(--on-color)}
 .gate{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
@@ -182,9 +265,13 @@ button:disabled{cursor:default}
 .list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
 .row{display:grid;grid-template-columns:44px 52px minmax(0,1fr) auto 44px 44px;align-items:center;gap:8px;padding-block:6px;border-bottom:1px solid var(--line)}
 .row .e{font-size:28px;text-align:center}
+.row .e .tile{width:44px;height:44px;border-radius:12px}
 .chip{font-weight:800;font-size:14px;border-radius:999px;padding:4px 0;text-align:center;color:var(--on-color)}
 .chip.der{background:var(--der)} .chip.die{background:var(--die)} .chip.das{background:var(--das)}
 .row .n{font-weight:700;font-size:18px;overflow-wrap:anywhere}
+.row .n small{display:block;font-weight:600;font-size:14px;color:var(--muted)}
+.row .n .flag{display:inline-block;margin-left:6px;font-size:12px;font-weight:800;color:var(--on-color);background:var(--pink-deep);border-radius:999px;padding:2px 8px;vertical-align:middle}
+.stat{display:flex;flex-direction:column;align-items:flex-end;gap:3px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 .pips{display:flex;gap:3px}
 .pip{width:8px;height:8px;border-radius:50%;background:var(--line)} .pip.on{background:var(--star)}
 .row .mini{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;color:var(--muted);font-size:18px}
@@ -198,6 +285,7 @@ button:disabled{cursor:default}
 input[type=text],textarea,select{font:inherit;font-size:17px;color:var(--ink);background:var(--ground);border:2px solid var(--line);border-radius:12px;padding:8px 12px;box-sizing:border-box;min-height:44px}
 #addEmoji{width:64px;text-align:center;font-size:22px}
 #addNoun{flex:1;min-width:140px}
+#addSentence{flex:1 1 100%}
 textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .small{font-size:14px;color:var(--muted)}
 .stats{display:flex;flex-wrap:wrap;gap:8px 24px;font-variant-numeric:tabular-nums}
@@ -207,96 +295,132 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .msg.err{color:var(--die)}
 
 @media (max-width:560px){
-  .row{grid-template-columns:36px 48px minmax(0,1fr) 40px 40px;}
-  .row .pips{display:none}
+  .row{grid-template-columns:36px 48px minmax(0,1fr) 40px 40px}
+  .row .stat{display:none}
+  .pill{font-size:22px;height:46px}
 }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
 
+<div class="bg" aria-hidden="true"><span class="blob a"></span><span class="blob b"></span><span class="blob c"></span></div>
+
 <!-- HOME -->
 <section class="screen" id="home">
   <div class="bar">
-    <div class="stars" aria-label="Stars"><span class="s">★</span><span id="starsHome">0</span></div>
-    <button class="warn" id="voiceWarn" hidden>No German voice on this iPad. Tap to fix</button>
-    <button class="icon-btn" id="gearBtn" aria-label="Grown-ups">
-      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-    </button>
+    <div class="pill" aria-label="Sterne"><span class="s">★</span><span id="starsHome">0</span></div>
+    <div class="bar-mid"><button class="warn" id="voiceWarn" hidden>No German voice for new words. Tap to fix</button></div>
+    <div class="bar-end">
+      <button class="pill" id="bookBtn" aria-label="Sticker-Buch"><img src="img/stk-dollhouse.webp" alt=""><span id="bookCount">0</span></button>
+      <button class="icon-btn" id="gearBtn" aria-label="Grown-ups">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
+    </div>
   </div>
   <div class="home">
-    <button class="play" id="playBtn" aria-label="Los geht's" disabled>
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
-    </button>
-    <div class="houses" id="houses">
-      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="tile house-img"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><span class="label"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button><button class="roof" data-say="der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</button><div class="rooms" id="rooms-der"></div></div>
-      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="tile house-img"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><span class="label"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button><button class="roof" data-say="die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</button><div class="rooms" id="rooms-die"></div></div>
-      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="tile house-img"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><span class="label"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button><button class="roof" data-say="das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</button><div class="rooms" id="rooms-das"></div></div>
+    <div class="hero">
+      <button class="candy grape play" id="playBtn" aria-label="Los geht's" disabled>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
+      </button>
+      <button class="candy pink quizbtn" id="quizBtn" aria-label="Quiz" disabled>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2.5 11h2.5v9h5v-5.5h4V20h5v-9h2.5z"/><circle cx="12" cy="10" r="1.6" fill="var(--pink)"/></svg>
+        <span class="due" id="quizDue" hidden>!</span>
+      </button>
+    </div>
+    <button class="nextsticker" id="nextSticker" aria-label="Nächster Sticker"><span id="slots"></span><span class="gift" id="gift">?</span></button>
+    <div class="cols" id="houses">
+      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="tile house-img"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button><div class="rooms" id="rooms-der"></div></div>
+      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="tile house-img"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button><div class="rooms" id="rooms-die"></div></div>
+      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="tile house-img"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button><div class="rooms" id="rooms-das"></div></div>
     </div>
   </div>
 </section>
 
-<!-- PLAY -->
+<!-- PRACTICE -->
 <section class="screen" id="play" hidden>
   <div class="bar">
-    <button class="icon-btn" id="quitBtn" aria-label="Home">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-    </button>
-    <div class="dots" id="dots"></div>
-    <div class="stars"><span class="s">★</span><span id="starsPlay">0</span></div>
+    <button class="icon-btn" id="quitBtn" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="dots" id="dots"></div></div>
+    <div class="pill"><span class="s">★</span><span id="starsPlay">0</span></div>
   </div>
   <div class="stage">
     <div class="card" id="card">
-      <button class="listen" id="listenBtn" aria-label="Nochmal hören">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
-      </button>
       <div class="yay" id="yay" hidden><span class="tile"><img class="pic" src="img/yay.webp" alt="" data-yay="1"></span></div>
+      <button class="listen" id="listenBtn" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
       <div class="card-pic" id="cardPic" hidden></div>
       <div class="emoji" id="emoji"></div>
       <div class="caption" id="caption"></div>
     </div>
-    <div class="choices" id="choices">
+    <div class="cols choices" id="choices">
       <button class="choice" data-a="der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg><span>der</span></button>
       <button class="choice" data-a="die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg><span>die</span></button>
       <button class="choice" data-a="das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg><span>das</span></button>
     </div>
     <div class="repeat" id="repeat" hidden>
-      <button class="round" id="againBtn" aria-label="Nochmal hören">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
-      </button>
+      <button class="round" id="againBtn" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
       <div class="sign" id="sign" aria-hidden="true"></div>
       <div class="mouth" aria-hidden="true">🗣️</div>
-      <button class="go" id="nextBtn" aria-label="Weiter" disabled>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </button>
+      <button class="go" id="nextBtn" aria-label="Weiter" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </div>
 </section>
 
-<!-- DONE -->
-<section class="screen" id="done" hidden>
-  <div class="done">
-    <div class="star-img" id="starImg" hidden><img class="pic" src="img/star.webp" alt="" data-star="1"></div>
-    <div class="big-star" id="bigStar">★</div>
-    <div class="earned" id="earned">+0</div>
-    <div class="practised" id="practised"></div>
-    <div class="done-actions">
-      <button class="round" id="homeBtn" aria-label="Home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg>
-      </button>
-      <button class="round" id="againSessionBtn" aria-label="Nochmal spielen" style="background:var(--das);color:var(--on-color);box-shadow:0 6px 0 var(--das-deep)">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
-      </button>
+<!-- QUIZ -->
+<section class="screen" id="quiz" hidden>
+  <div class="bar">
+    <button class="icon-btn" id="quizQuit" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="dots" id="qdots"></div></div>
+    <div class="pill"><span class="s">★</span><span id="starsQuiz">0</span></div>
+  </div>
+  <div class="stage">
+    <div class="card" id="qcard">
+      <button class="listen" id="qListen" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      <div class="card-pic" id="qPic" hidden></div>
+      <div class="emoji" id="qEmoji"></div>
+      <div class="caption" id="qCaption"></div>
+    </div>
+    <div class="cols qhouses" id="qhouses">
+      <button class="qhouse" data-a="der" aria-label="der"><span class="tile"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button>
+      <button class="qhouse" data-a="die" aria-label="die"><span class="tile"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button>
+      <button class="qhouse" data-a="das" aria-label="das"><span class="tile"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button>
     </div>
   </div>
+</section>
+
+<!-- ROUND FINISHED (practice or quiz) -->
+<section class="screen" id="done" hidden>
+  <div class="done">
+    <div class="star-img" id="starImg"><img class="pic" src="img/star.webp" alt="" data-star="1"></div>
+    <div class="big-star" id="bigStar" hidden>★</div>
+    <div class="earned"><span>+</span><span id="earned">0</span><span class="s">★</span></div>
+    <button class="reveal" id="reveal" hidden aria-label="Neuer Sticker">
+      <span class="more" id="revealMore" hidden></span>
+      <span class="flip"><span class="face front">?</span><span class="face back" id="revealBack"></span></span>
+    </button>
+    <div class="practised" id="practised"></div>
+    <div class="actions">
+      <button class="candy grape" id="homeBtn" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg></button>
+      <button class="candy pink" id="doneQuiz" aria-label="Quiz" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2.5 11h2.5v9h5v-5.5h4V20h5v-9h2.5z"/></svg></button>
+      <button class="candy grape" id="againSessionBtn" aria-label="Nochmal spielen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- STICKER BOOK -->
+<section class="screen" id="bookScreen" hidden>
+  <div class="bar">
+    <button class="icon-btn" id="bookBack" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="bar-mid"><div class="pill"><img src="img/stk-dollhouse.webp" alt=""><span id="bookTotal">0 / 24</span></div></div>
+    <div class="pill"><span class="s">★</span><span id="starsBook">0</span></div>
+  </div>
+  <div class="book"><div class="book-grid" id="bookGrid"></div></div>
 </section>
 
 <canvas id="confetti" hidden></canvas>
 
 <!-- GROWN-UPS -->
-<div class="overlay" id="grown" hidden>
-  <div class="sheet" id="sheet"></div>
-</div>
+<div class="overlay" id="grown" hidden><div class="sheet" id="sheet"></div></div>
 
 <script>
 (() => {
@@ -307,8 +431,9 @@ const ARTS = ["der","die","das"];
 const INTERVALS = [0, 1, 2, 4, 7];   // days until a word comes back, by box
 const MASTERED = 3;                  // box at which a word shows as mastered
 const MAX_REQUEUE = 3;               // how many times a missed word returns in one session
-const PRAISE = ["Super!", "Richtig!", "Toll!", "Prima!", "Genau!", "Klasse!"];
+const QUIZ_SIZE = 6;
 const LS_KEY = "derdiedas.local.v1";
+const RM = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SAMPLE = [
   {noun:"Hund",article:"der",emoji:"🐶"},{noun:"Apfel",article:"der",emoji:"🍎"},{noun:"Ball",article:"der",emoji:"⚽"},{noun:"Mond",article:"der",emoji:"🌙"},
   {noun:"Katze",article:"die",emoji:"🐱"},{noun:"Sonne",article:"die",emoji:"☀️"},{noun:"Banane",article:"die",emoji:"🍌"},{noun:"Blume",article:"die",emoji:"🌸"},
@@ -324,55 +449,23 @@ const EMOJI = {hund:"🐶",katze:"🐱",maus:"🐭",pferd:"🐴",kuh:"🐮",schw
   sonne:"☀️",mond:"🌙",stern:"⭐",wolke:"☁️",regen:"🌧️",schnee:"❄️",baum:"🌳",blume:"🌸",blatt:"🍃",berg:"⛰️",meer:"🌊",feuer:"🔥",regenbogen:"🌈",
   herz:"❤️",hand:"✋",fuss:"🦶",auge:"👁️",ohr:"👂",nase:"👃",mund:"👄",zahn:"🦷",
   hut:"🎩",muetze:"🧢",schuh:"👟",socke:"🧦",hose:"👖",kleid:"👗",jacke:"🧥",brille:"👓",
-  geschenk:"🎁",kerze:"🕯️",ballon:"🎈",luftballon:"🎈",teddy:"🧸",trommel:"🥁",gitarre:"🎸",krone:"👑",
+  geschenk:"🎁",kerze:"🕯️",ballon:"🎈",luftballon:"🎈",teddy:"🧸",trommel:"🥁",gitarre:"🎸",krone:"👑",puppe:"🪆",
   mama:"👩",papa:"👨",baby:"👶",kind:"🧒",junge:"👦",maedchen:"👧",oma:"👵",opa:"👴"};
+// Sticker collection, in the order she earns them (mixed themes so each one feels different).
+const STICKERS = ["dollhouse","firetruck","tiara","train","flamingo","palette","puppy","plane","doll","dumptruck","wings","lolly",
+  "helmet","unicorn","suitcase","craft","kitten","balloon","costume","goggles","bracelet","camera","rainbow","cupcake"];
 
 /* ---------- sentences & hand signs ---------- */
 // Short sentences keep the article in front (nominative), so "der/die/das" is never changed to "den".
 const SENTENCES = {hund:"Der Hund bellt.",apfel:"Der Apfel ist rot.",ball:"Der Ball rollt.",mond:"Der Mond schläft.",
   katze:"Die Katze miaut.",sonne:"Die Sonne lacht.",banane:"Die Banane ist gelb.",blume:"Die Blume blüht.",
   haus:"Das Haus ist klein.",auto:"Das Auto fährt.",buch:"Das Buch ist offen.",ei:"Das Ei ist rund."};
+const DEFAULT_ART = {hund:"der",apfel:"der",ball:"der",mond:"der",katze:"die",sonne:"die",banane:"die",blume:"die",haus:"das",auto:"das",buch:"das",ei:"das"};
 const sentenceOf = (w) => w.s ? String(w.s) : (SENTENCES[w.id] || "");
 // Hand signs echo the shapes: fist = ● der, raised pointing finger = ▲ die, flat hand = ■ das.
 // The peace sign is kept for "well done", because that is her own gesture for liking something.
 const SIGNS = {der:{img:"img/sign-der.webp",emoji:"✊"},die:{img:"img/sign-die.webp",emoji:"☝️"},das:{img:"img/sign-das.webp",emoji:"✋"}};
 const SYMS = {der:'<circle cx="10" cy="10" r="8" fill="currentColor"/>',die:'<path d="M10 2 19 18H1z" fill="currentColor"/>',das:'<rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/>'};
-function renderSign(a) {
-  const el = $("sign"), sg = SIGNS[a];
-  el.dataset.a = a;
-  const face = failedPics.has(sg.img) ? '<span class="fallback">' + sg.emoji + "</span>"
-    : '<span class="tile"><img class="pic" src="' + sg.img + '" alt="" data-fallback="' + sg.emoji + '"></span>';
-  el.innerHTML = face + '<span class="badge"><svg class="sym" viewBox="0 0 20 20">' + SYMS[a] + "</svg></span>";
-}
-
-/* ---------- pictures ---------- */
-// Clay illustrations shipped next to the page. Words without one fall back to their emoji.
-const PICS = new Set(["hund","apfel","ball","mond","katze","sonne","banane","blume","haus","auto","buch","ei"]);
-const picSrc = (w) => w.pic ? String(w.pic) : (PICS.has(w.id) ? "img/" + w.id + ".webp" : "");
-const failedPics = new Set();
-function faceHTML(w, tileClass) {
-  const src = picSrc(w);
-  if (src && !failedPics.has(src)) return '<span class="tile ' + (tileClass || "") + '"><img class="pic" src="' + esc(src) + '" alt="" data-fallback="' + esc(w.emoji || w.noun) + '"></span>';
-  return w.emoji ? esc(w.emoji) : '<span class="txt">' + esc(w.noun) + "</span>";
-}
-document.addEventListener("error", (e) => {
-  const img = e.target;
-  if (!img || img.tagName !== "IMG") return;
-  failedPics.add(img.getAttribute("src"));
-  if (img.dataset.house) return;                       // house art missing: the CSS roof stays
-  if (img.dataset.yay) { img.closest(".tile").outerHTML = '<span class="fallback">✌️</span>'; return; }
-  if (img.dataset.star) { $("starImg").hidden = true; $("bigStar").hidden = false; return; }
-  const holder = img.closest(".tile, .card-pic");
-  if (!holder) return;
-  if (holder.id === "cardPic") { holder.hidden = true; $("emoji").hidden = false; return; }
-  holder.replaceWith(document.createTextNode(img.dataset.fallback || ""));
-}, true);
-document.querySelectorAll("img[data-house]").forEach(img => {
-  const mark = () => img.closest(".house").classList.add("pics");
-  if (img.complete && img.naturalWidth) mark(); else img.addEventListener("load", mark);
-});
-{ const st = document.querySelector("img[data-star]"); const ok = () => { $("starImg").hidden = false; $("bigStar").hidden = true; };
-  if (st.complete && st.naturalWidth) ok(); else st.addEventListener("load", ok); }
 
 /* ---------- helpers ---------- */
 const $ = (id) => document.getElementById(id);
@@ -386,27 +479,61 @@ const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const norm = (s) => String(s).trim().toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9-]/g,"");
 const capNoun = (s) => { s = String(s).trim(); return s.charAt(0).toUpperCase() + s.slice(1); };
 const clone = (o) => JSON.parse(JSON.stringify(o));
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 const guessEmoji = (noun) => EMOJI[norm(noun)] || "";
+
+/* ---------- pictures ---------- */
+// Clay illustrations shipped next to the page. Words without one fall back to their emoji.
+const PICS = new Set(Object.keys(DEFAULT_ART));
+const picSrc = (w) => w.pic ? String(w.pic) : (PICS.has(w.id) ? "img/" + w.id + ".webp" : "");
+const failedPics = new Set();
+function faceHTML(w) {
+  const src = picSrc(w);
+  if (src && !failedPics.has(src)) return '<span class="tile"><img class="pic" src="' + esc(src) + '" alt="" data-fallback="' + esc(w.emoji || w.noun) + '"></span>';
+  return w.emoji ? '<span class="emo">' + esc(w.emoji) + "</span>" : '<span class="txt">' + esc(w.noun) + "</span>";
+}
+document.addEventListener("error", (e) => {
+  const img = e.target;
+  if (!img || img.tagName !== "IMG") return;
+  failedPics.add(img.getAttribute("src"));
+  if (img.dataset.house) { img.parentNode.innerHTML = '<span class="house-fb ' + img.dataset.house + '"><svg class="sym" viewBox="0 0 20 20" style="width:50%;height:50%">' + SYMS[img.dataset.house] + "</svg></span>"; return; }
+  if (img.dataset.yay) { img.closest(".tile").outerHTML = '<span class="fallback">✌️</span>'; return; }
+  if (img.dataset.star) { $("starImg").hidden = true; $("bigStar").hidden = false; return; }
+  if (img.dataset.sticker) { img.replaceWith(document.createTextNode("⭐")); return; }
+  const holder = img.closest(".tile, .card-pic");
+  if (!holder) return;
+  if (holder.id === "cardPic") { holder.hidden = true; $("emoji").hidden = false; return; }
+  if (holder.id === "qPic") { holder.hidden = true; $("qEmoji").hidden = false; return; }
+  holder.replaceWith(document.createTextNode(img.dataset.fallback || ""));
+}, true);
+function setPicture(picEl, emoEl, w) {
+  const src = picSrc(w);
+  emoEl.className = "emoji" + (w.emoji ? "" : " text");
+  emoEl.textContent = w.emoji || w.noun;
+  if (src && !failedPics.has(src)) { picEl.innerHTML = '<img class="pic" src="' + esc(src) + '" alt="">'; picEl.hidden = false; emoEl.hidden = true; }
+  else { picEl.hidden = true; emoEl.hidden = false; }
+}
+function preload(w) { const src = w && picSrc(w); if (src && !failedPics.has(src)) { const i = new Image(); i.src = src; } }
 
 /* ---------- state ---------- */
 const state = {
   mode: "loading",          // loading | online | local
   db: null,
   wordsLoaded: false,
-  words: [],                // [{id, noun, article, emoji}]
+  words: [],                // [{id, noun, article, emoji, s?, pic?}]
   sample: false,
-  settings: { sessionLength: 8, sayFirst: "always" },
+  settings: { sessionLength: 8, sayFirst: "always", quizEvery: 2, perSticker: 10 },
   progress: blankProgress(),
   dbError: ""
 };
-function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed: null }; }
+function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed: null, points: 0, pointsUsed: 0, stickers: [], roundsSinceQuiz: 0, quizzes: 0 }; }
 function normalizeProgress(p) {
   const out = blankProgress();
   if (p && typeof p === "object") {
-    out.stars = Number(p.stars) || 0;
-    out.sessions = Number(p.sessions) || 0;
+    for (const k of ["stars", "sessions", "points", "pointsUsed", "roundsSinceQuiz", "quizzes"]) out[k] = Number(p[k]) || 0;
     out.lastPlayed = p.lastPlayed || null;
     if (p.words && typeof p.words === "object") out.words = clone(p.words);
+    if (Array.isArray(p.stickers)) out.stickers = p.stickers.filter(s => STICKERS.includes(s));
   }
   return out;
 }
@@ -422,6 +549,17 @@ function normalizeWords(list) {
   return out;
 }
 const prog = (id) => state.progress.words[id] || { box: 0, due: null, seen: 0, wrong: 0 };
+const setProg = (id, patch) => { state.progress.words[id] = { ...prog(id), ...patch }; };
+// First-try answers (practice and quiz) needed for each new sticker.
+const perSticker = () => Math.max(3, Number(state.settings.perSticker) || 10);
+const quizDue = () => state.words.length >= 3 && state.progress.roundsSinceQuiz >= (Number(state.settings.quizEvery) || 2);
+function needsPractice(w) {
+  const p = prog(w.id), q = p.q;
+  if (q && q.ok === false) return "missed in the last quiz";
+  if (q && q.w > 0 && q.w >= q.r) return "often missed in quizzes";
+  if ((p.wrong || 0) >= 2 && (p.box || 0) < 2) return "often missed in practice";
+  return "";
+}
 
 /* ---------- local fallback storage ---------- */
 function lsGet() { try { return JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch { return null; } }
@@ -459,13 +597,73 @@ function saveWords() {
   return wordsChain;
 }
 
-/* ---------- speech ---------- */
-// The page must speak German. iPad often reports its voice list late, and without an explicit
-// German voice it falls back to the device language (English), so the voice is looked up on every call.
+/* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
+// Recorded clips (Pixie) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
+const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
+  "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
+  "f-welcheshaus":"Welches Haus?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das"};
+const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
+const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, "s-" + id])]);
+const C = (key) => ({ key, text: CLIP_TEXT[key] });
+const W = (w) => ({ key: DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id ? "w-" + w.id : null, text: w.article + " " + w.noun });
+const SENT = (w) => { const t = sentenceOf(w); return t ? { key: !w.s && SENTENCES[w.id] && DEFAULT_ART[w.id] === w.article ? "s-" + w.id : null, text: t } : null; };
+
+let actx = null;
+function ctx() {
+  if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch { actx = null; } }
+  if (actx && actx.state === "suspended") actx.resume();
+  return actx;
+}
+const buffers = new Map();
+function loadClip(key) {
+  if (buffers.has(key)) return buffers.get(key);
+  const c = ctx();
+  const p = !c ? Promise.resolve(null) : fetch("audio/" + key + ".mp3")
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+    .then(b => new Promise((res, rej) => c.decodeAudioData(b, res, rej)))
+    .catch(() => null);
+  buffers.set(key, p);
+  return p;
+}
+let unlocked = false;
+function unlockAudio() {
+  if (unlocked) return;
+  const c = ctx(); if (!c) return;
+  unlocked = true;
+  try { const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, 22050); s.connect(c.destination); s.start(0); } catch {}
+  CLIPS.forEach(loadClip);
+}
+document.addEventListener("pointerdown", unlockAudio, { capture: true });
+let current = null;
+function stopAudio() { try { current && current.stop(); } catch {} current = null; try { window.speechSynthesis && speechSynthesis.cancel(); } catch {} }
+function playBuffer(buf) {
+  return new Promise((resolve) => {
+    const c = ctx(); if (!c) return resolve();
+    const s = c.createBufferSource(); s.buffer = buf; s.connect(c.destination);
+    let done = false; const fin = () => { if (!done) { done = true; resolve(); } };
+    s.onended = fin; current = s; s.start();
+    setTimeout(fin, buf.duration * 1000 + 300);
+  });
+}
+let sayToken = 0;
+// parts: strings (spoken by the iPad voice) or {key, text} (recorded clip, else the text)
+async function say(parts, rate = 0.82) {
+  const my = ++sayToken;
+  stopAudio();
+  for (const p of (Array.isArray(parts) ? parts : [parts]).filter(Boolean)) {
+    if (my !== sayToken) return;
+    const { key, text } = typeof p === "string" ? { key: null, text: p } : p;
+    let buf = null;
+    if (key && CLIPS.has(key)) buf = await Promise.race([loadClip(key), sleep(2500).then(() => null)]);
+    if (my !== sayToken) return;
+    if (buf) await playBuffer(buf); else if (text) await tts(text, rate, my);
+  }
+}
+
+/* iPad German voice (used for words without a recording) */
 const LS_VOICE = "derdiedas.voice";
 const NOVELTY = /grandma|grandpa|rocko|shelley|sandy|reed|flo|eddy|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox/i;
-let deVoice = null;
-let voiceStatus = "unknown";         // unknown | ok | none
+let deVoice = null, voiceStatus = "unknown";         // unknown | ok | none
 const hasTTS = "speechSynthesis" in window;
 const allVoices = () => { try { return speechSynthesis.getVoices() || []; } catch { return []; } };
 function germanVoices() {
@@ -489,11 +687,9 @@ function waitForVoices(ms = 1200) {
     const iv = setInterval(() => { if (allVoices().length || Date.now() - t0 > ms) { clearInterval(iv); resolve(); } }, 100);
   });
 }
-let sayToken = 0;
-function say(text, rate = 0.82) {
+function tts(text, rate, my) {
   return new Promise((resolve) => {
     if (!hasTTS) return resolve();
-    const my = ++sayToken;
     let finished = false;
     const done = () => { if (!finished) { finished = true; resolve(); } };
     setTimeout(done, 2500 + text.length * 120);   // never leave the game waiting on speech
@@ -512,115 +708,48 @@ function say(text, rate = 0.82) {
     });
   });
 }
-function renderVoiceWarn() { const b = $("voiceWarn"); if (b) b.hidden = voiceStatus !== "none"; }
+// Only warn when a word actually needs the iPad voice.
+function renderVoiceWarn() { $("voiceWarn").hidden = !(voiceStatus === "none" && state.words.some(w => !W(w).key)); }
 
-/* ---------- little sounds ---------- */
-let actx = null;
+/* little sound effects */
 function tone(freqs, type = "sine", len = 0.14, gap = 0.1, vol = 0.18) {
+  const c = ctx(); if (!c) return;
   try {
-    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-    if (actx.state === "suspended") actx.resume();
     freqs.forEach((f, i) => {
-      const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i * gap;
+      const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + i * gap;
       o.type = type; o.frequency.value = f;
       g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
-      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + len + 0.02);
+      o.connect(g).connect(c.destination); o.start(t); o.stop(t + len + 0.02);
     });
   } catch {}
 }
 const chime = () => tone([660, 880, 1320], "triangle", 0.22, 0.09);
 const boop  = () => tone([220, 180], "sine", 0.18, 0.12, 0.14);
+const pop   = () => tone([520, 780], "triangle", 0.1, 0.06, 0.12);
+const fanfare = () => tone([523, 659, 784, 1047, 1319], "triangle", 0.24, 0.1, 0.16);
 
-/* ---------- screens ---------- */
-function show(name) { for (const s of ["home", "play", "done"]) $(s).hidden = s !== name; }
-const inSession = () => !!S;
-
-/* ---------- home ---------- */
-function renderHome() {
-  $("starsHome").textContent = state.progress.stars;
-  $("playBtn").disabled = !state.wordsLoaded || state.words.length === 0;
-  for (const a of ARTS) {
-    const box = $("rooms-" + a);
-    const ws = state.words.filter(w => w.article === a);
-    if (!state.wordsLoaded) { box.innerHTML = '<div class="empty">…</div>'; continue; }
-    if (!ws.length) { box.innerHTML = ""; continue; }
-    box.innerHTML = ws.map(w => {
-      const m = prog(w.id).box >= MASTERED;
-      const face = faceHTML(w);
-      return '<button class="w ' + (m ? "mastered" : "learning") + '" data-id="' + esc(w.id) + '" aria-label="' + esc(w.article + " " + w.noun) + '">' + face + "</button>";
-    }).join("");
+/* ---------- motion helpers ---------- */
+function bump(el) { if (!el || RM()) return; el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
+function sparkle(el, n = 14) {
+  if (!el || RM()) return;
+  const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const css = getComputedStyle(document.documentElement);
+  const cols = ["--star", "--pink", "--grape"].map(v => css.getPropertyValue(v).trim());
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement("span");
+    s.className = "spark"; s.textContent = pick(["✦", "★", "✧", "●"]); s.style.color = pick(cols);
+    s.style.left = cx + "px"; s.style.top = cy + "px";
+    document.body.appendChild(s);
+    const ang = (Math.PI * 2 * i) / n + Math.random() * .5, dist = 70 + Math.random() * Math.max(r.width, r.height) * .45;
+    s.animate([{ transform: "translate(0,0) scale(.4)", opacity: 1 },
+      { transform: "translate(" + Math.cos(ang) * dist + "px," + Math.sin(ang) * dist + "px) scale(1.2) rotate(" + (Math.random() * 180 - 90) + "deg)", opacity: 0 }],
+      { duration: 700 + Math.random() * 400, easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => s.remove();
   }
 }
-$("houses").addEventListener("click", (e) => {
-  const roof = e.target.closest("[data-say]");
-  if (roof) { say(roof.dataset.say); return; }
-  const b = e.target.closest(".w");
-  if (!b) return;
-  const w = state.words.find(x => x.id === b.dataset.id);
-  if (w) say(w.article + " " + w.noun);
-});
-
-/* ---------- session ---------- */
-let S = null;
-function startSession() {
-  if (!state.words.length) return;
-  const t = today();
-  const pool = shuffle(state.words).map(w => ({ w, p: prog(w.id) }));
-  pool.sort((a, b) => {
-    const da = !a.p.due || a.p.due <= t ? 0 : 1, dbb = !b.p.due || b.p.due <= t ? 0 : 1;
-    return (da - dbb) || (a.p.box - b.p.box);
-  });
-  const n = Math.min(Math.max(3, Number(state.settings.sessionLength) || 8), pool.length);
-  const words = shuffle(pool.slice(0, n).map(x => x.w));
-  S = { words, queue: words.map(w => w.id), done: {}, graded: {}, misses: {}, earned: 0, card: null };
-  show("play");
-  $("starsPlay").textContent = state.progress.stars;
-  nextCard();
-}
-function renderDots() {
-  const cur = S.card && S.card.w.id;
-  $("dots").innerHTML = S.words.map(w =>
-    '<span class="dot ' + (S.done[w.id] ? w.article : "") + (w.id === cur ? " now" : "") + '"></span>').join("");
-}
-function nextCard() {
-  while (S.queue.length && !S.words.find(w => w.id === S.queue[0])) S.queue.shift();
-  if (!S.queue.length) return finishSession();
-  const id = S.queue.shift();
-  const w = S.words.find(x => x.id === id);
-  const hinted = state.settings.sayFirst !== "new" || prog(w.id).box < MASTERED;
-  S.card = { w, attempts: 0, locked: false, hinted, listening: true };
-  const em = $("emoji"), cp = $("cardPic"), src = picSrc(w);
-  em.className = "emoji" + (w.emoji ? "" : " text");
-  em.textContent = w.emoji || w.noun;
-  if (src && !failedPics.has(src)) {
-    cp.innerHTML = '<img class="pic" src="' + esc(src) + '" alt="">';
-    cp.hidden = false; em.hidden = true;
-  } else { cp.hidden = true; em.hidden = false; }
-  preloadNext();
-  $("caption").className = "caption";
-  $("caption").innerHTML = "";
-  $("card").className = "card";
-  $("yay").hidden = true;
-  document.querySelectorAll(".choice").forEach(b => { b.disabled = false; b.className = "choice"; });
-  $("choices").hidden = false;
-  $("repeat").hidden = true;
-  renderDots();
-  // Say it the right way first; taps are held until she has heard it.
-  $("choices").classList.add("wait");
-  const card = S.card;
-  say(hinted ? w.article + " " + w.noun : "Wie heißt das?", 0.75).then(() => {
-    if (S && S.card === card) { card.listening = false; $("choices").classList.remove("wait"); }
-  });
-}
-function preloadNext() {
-  const nid = S.queue[0], nw = nid && S.words.find(x => x.id === nid), src = nw && picSrc(nw);
-  if (src && !failedPics.has(src)) { const i = new Image(); i.src = src; }
-}
-// On a right answer the picture flies into its coloured button, like moving into its house.
-function flyTo(btn) {
-  const from = $("cardPic").hidden ? $("emoji") : $("cardPic");
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !from.animate) return;
-  const a = from.getBoundingClientRect(), b = btn.getBoundingClientRect();
+// The picture flies into the chosen button/house, like moving into its house.
+function flyTo(from, to) {
+  if (RM() || !from || !to || !from.animate) return;
+  const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
   if (!a.width || !b.width) return;
   const f = from.cloneNode(true);
   f.removeAttribute("id"); f.hidden = false; f.classList.add("flyer");
@@ -629,13 +758,123 @@ function flyTo(btn) {
   const dx = b.left + b.width / 2 - (a.left + a.width / 2), dy = b.top + b.height / 2 - (a.top + a.height / 2);
   const s = Math.min(b.height / a.height, .4);
   f.animate([
-    { transform: "translate(0,0) scale(1)", opacity: 1 },
-    { transform: "translate(" + dx * .5 + "px," + (dy * .5 - 60) + "px) scale(" + (s + .25) + ")", opacity: 1, offset: .55 },
-    { transform: "translate(" + dx + "px," + dy + "px) scale(" + s + ")", opacity: 0 }
-  ], { duration: 750, easing: "cubic-bezier(.3,.1,.3,1)" }).onfinish = () => {
+    { transform: "translate(0,0) scale(1) rotate(0)", opacity: 1 },
+    { transform: "translate(" + dx * .5 + "px," + (dy * .5 - 80) + "px) scale(" + (s + .25) + ") rotate(-12deg)", opacity: 1, offset: .55 },
+    { transform: "translate(" + dx + "px," + dy + "px) scale(" + s + ") rotate(0)", opacity: 0 }
+  ], { duration: 780, easing: "cubic-bezier(.3,.1,.3,1)" }).onfinish = () => {
     f.remove();
-    btn.animate([{ transform: "scale(1.06)" }, { transform: "scale(1.16)" }, { transform: "scale(1.06)" }], { duration: 260 });
+    to.animate([{ transform: "scale(1)" }, { transform: "scale(1.14)" }, { transform: "scale(1)" }], { duration: 300 });
+    sparkle(to, 10);
   };
+}
+function confetti() {
+  if (RM()) return;
+  const cv = $("confetti"), c2 = cv.getContext("2d");
+  cv.hidden = false;
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; c2.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const css = getComputedStyle(document.documentElement);
+  const cols = ["--pink", "--grape", "--star", "--der", "--das"].map(v => css.getPropertyValue(v).trim());
+  const ps = Array.from({ length: 140 }, () => ({
+    x: innerWidth / 2 + (Math.random() - .5) * 160, y: innerHeight * .38,
+    vx: (Math.random() - .5) * 15, vy: -Math.random() * 15 - 4, r: Math.random() * Math.PI,
+    vr: (Math.random() - .5) * .3, s: 8 + Math.random() * 9, c: pick(cols), round: Math.random() < .35 }));
+  const t0 = performance.now();
+  (function frame(t) {
+    c2.clearRect(0, 0, innerWidth, innerHeight);
+    for (const p of ps) {
+      p.vy += .33; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      c2.save(); c2.translate(p.x, p.y); c2.rotate(p.r); c2.fillStyle = p.c;
+      if (p.round) { c2.beginPath(); c2.arc(0, 0, p.s / 2.4, 0, Math.PI * 2); c2.fill(); } else c2.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
+      c2.restore();
+    }
+    if (t - t0 < 2800) requestAnimationFrame(frame); else { c2.clearRect(0, 0, innerWidth, innerHeight); cv.hidden = true; }
+  })(t0);
+}
+
+/* ---------- screens ---------- */
+const SCREENS = ["home", "play", "quiz", "done", "bookScreen"];
+function show(name) { for (const s of SCREENS) $(s).hidden = s !== name; }
+let S = null, Q = null;
+const busy = () => !!(S || Q);
+
+/* ---------- home ---------- */
+function renderStars() { for (const id of ["starsHome", "starsPlay", "starsQuiz", "starsBook"]) $(id).textContent = state.progress.stars; }
+function renderHome() {
+  renderStars();
+  const ready = state.wordsLoaded && state.words.length > 0;
+  $("playBtn").disabled = !ready;
+  $("quizBtn").disabled = !(ready && state.words.length >= 3);
+  $("quizDue").hidden = !quizDue();
+  $("bookCount").textContent = state.progress.stickers.length;
+  const full = state.progress.stickers.length >= STICKERS.length;
+  const have = full ? perSticker() : Math.min(perSticker(), state.progress.points - (state.progress.pointsUsed || 0));
+  const nextStk = STICKERS.find(x => !state.progress.stickers.includes(x));
+  $("gift").innerHTML = nextStk ? '<img src="img/stk-' + nextStk + '.webp" alt="">' : "★";
+  $("slots").innerHTML = '<span class="meter"><span class="fill" style="width:' + Math.round(have / perSticker() * 100) + '%"></span></span><span class="ns on">★</span>';
+  for (const a of ARTS) {
+    const box = $("rooms-" + a);
+    const ws = state.words.filter(w => w.article === a);
+    if (!state.wordsLoaded) { box.innerHTML = '<div class="empty">…</div>'; continue; }
+    box.innerHTML = ws.map(w => {
+      const m = prog(w.id).box >= MASTERED;
+      return '<button class="w ' + (m ? "mastered" : "learning") + '" data-id="' + esc(w.id) + '" aria-label="' + esc(w.article + " " + w.noun) + '">' + faceHTML(w) + "</button>";
+    }).join("");
+  }
+  renderVoiceWarn();
+}
+$("houses").addEventListener("click", (e) => {
+  const top = e.target.closest("[data-say]");
+  if (top) { say([C("a-" + top.dataset.say)]); bump(top.querySelector(".house-img")); sparkle(top, 8); return; }
+  const b = e.target.closest(".w");
+  if (!b) return;
+  const w = state.words.find(x => x.id === b.dataset.id);
+  if (w) { say([W(w)]); bump(b); }
+});
+
+/* ---------- practice round ---------- */
+function startSession() {
+  if (!state.words.length) return;
+  const t = today();
+  const pool = shuffle(state.words).map(w => ({ w, p: prog(w.id) }));
+  pool.sort((a, b) => {
+    const da = !a.p.due || a.p.due <= t ? 0 : 1, dbb = !b.p.due || b.p.due <= t ? 0 : 1;
+    return (da - dbb) || ((needsPractice(b.w) ? 1 : 0) - (needsPractice(a.w) ? 1 : 0)) || (a.p.box - b.p.box);
+  });
+  const n = Math.min(Math.max(3, Number(state.settings.sessionLength) || 8), pool.length);
+  const words = shuffle(pool.slice(0, n).map(x => x.w));
+  S = { words, queue: words.map(w => w.id), done: {}, graded: {}, misses: {}, earned: 0, card: null };
+  renderStars();
+  show("play");
+  nextCard();
+}
+function renderDots() {
+  const cur = S.card && S.card.w.id;
+  $("dots").innerHTML = S.words.map(w => '<span class="dot ' + (S.done[w.id] ? w.article : "") + (w.id === cur ? " now" : "") + '"></span>').join("");
+}
+function restart(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+function nextCard() {
+  while (S.queue.length && !S.words.find(w => w.id === S.queue[0])) S.queue.shift();
+  if (!S.queue.length) return finishSession();
+  const id = S.queue.shift();
+  const w = S.words.find(x => x.id === id);
+  const hinted = state.settings.sayFirst !== "new" || prog(w.id).box < MASTERED;
+  S.card = { w, attempts: 0, locked: false, hinted, listening: true };
+  setPicture($("cardPic"), $("emoji"), w);
+  preload(S.words.find(x => x.id === S.queue[0]));
+  $("caption").className = "caption"; $("caption").innerHTML = "";
+  $("card").className = "card"; restart($("card"), "enter");
+  $("yay").hidden = true;
+  document.querySelectorAll(".choice").forEach(b => { b.disabled = false; b.className = "choice"; });
+  $("choices").hidden = false; restart($("choices"), "enter");
+  $("repeat").hidden = true;
+  renderDots();
+  // Say it the right way first; taps are held until she has heard it.
+  $("choices").classList.add("wait");
+  const card = S.card;
+  sleep(350).then(() => say(hinted ? [W(w)] : [C("f-wieheisst")], 0.75)).then(() => {
+    if (S && S.card === card) { card.listening = false; $("choices").classList.remove("wait"); }
+  });
 }
 function requeue(id) {
   S.misses[id] = (S.misses[id] || 0) + 1;
@@ -645,11 +884,15 @@ function requeue(id) {
 function grade(id, clean) {
   if (id in S.graded) return;           // only the first time a word shows up counts for spacing
   S.graded[id] = clean;
-  const p = { ...prog(id) };
-  p.seen = (p.seen || 0) + 1;
-  if (clean) { p.box = Math.min(INTERVALS.length - 1, (p.box || 0) + 1); p.due = addDays(today(), INTERVALS[p.box]); }
-  else { p.box = 0; p.due = today(); p.wrong = (p.wrong || 0) + 1; }
-  state.progress.words[id] = p;
+  const p = prog(id);
+  const patch = { seen: (p.seen || 0) + 1 };
+  if (clean) { patch.box = Math.min(INTERVALS.length - 1, (p.box || 0) + 1); patch.due = addDays(today(), INTERVALS[patch.box]); }
+  else { patch.box = 0; patch.due = today(); patch.wrong = (p.wrong || 0) + 1; }
+  setProg(id, patch);
+}
+function earnStar(pillId) {
+  state.progress.stars++; state.progress.points++;
+  renderStars(); bump($(pillId).parentElement);
 }
 function answer(a, btn) {
   const c = S && S.card;
@@ -660,15 +903,15 @@ function answer(a, btn) {
     c.locked = true;
     chime();
     btn.classList.add("right");
-    flyTo(btn);
-    const y = $("yay"); y.hidden = false; y.classList.remove("show"); void y.offsetWidth; y.classList.add("show");
+    flyTo($("cardPic").hidden ? $("emoji") : $("cardPic"), btn);
+    const y = $("yay"); y.hidden = false; restart(y, "show");
     const clean = c.attempts === 1;
     grade(w.id, clean);
-    if (clean) { S.done[w.id] = true; S.earned++; state.progress.stars++; $("starsPlay").textContent = state.progress.stars; }
+    if (clean) { S.done[w.id] = true; S.earned++; earnStar("starsPlay"); }
     else requeue(w.id);
     saveProgress();
     reveal();
-    say(pick(PRAISE) + " " + (sentenceOf(w) || w.article + " " + w.noun + "!")).then(showRepeat);
+    say([C(pick(PRAISE)), SENT(w) || W(w)]).then(showRepeat);
   } else {
     boop();
     btn.classList.add("wrong"); btn.disabled = true;
@@ -677,9 +920,10 @@ function answer(a, btn) {
       grade(w.id, false); requeue(w.id); saveProgress();
       document.querySelectorAll(".choice").forEach(b => { b.disabled = true; if (b.dataset.a === w.article) b.classList.add("hint"); });
       reveal();
-      say("Schau: " + w.article + " " + w.noun + ". " + sentenceOf(w) + " Sag mal: " + w.article + " " + w.noun + "!").then(showRepeat);
+      say([C("f-schau"), W(w), SENT(w), C("f-sagmal"), W(w)]).then(showRepeat);
     } else {
-      say("Hmm, nochmal!");
+      $("card").animate && !RM() && $("card").animate([{ transform: "rotate(0)" }, { transform: "rotate(-2deg)" }, { transform: "rotate(2deg)" }, { transform: "rotate(0)" }], { duration: 400 });
+      say([C("f-nochmal")]);
     }
   }
 }
@@ -690,73 +934,187 @@ function reveal() {
   $("caption").className = "caption show";
   renderDots();
 }
+function renderSign(a) {
+  const el = $("sign"), sg = SIGNS[a];
+  el.dataset.a = a;
+  const face = failedPics.has(sg.img) ? '<span class="fallback">' + sg.emoji + "</span>"
+    : '<span class="tile"><img class="pic" src="' + sg.img + '" alt="" data-fallback="' + sg.emoji + '"></span>';
+  el.innerHTML = face + '<span class="badge"><svg class="sym" viewBox="0 0 20 20">' + SYMS[a] + "</svg></span>";
+}
 let nextTimer = 0;
 function showRepeat() {
   if (!S) return;
   $("choices").hidden = true;
   renderSign(S.card.w.article);
-  $("repeat").hidden = false;
+  $("repeat").hidden = false; restart($("repeat"), "repeat");
   $("nextBtn").disabled = true;
   clearTimeout(nextTimer);
   nextTimer = setTimeout(() => { $("nextBtn").disabled = false; }, 1400);   // a moment to say it out loud
 }
 function finishSession() {
   state.progress.sessions++;
+  state.progress.roundsSinceQuiz++;
   state.progress.lastPlayed = today();
+  const fresh = awardStickers();
   saveProgress();
-  $("earned").textContent = "+" + S.earned;
-  $("practised").innerHTML = S.words.map(w => "<span>" + faceHTML(w) + "</span>").join("");
+  const rows = S.words.map(w => ({ w, mark: "" }));
+  const earned = S.earned;
   S = null;
-  show("done");
-  confetti();
-  say("Super gemacht!");
+  showDone(earned, rows, fresh, quizDue());
 }
 function quitSession() {
-  if (S) { saveProgress(); S = null; }
-  window.speechSynthesis?.cancel?.();
+  if (S || Q) { saveProgress(); S = null; Q = null; }
+  stopAudio();
   renderHome(); show("home");
 }
 
+/* ---------- quiz: picture only, no hints, one try per word ---------- */
+function quizWords() {
+  const practised = state.words.filter(w => (prog(w.id).seen || 0) > 0);
+  const pool = practised.length >= 3 ? practised : state.words;
+  const rank = (w) => { const q = prog(w.id).q; if (!q) return -1e6; return (Date.parse(q.last) / 864e5 || 0) - (q.w || 0) * 2 + (q.ok === false ? -50 : 0); };
+  return shuffle(shuffle(pool).sort((a, b) => rank(a) - rank(b)).slice(0, Math.min(QUIZ_SIZE, pool.length)));
+}
+function startQuiz() {
+  if (state.words.length < 3) return;
+  Q = { words: quizWords(), i: 0, res: {}, earned: 0, locked: true };
+  renderStars();
+  show("quiz");
+  renderQDots();
+  $("qcard").className = "card"; $("qPic").hidden = true; $("qEmoji").hidden = true; $("qCaption").className = "caption";
+  document.querySelectorAll(".qhouse").forEach(b => { b.className = "qhouse"; b.disabled = true; });
+  fanfare();
+  say([C("f-quizzeit")]).then(() => { if (Q) nextQ(); });
+}
+function renderQDots() {
+  $("qdots").innerHTML = Q.words.map((w, i) => '<span class="dot ' + (w.id in Q.res ? (Q.res[w.id] ? "ok" : "miss") : "") + (i === Q.i ? " now" : "") + '"></span>').join("");
+}
+function nextQ() {
+  if (Q.i >= Q.words.length) return finishQuiz();
+  const w = Q.words[Q.i];
+  setPicture($("qPic"), $("qEmoji"), w);
+  preload(Q.words[Q.i + 1]);
+  $("qCaption").className = "caption"; $("qCaption").innerHTML = "";
+  $("qcard").className = "card"; restart($("qcard"), "enter");
+  document.querySelectorAll(".qhouse").forEach(b => { b.className = "qhouse"; b.disabled = false; });
+  $("qhouses").classList.add("wait");
+  Q.locked = true;
+  renderQDots();
+  const my = Q;
+  sleep(300).then(() => say([C("f-welcheshaus")])).then(() => { if (Q === my) { Q.locked = false; $("qhouses").classList.remove("wait"); } });
+}
+function quizAnswer(a, btn) {
+  if (!Q || Q.locked) return;
+  Q.locked = true;
+  const w = Q.words[Q.i], ok = a === w.article, p = prog(w.id), q = p.q || { r: 0, w: 0 };
+  Q.res[w.id] = ok;
+  const patch = { q: { r: q.r + (ok ? 1 : 0), w: q.w + (ok ? 0 : 1), last: today(), ok } };
+  if (!ok) { patch.box = 0; patch.due = today(); }          // back into practice soon
+  setProg(w.id, patch);
+  document.querySelectorAll(".qhouse").forEach(b => b.disabled = true);
+  $("qcard").className = "card " + w.article;
+  $("qCaption").innerHTML = '<span class="art ' + w.article + '">' + w.article + "</span> " + esc(w.noun);
+  $("qCaption").className = "caption show";
+  const right = document.querySelector('.qhouse[data-a="' + w.article + '"]');
+  let spoken;
+  if (ok) {
+    chime(); btn.classList.add("right");
+    flyTo($("qPic").hidden ? $("qEmoji") : $("qPic"), btn);
+    Q.earned++; earnStar("starsQuiz");
+    spoken = say([C("f-ja"), W(w)]);
+  } else {
+    boop(); btn.classList.add("wrong"); right.classList.add("hint");
+    spoken = say([C("f-oh"), C("f-schau"), W(w)]);
+  }
+  renderQDots();
+  saveProgress();
+  const my = Q;
+  spoken.then(() => sleep(ok ? 500 : 900)).then(() => { if (Q === my) { Q.i++; nextQ(); } });
+}
+function finishQuiz() {
+  state.progress.quizzes++;
+  state.progress.roundsSinceQuiz = 0;
+  state.progress.lastPlayed = today();
+  const fresh = awardStickers();
+  saveProgress();
+  const rows = Q.words.map(w => ({ w, mark: Q.res[w.id] ? "ok" : "miss" }));
+  const earned = Q.earned;
+  Q = null;
+  showDone(earned, rows, fresh, false);
+}
+
+/* ---------- stickers ---------- */
+function awardStickers() {
+  // Count only points gathered since the last sticker, so changing the setting never takes one away.
+  const due = state.progress.stickers.length + Math.floor((state.progress.points - (state.progress.pointsUsed || 0)) / perSticker());
+  const fresh = [];
+  while (state.progress.stickers.length < due) {
+    const next = STICKERS.find(s => !state.progress.stickers.includes(s));
+    if (!next) break;
+    state.progress.stickers.push(next); fresh.push(next);
+    state.progress.pointsUsed = (state.progress.pointsUsed || 0) + perSticker();
+  }
+  return fresh;
+}
+const stickerImg = (id) => '<img class="pic" src="img/stk-' + id + '.webp" alt="" data-sticker="1">';
+let lastFresh = [];
+function renderBook() {
+  renderStars();
+  const got = state.progress.stickers;
+  $("bookTotal").textContent = got.length + " / " + STICKERS.length;
+  $("bookGrid").innerHTML = STICKERS.map((id, i) => got.includes(id)
+    ? '<button class="slot got' + (lastFresh.includes(id) ? " new" : "") + '" data-stk="' + id + '" style="animation-delay:' + (i * 0.03) + 's">' + stickerImg(id) + "</button>"
+    : '<div class="slot empty">?</div>').join("");
+}
+$("bookGrid").addEventListener("click", (e) => {
+  const b = e.target.closest(".slot.got"); if (!b) return;
+  pop(); sparkle(b, 10); b.animate && !RM() && b.animate([{ transform: "rotate(0) scale(1)" }, { transform: "rotate(-8deg) scale(1.1)" }, { transform: "rotate(8deg) scale(1.1)" }, { transform: "rotate(0) scale(1)" }], { duration: 500 });
+});
+function openBook() { renderBook(); show("bookScreen"); }
+
+/* ---------- round finished ---------- */
+function showDone(earned, rows, fresh, offerQuiz) {
+  $("earned").textContent = earned;
+  $("practised").innerHTML = rows.map((r, i) => '<span class="item" style="animation-delay:' + (0.3 + i * 0.06) + 's">' + faceHTML(r.w) +
+    (r.mark ? '<span class="mark ' + r.mark + '">' + (r.mark === "ok" ? "✓" : "↻") + "</span>" : "") + "</span>").join("");
+  $("doneQuiz").hidden = !offerQuiz;
+  const rv = $("reveal");
+  lastFresh = fresh;
+  if (fresh.length) {
+    rv.hidden = false; rv.classList.remove("open");
+    $("revealBack").innerHTML = stickerImg(fresh[0]);
+    $("revealMore").hidden = fresh.length < 2; $("revealMore").textContent = "+" + (fresh.length - 1);
+  } else rv.hidden = true;
+  show("done");
+  confetti(); fanfare();
+  say([C("f-supergemacht")]).then(() => {
+    if (!fresh.length || rv.hidden) return;
+    return sleep(300).then(() => { rv.classList.add("open"); chime(); setTimeout(() => sparkle(rv, 18), 450); });
+  });
+}
+$("reveal").addEventListener("click", () => { if (!$("reveal").classList.contains("open")) { $("reveal").classList.add("open"); chime(); sparkle($("reveal"), 18); } else openBook(); });
+
+/* ---------- wiring ---------- */
 document.querySelectorAll(".choice").forEach(b => b.addEventListener("click", () => answer(b.dataset.a, b)));
+document.querySelectorAll(".qhouse").forEach(b => b.addEventListener("click", () => quizAnswer(b.dataset.a, b)));
 $("listenBtn").addEventListener("click", () => {
   if (!S || !S.card) return;
   const w = S.card.w;
-  say(S.card.locked || S.card.hinted ? w.article + " " + w.noun : "Wie heißt das?", 0.75);
+  say(S.card.locked || S.card.hinted ? [W(w)] : [C("f-wieheisst")], 0.75);
 });
-$("againBtn").addEventListener("click", () => {
-  if (!S || !S.card) return;
-  const w = S.card.w, sent = sentenceOf(w);
-  say(w.article + " " + w.noun + "." + (sent ? " " + sent : ""), 0.72);
-});
-$("nextBtn").addEventListener("click", () => { if (S) nextCard(); });
+$("qListen").addEventListener("click", () => { if (Q && Q.words[Q.i]) say(Q.locked && Q.words[Q.i].id in Q.res ? [W(Q.words[Q.i])] : [C("f-welcheshaus")]); });
+$("againBtn").addEventListener("click", () => { if (S && S.card) say([W(S.card.w), SENT(S.card.w)], 0.72); });
+$("nextBtn").addEventListener("click", () => { if (S) { pop(); nextCard(); } });
 $("quitBtn").addEventListener("click", quitSession);
-$("playBtn").addEventListener("click", () => { tone([523], "triangle", 0.1); startSession(); });
-$("homeBtn").addEventListener("click", () => { renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", startSession);
-
-/* ---------- confetti ---------- */
-function confetti() {
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const cv = $("confetti"), ctx = cv.getContext("2d");
-  cv.hidden = false;
-  const dpr = window.devicePixelRatio || 1;
-  cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; ctx.scale(dpr, dpr);
-  const css = getComputedStyle(document.documentElement);
-  const cols = ["--der", "--die", "--das", "--star"].map(v => css.getPropertyValue(v).trim());
-  const ps = Array.from({ length: 120 }, () => ({
-    x: innerWidth / 2 + (Math.random() - .5) * 120, y: innerHeight * .4,
-    vx: (Math.random() - .5) * 14, vy: -Math.random() * 14 - 4, r: Math.random() * Math.PI,
-    vr: (Math.random() - .5) * .3, s: 8 + Math.random() * 8, c: pick(cols) }));
-  const t0 = performance.now();
-  (function frame(t) {
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    for (const p of ps) {
-      p.vy += .35; p.x += p.vx; p.y += p.vy; p.r += p.vr;
-      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore();
-    }
-    if (t - t0 < 2600) requestAnimationFrame(frame); else { ctx.clearRect(0, 0, innerWidth, innerHeight); cv.hidden = true; }
-  })(t0);
-}
+$("quizQuit").addEventListener("click", quitSession);
+$("playBtn").addEventListener("click", () => { pop(); startSession(); });
+$("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
+$("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
+$("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
+$("againSessionBtn").addEventListener("click", () => { pop(); startSession(); });
+$("bookBtn").addEventListener("click", () => { pop(); openBook(); });
+$("nextSticker").addEventListener("click", () => { pop(); openBook(); });
+$("bookBack").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
 
 /* ---------- grown-ups panel ---------- */
 let grownOpen = false, gateOk = false, addArt = "der", armed = "";
@@ -771,71 +1129,84 @@ function renderGate() {
     opts.map(o => '<button class="btn" data-act="gate" data-v="' + o + '" data-ok="' + (o === ans ? 1 : 0) + '">' + o + "</button>").join("") +
     "</div></div>";
 }
+function wordRow(w, reason) {
+  const p = prog(w.id), q = p.q;
+  return '<li class="row"><span class="e">' + (picSrc(w) || w.emoji ? faceHTML(w) : "·") + '</span><span class="chip ' + w.article + '">' + w.article +
+    '</span><span class="n">' + esc(w.noun) + (reason ? '<span class="flag">practise</span>' : "") +
+    (reason ? "<small>" + esc(reason) + "</small>" : (sentenceOf(w) ? "<small>" + esc(sentenceOf(w)) + "</small>" : "")) + "</span>" +
+    '<span class="stat"><span class="pips" title="Progress">' + [1, 2, 3, 4].map(i => '<span class="pip' + (p.box >= i ? " on" : "") + '"></span>').join("") + "</span>" +
+    "<span>" + (q ? "quiz " + q.r + "/" + (q.r + q.w) : "no quiz yet") + "</span></span>" +
+    '<button class="mini" data-act="hear" data-id="' + esc(w.id) + '" aria-label="Hear ' + esc(w.article + " " + w.noun) + '"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5 6 9H3v6h3l5 4V5z"/></svg></button>' +
+    '<button class="mini" data-act="del" data-id="' + esc(w.id) + '" aria-label="Remove ' + esc(w.noun) + '">✕</button></li>';
+}
 function renderGrown() {
   if (!gateOk) return renderGate();
   const modeNote = state.mode === "online"
     ? "Words and progress are saved online, so this list is the same on every device that opens this page. You can also send Claude a photo of the school list and ask it to update this list."
-    : state.mode === "local"
-      ? "Words and progress are saved on this iPad only. Use the same iPad and the same browser each time."
-      : "Connecting…";
-  const rows = state.words.map(w => {
-    const p = prog(w.id);
-    return '<li class="row"><span class="e">' + (picSrc(w) || w.emoji ? faceHTML(w) : "·") + '</span><span class="chip ' + w.article + '">' + w.article +
-      '</span><span class="n">' + esc(w.noun) + (sentenceOf(w) ? "<small>" + esc(sentenceOf(w)) + "</small>" : "") + '</span><span class="pips" title="Progress">' +
-      [1, 2, 3, 4].map(i => '<span class="pip' + (p.box >= i ? " on" : "") + '"></span>').join("") +
-      '</span><button class="mini" data-act="hear" data-id="' + esc(w.id) + '" aria-label="Hear ' + esc(w.article + " " + w.noun) + '"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5 6 9H3v6h3l5 4V5z"/></svg></button>' +
-      '<button class="mini" data-act="del" data-id="' + esc(w.id) + '" aria-label="Remove ' + esc(w.noun) + '">✕</button></li>';
-  }).join("");
+    : state.mode === "local" ? "Words and progress are saved on this device only. Use the same device and the same browser each time." : "Connecting…";
+  const weak = state.words.map(w => ({ w, r: needsPractice(w) })).filter(x => x.r);
   const mastered = state.words.filter(w => prog(w.id).box >= MASTERED).length;
   $("sheet").innerHTML =
     '<header><h2>Word list</h2><button class="btn primary" data-act="close">Done</button></header>' +
     '<p class="note">' + esc(modeNote) + (state.dbError ? "<br><strong>" + esc(state.dbError) + "</strong>" : "") + "</p>" +
     (state.sample ? '<p class="note">These are example words. Tap <b>Start a new list</b> below and paste the words from school.</p>' : "") +
-    '<section><h3>Hand signs</h3><p>Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊ (round, like ●), <b>die</b> = one finger pointing up ☝️ (pointed, like ▲), <b>das</b> = flat hand ✋ (flat, like ■). The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
-    '<section><h3>Words (' + state.words.length + ')</h3>' +
-      (state.words.length ? '<ul class="list">' + rows + "</ul>" : '<p class="small">No words yet. Add some below.</p>') +
-      '<p class="small" style="margin-top:8px">Yellow dots show progress. After 3 right answers on different days a word gets a star on the home screen.</p></section>' +
+    '<section><h3>Needs practice (' + weak.length + ')</h3>' +
+      (weak.length ? '<ul class="list">' + weak.map(x => wordRow(x.w, x.r)).join("") + "</ul>" +
+        '<p class="small" style="margin-top:8px">These words come first in her next practice rounds.</p>'
+      : '<p class="small">Nothing flagged yet. Every ' + (Number(state.settings.quizEvery) || 2) + ' practice rounds the pink quiz button gets a “!”: the quiz shows only the picture, no hints, one try per word. Missed words show up here and go back into practice.</p>') + "</section>" +
+    '<section><h3>All words (' + state.words.length + ')</h3>' +
+      (state.words.length ? '<ul class="list">' + state.words.map(w => wordRow(w, "")).join("") + "</ul>" : '<p class="small">No words yet. Add some below.</p>') +
+      '<p class="small" style="margin-top:8px">Yellow dots show practice progress; after 3 right answers on different days a word gets a star on the home screen.</p></section>' +
     '<section><h3>Add a word</h3><div class="addrow">' +
       '<div class="seg" role="group" aria-label="Article">' + ARTS.map(a => '<button data-act="art" data-a="' + a + '" aria-pressed="' + (a === addArt) + '">' + a + "</button>").join("") + "</div>" +
       '<input type="text" id="addNoun" placeholder="Hund" autocomplete="off" autocapitalize="words" spellcheck="false">' +
       '<input type="text" id="addEmoji" placeholder="🐶" autocomplete="off" aria-label="Picture (emoji)">' +
       '<input type="text" id="addSentence" placeholder="Short sentence (optional): Der Hund bellt." autocomplete="off">' +
       '<button class="btn primary" data-act="add">Add</button></div>' +
-      '<p class="small" style="margin-top:6px">The picture fills in by itself for common words. Otherwise pick an emoji from the iPad keyboard.</p></section>' +
+      '<p class="small" style="margin-top:6px">New words show their emoji until Claude makes a picture and a recording for them.</p></section>' +
     '<section><h3>Paste a list</h3><textarea id="bulk" placeholder="der Hund 🐶 | Der Hund bellt.&#10;die Katze&#10;das Haus 🏠 | Das Haus ist klein."></textarea>' +
       '<div class="addrow" style="margin-top:8px"><button class="btn primary" data-act="bulk">Add these words</button>' +
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
-      '<p class="small" style="margin-top:6px">One word per line: article, word, an optional emoji, and after a | an optional short sentence that starts with the word (Der Hund bellt.). <b>Start a new list</b> replaces all words with the ones in the box (stars and progress are kept).</p>' +
+      '<p class="small" style="margin-top:6px">One word per line: article, word, an optional emoji, and after a | an optional short sentence that starts with the word (Der Hund bellt.). <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
+    '<section><h3>Hand signs</h3><p>Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊ (round, like ●), <b>die</b> = one finger pointing up ☝️ (pointed, like ▲), <b>das</b> = flat hand ✋ (flat, like ■). The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     voiceSection() +
-    '<section><h3>Practice</h3><div class="stats">' +
-      "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.sessions + "</b>rounds played</div><div><b>" + mastered + " / " + state.words.length + "</b>words starred</div>" +
-      "<div><b>" + esc(state.progress.lastPlayed || "–") + "</b>last played</div></div>" +
+    '<section><h3>Progress</h3><div class="stats">' +
+      "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div>" +
+      "<div><b>" + state.progress.sessions + "</b>practice rounds</div><div><b>" + state.progress.quizzes + "</b>quizzes</div>" +
+      "<div><b>" + mastered + " / " + state.words.length + "</b>words starred</div><div><b>" + esc(state.progress.lastPlayed || "–") + "</b>last played</div></div>" +
       '<div class="settings" style="margin-top:14px"><label for="lenSel">Words per round</label><select id="lenSel">' +
       [5, 6, 8, 10, 12].map(n => '<option value="' + n + '"' + (Number(state.settings.sessionLength) === n ? " selected" : "") + ">" + n + "</option>").join("") +
+      '</select><label for="quizSel">Quiz after</label><select id="quizSel">' +
+      [1, 2, 3, 4].map(n => '<option value="' + n + '"' + ((Number(state.settings.quizEvery) || 2) === n ? " selected" : "") + ">" + n + " round" + (n > 1 ? "s" : "") + "</option>").join("") +
+      '</select><label for="stkSel">Sticker every</label><select id="stkSel">' +
+      [5, 10, 15, 20].map(n => '<option value="' + n + '"' + (perSticker() === n ? " selected" : "") + ">" + n + " right answers</option>").join("") +
       '</select><label for="firstSel">Say the answer first</label><select id="firstSel">' +
       '<option value="always"' + (state.settings.sayFirst !== "new" ? " selected" : "") + '>Always</option>' +
       '<option value="new"' + (state.settings.sayFirst === "new" ? " selected" : "") + '>Only for new words, then she remembers it herself</option>' +
-      '</select><button class="btn danger' + (armed === "reset" ? " armed" : "") + '" data-act="reset">' + (armed === "reset" ? "Tap again: clear all progress" : "Reset progress") + "</button></div></section>";
+      '</select><button class="btn danger' + (armed === "reset" ? " armed" : "") + '" data-act="reset">' + (armed === "reset" ? "Tap again: clear stars, stickers and progress" : "Reset progress") + "</button></div></section>";
   const nounIn = $("addNoun"), emoIn = $("addEmoji");
   nounIn.addEventListener("input", () => { if (!emoIn.dataset.touched) emoIn.value = guessEmoji(nounIn.value); });
   emoIn.addEventListener("input", () => { emoIn.dataset.touched = emoIn.value ? "1" : ""; });
   nounIn.addEventListener("keydown", (e) => { if (e.key === "Enter") addOne(); });
   $("lenSel").addEventListener("change", (e) => { state.settings.sessionLength = Number(e.target.value); saveWords(); });
+  $("stkSel").addEventListener("change", (e) => { state.settings.perSticker = Number(e.target.value); saveWords(); });
+  $("quizSel").addEventListener("change", (e) => { state.settings.quizEvery = Number(e.target.value); saveWords(); });
   $("voiceSel")?.addEventListener("change", (e) => { try { localStorage.setItem(LS_VOICE, e.target.value); } catch {} pickVoice(); say("der Hund"); });
   $("firstSel").addEventListener("change", (e) => { state.settings.sayFirst = e.target.value; saveWords(); });
 }
 function voiceSection() {
   const de = germanVoices();
   const fix = "On the iPad: Settings → Accessibility → Spoken Content → Voices → German. Download a voice (Anna sounds natural), then reload this page.";
-  let body;
-  if (!hasTTS) body = '<p class="note">This browser cannot speak. Open the page in Safari or the Claude app on the iPad.</p>';
-  else if (!de.length) body = '<p class="note"><strong>No German voice found' + (voiceStatus === "unknown" ? " yet" : "") + ".</strong> The iPad will read the words with an English voice. " + esc(fix) + "</p>";
-  else body = '<div class="settings"><label for="voiceSel">German voice</label><select id="voiceSel">' +
+  let body = '<p>The built-in words and all praise use a recorded voice (Pixie). Words you add yourself use the iPad’s German voice until Claude records them.</p>';
+  if (!hasTTS) body += '<p class="note">This browser cannot speak added words. Open the page in Safari on the iPad.</p>';
+  else if (!de.length) body += '<p class="note hot"><strong>No German iPad voice found' + (voiceStatus === "unknown" ? " yet" : "") + ".</strong> Added words would be read in English. " + esc(fix) + "</p>";
+  else body += '<div class="settings" style="margin-top:10px"><label for="voiceSel">iPad voice for added words</label><select id="voiceSel">' +
       de.map(v => '<option value="' + esc(v.voiceURI) + '"' + (deVoice && v.voiceURI === deVoice.voiceURI ? " selected" : "") + ">" + esc(v.name + " (" + v.lang + ")") + "</option>").join("") +
-      '</select></div><p class="small" style="margin-top:6px">If it still sounds English or robotic, pick another voice here. ' + esc(fix) + "</p>";
+      '</select></div>';
   return '<section><h3>Voice</h3>' + body +
-    (hasTTS ? '<div class="settings" style="margin-top:10px"><button class="btn" data-act="testvoice">Test: der Hund, die Katze, das Haus</button></div>' : "") + "</section>";
+    '<div class="settings" style="margin-top:10px"><button class="btn" data-act="testclip">Test recorded voice</button>' +
+    (hasTTS ? '<button class="btn" data-act="testvoice">Test iPad voice</button>' : "") + "</div></section>";
 }
 function flash(text, err) { const m = $("msg"); if (m) { m.textContent = text; m.className = "msg" + (err ? " err" : ""); } }
 function parseLines(text) {
@@ -876,8 +1247,9 @@ $("sheet").addEventListener("click", async (e) => {
   if (act === "gate") { if (b.dataset.ok === "1") { gateOk = true; renderGrown(); } else renderGate(); return; }
   if (act === "art") { addArt = b.dataset.a; document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x.dataset.a === addArt)); return; }
   if (act === "add") return addOne();
+  if (act === "testclip") { say([C("p-super"), { key: "w-hund", text: "der Hund" }, { key: "s-hund", text: "Der Hund bellt." }]); return; }
   if (act === "testvoice") { say("der Hund, die Katze, das Haus"); return; }
-  if (act === "hear") { const w = state.words.find(x => x.id === b.dataset.id); if (w) say(w.article + " " + w.noun + ". " + sentenceOf(w)); return; }
+  if (act === "hear") { const w = state.words.find(x => x.id === b.dataset.id); if (w) say([W(w), SENT(w)]); return; }
   if (act === "del") { state.words = state.words.filter(x => x.id !== b.dataset.id); return commitWords("Removed."); }
   if (act === "bulk" || act === "newlist") {
     const { out, bad } = parseLines($("bulk").value || "");
@@ -917,11 +1289,11 @@ renderHome();
     state.sample = !!(d && d.sample);
     state.settings = { ...state.settings, ...((d && d.settings) || {}) };
     state.wordsLoaded = true;
-    if (!inSession()) renderHome();
+    if (!busy()) renderHome();
     if (grownOpen && !document.activeElement?.matches?.("input,textarea,select")) renderGrown();
   }, onErr);
   db.doc("progress/main").onSnapshot((snap) => {
-    if (progSaving || inSession() || snap.metadata.hasPendingWrites) return;
+    if (progSaving || busy() || snap.metadata.hasPendingWrites) return;
     state.progress = normalizeProgress(snap.exists ? snap.data() : null);
     renderHome();
     if (grownOpen && !document.activeElement?.matches?.("input,textarea,select")) renderGrown();
