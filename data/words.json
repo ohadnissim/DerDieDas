@@ -1,5 +1,5 @@
 {
- "version": 3,
+ "version": 4,
  "week": "Wortschatz M,m",
  "words": [
   {
@@ -8,7 +8,8 @@
    "article": "die",
    "emoji": "🐭",
    "s": "Die Maus piepst.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-maus.webp"
   },
   {
    "id": "mann",
@@ -16,7 +17,8 @@
    "article": "der",
    "emoji": "👨",
    "s": "Der Mann lacht.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-mann.webp"
   },
   {
    "id": "mond",
@@ -24,7 +26,7 @@
    "article": "der",
    "emoji": "🌙",
    "s": "Der Mond schläft.",
-   "pic": "img/mond.webp",
+   "pic": "img/m-mond.webp",
    "rec": true
   },
   {
@@ -33,7 +35,8 @@
    "article": "die",
    "emoji": "🧱",
    "s": "Die Mauer ist hoch.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-mauer.webp"
   },
   {
    "id": "wurm",
@@ -41,7 +44,8 @@
    "article": "der",
    "emoji": "🪱",
    "s": "Der Wurm kriecht.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-wurm.webp"
   },
   {
    "id": "mama",
@@ -49,7 +53,8 @@
    "article": "die",
    "emoji": "👩",
    "s": "Die Mama singt.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-mama.webp"
   },
   {
    "id": "messer",
@@ -57,7 +62,8 @@
    "article": "das",
    "emoji": "🔪",
    "s": "Das Messer ist scharf.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-messer.webp"
   },
   {
    "id": "mantel",
@@ -65,7 +71,8 @@
    "article": "der",
    "emoji": "🧥",
    "s": "Der Mantel ist warm.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-mantel.webp"
   },
   {
    "id": "murmel",
@@ -73,7 +80,8 @@
    "article": "die",
    "emoji": "🔮",
    "s": "Die Murmel rollt.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-murmel.webp"
   },
   {
    "id": "mund",
@@ -81,7 +89,8 @@
    "article": "der",
    "emoji": "👄",
    "s": "Der Mund ist rot.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-mund.webp"
   },
   {
    "id": "milch",
@@ -89,7 +98,8 @@
    "article": "die",
    "emoji": "🥛",
    "s": "Die Milch ist weiß.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-milch.webp"
   },
   {
    "id": "ameise",
@@ -97,7 +107,8 @@
    "article": "die",
    "emoji": "🐜",
    "s": "Die Ameise krabbelt.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-ameise.webp"
   },
   {
    "id": "muschel",
@@ -105,7 +116,8 @@
    "article": "die",
    "emoji": "🐚",
    "s": "Die Muschel glänzt.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-muschel.webp"
   },
   {
    "id": "eimer",
@@ -113,7 +125,8 @@
    "article": "der",
    "emoji": "🪣",
    "s": "Der Eimer ist voll.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-eimer.webp"
   },
   {
    "id": "helm",
@@ -121,7 +134,8 @@
    "article": "der",
    "emoji": "⛑️",
    "s": "Der Helm ist rot.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-helm.webp"
   },
   {
    "id": "ampel",
@@ -129,7 +143,8 @@
    "article": "die",
    "emoji": "🚦",
    "s": "Die Ampel leuchtet.",
-   "rec": true
+   "rec": true,
+   "pic": "img/m-ampel.webp"
   }
  ],
  "replace": true

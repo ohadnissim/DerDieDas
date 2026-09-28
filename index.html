@@ -164,7 +164,8 @@ button:disabled{cursor:default}
 body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
 @keyframes talk{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-5%) rotate(3deg) scale(1.04)}}
 .kid{position:absolute;transform:translate(-50%,-100%) translateZ(34px);background:none;padding:0}
-.kid img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 5px rgba(60,30,40,.25))}
+.kid img{display:block;width:100%;height:auto;aspect-ratio:1;border-radius:50%;background:var(--paper);box-shadow:0 0 0 4px #fff,0 10px 16px -4px rgba(60,30,60,.35);animation:bob 2.6s ease-in-out infinite}
+.kid[data-kid="mil"] img{animation-delay:-.9s} .kid[data-kid="max"] img{animation-delay:-1.7s}
 .yay{position:absolute;left:16px;top:16px;width:clamp(84px,14vmin,124px);aspect-ratio:1;pointer-events:none;z-index:2}
 .yay .tile{width:100%;height:100%;box-shadow:var(--lift)}
 .yay .fallback{display:grid;place-items:center;width:100%;height:100%;font-size:clamp(52px,9vmin,80px)}
@@ -687,7 +688,7 @@ const GARDEN = [
   {id:"bunny",x:47,y:70,w:8.4},{id:"pool",x:61,y:69,w:15.4},{id:"sunflower",x:79,y:60,w:7.0,cls:"sway"},{id:"kite",x:72,y:27,w:8.4,cls:"fly"},
   {id:"mushroom",x:19,y:61,w:8.4},{id:"birdhouse",x:57.5,y:33,w:7.0},{id:"sandbox",x:33,y:71,w:12.6},{id:"pond",x:70,y:55,w:12.6}];
 // Mia, Mil and Max from school come to play in the garden.
-const KIDS = [{id:"mia",x:43,y:63,w:5.5},{id:"mil",x:30,y:67,w:5.5},{id:"max",x:72,y:60,w:6}];
+const KIDS = [{id:"mia",x:40,y:66,w:9},{id:"mil",x:26,y:70,w:9},{id:"max",x:74,y:63,w:9}];
 const HOUSE_SPOTS = {der:{x:37,y:42},die:{x:50,y:38},das:{x:63,y:42}};
 // Built-in story: a whole little tale in simple sentences where der/die/das never change form. Weekly stories come from data/stories.json.
 const DEFAULT_STORIES = [{id:"story2", title:"Wo ist der Ball?", pages:[

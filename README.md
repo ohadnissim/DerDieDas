@@ -19,4 +19,4 @@ A der/die/das practice game for young children. No reading needed: every word is
 
 **New words each week:** `data/words.json` (bump `version`; add `"replace": true` to drop earlier words instead of keeping them for review) and `data/stories.json`; the app picks them up automatically.
 
-Words and progress are saved in the browser on the device (no account, nothing sent anywhere). Pictures (`img/`) are clay-style illustrations (Mila and the kids are original clay characters, not copies of the book's drawings); the voice (`audio/`) is pre-recorded. Words added later show their emoji and use the device's German voice until a picture and recording are added.
+Words and progress are saved in the browser on the device (no account, nothing sent anywhere). Pictures (`img/`) are clay-style illustrations ; the weekly words use the drawings from her school sheet so they look exactly like at school; the voice (`audio/`) is pre-recorded. Words added later show their emoji and use the device's German voice until a picture and recording are added.
