@@ -844,7 +844,7 @@ function saveWords() {
 }
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
-// Recorded clips (Pixie) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
+// Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
   "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
@@ -1753,6 +1753,21 @@ function judgeSpeech(alts, w) {
   }
   return heardArt ? "great" : heardNoun ? "almost" : "none";
 }
+// Watches the microphone level while she records: true once she has made a clear sound, null when it can't measure.
+function voiceMeter(stream) {
+  let spoke = false, loud = 0, timer = 0, src = null;
+  try {
+    const ac = ctx(); src = ac.createMediaStreamSource(stream);
+    const an = ac.createAnalyser(); an.fftSize = 1024; src.connect(an);
+    const buf = new Float32Array(an.fftSize);
+    timer = setInterval(() => {
+      an.getFloatTimeDomainData(buf);
+      let s = 0; for (const v of buf) s += v * v;
+      if (Math.sqrt(s / buf.length) > 0.02) { if (++loud >= 3) spoke = true; } else loud = Math.max(0, loud - 1);
+    }, 50);
+  } catch { return { stop: () => null }; }
+  return { stop: () => { clearInterval(timer); try { src.disconnect(); } catch {} return spoke; } };
+}
 function unlockNext() {
   if (!S || !S.card || !$("nextBtn").disabled) return;
   $("nextBtn").disabled = false; bump($("nextBtn"));
@@ -1761,15 +1776,16 @@ async function recordHer(w) {
   if (listening) return;
   listening = true;
   const btn = $("micBtn");
-  let her = null, verdict = null;
+  let her = null, verdict = null, spoke = null;
   try {
     stopAudio();
     btn.classList.add("rec"); btn.classList.remove("invite"); tone([880], "sine", .08);
     // record her voice for playback (skipped if this device can't record and recognise at the same time)
-    let recDone = Promise.resolve(null);
+    let recDone = Promise.resolve(null), meter = null;
     if (!srConflict && typeof MediaRecorder !== "undefined") {
       try {
         micStream = micStream || await navigator.mediaDevices.getUserMedia({ audio: true });
+        meter = voiceMeter(micStream);
         const chunks = [];
         recorder = new MediaRecorder(micStream);
         recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
@@ -1780,11 +1796,13 @@ async function recordHer(w) {
     }
     const heard = await listenFor(3200);
     stopRecording();
+    spoke = meter ? meter.stop() : null;
     const chunks = await Promise.race([recDone, sleep(1500).then(() => null)]);
     btn.classList.remove("rec");
     if (chunks && chunks.length) {
       const data = await new Blob(chunks, { type: (recorder && recorder.mimeType) || "audio/mp4" }).arrayBuffer();
-      her = await new Promise((res) => { const pr = ctx().decodeAudioData(data, res, () => res(null)); if (pr && pr.catch) pr.catch(() => res(null)); });
+      her = await Promise.race([sleep(2500).then(() => null),
+        new Promise((res) => { const pr = ctx().decodeAudioData(data, res, () => res(null)); if (pr && pr.catch) pr.catch(() => res(null)); })]);
     }
     verdict = heard === null ? null : judgeSpeech(heard, w);
   } catch (e) {
@@ -1794,8 +1812,9 @@ async function recordHer(w) {
   }
   const p = prog(w.id);
   if (S && S.card) S.card.tries++;
-  // she spoke (or this device can only record): let her go on; after 3 silent tries, don't keep her stuck
-  if (verdict === "great" || verdict === "almost" || (verdict === null && her) || (S && S.card && S.card.tries >= 3)) unlockNext();
+  // she spoke (the recogniser caught the word, or the mic heard her voice): let her go on; after 3 tries, don't keep her stuck
+  const saidIt = verdict === "great" || verdict === "almost" || spoke === true || (spoke === null && verdict === null && her);
+  if (saidIt || (S && S.card && S.card.tries >= 3)) unlockNext();
   if (verdict === "great") {
     chime(); cheer(w.article, btn); sparkle(btn, 14);
     if (S && S.card && !S.card.spoke) { S.card.spoke = true; addStars(); }
@@ -1807,11 +1826,11 @@ async function recordHer(w) {
     if (her) { await playBuffer(her); await sleep(200); }
     await say([C("f-fast"), W(w)]);
     btn.classList.add("invite");
-  } else if (verdict === "none" && !her) {
+  } else if (!saidIt) {
     await say([C("f-nichtgehoert")]);
     btn.classList.add("invite");
   } else {
-    // no recogniser on this device: just play her voice back next to Pixie's
+    // she spoke but the recogniser missed the word: play her voice back next to Mila's
     await say([C("f-hoer")]);
     if (her) { await playBuffer(her); await sleep(250); }
     await say([W(w)]);
@@ -1936,7 +1955,7 @@ function renderGrown() {
 function voiceSection() {
   const de = germanVoices();
   const fix = "On the iPad: Settings → Accessibility → Spoken Content → Voices → German. Download a voice (Anna sounds natural), then reload this page.";
-  let body = '<p>The built-in words and all praise use a recorded voice (Pixie). Words you add yourself use the iPad’s German voice until Claude records them.</p>';
+  let body = '<p>The built-in words and all praise use a recorded voice (Mila). Words you add yourself use the iPad’s German voice until Claude records them.</p>';
   if (!hasTTS) body += '<p class="note">This browser cannot speak added words. Open the page in Safari on the iPad.</p>';
   else if (!de.length) body += '<p class="note hot"><strong>No German iPad voice found' + (voiceStatus === "unknown" ? " yet" : "") + ".</strong> Added words would be read in English. " + esc(fix) + "</p>";
   else body += '<div class="settings" style="margin-top:10px"><label for="voiceSel">iPad voice for added words</label><select id="voiceSel">' +
