@@ -8,9 +8,10 @@
   --paper:#F1EEE6;
   --grape:#9B4DDB; --grape-deep:#6C2BAA; --grape-soft:#EFE2FC;
   --pink:#FF78B5; --pink-deep:#D24E8E; --pink-soft:#FFE1F0;
-  --der:#2F6FE0; --die:#E0433B; --das:#F7D21E;
-  --der-deep:#1F4FAD; --die-deep:#A92B25; --das-deep:#C9A400;
-  --der-soft:#E2EBFD; --die-soft:#FCE4E2; --das-soft:#FFF5CC;
+  --der:#2F9BE0; --die:#E2553F; --das:#F6DB2A;
+  --der-deep:#1B6CA8; --die-deep:#A8372A; --das-deep:#C2A300;
+  --der-soft:#DDEFFB; --die-soft:#FCE2DD; --das-soft:#FFF6C4;
+  --der-hi:#A9DBF8; --die-hi:#F8B2A6; --das-hi:#FFF4A6;
   --das-ink:#8A6D00; --on-das:#3B2352;
   --star:#FF9F1C; --star-deep:#C96F00;
   --on-color:#FFFFFF;
@@ -26,8 +27,8 @@
     --ground:#1C1128; --ground-2:#27163A; --surface:#2F1E45; --ink:#F7EEFF; --muted:#B9A3CF; --line:#44305E;
     --grape:#B476F0; --grape-deep:#7B3BBF; --grape-soft:#33224D;
     --pink:#FF8CC2; --pink-deep:#C4477F; --pink-soft:#3E2140;
-    --der:#4F86EE; --die:#EC5A52; --das:#F7D21E;
-    --der-deep:#2A55A8; --die-deep:#9E302B; --das-deep:#B89600;
+    --der:#4AAAE8; --die:#EC6A55; --das:#F6DB2A;
+    --der-deep:#1F6FA8; --die-deep:#A33A2D; --das-deep:#B89A00;
     --der-soft:#1E2944; --die-soft:#3A2024; --das-soft:#3A3313;
     --das-ink:#F7D21E;
     --lift:0 14px 30px rgba(0,0,0,.35), 0 2px 0 rgba(0,0,0,.2);
@@ -40,8 +41,8 @@
   --ground:#1C1128; --ground-2:#27163A; --surface:#2F1E45; --ink:#F7EEFF; --muted:#B9A3CF; --line:#44305E;
   --grape:#B476F0; --grape-deep:#7B3BBF; --grape-soft:#33224D;
   --pink:#FF8CC2; --pink-deep:#C4477F; --pink-soft:#3E2140;
-  --der:#4F86EE; --die:#EC5A52; --das:#F7D21E;
-  --der-deep:#2A55A8; --die-deep:#9E302B; --das-deep:#B89600;
+  --der:#4AAAE8; --die:#EC6A55; --das:#F6DB2A;
+  --der-deep:#1F6FA8; --die-deep:#A33A2D; --das-deep:#B89A00;
   --der-soft:#1E2944; --die-soft:#3A2024; --das-soft:#3A3313;
     --das-ink:#F7D21E;
   --lift:0 14px 30px rgba(0,0,0,.35), 0 2px 0 rgba(0,0,0,.2);
@@ -116,12 +117,10 @@ button:disabled{cursor:default}
 .ns.on{color:var(--star);animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
 .nextsticker .gift{width:64px;height:64px;overflow:hidden;border-radius:50%;background:var(--grape-soft);display:grid;place-items:center;font-family:var(--display);font-weight:800;color:var(--grape);font-size:22px}
 .house{display:flex;flex-direction:column;align-items:stretch;gap:10px;min-width:0}
-.house-top{display:flex;flex-direction:column;align-items:center;gap:0;background:var(--paper);border-radius:28px;padding:10px 10px 12px;box-shadow:var(--lift)}
-.house-img{width:min(100%,clamp(96px,17vmin,150px));aspect-ratio:1;animation:float 3.4s ease-in-out infinite}
+.house-top{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 10px 6px}
+.house-img{width:min(78%,clamp(88px,15vmin,136px));animation:float 3.4s ease-in-out infinite}
 .house[data-a="die"] .house-img{animation-delay:-1.1s} .house[data-a="das"] .house-img{animation-delay:-2.2s}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.house-fb{display:grid;place-items:center;width:100%;height:100%;color:var(--on-color);font-size:60px}
-.house-fb.der{background:var(--der)} .house-fb.die{background:var(--die)} .house-fb.das{background:var(--das);color:var(--on-das)}
 .label{display:inline-flex;align-items:center;gap:.25em;font-family:var(--display);font-weight:800;font-size:clamp(24px,4vmin,36px);line-height:1}
 .label.der{color:var(--der)} .label.die{color:var(--die)} .label.das{color:var(--das-ink)}
 .label .sym{width:.58em;height:.58em}
@@ -173,10 +172,8 @@ body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
 @keyframes yay{from{transform:scale(.2) rotate(-35deg);opacity:0}to{transform:none;opacity:1}}
 .choice{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:0;min-height:clamp(100px,17vmin,150px);border-radius:32px;color:var(--on-color);
   font-family:var(--display);font-weight:800;font-size:clamp(36px,7.2vmin,66px);line-height:1;transition:transform .12s,opacity .25s,box-shadow .12s}
-.choice[data-a="der"]{background:var(--der);box-shadow:0 9px 0 var(--der-deep),var(--lift)}
-.choice[data-a="die"]{background:var(--die);box-shadow:0 9px 0 var(--die-deep),var(--lift)}
-.choice[data-a="das"]{background:var(--das);color:var(--on-das);box-shadow:0 9px 0 var(--das-deep),var(--lift)}
-.choice:active:not(:disabled){transform:translateY(6px) scale(.97);box-shadow:0 3px 0 transparent}
+.choice.orb{display:grid;place-items:center;justify-self:center;width:min(100%,clamp(112px,19vmin,172px));min-height:0;border-radius:50%;padding:0}
+.choice:active:not(:disabled){transform:translateY(6px) scale(.95)}
 .choices.enter .choice{animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
 .choices.enter .choice:nth-child(2){animation-delay:.07s} .choices.enter .choice:nth-child(3){animation-delay:.14s}
 .choices.wait .choice{opacity:.5}
@@ -208,7 +205,7 @@ body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
 /* quiz houses */
 .qhouse{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--paper);border-radius:30px;padding:10px 10px 12px;box-shadow:var(--lift);
   transition:transform .15s, box-shadow .2s, opacity .25s}
-.qhouse .tile{width:min(100%,130px);aspect-ratio:1}
+.qhouse .qorb{width:min(80%,118px);margin:10px 0 6px}
 .qhouse:active:not(:disabled){transform:scale(.95)}
 .qhouse.right{box-shadow:0 0 0 7px var(--star),var(--lift)}
 .qhouse.hint{box-shadow:0 0 0 7px var(--star),var(--lift);animation:pulse 1s ease-in-out infinite}
@@ -327,13 +324,32 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .candy.mint{background:radial-gradient(circle at 35% 30%,#B8F0CF,#5BC98A 60%);box-shadow:0 8px 0 #2F9A5E,var(--lift)}
 .candy.mint:active:not(:disabled){box-shadow:0 3px 0 #2F9A5E}
 
-/* ---------- house friends ---------- */
+/* ---------- circle friends ---------- */
 .house-top,.qhouse{position:relative}
 .friend{position:absolute;pointer-events:none;display:block}
-.house-top .friend{width:36%;left:2%;bottom:24%;animation:bob 2.3s ease-in-out infinite}
-.house[data-a="die"] .friend{animation-delay:-.8s} .house[data-a="das"] .friend{animation-delay:-1.6s}
-.qhouse .friend{width:30%;left:4%;top:8%;animation:bob 2.3s ease-in-out infinite}
 .cheer{position:fixed;z-index:32;pointer-events:none;width:clamp(80px,13vmin,120px)}
+
+/* ---------- article circles: der blue, die red, das yellow, just like the school sheet ---------- */
+.orb{--c:var(--der);--c2:var(--der-deep);--hi:var(--der-hi);position:relative;display:block;aspect-ratio:1;border-radius:50%;container-type:inline-size;
+  background:radial-gradient(circle at 34% 28%,#fff 0 4%,var(--hi) 15%,var(--c) 50%,var(--c2) 100%);
+  box-shadow:inset -.35em -.5em 1em rgba(0,0,0,.14),0 10px 16px -6px rgba(60,30,80,.4)}
+.orb.die{--c:var(--die);--c2:var(--die-deep);--hi:var(--die-hi)}
+.orb.das{--c:var(--das);--c2:var(--das-deep);--hi:var(--das-hi)}
+.orb::before{content:"";position:absolute;left:17%;top:8%;width:40%;height:22%;border-radius:50%;background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,0));transform:rotate(-25deg);pointer-events:none}
+.orb::after{content:"";position:absolute;inset:-8%;border-radius:50%;border:3px dashed var(--c);opacity:.5;animation:spin 16s linear infinite;pointer-events:none}
+.orb.die::after{animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orb .eyes{position:absolute;left:50%;top:38%;width:42%;height:20%;transform:translateX(-50%);display:flex;justify-content:space-between}
+.orb .eyes i{position:relative;width:27%;height:100%;border-radius:50%;background:#2A1838;animation:blink 5s infinite}
+.orb .eyes i::after{content:"";position:absolute;left:22%;top:14%;width:40%;height:36%;border-radius:50%;background:#fff}
+.orb.die .eyes i{animation-delay:-1.7s} .orb.das .eyes i{animation-delay:-3.3s}
+.orb .cheeks{position:absolute;left:50%;top:56%;width:64%;height:10%;transform:translateX(-50%);display:flex;justify-content:space-between}
+.orb .cheeks i{width:18%;height:100%;border-radius:50%;background:rgba(255,120,181,.55)}
+.orb .smile{position:absolute;left:50%;top:57%;width:24%;height:12%;transform:translateX(-50%);border:solid #2A1838;border-width:0 0 4cqw;border-radius:0 0 50% 50%/0 0 100% 100%}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.orb .ow{position:relative;font-family:var(--display);font-weight:800;font-size:30cqw;line-height:1;color:#fff;text-shadow:0 .06em 0 var(--c2),0 .1em .3em rgba(0,0,0,.18)}
+.orb.das .ow{color:#4A3A00;text-shadow:0 .05em 0 rgba(255,255,255,.7)}
+.label .dotc{width:.62em;height:.62em;border-radius:50%;background:currentColor}
 
 /* ---------- memory game ---------- */
 .mwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
@@ -361,7 +377,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .claim .sym{width:.5em;height:.5em}
 .claim .by{width:1.1em;height:1.1em;border-radius:50%;background:rgba(255,255,255,.3);display:grid;place-items:center}
 .claim .by svg{width:70%;height:70%}
-.small .choice{min-height:clamp(74px,12vmin,110px);font-size:clamp(28px,5vmin,46px)}
+.small .choice.orb{width:min(100%,clamp(84px,14vmin,124px))}
 .thumbs{display:flex;gap:clamp(20px,5vw,48px);justify-content:center}
 .thumb{width:clamp(120px,20vmin,170px);height:clamp(100px,16vmin,140px);border-radius:34px;font-size:clamp(54px,9vmin,84px);line-height:1}
 .thumb.yes{background:radial-gradient(circle at 35% 30%,#C288F2,var(--grape) 60%);box-shadow:0 9px 0 var(--grape-deep),var(--lift)}
@@ -415,7 +431,12 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .gi.sway img{animation:sway 4s ease-in-out infinite;transform-origin:50% 100%}
 @keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
 .sprout{position:absolute;transform:translate(-50%,-100%) translateZ(20px);font-size:clamp(22px,4vmin,38px);line-height:1;animation:wiggle 1.4s ease-in-out infinite}
-.ghouse .gf{position:absolute;width:52%;left:-30%;bottom:-4%;animation:bob 2.3s ease-in-out infinite}
+.ghouse .orb{width:100%;animation:bounce 2.2s ease-in-out infinite}
+.ghouse .orb::after{display:none}
+.ghouse .gshadow{display:block;width:80%;height:14px;margin:-6px auto 0;border-radius:50%;background:rgba(60,30,60,.25);filter:blur(3px);animation:squash 2.2s ease-in-out infinite}
+.ghouse[data-a="die"] .orb,.ghouse[data-a="die"] .gshadow{animation-delay:-.7s} .ghouse[data-a="das"] .orb,.ghouse[data-a="das"] .gshadow{animation-delay:-1.4s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-22%)}}
+@keyframes squash{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.6);opacity:.5}}
 .mote{position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;opacity:.7;pointer-events:none;animation:mote 7s linear infinite}
 @keyframes mote{from{transform:translateY(0);opacity:0}20%{opacity:.8}to{transform:translateY(-160px);opacity:0}}
 
@@ -450,7 +471,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       </button>
       <button class="mila-home" id="milaBtn" aria-label="Mila"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
       <button class="candy pink quizbtn" id="quizBtn" aria-label="Quiz" disabled>
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2.5 11h2.5v9h5v-5.5h4V20h5v-9h2.5z"/><circle cx="12" cy="10" r="1.6" fill="var(--pink)"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4.3" fill="#fff"/><circle cx="6.5" cy="16.5" r="4.3" fill="#fff"/><circle cx="17.5" cy="16.5" r="4.3" fill="#fff"/></svg>
         <span class="due" id="quizDue" hidden>!</span>
       </button>
     </div>
@@ -462,9 +483,9 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
     </div>
     <button class="nextsticker" id="nextSticker" aria-label="Nächster Sticker"><span id="slots"></span><span class="gift" id="gift">?</span></button>
     <div class="cols" id="houses">
-      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="tile house-img"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><img class="friend" src="img/friend-der.webp" alt="" data-friend="1"><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button><div class="rooms" id="rooms-der"></div></div>
-      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="tile house-img"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><img class="friend" src="img/friend-die.webp" alt="" data-friend="1"><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button><div class="rooms" id="rooms-die"></div></div>
-      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="tile house-img"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><img class="friend" src="img/friend-das.webp" alt="" data-friend="1"><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button><div class="rooms" id="rooms-das"></div></div>
+      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="orb der house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button><div class="rooms" id="rooms-der"></div></div>
+      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="orb die house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>die</span></button><div class="rooms" id="rooms-die"></div></div>
+      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="orb das house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>das</span></button><div class="rooms" id="rooms-das"></div></div>
     </div>
   </div>
 </section>
@@ -485,9 +506,9 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <div class="caption" id="caption"></div>
     </div>
     <div class="cols choices" id="choices">
-      <button class="choice" data-a="der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg><span>der</span></button>
-      <button class="choice" data-a="die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg><span>die</span></button>
-      <button class="choice" data-a="das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg><span>das</span></button>
+      <button class="choice orb der" data-a="der"><span class="ow">der</span></button>
+      <button class="choice orb die" data-a="die"><span class="ow">die</span></button>
+      <button class="choice orb das" data-a="das"><span class="ow">das</span></button>
     </div>
     <div class="repeat" id="repeat" hidden>
       <button class="round" id="againBtn" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
@@ -514,9 +535,9 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <div class="caption" id="qCaption"></div>
     </div>
     <div class="cols qhouses" id="qhouses">
-      <button class="qhouse" data-a="der" aria-label="der"><img class="friend" src="img/friend-der.webp" alt="" data-friend="1"><span class="tile"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button>
-      <button class="qhouse" data-a="die" aria-label="die"><img class="friend" src="img/friend-die.webp" alt="" data-friend="1"><span class="tile"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button>
-      <button class="qhouse" data-a="das" aria-label="das"><img class="friend" src="img/friend-das.webp" alt="" data-friend="1"><span class="tile"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button>
+      <button class="qhouse" data-a="der" aria-label="der"><span class="orb der qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button>
+      <button class="qhouse" data-a="die" aria-label="die"><span class="orb die qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>die</span></button>
+      <button class="qhouse" data-a="das" aria-label="das"><span class="orb das qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>das</span></button>
     </div>
   </div>
 </section>
@@ -577,9 +598,9 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <div class="claim" id="jClaim" hidden></div>
     </div>
     <div class="cols choices small" id="jChoices">
-      <button class="choice" data-a="der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg><span>der</span></button>
-      <button class="choice" data-a="die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg><span>die</span></button>
-      <button class="choice" data-a="das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg><span>das</span></button>
+      <button class="choice orb der" data-a="der"><span class="ow">der</span></button>
+      <button class="choice orb die" data-a="die"><span class="ow">die</span></button>
+      <button class="choice orb das" data-a="das"><span class="ow">das</span></button>
     </div>
     <div class="thumbs" id="jThumbs" hidden>
       <button class="thumb yes" id="jYes" aria-label="Stimmt">👍</button>
@@ -656,9 +677,10 @@ const EMOJI = {hund:"🐶",katze:"🐱",maus:"🐭",pferd:"🐴",kuh:"🐮",schw
 const STICKERS = ["dollhouse","firetruck","tiara","train","flamingo","palette","puppy","plane","doll","dumptruck","wings","lolly",
   "helmet","unicorn","suitcase","craft","kitten","balloon","costume","goggles","bracelet","camera","rainbow","cupcake"];
 
-/* ---------- house friends, garden, stories ---------- */
-// One friend per house: round (der), pointy (die), square (das). Kept neither boy nor girl on purpose.
-const FRIEND = (a) => "img/friend-" + a + ".webp";
+/* ---------- circle friends, garden, stories ---------- */
+// The friends DER, DIE and DAS are circles in the school colours: blue, red, yellow.
+const FACE = '<span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span>';
+const ORB = (a, cls) => '<span class="orb ' + a + (cls ? " " + cls : "") + '">' + FACE + "</span>";
 // Garden items appear one per day played. x = centre in %, b = bottom in %, w = width in % of the garden.
 const GARDEN = [
   {id:"tulips",x:22,y:52,w:11.2},{id:"tree",x:76,y:47,w:16.8,cls:"sway"},{id:"butterfly",x:30,y:26,w:8.4,cls:"fly"},{id:"swing",x:28,y:45,w:15.4},
@@ -689,7 +711,7 @@ const sentenceOf = (w) => w.s ? String(w.s) : (SENTENCES[w.id] || "");
 // Hand signs echo the shapes: fist = ● der, raised pointing finger = ▲ die, flat hand = ■ das.
 // The peace sign is kept for "well done", because that is her own gesture for liking something.
 const SIGNS = {der:{img:"img/sign-der.webp",emoji:"✊"},die:{img:"img/sign-die.webp",emoji:"☝️"},das:{img:"img/sign-das.webp",emoji:"✋"}};
-const SYMS = {der:'<circle cx="10" cy="10" r="8" fill="currentColor"/>',die:'<path d="M10 2 19 18H1z" fill="currentColor"/>',das:'<rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/>'};
+const SYMS = {der:'<circle cx="10" cy="10" r="8" fill="currentColor"/>',die:'<circle cx="10" cy="10" r="8" fill="currentColor"/>',das:'<circle cx="10" cy="10" r="8" fill="currentColor"/>'};
 
 /* ---------- helpers ---------- */
 const $ = (id) => document.getElementById(id);
@@ -720,7 +742,6 @@ document.addEventListener("error", (e) => {
   const img = e.target;
   if (!img || img.tagName !== "IMG") return;
   failedPics.add(img.getAttribute("src"));
-  if (img.dataset.house) { img.parentNode.innerHTML = '<span class="house-fb ' + img.dataset.house + '"><svg class="sym" viewBox="0 0 20 20" style="width:50%;height:50%">' + SYMS[img.dataset.house] + "</svg></span>"; return; }
   if (img.dataset.yay) { img.closest(".tile").outerHTML = '<span class="fallback">✌️</span>'; return; }
   if (img.dataset.star) { $("starImg").hidden = true; $("bigStar").hidden = false; return; }
   if (img.dataset.friend) { img.remove(); return; }
@@ -832,7 +853,7 @@ function saveWords() {
 // Recorded clips (Pixie) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
-  "f-welcheshaus":"Welches Haus?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
+  "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
   "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
   "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
@@ -1080,7 +1101,7 @@ function renderHome() {
 }
 $("houses").addEventListener("click", (e) => {
   const top = e.target.closest("[data-say]");
-  if (top) { say([C("a-" + top.dataset.say)]); bump(top.querySelector(".house-img")); jump(top.querySelector(".friend")); sparkle(top, 8); return; }
+  if (top) { say([C("a-" + top.dataset.say)]); bump(top.querySelector(".house-img")); sparkle(top, 8); return; }
   const b = e.target.closest(".w");
   if (!b) return;
   const w = state.words.find(x => x.id === b.dataset.id);
@@ -1136,7 +1157,7 @@ function nextCard() {
   $("caption").className = "caption"; $("caption").innerHTML = "";
   $("card").className = "card"; restart($("card"), "enter");
   $("yay").hidden = true;
-  document.querySelectorAll(".choice").forEach(b => { b.disabled = false; b.className = "choice"; });
+  document.querySelectorAll(".choice").forEach(b => { b.disabled = false; b.className = "choice orb " + b.dataset.a; });
   $("choices").hidden = false; restart($("choices"), "enter");
   $("repeat").hidden = true;
   renderDots();
@@ -1289,7 +1310,7 @@ function nextQ() {
   Q.locked = true;
   renderQDots();
   const my = Q;
-  sleep(300).then(() => say([C("f-welcheshaus")])).then(() => { if (Q === my) { Q.locked = false; $("qhouses").classList.remove("wait"); } });
+  sleep(300).then(() => say([C("f-welche")])).then(() => { if (Q === my) { Q.locked = false; $("qhouses").classList.remove("wait"); } });
 }
 function quizAnswer(a, btn) {
   if (!Q || Q.locked) return;
@@ -1393,7 +1414,7 @@ $("listenBtn").addEventListener("click", () => {
   const w = S.card.w;
   say(S.card.locked || S.card.hinted ? [W(w)] : [C("f-wieheisst")], 0.75);
 });
-$("qListen").addEventListener("click", () => { if (Q && Q.words[Q.i]) say(Q.locked && Q.words[Q.i].id in Q.res ? [W(Q.words[Q.i])] : [C("f-welcheshaus")]); });
+$("qListen").addEventListener("click", () => { if (Q && Q.words[Q.i]) say(Q.locked && Q.words[Q.i].id in Q.res ? [W(Q.words[Q.i])] : [C("f-welche")]); });
 $("againBtn").addEventListener("click", () => { if (S && S.card) say([W(S.card.w), SENT(S.card.w)], 0.72); });
 $("nextBtn").addEventListener("click", () => { if (S) { pop(); nextCard(); } });
 $("quitBtn").addEventListener("click", quitSession);
@@ -1415,14 +1436,14 @@ $("bookBtn").addEventListener("click", () => { pop(); openBook(); });
 $("nextSticker").addEventListener("click", () => { pop(); openBook(); });
 $("bookBack").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
 
-/* ---------- house friends ---------- */
+/* ---------- circle friends ---------- */
 function jump(el) { if (!el || RM() || !el.animate) return; el.animate([{ transform: "translateY(0)" }, { transform: "translateY(-26px) scale(1.1)" }, { transform: "translateY(0)" }], { duration: 480, easing: "cubic-bezier(.3,1.4,.5,1)" }); }
 // The matching friend hops out of the button to cheer.
 function cheer(a, anchor) {
   if (RM() || !anchor) return;
   const r = anchor.getBoundingClientRect();
-  const f = document.createElement("img");
-  f.src = FRIEND(a); f.alt = ""; f.className = "cheer"; f.dataset.friend = "1";
+  const f = document.createElement("span");
+  f.className = "cheer orb " + a; f.innerHTML = FACE;
   document.body.appendChild(f);
   const w = Math.min(120, Math.max(80, r.height * .9));
   Object.assign(f.style, { left: (r.left + r.width / 2 - w / 2) + "px", top: (r.top - w * .75) + "px", width: w + "px" });
@@ -1452,7 +1473,7 @@ function openGarden() {
     (i >= seen ? ";animation-delay:" + (0.5 + (i - seen) * 0.4) + "s" : "") + '"><img src="img/g-' + g.id + '.webp" alt="" data-garden="1"></button>';
   const next = GARDEN[n];
   $("garden").innerHTML = '<div class="island" id="island"><div class="floaty"><img class="base" src="img/island.webp" alt="">' +
-    ARTS.map((a, i) => { const h = HOUSE_SPOTS[a]; return '<button class="ghouse" data-a="' + a + '" style="left:' + h.x + "%;top:" + h.y + "%;width:15%;z-index:" + h.y + ";--z:" + z(h.y) + 'px"><img src="img/key-house-' + a + '.webp" alt="" data-garden="1"><img class="gf" src="' + FRIEND(a) + '" alt="" data-friend="1" style="animation-delay:' + (-i * .7) + 's"></button>'; }).join("") +
+    ARTS.map((a, i) => { const h = HOUSE_SPOTS[a]; return '<button class="ghouse" data-a="' + a + '" style="left:' + h.x + "%;top:" + h.y + "%;width:9%;z-index:" + h.y + ";--z:" + z(h.y) + 'px">' + ORB(a) + '<span class="gshadow"></span></button>'; }).join("") +
     GARDEN.slice(0, n).map(gi).join("") +
     KIDS.map(k => '<button class="kid" data-kid="' + k.id + '" style="left:' + k.x + "%;top:" + k.y + "%;width:" + k.w + "%;z-index:" + k.y + '"><img src="img/kid-' + k.id + '.webp" alt="" data-garden="1"></button>').join("") +
     (next ? '<div class="sprout" style="left:' + next.x + "%;top:" + Math.max(next.y, 30) + '%;z-index:' + Math.round(next.y) + '">🌱</div>' : "") +
@@ -1492,7 +1513,7 @@ function askOrientation() {
 }
 $("garden").addEventListener("click", (e) => {
   const h = e.target.closest(".ghouse");
-  if (h) { say([C("a-" + h.dataset.a)]); jump(h.querySelector(".gf")); return; }
+  if (h) { say([C("a-" + h.dataset.a)]); jump(h.querySelector(".orb")); sparkle(h, 8); return; }
   const k = e.target.closest(".kid");
   if (k) { pop(); jump(k.querySelector("img")); sparkle(k, 10); return; }
   const g = e.target.closest(".gi");
@@ -1572,7 +1593,7 @@ function nextJudge(first) {
   $("jCaption").className = "caption"; $("jCaption").innerHTML = "";
   $("jClaim").hidden = true;
   $("jcard").className = "card"; restart($("jcard"), "enter");
-  document.querySelectorAll("#jChoices .choice").forEach(b => { b.disabled = false; b.className = "choice"; });
+  document.querySelectorAll("#jChoices .choice").forEach(b => { b.disabled = false; b.className = "choice orb " + b.dataset.a; });
   $("jChoices").hidden = false; restart($("jChoices"), "enter");
   $("jThumbs").hidden = true;
   jTurn("big"); renderJDots();
@@ -1616,9 +1637,9 @@ function judge(saysRight) {
   else if (!saysRight && !claimRight) {
     // she caught the mistake: now she shows the right house
     J.phase = "fix"; chime(); sparkle($("jClaim"), 10);
-    document.querySelectorAll("#jChoices .choice").forEach(b => { b.disabled = b.dataset.a === J.claim; b.className = "choice" + (b.dataset.a === J.claim ? " wrong" : ""); });
+    document.querySelectorAll("#jChoices .choice").forEach(b => { b.disabled = b.dataset.a === J.claim; b.className = "choice orb " + b.dataset.a + (b.dataset.a === J.claim ? " wrong" : ""); });
     $("jChoices").hidden = false; restart($("jChoices"), "enter");
-    say([C("f-nein"), C("f-welcheshaus")]);
+    say([C("f-nein"), C("f-welche")]);
   } else { J.phase = ""; boop(); jReveal(w, false); jNext(say([C("f-oh"), C("f-schau"), W(w)])); }
 }
 $("jYes").addEventListener("click", () => judge(true));
@@ -1890,7 +1911,7 @@ function renderGrown() {
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
       '<p class="small" style="margin-top:6px">One word per line: article, word, an optional emoji, and after a | an optional short sentence that starts with the word (Der Hund bellt.). <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
-    '<section><h3>Hand signs &amp; house friends</h3><p>The voice is Mila, the class caterpillar: tap her face to hear a word again. The three house friends are called DER, DIE and DAS. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊ (round, like ●), <b>die</b> = one finger pointing up ☝️ (pointed, like ▲), <b>das</b> = flat hand ✋ (flat, like ■). The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
+    '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     voiceSection() +
     '<section><h3>Progress</h3><div class="stats">' +
       "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div>" +

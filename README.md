@@ -1,6 +1,6 @@
 # Der Die Das
 
-A der/die/das practice game for young children. No reading needed: every word is a picture, and a recorded voice says it in German. The voice is **Mila**, the teacher from her school book; her pupils Mia, Mil and Max live in the garden.
+A der/die/das practice game for young children. No reading needed: every word is a picture, and a recorded voice says it in German. Articles are circles in the school colours (der blue, die red, das yellow). The voice is **Mila**, the teacher from her school book; her pupils Mia, Mil and Max live in the garden.
 
 **Play it:** https://ohadnissim.github.io/DerDieDas/
 
