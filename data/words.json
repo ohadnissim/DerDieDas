@@ -1,0 +1,114 @@
+{
+ "version": 1,
+ "week": "Starter words",
+ "words": [
+  {
+   "id": "hund",
+   "noun": "Hund",
+   "article": "der",
+   "emoji": "🐶",
+   "s": "Der Hund bellt.",
+   "pic": "img/hund.webp",
+   "rec": true
+  },
+  {
+   "id": "apfel",
+   "noun": "Apfel",
+   "article": "der",
+   "emoji": "🍎",
+   "s": "Der Apfel ist rot.",
+   "pic": "img/apfel.webp",
+   "rec": true
+  },
+  {
+   "id": "ball",
+   "noun": "Ball",
+   "article": "der",
+   "emoji": "⚽",
+   "s": "Der Ball rollt.",
+   "pic": "img/ball.webp",
+   "rec": true
+  },
+  {
+   "id": "mond",
+   "noun": "Mond",
+   "article": "der",
+   "emoji": "🌙",
+   "s": "Der Mond schläft.",
+   "pic": "img/mond.webp",
+   "rec": true
+  },
+  {
+   "id": "katze",
+   "noun": "Katze",
+   "article": "die",
+   "emoji": "🐱",
+   "s": "Die Katze miaut.",
+   "pic": "img/katze.webp",
+   "rec": true
+  },
+  {
+   "id": "sonne",
+   "noun": "Sonne",
+   "article": "die",
+   "emoji": "☀️",
+   "s": "Die Sonne lacht.",
+   "pic": "img/sonne.webp",
+   "rec": true
+  },
+  {
+   "id": "banane",
+   "noun": "Banane",
+   "article": "die",
+   "emoji": "🍌",
+   "s": "Die Banane ist gelb.",
+   "pic": "img/banane.webp",
+   "rec": true
+  },
+  {
+   "id": "blume",
+   "noun": "Blume",
+   "article": "die",
+   "emoji": "🌸",
+   "s": "Die Blume blüht.",
+   "pic": "img/blume.webp",
+   "rec": true
+  },
+  {
+   "id": "haus",
+   "noun": "Haus",
+   "article": "das",
+   "emoji": "🏠",
+   "s": "Das Haus ist klein.",
+   "pic": "img/haus.webp",
+   "rec": true
+  },
+  {
+   "id": "auto",
+   "noun": "Auto",
+   "article": "das",
+   "emoji": "🚗",
+   "s": "Das Auto fährt.",
+   "pic": "img/auto.webp",
+   "rec": true
+  },
+  {
+   "id": "buch",
+   "noun": "Buch",
+   "article": "das",
+   "emoji": "📖",
+   "s": "Das Buch ist offen.",
+   "pic": "img/buch.webp",
+   "rec": true
+  },
+  {
+   "id": "ei",
+   "noun": "Ei",
+   "article": "das",
+   "emoji": "🥚",
+   "s": "Das Ei ist rund.",
+   "pic": "img/ei.webp",
+   "rec": true
+  }
+ ]
+}

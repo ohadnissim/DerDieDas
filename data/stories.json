@@ -1,0 +1,30 @@
+{
+ "stories": [
+  {
+   "id": "story1",
+   "title": "Ein schöner Tag",
+   "pages": [
+    {
+     "img": "img/story1-1.webp",
+     "audio": "story1-1",
+     "text": "Die Sonne lacht. Der Hund wacht auf."
+    },
+    {
+     "img": "img/story1-2.webp",
+     "audio": "story1-2",
+     "text": "Das Auto ist lila. Die Katze winkt."
+    },
+    {
+     "img": "img/story1-3.webp",
+     "audio": "story1-3",
+     "text": "Der Ball ist bunt. Die Blume ist rosa."
+    },
+    {
+     "img": "img/story1-4.webp",
+     "audio": "story1-4",
+     "text": "Der Mond schläft. Gute Nacht!"
+    }
+   ]
+  }
+ ]
+}

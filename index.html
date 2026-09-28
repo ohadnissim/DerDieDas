@@ -294,6 +294,100 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .msg{font-size:14px;font-weight:700;color:var(--das);min-height:1.2em}
 .msg.err{color:var(--die)}
 
+/* ---------- games row ---------- */
+.games{display:flex;justify-content:center;gap:clamp(14px,3vw,28px)}
+.game{width:clamp(62px,10vmin,84px);aspect-ratio:1}
+.game svg{width:50%;height:50%}
+.game .due{position:absolute;top:-6px;right:-6px;width:28px;height:28px;border-radius:50%;background:var(--star);color:#3B2352;font-family:var(--display);font-weight:800;font-size:18px;display:grid;place-items:center;box-shadow:0 0 0 3px var(--ground);animation:wiggle 1.4s ease-in-out infinite}
+.candy.sun{background:radial-gradient(circle at 35% 30%,#FFE59A,var(--star) 60%);box-shadow:0 8px 0 var(--star-deep),var(--lift);color:#5A3A00}
+.candy.sun:active:not(:disabled){box-shadow:0 3px 0 var(--star-deep)}
+.candy.mint{background:radial-gradient(circle at 35% 30%,#B8F0CF,#5BC98A 60%);box-shadow:0 8px 0 #2F9A5E,var(--lift)}
+.candy.mint:active:not(:disabled){box-shadow:0 3px 0 #2F9A5E}
+
+/* ---------- house friends ---------- */
+.house-top,.qhouse{position:relative}
+.friend{position:absolute;pointer-events:none;display:block}
+.house-top .friend{width:36%;left:2%;bottom:24%;animation:bob 2.3s ease-in-out infinite}
+.house[data-a="die"] .friend{animation-delay:-.8s} .house[data-a="das"] .friend{animation-delay:-1.6s}
+.qhouse .friend{width:30%;left:4%;top:8%;animation:bob 2.3s ease-in-out infinite}
+.cheer{position:fixed;z-index:32;pointer-events:none;width:clamp(80px,13vmin,120px)}
+
+/* ---------- memory game ---------- */
+.mwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,2vw,18px);width:min(100%,760px,calc((100vh - 150px) * 1.3))}
+.mcard{aspect-ratio:1;perspective:800px}
+.mcard .in{display:block;position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.3,1.3,.5,1)}
+.mcard.up .in{transform:rotateY(180deg)}
+.mcard .f{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:24px;display:grid;place-items:center;overflow:hidden}
+.mcard .back{background:radial-gradient(circle at 35% 30%,#FFB3D6,var(--pink) 55%,var(--grape));box-shadow:0 6px 0 var(--grape-deep),var(--lift);color:#fff;font-size:clamp(28px,5vmin,46px)}
+.mcard .front{transform:rotateY(180deg);background:var(--paper);box-shadow:var(--lift)}
+.mcard .front .tile{width:92%;height:92%}
+.mcard .front .emo{font-size:clamp(40px,8vmin,70px)}
+.mcard.der{--c:var(--der)} .mcard.die{--c:var(--die)} .mcard.das{--c:var(--das)}
+.mcard.matched .front{box-shadow:0 0 0 6px var(--c),var(--lift)}
+.mcard.matched{animation:pulse .5s ease 1}
+.mcard.deal{animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
+
+/* ---------- "Stimmt das?" ---------- */
+.turn{display:flex;align-items:center;gap:14px;justify-content:center}
+.who{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--surface);box-shadow:var(--lift);opacity:.35;transition:transform .3s,opacity .3s,box-shadow .3s;color:var(--grape)}
+.who svg{width:60%;height:60%}
+.who.on{opacity:1;transform:scale(1.18);box-shadow:0 0 0 4px var(--grape),var(--lift)}
+.claim{position:absolute;right:16px;bottom:16px;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;color:var(--on-color);font-family:var(--display);font-weight:800;font-size:clamp(28px,5vmin,44px);line-height:1;box-shadow:var(--lift);animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
+.claim.der{background:var(--der)} .claim.die{background:var(--die)} .claim.das{background:var(--das)}
+.claim .sym{width:.5em;height:.5em}
+.claim .by{width:1.1em;height:1.1em;border-radius:50%;background:rgba(255,255,255,.3);display:grid;place-items:center}
+.claim .by svg{width:70%;height:70%}
+.small .choice{min-height:clamp(74px,12vmin,110px);font-size:clamp(28px,5vmin,46px)}
+.thumbs{display:flex;gap:clamp(20px,5vw,48px);justify-content:center}
+.thumb{width:clamp(120px,20vmin,170px);height:clamp(100px,16vmin,140px);border-radius:34px;font-size:clamp(54px,9vmin,84px);line-height:1}
+.thumb.yes{background:radial-gradient(circle at 35% 30%,#C288F2,var(--grape) 60%);box-shadow:0 9px 0 var(--grape-deep),var(--lift)}
+.thumb.no{background:radial-gradient(circle at 35% 30%,#FFB3D6,var(--pink) 60%);box-shadow:0 9px 0 var(--pink-deep),var(--lift)}
+.thumb:active{transform:translateY(6px)}
+.thumbs.enter .thumb{animation:pop .45s cubic-bezier(.3,1.6,.5,1) both} .thumbs.enter .thumb:nth-child(2){animation-delay:.08s}
+
+/* ---------- record her voice ---------- */
+.mic{position:relative;width:clamp(96px,16vmin,130px)!important;background:var(--pink-soft);color:var(--pink-deep)}
+.mic.invite{animation:breathe 1.4s ease-in-out infinite;box-shadow:0 7px 0 var(--pink-deep),0 0 0 6px var(--pink),var(--lift)}
+.mic.rec{background:var(--pink);color:#fff}
+.mic.rec::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:5px solid var(--pink);animation:ring 1s ease-out infinite}
+@keyframes ring{from{transform:scale(.9);opacity:1}to{transform:scale(1.35);opacity:0}}
+
+/* ---------- story ---------- */
+.story{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,2vh,18px);min-height:0}
+.spage{position:relative;width:min(100%,900px,calc((100vh - 290px) * 16 / 9));aspect-ratio:16/9;border-radius:34px;overflow:hidden;box-shadow:var(--lift);background:var(--paper)}
+.spage img{width:100%;height:100%;object-fit:cover;display:block}
+.spage.turn-in img{animation:pagein .6s cubic-bezier(.2,1.2,.4,1) both}
+@keyframes pagein{from{transform:translateX(12%) rotate(2deg);opacity:0}to{transform:none;opacity:1}}
+.stext{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.6vmin,46px);text-align:center;line-height:1.2;max-width:900px;text-wrap:balance;min-height:2.4em}
+.stext .der{color:var(--der)} .stext .die{color:var(--die)} .stext .das{color:var(--das)}
+.stext .wd{display:inline-block;transition:transform .2s}
+.stext .wd.hi{transform:translateY(-6px) scale(1.08)}
+.snav{display:flex;gap:clamp(18px,4vw,36px);align-items:center}
+
+/* ---------- garden: floating clay island that tilts in 3D ---------- */
+.garden{position:relative;flex:1;min-height:0;border-radius:36px;overflow:hidden;box-shadow:var(--lift);
+  background:linear-gradient(180deg,#D9CDF2 0%,#EBCBE8 45%,#F8C9DA 100%);display:grid;place-items:center;perspective:1100px;touch-action:none}
+.island{position:relative;width:min(100%,calc((100vh - 130px) * 4 / 3));aspect-ratio:4/3;transform-style:preserve-3d;
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s cubic-bezier(.2,1.3,.4,1)}
+.island.drag{transition:none}
+.island .floaty{position:absolute;inset:0;transform-style:preserve-3d;animation:hover 6s ease-in-out infinite}
+@keyframes hover{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6%)}}
+.island .base{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  -webkit-mask-image:radial-gradient(ellipse 72% 70% at 50% 50%,#000 70%,transparent 100%);mask-image:radial-gradient(ellipse 72% 70% at 50% 50%,#000 70%,transparent 100%)}
+.gi,.ghouse{position:absolute;transform:translate(-50%,-100%) translateZ(var(--z,24px));transform-style:preserve-3d;background:none;padding:0}
+.gi img,.ghouse img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 5px rgba(60,30,40,.25))}
+.gi.new{animation:drop 1s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes drop{from{transform:translate(-50%,-260%) translateZ(var(--z,24px)) scale(.4);opacity:0}60%{opacity:1}to{transform:translate(-50%,-100%) translateZ(var(--z,24px)) scale(1)}}
+.gi.fly img{animation:flutter 3.2s ease-in-out infinite}
+@keyframes flutter{0%,100%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(18px,-16px) rotate(8deg)}}
+.gi.sway img{animation:sway 4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.sprout{position:absolute;transform:translate(-50%,-100%) translateZ(20px);font-size:clamp(22px,4vmin,38px);line-height:1;animation:wiggle 1.4s ease-in-out infinite}
+.ghouse .gf{position:absolute;width:52%;left:-30%;bottom:-4%;animation:bob 2.3s ease-in-out infinite}
+.mote{position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;opacity:.7;pointer-events:none;animation:mote 7s linear infinite}
+@keyframes mote{from{transform:translateY(0);opacity:0}20%{opacity:.8}to{transform:translateY(-160px);opacity:0}}
+
 @media (max-width:560px){
   .row{grid-template-columns:36px 48px minmax(0,1fr) 40px 40px}
   .row .stat{display:none}
@@ -328,11 +422,17 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
         <span class="due" id="quizDue" hidden>!</span>
       </button>
     </div>
+    <div class="games">
+      <button class="candy pink game" id="memBtn" aria-label="Memory"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2.5" y="4" width="8.5" height="11" rx="2"/><rect x="13" y="9" width="8.5" height="11" rx="2" opacity=".75"/></svg></button>
+      <button class="candy grape game" id="judgeBtn" aria-label="Stimmt das?"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21h3V10H2v11zm20-10a2 2 0 0 0-2-2h-6.3l1-4.6v-.3a1.5 1.5 0 0 0-.4-1L14.2 2 7.6 8.6A2 2 0 0 0 7 10v9a2 2 0 0 0 2 2h9a2 2 0 0 0 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg></button>
+      <button class="candy sun game" id="storyBtn" aria-label="Geschichte"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 6.5C10.2 5 7.6 4.5 4 4.5v14c3.6 0 6.2.5 8 2 1.8-1.5 4.4-2 8-2v-14c-3.6 0-6.2.5-8 2z"/></svg><span class="due" id="storyDue" hidden>!</span></button>
+      <button class="candy mint game" id="gardenBtn" aria-label="Garten"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="3.2"/><circle cx="8.2" cy="6" r="2.6" opacity=".8"/><circle cx="15.8" cy="6" r="2.6" opacity=".8"/><circle cx="12" cy="3.6" r="2.6" opacity=".8"/><path d="M11 11h2v10h-2z"/><path d="M12 17c-2-3-5-3-6-2 1 2 3 3 6 2zm0-2c2-3 5-3 6-2-1 2-3 3-6 2z"/></svg><span class="due" id="gardenDue" hidden>!</span></button>
+    </div>
     <button class="nextsticker" id="nextSticker" aria-label="Nächster Sticker"><span id="slots"></span><span class="gift" id="gift">?</span></button>
     <div class="cols" id="houses">
-      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="tile house-img"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button><div class="rooms" id="rooms-der"></div></div>
-      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="tile house-img"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button><div class="rooms" id="rooms-die"></div></div>
-      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="tile house-img"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button><div class="rooms" id="rooms-das"></div></div>
+      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="tile house-img"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><img class="friend" src="img/friend-der.webp" alt="" data-friend="1"><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button><div class="rooms" id="rooms-der"></div></div>
+      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="tile house-img"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><img class="friend" src="img/friend-die.webp" alt="" data-friend="1"><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button><div class="rooms" id="rooms-die"></div></div>
+      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="tile house-img"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><img class="friend" src="img/friend-das.webp" alt="" data-friend="1"><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button><div class="rooms" id="rooms-das"></div></div>
     </div>
   </div>
 </section>
@@ -361,6 +461,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <button class="round" id="againBtn" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
       <div class="sign" id="sign" aria-hidden="true"></div>
       <div class="mouth" aria-hidden="true">🗣️</div>
+      <button class="round mic" id="micBtn" aria-label="Aufnehmen" hidden><svg viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0h-2a4 4 0 0 1-8 0zm5 7h2v3h-2z"/></svg></button>
       <button class="go" id="nextBtn" aria-label="Weiter" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </div>
@@ -381,9 +482,9 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <div class="caption" id="qCaption"></div>
     </div>
     <div class="cols qhouses" id="qhouses">
-      <button class="qhouse" data-a="der" aria-label="der"><span class="tile"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button>
-      <button class="qhouse" data-a="die" aria-label="die"><span class="tile"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button>
-      <button class="qhouse" data-a="das" aria-label="das"><span class="tile"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button>
+      <button class="qhouse" data-a="der" aria-label="der"><img class="friend" src="img/friend-der.webp" alt="" data-friend="1"><span class="tile"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button>
+      <button class="qhouse" data-a="die" aria-label="die"><img class="friend" src="img/friend-die.webp" alt="" data-friend="1"><span class="tile"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button>
+      <button class="qhouse" data-a="das" aria-label="das"><img class="friend" src="img/friend-das.webp" alt="" data-friend="1"><span class="tile"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button>
     </div>
   </div>
 </section>
@@ -401,6 +502,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
     <div class="practised" id="practised"></div>
     <div class="actions">
       <button class="candy grape" id="homeBtn" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg></button>
+      <button class="candy mint" id="doneGarden" aria-label="Garten" hidden><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="3.2"/><circle cx="8.2" cy="6" r="2.6" opacity=".8"/><circle cx="15.8" cy="6" r="2.6" opacity=".8"/><circle cx="12" cy="3.6" r="2.6" opacity=".8"/><path d="M11 11h2v10h-2z"/></svg></button>
       <button class="candy pink" id="doneQuiz" aria-label="Quiz" hidden><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2.5 11h2.5v9h5v-5.5h4V20h5v-9h2.5z"/></svg></button>
       <button class="candy grape" id="againSessionBtn" aria-label="Nochmal spielen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></button>
     </div>
@@ -415,6 +517,71 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
     <div class="pill"><span class="s">★</span><span id="starsBook">0</span></div>
   </div>
   <div class="book"><div class="book-grid" id="bookGrid"></div></div>
+</section>
+
+<!-- MEMORY -->
+<section class="screen" id="memory" hidden>
+  <div class="bar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="dots" id="mdots"></div></div>
+    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+  </div>
+  <div class="mwrap"><div class="mgrid" id="mgrid"></div></div>
+</section>
+
+<!-- STIMMT DAS? -->
+<section class="screen" id="judge" hidden>
+  <div class="bar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="turn"><span class="who" id="whoBig"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="4"/><path d="M4 22c0-5 3.6-8 8-8s8 3 8 8z"/></svg></span><div class="dots" id="jdots"></div><span class="who" id="whoKid"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="9" r="3.4"/><path d="M6.5 22c0-4 2.5-6.5 5.5-6.5s5.5 2.5 5.5 6.5z"/><path d="M8 7c0-3 2-4.5 4-4.5S16 4 16 7c-1-1-2.2-1.6-4-1.6S9 6 8 7z"/></svg></span></div></div>
+    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+  </div>
+  <div class="stage">
+    <div class="card" id="jcard">
+      <button class="listen" id="jListen" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      <div class="card-pic" id="jPic" hidden></div>
+      <div class="emoji" id="jEmoji"></div>
+      <div class="caption" id="jCaption"></div>
+      <div class="claim" id="jClaim" hidden></div>
+    </div>
+    <div class="cols choices small" id="jChoices">
+      <button class="choice" data-a="der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg><span>der</span></button>
+      <button class="choice" data-a="die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg><span>die</span></button>
+      <button class="choice" data-a="das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg><span>das</span></button>
+    </div>
+    <div class="thumbs" id="jThumbs" hidden>
+      <button class="thumb yes" id="jYes" aria-label="Stimmt">👍</button>
+      <button class="thumb no" id="jNo" aria-label="Stimmt nicht">👎</button>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="screen" id="story" hidden>
+  <div class="bar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="dots" id="sdots"></div></div>
+    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+  </div>
+  <div class="story">
+    <div class="spage" id="spage"></div>
+    <div class="stext" id="stext"></div>
+    <div class="snav">
+      <button class="round" id="sPrev" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+      <button class="round" id="sListen" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      <button class="go" id="sNext" aria-label="Weiter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- GARDEN -->
+<section class="screen" id="gardenScreen" hidden>
+  <div class="bar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="bar-mid"><div class="pill">🌷 <span id="gardenCount">0</span></div></div>
+    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+  </div>
+  <div class="garden" id="garden"></div>
 </section>
 
 <canvas id="confetti" hidden></canvas>
@@ -454,6 +621,22 @@ const EMOJI = {hund:"🐶",katze:"🐱",maus:"🐭",pferd:"🐴",kuh:"🐮",schw
 // Sticker collection, in the order she earns them (mixed themes so each one feels different).
 const STICKERS = ["dollhouse","firetruck","tiara","train","flamingo","palette","puppy","plane","doll","dumptruck","wings","lolly",
   "helmet","unicorn","suitcase","craft","kitten","balloon","costume","goggles","bracelet","camera","rainbow","cupcake"];
+
+/* ---------- house friends, garden, stories ---------- */
+// One friend per house: round (der), pointy (die), square (das). Kept neither boy nor girl on purpose.
+const FRIEND = (a) => "img/friend-" + a + ".webp";
+// Garden items appear one per day played. x = centre in %, b = bottom in %, w = width in % of the garden.
+const GARDEN = [
+  {id:"tulips",x:22,y:52,w:11.2},{id:"tree",x:76,y:47,w:16.8,cls:"sway"},{id:"butterfly",x:30,y:26,w:8.4,cls:"fly"},{id:"swing",x:28,y:45,w:15.4},
+  {id:"bunny",x:47,y:70,w:8.4},{id:"pool",x:61,y:69,w:15.4},{id:"sunflower",x:79,y:60,w:7.0,cls:"sway"},{id:"kite",x:72,y:27,w:8.4,cls:"fly"},
+  {id:"mushroom",x:19,y:61,w:8.4},{id:"birdhouse",x:57.5,y:33,w:7.0},{id:"sandbox",x:33,y:71,w:12.6},{id:"pond",x:70,y:55,w:12.6}];
+const HOUSE_SPOTS = {der:{x:37,y:42},die:{x:50,y:38},das:{x:63,y:42}};
+// Built-in first story (nominative sentences only, so articles never change). Weekly stories come from data/stories.json.
+const DEFAULT_STORIES = [{id:"story1", pages:[
+  {img:"img/story1-1.webp", audio:"story1-1", text:"Die Sonne lacht. Der Hund wacht auf."},
+  {img:"img/story1-2.webp", audio:"story1-2", text:"Das Auto ist lila. Die Katze winkt."},
+  {img:"img/story1-3.webp", audio:"story1-3", text:"Der Ball ist bunt. Die Blume ist rosa."},
+  {img:"img/story1-4.webp", audio:"story1-4", text:"Der Mond schläft. Gute Nacht!"}]}];
 
 /* ---------- sentences & hand signs ---------- */
 // Short sentences keep the article in front (nominative), so "der/die/das" is never changed to "den".
@@ -499,6 +682,8 @@ document.addEventListener("error", (e) => {
   if (img.dataset.house) { img.parentNode.innerHTML = '<span class="house-fb ' + img.dataset.house + '"><svg class="sym" viewBox="0 0 20 20" style="width:50%;height:50%">' + SYMS[img.dataset.house] + "</svg></span>"; return; }
   if (img.dataset.yay) { img.closest(".tile").outerHTML = '<span class="fallback">✌️</span>'; return; }
   if (img.dataset.star) { $("starImg").hidden = true; $("bigStar").hidden = false; return; }
+  if (img.dataset.friend) { img.remove(); return; }
+  if (img.dataset.garden) { img.replaceWith(document.createTextNode("🌼")); return; }
   if (img.dataset.sticker) { img.replaceWith(document.createTextNode("⭐")); return; }
   const holder = img.closest(".tile, .card-pic");
   if (!holder) return;
@@ -524,13 +709,16 @@ const state = {
   sample: false,
   settings: { sessionLength: 8, sayFirst: "always", quizEvery: 2, perSticker: 10 },
   progress: blankProgress(),
+  stories: DEFAULT_STORIES,
   dbError: ""
 };
-function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed: null, points: 0, pointsUsed: 0, stickers: [], roundsSinceQuiz: 0, quizzes: 0 }; }
+function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed: null, points: 0, pointsUsed: 0, stickers: [], roundsSinceQuiz: 0, quizzes: 0, days: [], gardenSeen: 0, storySeen: "" }; }
 function normalizeProgress(p) {
   const out = blankProgress();
   if (p && typeof p === "object") {
-    for (const k of ["stars", "sessions", "points", "pointsUsed", "roundsSinceQuiz", "quizzes"]) out[k] = Number(p[k]) || 0;
+    for (const k of ["stars", "sessions", "points", "pointsUsed", "roundsSinceQuiz", "quizzes", "gardenSeen"]) out[k] = Number(p[k]) || 0;
+    if (Array.isArray(p.days)) out.days = p.days.filter(d => typeof d === "string").slice(-120);
+    out.storySeen = typeof p.storySeen === "string" ? p.storySeen : "";
     out.lastPlayed = p.lastPlayed || null;
     if (p.words && typeof p.words === "object") out.words = clone(p.words);
     if (Array.isArray(p.stickers)) out.stickers = p.stickers.filter(s => STICKERS.includes(s));
@@ -544,7 +732,7 @@ function normalizeWords(list) {
     const noun = capNoun(w.noun), id = w.id ? String(w.id) : norm(noun);
     if (!id || seen.has(id)) continue;
     seen.add(id);
-    out.push({ id, noun, article: String(w.article).toLowerCase(), emoji: String(w.emoji || ""), ...(w.pic ? { pic: String(w.pic) } : {}), ...(w.s ? { s: String(w.s) } : {}) });
+    out.push({ id, noun, article: String(w.article).toLowerCase(), emoji: String(w.emoji || ""), ...(w.pic ? { pic: String(w.pic) } : {}), ...(w.s ? { s: String(w.s) } : {}), ...(w.rec ? { rec: true } : {}) });
   }
   return out;
 }
@@ -601,12 +789,21 @@ function saveWords() {
 // Recorded clips (Pixie) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
-  "f-welcheshaus":"Welches Haus?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das"};
+  "f-welcheshaus":"Welches Haus?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
+  "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
+  "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
+  "f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, "s-" + id])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
-const W = (w) => ({ key: DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id ? "w-" + w.id : null, text: w.article + " " + w.noun });
-const SENT = (w) => { const t = sentenceOf(w); return t ? { key: !w.s && SENTENCES[w.id] && DEFAULT_ART[w.id] === w.article ? "s-" + w.id : null, text: t } : null; };
+// Words recorded later carry rec: true (their w-/s- clips ship in audio/).
+const builtIn = (w) => DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id;
+function registerClips() {
+  for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); if (w.s) CLIPS.add("s-" + w.id); }
+  for (const st of state.stories) for (const pg of st.pages) if (pg.audio) CLIPS.add(pg.audio);
+}
+const W = (w) => ({ key: builtIn(w) || w.rec ? "w-" + w.id : null, text: w.article + " " + w.noun });
+const SENT = (w) => { const t = sentenceOf(w); return t ? { key: (w.rec && w.s) || (!w.s && SENTENCES[w.id] && builtIn(w)) ? "s-" + w.id : null, text: t } : null; };
 
 let actx = null;
 function ctx() {
@@ -793,19 +990,28 @@ function confetti() {
 }
 
 /* ---------- screens ---------- */
-const SCREENS = ["home", "play", "quiz", "done", "bookScreen"];
+const SCREENS = ["home", "play", "quiz", "done", "bookScreen", "memory", "judge", "story", "gardenScreen"];
 function show(name) { for (const s of SCREENS) $(s).hidden = s !== name; }
-let S = null, Q = null;
-const busy = () => !!(S || Q);
+let S = null, Q = null, M = null, J = null, ST = null;
+let lastActivity = "practice";
+const busy = () => !!(S || Q || M || J || ST);
 
 /* ---------- home ---------- */
-function renderStars() { for (const id of ["starsHome", "starsPlay", "starsQuiz", "starsBook"]) $(id).textContent = state.progress.stars; }
+function renderStars() {
+  for (const id of ["starsHome", "starsPlay", "starsQuiz", "starsBook"]) $(id).textContent = state.progress.stars;
+  document.querySelectorAll(".starsN").forEach(el => el.textContent = state.progress.stars);
+}
 function renderHome() {
   renderStars();
   const ready = state.wordsLoaded && state.words.length > 0;
   $("playBtn").disabled = !ready;
   $("quizBtn").disabled = !(ready && state.words.length >= 3);
   $("quizDue").hidden = !quizDue();
+  $("memBtn").disabled = $("judgeBtn").disabled = !(ready && state.words.length >= 3);
+  $("gardenDue").hidden = !(gardenCount() > state.progress.gardenSeen);
+  const latest = state.stories[state.stories.length - 1];
+  $("storyDue").hidden = !latest || state.progress.storySeen === latest.id;
+  registerClips();
   $("bookCount").textContent = state.progress.stickers.length;
   const full = state.progress.stickers.length >= STICKERS.length;
   const have = full ? perSticker() : Math.min(perSticker(), state.progress.points - (state.progress.pointsUsed || 0));
@@ -825,7 +1031,7 @@ function renderHome() {
 }
 $("houses").addEventListener("click", (e) => {
   const top = e.target.closest("[data-say]");
-  if (top) { say([C("a-" + top.dataset.say)]); bump(top.querySelector(".house-img")); sparkle(top, 8); return; }
+  if (top) { say([C("a-" + top.dataset.say)]); bump(top.querySelector(".house-img")); jump(top.querySelector(".friend")); sparkle(top, 8); return; }
   const b = e.target.closest(".w");
   if (!b) return;
   const w = state.words.find(x => x.id === b.dataset.id);
@@ -904,6 +1110,7 @@ function answer(a, btn) {
     chime();
     btn.classList.add("right");
     flyTo($("cardPic").hidden ? $("emoji") : $("cardPic"), btn);
+    cheer(w.article, btn);
     const y = $("yay"); y.hidden = false; restart(y, "show");
     const clean = c.attempts === 1;
     grade(w.id, clean);
@@ -948,6 +1155,9 @@ function showRepeat() {
   renderSign(S.card.w.article);
   $("repeat").hidden = false; restart($("repeat"), "repeat");
   $("nextBtn").disabled = true;
+  $("micBtn").hidden = !micAllowed();
+  $("micBtn").classList.toggle("invite", micAllowed());
+  document.querySelector("#repeat .mouth").hidden = micAllowed();   // the mic button replaces the talking-head hint
   clearTimeout(nextTimer);
   nextTimer = setTimeout(() => { $("nextBtn").disabled = false; }, 1400);   // a moment to say it out loud
 }
@@ -956,14 +1166,16 @@ function finishSession() {
   state.progress.roundsSinceQuiz++;
   state.progress.lastPlayed = today();
   const fresh = awardStickers();
+  const grew = markDay();
   saveProgress();
   const rows = S.words.map(w => ({ w, mark: "" }));
   const earned = S.earned;
-  S = null;
-  showDone(earned, rows, fresh, quizDue());
+  S = null; lastActivity = "practice";
+  showDone(earned, rows, fresh, quizDue(), grew);
 }
 function quitSession() {
-  if (S || Q) { saveProgress(); S = null; Q = null; }
+  if (busy()) { saveProgress(); S = Q = M = J = ST = null; }
+  stopRecording();
   stopAudio();
   renderHome(); show("home");
 }
@@ -1020,6 +1232,7 @@ function quizAnswer(a, btn) {
   if (ok) {
     chime(); btn.classList.add("right");
     flyTo($("qPic").hidden ? $("qEmoji") : $("qPic"), btn);
+    cheer(w.article, btn);
     Q.earned++; earnStar("starsQuiz");
     spoken = say([C("f-ja"), W(w)]);
   } else {
@@ -1036,11 +1249,12 @@ function finishQuiz() {
   state.progress.roundsSinceQuiz = 0;
   state.progress.lastPlayed = today();
   const fresh = awardStickers();
+  const grew = markDay();
   saveProgress();
   const rows = Q.words.map(w => ({ w, mark: Q.res[w.id] ? "ok" : "miss" }));
   const earned = Q.earned;
-  Q = null;
-  showDone(earned, rows, fresh, false);
+  Q = null; lastActivity = "quiz";
+  showDone(earned, rows, fresh, false, grew);
 }
 
 /* ---------- stickers ---------- */
@@ -1073,7 +1287,8 @@ $("bookGrid").addEventListener("click", (e) => {
 function openBook() { renderBook(); show("bookScreen"); }
 
 /* ---------- round finished ---------- */
-function showDone(earned, rows, fresh, offerQuiz) {
+function showDone(earned, rows, fresh, offerQuiz, grew) {
+  $("doneGarden").hidden = !grew;
   $("earned").textContent = earned;
   $("practised").innerHTML = rows.map((r, i) => '<span class="item" style="animation-delay:' + (0.3 + i * 0.06) + 's">' + faceHTML(r.w) +
     (r.mark ? '<span class="mark ' + r.mark + '">' + (r.mark === "ok" ? "✓" : "↻") + "</span>" : "") + "</span>").join("");
@@ -1090,7 +1305,7 @@ function showDone(earned, rows, fresh, offerQuiz) {
   say([C("f-supergemacht")]).then(() => {
     if (!fresh.length || rv.hidden) return;
     return sleep(300).then(() => { rv.classList.add("open"); chime(); setTimeout(() => sparkle(rv, 18), 450); });
-  });
+  }).then(() => { if (grew) { sparkle($("doneGarden"), 12); return say([C("f-garten")]); } });
 }
 $("reveal").addEventListener("click", () => { if (!$("reveal").classList.contains("open")) { $("reveal").classList.add("open"); chime(); sparkle($("reveal"), 18); } else openBook(); });
 
@@ -1111,10 +1326,392 @@ $("playBtn").addEventListener("click", () => { pop(); startSession(); });
 $("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
 $("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
 $("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", () => { pop(); startSession(); });
+$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startSession, quiz: startQuiz, memory: startMemory, judge: startJudge, story: startStory })[lastActivity](); });
+$("doneGarden").addEventListener("click", () => { pop(); openGarden(); });
+$("memBtn").addEventListener("click", () => { pop(); startMemory(); });
+$("judgeBtn").addEventListener("click", () => { pop(); startJudge(); });
+$("storyBtn").addEventListener("click", () => { pop(); startStory(); });
+$("gardenBtn").addEventListener("click", () => { pop(); openGarden(); });
+document.querySelectorAll("[data-home]").forEach(b => b.addEventListener("click", quitSession));
+$("micBtn").addEventListener("click", () => { if (S && S.card) recordHer(S.card.w); });
 $("bookBtn").addEventListener("click", () => { pop(); openBook(); });
 $("nextSticker").addEventListener("click", () => { pop(); openBook(); });
 $("bookBack").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
+
+/* ---------- house friends ---------- */
+function jump(el) { if (!el || RM() || !el.animate) return; el.animate([{ transform: "translateY(0)" }, { transform: "translateY(-26px) scale(1.1)" }, { transform: "translateY(0)" }], { duration: 480, easing: "cubic-bezier(.3,1.4,.5,1)" }); }
+// The matching friend hops out of the button to cheer.
+function cheer(a, anchor) {
+  if (RM() || !anchor) return;
+  const r = anchor.getBoundingClientRect();
+  const f = document.createElement("img");
+  f.src = FRIEND(a); f.alt = ""; f.className = "cheer"; f.dataset.friend = "1";
+  document.body.appendChild(f);
+  const w = Math.min(120, Math.max(80, r.height * .9));
+  Object.assign(f.style, { left: (r.left + r.width / 2 - w / 2) + "px", top: (r.top - w * .75) + "px", width: w + "px" });
+  f.animate([
+    { transform: "translateY(60px) scale(.3)", opacity: 0 },
+    { transform: "translateY(-30px) scale(1.1) rotate(-8deg)", opacity: 1, offset: .35 },
+    { transform: "translateY(0) scale(1) rotate(6deg)", opacity: 1, offset: .6 },
+    { transform: "translateY(-14px) scale(1) rotate(0)", opacity: 1, offset: .8 },
+    { transform: "translateY(40px) scale(.6)", opacity: 0 }], { duration: 1500, easing: "ease-out" }).onfinish = () => f.remove();
+}
+
+/* ---------- garden: one new thing per day played ---------- */
+const gardenCount = () => Math.min(GARDEN.length, state.progress.days.length);
+function markDay() {
+  const t = today();
+  if (state.progress.days.includes(t)) return false;
+  state.progress.days.push(t);
+  if (state.progress.days.length > 120) state.progress.days.shift();
+  return state.progress.days.length <= GARDEN.length;
+}
+function openGarden() {
+  renderStars();
+  const n = gardenCount(), seen = Math.min(state.progress.gardenSeen, n);
+  $("gardenCount").textContent = n;
+  const z = (y) => Math.round(10 + y * .6);           // things further forward stand out more when the island tilts
+  const gi = (g, i) => '<button class="gi ' + (g.cls || "") + (i >= seen ? " new" : "") + '" data-g="' + g.id + '" style="left:' + g.x + "%;top:" + g.y + "%;width:" + g.w + "%;z-index:" + Math.round(g.y) + ";--z:" + z(g.y) + "px" +
+    (i >= seen ? ";animation-delay:" + (0.5 + (i - seen) * 0.4) + "s" : "") + '"><img src="img/g-' + g.id + '.webp" alt="" data-garden="1"></button>';
+  const next = GARDEN[n];
+  $("garden").innerHTML = '<div class="island" id="island"><div class="floaty"><img class="base" src="img/island.webp" alt="">' +
+    ARTS.map((a, i) => { const h = HOUSE_SPOTS[a]; return '<button class="ghouse" data-a="' + a + '" style="left:' + h.x + "%;top:" + h.y + "%;width:15%;z-index:" + h.y + ";--z:" + z(h.y) + 'px"><img src="img/key-house-' + a + '.webp" alt="" data-garden="1"><img class="gf" src="' + FRIEND(a) + '" alt="" data-friend="1" style="animation-delay:' + (-i * .7) + 's"></button>'; }).join("") +
+    GARDEN.slice(0, n).map(gi).join("") +
+    (next ? '<div class="sprout" style="left:' + next.x + "%;top:" + Math.max(next.y, 30) + '%;z-index:' + Math.round(next.y) + '">🌱</div>' : "") +
+    Array.from({ length: 10 }, (_, i) => '<span class="mote" style="left:' + (20 + Math.random() * 60) + "%;top:" + (40 + Math.random() * 35) + "%;animation-delay:" + (-Math.random() * 7) + 's"></span>').join("") +
+    "</div></div>";
+  show("gardenScreen");
+  enableTilt();
+  if (n > seen) {
+    chime();
+    setTimeout(() => { document.querySelectorAll(".gi.new").forEach(el => sparkle(el, 12)); say([C("f-garten")]); }, 1100);
+    state.progress.gardenSeen = n; saveProgress();
+  }
+}
+// Drag (or tilt the iPad) to turn the island a little in 3D; it springs back when let go.
+let tiltWired = false;
+function setTilt(rx, ry) { const el = $("island"); if (el) { el.style.setProperty("--rx", rx + "deg"); el.style.setProperty("--ry", ry + "deg"); } }
+function enableTilt() {
+  if (tiltWired) return; tiltWired = true;
+  const g = $("garden"); let start = null;
+  g.addEventListener("pointerdown", (e) => { start = { x: e.clientX, y: e.clientY }; $("island")?.classList.add("drag"); askOrientation(); });
+  g.addEventListener("pointermove", (e) => {
+    if (!start || RM()) return;
+    const dx = (e.clientX - start.x) / g.clientWidth, dy = (e.clientY - start.y) / g.clientHeight;
+    setTilt(Math.max(-14, Math.min(14, 8 - dy * 40)), Math.max(-22, Math.min(22, dx * 60)));
+  });
+  const end = () => { start = null; $("island")?.classList.remove("drag"); setTilt(0, 0); };
+  g.addEventListener("pointerup", end); g.addEventListener("pointercancel", end); g.addEventListener("pointerleave", end);
+  window.addEventListener("deviceorientation", (e) => {
+    if (start || RM() || $("gardenScreen").hidden || e.beta == null) return;
+    setTilt(Math.max(-10, Math.min(10, (e.beta - 45) / 4)), Math.max(-16, Math.min(16, (e.gamma || 0) / 2.5)));
+  });
+}
+let orientAsked = false;
+function askOrientation() {
+  if (orientAsked) return; orientAsked = true;
+  try { if (window.DeviceOrientationEvent && DeviceOrientationEvent.requestPermission) DeviceOrientationEvent.requestPermission().catch(() => {}); } catch {}
+}
+$("garden").addEventListener("click", (e) => {
+  const h = e.target.closest(".ghouse");
+  if (h) { say([C("a-" + h.dataset.a)]); jump(h.querySelector(".gf")); return; }
+  const g = e.target.closest(".gi");
+  if (g) { pop(); jump(g.querySelector("img")); sparkle(g, 8); }
+});
+
+/* ---------- memory: find two pictures that live in the same house ---------- */
+function startMemory() {
+  const by = {}; for (const a of ARTS) by[a] = shuffle(state.words.filter(w => w.article === a));
+  let cards = [];
+  for (const a of ARTS) {
+    const ws = by[a]; if (!ws.length) continue;
+    const pairs = ws.length >= 4 ? 2 : 1;
+    for (let i = 0; i < pairs * 2; i++) cards.push(ws[i % ws.length]);
+  }
+  while (cards.length > 12) cards.splice(cards.length - 2, 2);
+  if (cards.length < 6) return;
+  cards = shuffle(cards);
+  M = { cards, open: [], matched: new Set(), pairs: cards.length / 2, found: 0, earned: 0, lock: false };
+  $("mgrid").style.gridTemplateColumns = "repeat(" + (cards.length > 8 ? 4 : 3) + ",minmax(0,1fr))";
+  $("mgrid").innerHTML = cards.map((w, i) => '<button class="mcard deal ' + w.article + '" data-i="' + i + '" style="animation-delay:' + (i * 0.05) + 's"><span class="in"><span class="f back">★</span><span class="f front">' + faceHTML(w) + "</span></span></button>").join("");
+  renderMDots();
+  renderStars();
+  show("memory");
+  say([C("f-paare")]);
+}
+function renderMDots() { $("mdots").innerHTML = Array.from({ length: M.pairs }, (_, i) => '<span class="dot' + (i < M.found ? " ok" : "") + '"></span>').join(""); }
+$("mgrid").addEventListener("click", (e) => {
+  const b = e.target.closest(".mcard"); if (!b || !M || M.lock) return;
+  const i = Number(b.dataset.i);
+  if (M.matched.has(i) || M.open.includes(i)) return;
+  const w = M.cards[i];
+  b.classList.add("up"); pop();
+  say([W(w)]);
+  M.open.push(i);
+  if (M.open.length < 2) return;
+  M.lock = true;
+  const [x, y] = M.open, wx = M.cards[x], wy = M.cards[y];
+  const cx = $("mgrid").children[x], cy = $("mgrid").children[y];
+  if (wx.article === wy.article) {
+    setTimeout(() => {
+      M.matched.add(x); M.matched.add(y); M.open = []; M.found++; M.earned++;
+      cx.classList.add("matched"); cy.classList.add("matched");
+      chime(); cheer(wx.article, cy); sparkle(cx, 8); sparkle(cy, 8);
+      state.progress.stars++; renderStars();
+      renderMDots();
+      M.lock = false;
+      if (M.found === M.pairs) setTimeout(finishMemory, 1300);
+    }, 700);
+  } else {
+    setTimeout(() => { boop(); cx.classList.remove("up"); cy.classList.remove("up"); M.open = []; M.lock = false; }, 1300);
+  }
+});
+function finishMemory() {
+  if (!M) return;
+  const seen = new Set(), rows = [];
+  for (const w of M.cards) if (!seen.has(w.id)) { seen.add(w.id); rows.push({ w, mark: "" }); }
+  const earned = M.earned, grew = markDay();
+  M = null; lastActivity = "memory";
+  state.progress.lastPlayed = today(); saveProgress();
+  showDone(earned, rows, [], quizDue(), grew);
+}
+
+/* ---------- "Stimmt das?": a grown-up answers (sometimes wrong on purpose), she judges ---------- */
+function startJudge() {
+  if (state.words.length < 3) return;
+  J = { words: shuffle(state.words).slice(0, Math.min(6, state.words.length)), i: 0, earned: 0, res: {}, phase: "", claim: "" };
+  renderStars(); show("judge"); nextJudge(true);
+}
+function renderJDots() { $("jdots").innerHTML = J.words.map((w, i) => '<span class="dot ' + (w.id in J.res ? (J.res[w.id] ? "ok" : "miss") : "") + (i === J.i ? " now" : "") + '"></span>').join(""); }
+function jTurn(who) { $("whoBig").classList.toggle("on", who === "big"); $("whoKid").classList.toggle("on", who === "kid"); }
+function nextJudge(first) {
+  if (J.i >= J.words.length) return finishJudge();
+  const w = J.words[J.i];
+  J.phase = "big"; J.claim = "";
+  setPicture($("jPic"), $("jEmoji"), w);
+  $("jCaption").className = "caption"; $("jCaption").innerHTML = "";
+  $("jClaim").hidden = true;
+  $("jcard").className = "card"; restart($("jcard"), "enter");
+  document.querySelectorAll("#jChoices .choice").forEach(b => { b.disabled = false; b.className = "choice"; });
+  $("jChoices").hidden = false; restart($("jChoices"), "enter");
+  $("jThumbs").hidden = true;
+  jTurn("big"); renderJDots();
+  if (first) say([C("f-grosse")]);
+}
+function jReveal(w, ok) {
+  $("jcard").className = "card " + w.article;
+  $("jCaption").innerHTML = '<span class="art ' + w.article + '">' + w.article + "</span> " + esc(w.noun);
+  $("jCaption").className = "caption show";
+  J.res[w.id] = ok;
+  if (ok) { J.earned++; state.progress.stars++; renderStars(); }
+  renderJDots();
+}
+function jNext(spoken) { const my = J; spoken.then(() => sleep(900)).then(() => { if (J === my) { J.i++; nextJudge(false); } }); }
+document.querySelectorAll("#jChoices .choice").forEach(btn => btn.addEventListener("click", () => {
+  if (!J) return;
+  const w = J.words[J.i], a = btn.dataset.a;
+  if (J.phase === "big") {
+    // grown-up's claim: shown as a coloured chip, never spoken, so she never hears a wrong phrase
+    J.claim = a; J.phase = "kid";
+    $("jClaim").className = "claim " + a;
+    $("jClaim").innerHTML = '<span class="by">' + $("whoBig").innerHTML + '</span><svg class="sym" viewBox="0 0 20 20">' + SYMS[a] + "</svg>" + a;
+    $("jClaim").hidden = false;
+    $("jChoices").hidden = true;
+    $("jThumbs").hidden = false; restart($("jThumbs"), "enter");
+    jTurn("kid"); pop();
+    say([C("f-dudran"), C("f-stimmt")]);
+  } else if (J.phase === "fix") {
+    J.phase = "";
+    document.querySelectorAll("#jChoices .choice").forEach(b => b.disabled = true);
+    const ok = a === w.article;
+    if (ok) { chime(); btn.classList.add("right"); cheer(a, btn); jReveal(w, true); jNext(say([C(pick(PRAISE)), W(w)])); }
+    else { boop(); btn.classList.add("wrong"); document.querySelector('#jChoices .choice[data-a="' + w.article + '"]').classList.add("hint"); jReveal(w, false); jNext(say([C("f-schau"), W(w)])); }
+  }
+}));
+function judge(saysRight) {
+  if (!J || J.phase !== "kid") return;
+  const w = J.words[J.i], claimRight = J.claim === w.article;
+  $("jThumbs").hidden = true;
+  if (saysRight && claimRight) { J.phase = ""; chime(); cheer(w.article, $("jcard")); jReveal(w, true); jNext(say([C("f-jastimmt"), W(w)])); }
+  else if (!saysRight && !claimRight) {
+    // she caught the mistake: now she shows the right house
+    J.phase = "fix"; chime(); sparkle($("jClaim"), 10);
+    document.querySelectorAll("#jChoices .choice").forEach(b => { b.disabled = b.dataset.a === J.claim; b.className = "choice" + (b.dataset.a === J.claim ? " wrong" : ""); });
+    $("jChoices").hidden = false; restart($("jChoices"), "enter");
+    say([C("f-nein"), C("f-welcheshaus")]);
+  } else { J.phase = ""; boop(); jReveal(w, false); jNext(say([C("f-oh"), C("f-schau"), W(w)])); }
+}
+$("jYes").addEventListener("click", () => judge(true));
+$("jNo").addEventListener("click", () => judge(false));
+$("jListen").addEventListener("click", () => { if (J && J.phase === "" && J.words[J.i]) say([W(J.words[J.i])]); else say([C("f-stimmt")]); });
+function finishJudge() {
+  const rows = J.words.map(w => ({ w, mark: J.res[w.id] ? "ok" : "miss" }));
+  const earned = J.earned, grew = markDay();
+  J = null; lastActivity = "judge";
+  state.progress.lastPlayed = today(); saveProgress();
+  showDone(earned, rows, [], quizDue(), grew);
+}
+
+/* ---------- story of the week ---------- */
+function colourText(t) {
+  return esc(t).split(/(\s+)/).map(tok => { const a = tok.toLowerCase().replace(/[^a-zäöüß]/g, ""); return ARTS.includes(a) ? '<span class="wd ' + a + '">' + tok + "</span>" : tok; }).join("");
+}
+function startStory() {
+  const st = state.stories[state.stories.length - 1];
+  if (!st) return;
+  ST = { st, i: 0 };
+  renderStars(); show("story"); showPage();
+}
+function showPage() {
+  const pg = ST.st.pages[ST.i];
+  $("sdots").innerHTML = ST.st.pages.map((_, i) => '<span class="dot' + (i < ST.i ? " ok" : "") + (i === ST.i ? " now" : "") + '"></span>').join("");
+  $("spage").innerHTML = '<img src="' + esc(pg.img) + '" alt="">';
+  restart($("spage"), "turn-in");
+  $("stext").innerHTML = colourText(pg.text);
+  $("sPrev").disabled = ST.i === 0;
+  readPage();
+}
+function readPage() {
+  const pg = ST.st.pages[ST.i], my = ST, idx = ST.i;
+  const words = [...$("stext").querySelectorAll(".wd")];
+  words.forEach((el, k) => setTimeout(() => { if (ST === my && ST.i === idx) { el.classList.add("hi"); setTimeout(() => el.classList.remove("hi"), 500); } }, 300 + k * 900));
+  say([{ key: pg.audio, text: pg.text }], 0.8);
+}
+$("sNext").addEventListener("click", () => {
+  if (!ST) return; pop();
+  if (ST.i < ST.st.pages.length - 1) { ST.i++; showPage(); return; }
+  const st = ST.st; ST = null; lastActivity = "story";
+  state.progress.storySeen = st.id;
+  state.progress.stars += 2;
+  const grew = markDay(); state.progress.lastPlayed = today(); saveProgress();
+  showDone(2, [], [], false, grew);
+});
+$("sPrev").addEventListener("click", () => { if (ST && ST.i > 0) { pop(); ST.i--; showPage(); } });
+$("sListen").addEventListener("click", () => { if (ST) readPage(); });
+$("spage").addEventListener("click", () => { if (ST) readPage(); });
+
+/* ---------- speak to the app: she says it, gets gentle feedback and hears herself ---------- */
+// Needs the microphone, so it runs in the GitHub version only (the Claude page blocks it).
+// Speech recognition on children is imperfect, so feedback is always kind: great / almost / didn't hear.
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let micStream = null, recorder = null, micBroken = false, srConflict = false, listening = false;
+const micAllowed = () => !micBroken && state.settings.record !== false && !window.claude && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+function stopRecording() { try { recorder && recorder.state === "recording" && recorder.stop(); } catch {} }
+function lev(a, b) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+function listenFor(ms) {                     // resolves to heard phrases, [] when silent, null when unavailable
+  return new Promise((resolve) => {
+    if (!SR) return resolve(null);
+    let r; try { r = new SR(); } catch { return resolve(null); }
+    r.lang = "de-DE"; r.interimResults = false; r.maxAlternatives = 5; r.continuous = false;
+    const out = []; let done = false;
+    const fin = (v) => { if (done) return; done = true; try { r.stop(); } catch {} resolve(v); };
+    r.onresult = (e) => { for (const res of e.results) for (const alt of res) out.push(String(alt.transcript).toLowerCase()); fin(out); };
+    r.onerror = (e) => { if (e.error === "audio-capture") srConflict = true; fin(e.error === "no-speech" ? [] : (e.error === "audio-capture" ? null : out)); };
+    r.onend = () => fin(out);
+    try { r.start(); } catch { fin(null); }
+    setTimeout(() => fin(out), ms);
+  });
+}
+function judgeSpeech(alts, w) {
+  const noun = norm(w.noun);
+  let heardNoun = false, heardArt = false;
+  for (const t of alts) {
+    const toks = t.split(/[^a-zäöüß]+/).filter(Boolean).map(norm);
+    toks.forEach((x, i) => {
+      if (x === noun || lev(x, noun) <= (noun.length > 4 ? 2 : 1)) { heardNoun = true; if (toks[i - 1] === w.article) heardArt = true; }
+    });
+  }
+  return heardArt ? "great" : heardNoun ? "almost" : "none";
+}
+async function recordHer(w) {
+  if (listening) return;
+  listening = true;
+  const btn = $("micBtn");
+  let her = null, verdict = null;
+  try {
+    stopAudio();
+    btn.classList.add("rec"); btn.classList.remove("invite"); tone([880], "sine", .08);
+    // record her voice for playback (skipped if this device can't record and recognise at the same time)
+    let recDone = Promise.resolve(null);
+    if (!srConflict && typeof MediaRecorder !== "undefined") {
+      try {
+        micStream = micStream || await navigator.mediaDevices.getUserMedia({ audio: true });
+        const chunks = [];
+        recorder = new MediaRecorder(micStream);
+        recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+        recDone = new Promise(r => recorder.onstop = () => r(chunks));
+        recorder.start();
+        setTimeout(stopRecording, 2600);
+      } catch (e) { recDone = Promise.resolve(null); }
+    }
+    const heard = await listenFor(3200);
+    stopRecording();
+    const chunks = await Promise.race([recDone, sleep(1500).then(() => null)]);
+    btn.classList.remove("rec");
+    if (chunks && chunks.length) {
+      const data = await new Blob(chunks, { type: (recorder && recorder.mimeType) || "audio/mp4" }).arrayBuffer();
+      her = await new Promise((res) => ctx().decodeAudioData(data, res, () => res(null)));
+    }
+    verdict = heard === null ? null : judgeSpeech(heard, w);
+  } catch (e) {
+    console.warn("mic", e);
+    btn.classList.remove("rec");
+    if (!her && verdict === null) { micBroken = true; btn.hidden = true; listening = false; return; }
+  }
+  const p = prog(w.id);
+  if (verdict === "great") {
+    chime(); cheer(w.article, btn); sparkle(btn, 14);
+    if (S && S.card && !S.card.spoke) { S.card.spoke = true; state.progress.stars++; renderStars(); }
+    setProg(w.id, { said: (p.said || 0) + 1 }); saveProgress();
+    if (her) { await playBuffer(her); await sleep(200); }
+    await say([C("f-supergesagt")]);
+  } else if (verdict === "almost") {
+    if (her) { await playBuffer(her); await sleep(200); }
+    await say([C("f-fast"), W(w)]);
+    btn.classList.add("invite");
+  } else if (verdict === "none" && !her) {
+    await say([C("f-nichtgehoert")]);
+    btn.classList.add("invite");
+  } else {
+    // no recogniser on this device: just play her voice back next to Pixie's
+    await say([C("f-hoer")]);
+    if (her) { await playBuffer(her); await sleep(250); }
+    await say([W(w)]);
+  }
+  listening = false;
+}
+
+/* ---------- this week's list (data/words.json) and stories (data/stories.json) ---------- */
+// Claude updates these files when you send a photo of the school list; a newer version replaces the word list once.
+let dataApplied = false;
+async function applyDataFiles() {
+  if (dataApplied || !state.wordsLoaded) return;
+  dataApplied = true;
+  try {
+    const r = await fetch("data/stories.json", { cache: "no-cache" });
+    if (r.ok) { const d = await r.json(); if (Array.isArray(d.stories) && d.stories.length) state.stories = d.stories; }
+  } catch {}
+  try {
+    const r = await fetch("data/words.json", { cache: "no-cache" });
+    if (r.ok) {
+      const d = await r.json();
+      if (Number(d.version) > (Number(state.settings.listVersion) || 0) && Array.isArray(d.words) && d.words.length) {
+        state.words = normalizeWords(d.words);
+        state.settings.listVersion = Number(d.version);
+        state.sample = false;
+        await saveWords();
+      }
+    }
+  } catch {}
+  registerClips();
+  if (!busy()) renderHome();
+}
 
 /* ---------- grown-ups panel ---------- */
 let grownOpen = false, gateOk = false, addArt = "der", armed = "";
@@ -1135,7 +1732,7 @@ function wordRow(w, reason) {
     '</span><span class="n">' + esc(w.noun) + (reason ? '<span class="flag">practise</span>' : "") +
     (reason ? "<small>" + esc(reason) + "</small>" : (sentenceOf(w) ? "<small>" + esc(sentenceOf(w)) + "</small>" : "")) + "</span>" +
     '<span class="stat"><span class="pips" title="Progress">' + [1, 2, 3, 4].map(i => '<span class="pip' + (p.box >= i ? " on" : "") + '"></span>').join("") + "</span>" +
-    "<span>" + (q ? "quiz " + q.r + "/" + (q.r + q.w) : "no quiz yet") + "</span></span>" +
+    "<span>" + (q ? "quiz " + q.r + "/" + (q.r + q.w) : "no quiz yet") + (p.said ? " · said ✓" + p.said : "") + "</span></span>" +
     '<button class="mini" data-act="hear" data-id="' + esc(w.id) + '" aria-label="Hear ' + esc(w.article + " " + w.noun) + '"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5 6 9H3v6h3l5 4V5z"/></svg></button>' +
     '<button class="mini" data-act="del" data-id="' + esc(w.id) + '" aria-label="Remove ' + esc(w.noun) + '">✕</button></li>';
 }
@@ -1149,6 +1746,7 @@ function renderGrown() {
   $("sheet").innerHTML =
     '<header><h2>Word list</h2><button class="btn primary" data-act="close">Done</button></header>' +
     '<p class="note">' + esc(modeNote) + (state.dbError ? "<br><strong>" + esc(state.dbError) + "</strong>" : "") + "</p>" +
+    '<p class="note hot"><b>New school words each week:</b> send Claude a photo of the list. It adds the words with pictures, recordings, short sentences and a new story, and the app picks them up automatically.</p>' +
     (state.sample ? '<p class="note">These are example words. Tap <b>Start a new list</b> below and paste the words from school.</p>' : "") +
     '<section><h3>Needs practice (' + weak.length + ')</h3>' +
       (weak.length ? '<ul class="list">' + weak.map(x => wordRow(x.w, x.r)).join("") + "</ul>" +
@@ -1181,6 +1779,7 @@ function renderGrown() {
       [1, 2, 3, 4].map(n => '<option value="' + n + '"' + ((Number(state.settings.quizEvery) || 2) === n ? " selected" : "") + ">" + n + " round" + (n > 1 ? "s" : "") + "</option>").join("") +
       '</select><label for="stkSel">Sticker every</label><select id="stkSel">' +
       [5, 10, 15, 20].map(n => '<option value="' + n + '"' + (perSticker() === n ? " selected" : "") + ">" + n + " right answers</option>").join("") +
+      '</select><label for="recSel">Speaking</label><select id="recSel"><option value="on"' + (state.settings.record !== false ? " selected" : "") + '>On: she speaks, gets feedback, hears herself (GitHub version)</option><option value="off"' + (state.settings.record === false ? " selected" : "") + '>Off</option>' +
       '</select><label for="firstSel">Say the answer first</label><select id="firstSel">' +
       '<option value="always"' + (state.settings.sayFirst !== "new" ? " selected" : "") + '>Always</option>' +
       '<option value="new"' + (state.settings.sayFirst === "new" ? " selected" : "") + '>Only for new words, then she remembers it herself</option>' +
@@ -1190,6 +1789,7 @@ function renderGrown() {
   emoIn.addEventListener("input", () => { emoIn.dataset.touched = emoIn.value ? "1" : ""; });
   nounIn.addEventListener("keydown", (e) => { if (e.key === "Enter") addOne(); });
   $("lenSel").addEventListener("change", (e) => { state.settings.sessionLength = Number(e.target.value); saveWords(); });
+  $("recSel").addEventListener("change", (e) => { state.settings.record = e.target.value === "on"; saveWords(); });
   $("stkSel").addEventListener("change", (e) => { state.settings.perSticker = Number(e.target.value); saveWords(); });
   $("quizSel").addEventListener("change", (e) => { state.settings.quizEvery = Number(e.target.value); saveWords(); });
   $("voiceSel")?.addEventListener("change", (e) => { try { localStorage.setItem(LS_VOICE, e.target.value); } catch {} pickVoice(); say("der Hund"); });
@@ -1280,7 +1880,7 @@ renderHome();
 (async () => {
   let db = null;
   try { db = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch { db = null; }
-  if (!db) { state.mode = "local"; loadLocal(); renderHome(); if (grownOpen) renderGrown(); return; }
+  if (!db) { state.mode = "local"; loadLocal(); renderHome(); applyDataFiles(); if (grownOpen) renderGrown(); return; }
   state.db = db; state.mode = "online";
   const onErr = (e) => { state.dbError = "Online storage stopped responding. Reload the page."; console.warn(e); if (grownOpen) renderGrown(); };
   db.doc("lists/current").onSnapshot((snap) => {
@@ -1289,6 +1889,7 @@ renderHome();
     state.sample = !!(d && d.sample);
     state.settings = { ...state.settings, ...((d && d.settings) || {}) };
     state.wordsLoaded = true;
+    applyDataFiles();
     if (!busy()) renderHome();
     if (grownOpen && !document.activeElement?.matches?.("input,textarea,select")) renderGrown();
   }, onErr);
