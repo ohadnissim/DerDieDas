@@ -17,12 +17,32 @@
     {
      "img": "img/story2-3.webp",
      "audio": "story2-3",
-     "text": "Da kommt die Katze. „Ich helfe dir!“, sagt die Katze."
+     "text": "Da kommt die Katze. „Ich helfe dir!“, sagt die Katze.",
+     "q": {
+      "text": "Wer hilft?",
+      "audio": "sq-hilft",
+      "answer": "katze",
+      "choices": [
+       "katze",
+       "hund",
+       "auto"
+      ]
+     }
     },
     {
      "img": "img/story2-4.webp",
      "audio": "story2-4",
-     "text": "Das Auto ist lila. Die Katze und der Hund fahren los. Brumm, brumm!"
+     "text": "Das Auto ist lila. Die Katze und der Hund fahren los. Brumm, brumm!",
+     "q": {
+      "text": "Was fährt?",
+      "audio": "sq-faehrt",
+      "answer": "auto",
+      "choices": [
+       "auto",
+       "haus",
+       "blume"
+      ]
+     }
     },
     {
      "img": "img/story2-5.webp",
@@ -37,7 +57,17 @@
     {
      "img": "img/story2-7.webp",
      "audio": "story2-7",
-     "text": "Da ist der Ball! Der Ball schwimmt."
+     "text": "Da ist der Ball! Der Ball schwimmt.",
+     "q": {
+      "text": "Wo ist der Ball? Zeig mal!",
+      "audio": "sq-ball",
+      "answer": "ball",
+      "choices": [
+       "ball",
+       "banane",
+       "ei"
+      ]
+     }
     },
     {
      "img": "img/story2-8.webp",
@@ -47,7 +77,17 @@
     {
      "img": "img/story2-9.webp",
      "audio": "story2-9",
-     "text": "Der Mond kommt. Der Hund und die Katze schlafen. Gute Nacht!"
+     "text": "Der Mond kommt. Der Hund und die Katze schlafen. Gute Nacht!",
+     "q": {
+      "text": "Wer schläft?",
+      "audio": "sq-schlaeft",
+      "answer": "katze",
+      "choices": [
+       "katze",
+       "apfel",
+       "auto"
+      ]
+     }
     }
    ]
   }

@@ -293,6 +293,17 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .small{font-size:14px;color:var(--muted)}
 .stats{display:flex;flex-wrap:wrap;gap:8px 24px;font-variant-numeric:tabular-nums}
 .stats b{font-size:20px;display:block}
+.report{background:var(--grape-soft);border-radius:18px;padding:16px}
+.wk-stats{gap:10px 22px}
+.wk-chart{margin-top:14px}
+.wk-title{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.wk-plot{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;height:120px;align-items:end;border-bottom:1px solid var(--line)}
+.wk-col{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;position:relative}
+.wk-col span{position:absolute;bottom:-20px;font-size:12px;color:var(--muted)}
+.wk-bar{width:62%;min-height:2px;background:var(--grape);border-radius:4px 4px 0 0;position:relative;cursor:default}
+.wk-bar::after{content:attr(data-v);position:absolute;left:50%;bottom:calc(100% + 4px);transform:translateX(-50%);font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap;opacity:0;transition:opacity .15s}
+.wk-col:hover .wk-bar::after,.wk-col:active .wk-bar::after,.wk-col:focus-within .wk-bar::after{opacity:1}
+.wk-chart{padding-bottom:22px}
 .settings{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .msg{font-size:14px;font-weight:700;color:var(--grape);min-height:1.2em}
 .msg.err{color:var(--die)}
@@ -367,6 +378,14 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .stext .wd{display:inline-block;transition:transform .2s}
 .stext .wd.hi{transform:translateY(-6px) scale(1.08)}
 .snav{display:flex;gap:clamp(18px,4vw,36px);align-items:center}
+.squiz{display:flex;gap:clamp(14px,3vw,28px);justify-content:center}
+.sq{width:clamp(96px,15vmin,130px);aspect-ratio:1;border-radius:26px;background:var(--paper);box-shadow:var(--lift);overflow:hidden;animation:pop .45s cubic-bezier(.3,1.6,.5,1) both;transition:transform .15s,opacity .25s}
+.sq:nth-child(2){animation-delay:.08s} .sq:nth-child(3){animation-delay:.16s}
+.sq .tile{width:100%;height:100%;border-radius:0}
+.sq .emo{font-size:clamp(48px,8vmin,72px)}
+.sq.right{box-shadow:0 0 0 6px var(--star),var(--lift);transform:scale(1.08)}
+.sq.hint{box-shadow:0 0 0 6px var(--star),var(--lift);animation:pulse 1s ease-in-out infinite}
+.sq.wrong{opacity:.3;animation:shake .45s}
 
 /* ---------- garden: floating clay island that tilts in 3D ---------- */
 .garden{position:relative;flex:1;min-height:0;border-radius:36px;overflow:hidden;box-shadow:var(--lift);
@@ -569,7 +588,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   <div class="story">
     <div class="spage" id="spage"></div>
     <div class="stext" id="stext"></div>
-    <div class="snav">
+    <div class="squiz" id="squiz" hidden></div>
+    <div class="snav" id="snav">
       <button class="round" id="sPrev" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
       <button class="round" id="sListen" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
       <button class="go" id="sNext" aria-label="Weiter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -598,7 +618,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 
 /* ---------- constants ---------- */
 const ARTS = ["der","die","das"];
-const INTERVALS = [0, 1, 2, 4, 7];   // days until a word comes back, by box
+const INTERVALS = [0, 1, 2, 4, 7, 14];   // days until a word comes back, by box
+const REVIEW_SLOTS = 3;              // older words mixed into each practice round
 const MASTERED = 3;                  // box at which a word shows as mastered
 const MAX_REQUEUE = 3;               // how many times a missed word returns in one session
 const QUIZ_SIZE = 6;
@@ -638,13 +659,13 @@ const HOUSE_SPOTS = {der:{x:37,y:42},die:{x:50,y:38},das:{x:63,y:42}};
 const DEFAULT_STORIES = [{id:"story2", title:"Wo ist der Ball?", pages:[
   {img:"img/story2-1.webp", audio:"story2-1", text:"Die Sonne lacht. Der Hund wacht auf. Der Ball ist auch da."},
   {img:"img/story2-2.webp", audio:"story2-2", text:"Oh nein! Wo ist der Ball? Der Ball ist weg!"},
-  {img:"img/story2-3.webp", audio:"story2-3", text:"Da kommt die Katze. „Ich helfe dir!“, sagt die Katze."},
-  {img:"img/story2-4.webp", audio:"story2-4", text:"Das Auto ist lila. Die Katze und der Hund fahren los. Brumm, brumm!"},
+  {img:"img/story2-3.webp", audio:"story2-3", text:"Da kommt die Katze. „Ich helfe dir!“, sagt die Katze.", q:{"text": "Wer hilft?", "audio": "sq-hilft", "answer": "katze", "choices": ["katze", "hund", "auto"]}},
+  {img:"img/story2-4.webp", audio:"story2-4", text:"Das Auto ist lila. Die Katze und der Hund fahren los. Brumm, brumm!", q:{"text": "Was fährt?", "audio": "sq-faehrt", "answer": "auto", "choices": ["auto", "haus", "blume"]}},
   {img:"img/story2-5.webp", audio:"story2-5", text:"Das Haus ist leer. Der Ball ist nicht hier."},
   {img:"img/story2-6.webp", audio:"story2-6", text:"Die Blume winkt. „Da drüben!“, sagt die Blume."},
-  {img:"img/story2-7.webp", audio:"story2-7", text:"Da ist der Ball! Der Ball schwimmt."},
+  {img:"img/story2-7.webp", audio:"story2-7", text:"Da ist der Ball! Der Ball schwimmt.", q:{"text": "Wo ist der Ball? Zeig mal!", "audio": "sq-ball", "answer": "ball", "choices": ["ball", "banane", "ei"]}},
   {img:"img/story2-8.webp", audio:"story2-8", text:"Der Hund springt. Platsch! Die Katze lacht."},
-  {img:"img/story2-9.webp", audio:"story2-9", text:"Der Mond kommt. Der Hund und die Katze schlafen. Gute Nacht!"}]}];
+  {img:"img/story2-9.webp", audio:"story2-9", text:"Der Mond kommt. Der Hund und die Katze schlafen. Gute Nacht!", q:{"text": "Wer schläft?", "audio": "sq-schlaeft", "answer": "katze", "choices": ["katze", "apfel", "auto"]}}]}];
 
 /* ---------- sentences & hand signs ---------- */
 // Short sentences keep the article in front (nominative), so "der/die/das" is never changed to "den".
@@ -713,20 +734,22 @@ const state = {
   mode: "loading",          // loading | online | local
   db: null,
   wordsLoaded: false,
-  words: [],                // [{id, noun, article, emoji, s?, pic?}]
+  words: [],                // this week's words [{id, noun, article, emoji, s?, pic?, rec?}]
+  bank: [],                 // words from earlier weeks, still reviewed
   sample: false,
   settings: { sessionLength: 8, sayFirst: "always", quizEvery: 2, perSticker: 10 },
   progress: blankProgress(),
   stories: DEFAULT_STORIES,
   dbError: ""
 };
-function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed: null, points: 0, pointsUsed: 0, stickers: [], roundsSinceQuiz: 0, quizzes: 0, days: [], gardenSeen: 0, storySeen: "" }; }
+function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed: null, points: 0, pointsUsed: 0, stickers: [], roundsSinceQuiz: 0, quizzes: 0, days: [], gardenSeen: 0, storySeen: "", log: {} }; }
 function normalizeProgress(p) {
   const out = blankProgress();
   if (p && typeof p === "object") {
     for (const k of ["stars", "sessions", "points", "pointsUsed", "roundsSinceQuiz", "quizzes", "gardenSeen"]) out[k] = Number(p[k]) || 0;
     if (Array.isArray(p.days)) out.days = p.days.filter(d => typeof d === "string").slice(-120);
     out.storySeen = typeof p.storySeen === "string" ? p.storySeen : "";
+    if (p.log && typeof p.log === "object") out.log = clone(p.log);
     out.lastPlayed = p.lastPlayed || null;
     if (p.words && typeof p.words === "object") out.words = clone(p.words);
     if (Array.isArray(p.stickers)) out.stickers = p.stickers.filter(s => STICKERS.includes(s));
@@ -760,12 +783,12 @@ function needsPractice(w) {
 /* ---------- local fallback storage ---------- */
 function lsGet() { try { return JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch { return null; } }
 function lsSet() {
-  try { localStorage.setItem(LS_KEY, JSON.stringify({ words: state.words, settings: state.settings, sample: state.sample, progress: state.progress })); } catch {}
+  try { localStorage.setItem(LS_KEY, JSON.stringify({ words: state.words, bank: state.bank, settings: state.settings, sample: state.sample, progress: state.progress })); } catch {}
 }
 function loadLocal() {
   const d = lsGet();
   if (d) {
-    state.words = normalizeWords(d.words); state.sample = !!d.sample;
+    state.words = normalizeWords(d.words); state.bank = normalizeWords(d.bank); state.sample = !!d.sample;
     state.settings = { ...state.settings, ...(d.settings || {}) };
     state.progress = normalizeProgress(d.progress);
   } else {
@@ -788,7 +811,7 @@ async function saveProgress() {
 let wordsChain = Promise.resolve();
 function saveWords() {
   if (state.mode !== "online") { lsSet(); return Promise.resolve(true); }
-  const body = { words: clone(state.words), settings: clone(state.settings), sample: state.sample, updated: today() };
+  const body = { words: clone(state.words), bank: clone(state.bank), settings: clone(state.settings), sample: state.sample, updated: today() };
   wordsChain = wordsChain.then(() => state.db.doc("lists/current").set(body).then(() => true, (e) => { console.warn(e); return false; }));
   return wordsChain;
 }
@@ -802,15 +825,18 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
   "f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
-const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, "s-" + id])]);
+const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, "s-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
 // Words recorded later carry rec: true (their w-/s- clips ship in audio/).
 const builtIn = (w) => DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id;
 function registerClips() {
-  for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); if (w.s) CLIPS.add("s-" + w.id); }
-  for (const st of state.stories) for (const pg of st.pages) if (pg.audio) CLIPS.add(pg.audio);
+  for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); if (w.s) CLIPS.add("s-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
+  for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); }
 }
 const W = (w) => ({ key: builtIn(w) || w.rec ? "w-" + w.id : null, text: w.article + " " + w.noun });
+// The grown-up's answer in "Stimmt das?", said as a question (all three articles recorded the same way,
+// so the tone never gives away whether it is right).
+const Qs = (w, a) => ({ key: builtIn(w) || w.rec ? "q-" + w.id + "-" + a : null, text: a + " " + w.noun + "?" });
 const SENT = (w) => { const t = sentenceOf(w); return t ? { key: (w.rec && w.s) || (!w.s && SENTENCES[w.id] && builtIn(w)) ? "s-" + w.id : null, text: t } : null; };
 
 let actx = null;
@@ -1047,6 +1073,20 @@ $("houses").addEventListener("click", (e) => {
 });
 
 /* ---------- practice round ---------- */
+// Words leaving this week's list move to the bank, so they keep coming back for review.
+function archiveWords(oldWords) {
+  const current = new Set(state.words.map(w => w.id));
+  const keep = state.bank.filter(w => !current.has(w.id) && !oldWords.some(o => o.id === w.id));
+  state.bank = normalizeWords([...keep, ...oldWords.filter(w => !current.has(w.id))]);
+}
+// Older words for this round: the ones she struggled with always come back; words she knows only when due.
+function reviewWords(max) {
+  const t = today();
+  const weakness = (w) => { const p = prog(w.id), q = p.q || {}; return (needsPractice(w) ? 100 : 0) + (q.w || 0) * 5 + (p.wrong || 0) * 2 - (p.box || 0) * 3; };
+  const cand = state.bank.filter(w => needsPractice(w) || (prog(w.id).box || 0) < MASTERED || !prog(w.id).due || prog(w.id).due <= t);
+  return shuffle(cand).sort((a, b) => weakness(b) - weakness(a)).slice(0, max);
+}
+const allWords = () => [...state.words, ...state.bank];
 function startSession() {
   if (!state.words.length) return;
   const t = today();
@@ -1055,8 +1095,10 @@ function startSession() {
     const da = !a.p.due || a.p.due <= t ? 0 : 1, dbb = !b.p.due || b.p.due <= t ? 0 : 1;
     return (da - dbb) || ((needsPractice(b.w) ? 1 : 0) - (needsPractice(a.w) ? 1 : 0)) || (a.p.box - b.p.box);
   });
-  const n = Math.min(Math.max(3, Number(state.settings.sessionLength) || 8), pool.length);
-  const words = shuffle(pool.slice(0, n).map(x => x.w));
+  const len = Math.max(3, Number(state.settings.sessionLength) || 8);
+  const review = reviewWords(Math.min(REVIEW_SLOTS, Math.max(0, len - 3)));
+  const n = Math.min(len - review.length, pool.length);
+  const words = shuffle([...pool.slice(0, n).map(x => x.w), ...review]);
   S = { words, queue: words.map(w => w.id), done: {}, graded: {}, misses: {}, earned: 0, card: null };
   renderStars();
   show("play");
@@ -1104,8 +1146,16 @@ function grade(id, clean) {
   else { patch.box = 0; patch.due = today(); patch.wrong = (p.wrong || 0) + 1; }
   setProg(id, patch);
 }
+// Daily log for the grown-ups' weekly report: stars, practice rounds, quizzes, games, words said right.
+function logDay(field, n = 1) {
+  const t = today(), log = state.progress.log || (state.progress.log = {});
+  const d = log[t] || (log[t] = { st: 0, r: 0, q: 0, g: 0, s: 0 });
+  d[field] = (d[field] || 0) + n;
+  const keys = Object.keys(log).sort(); while (keys.length > 60) delete log[keys.shift()];
+}
+function addStars(n = 1) { state.progress.stars += n; logDay("st", n); renderStars(); }
 function earnStar(pillId) {
-  state.progress.stars++; state.progress.points++;
+  addStars(); state.progress.points++;
   renderStars(); bump($(pillId).parentElement);
 }
 function answer(a, btn) {
@@ -1173,7 +1223,7 @@ function showRepeat() {
   if (!S.card.mustSpeak) nextTimer = setTimeout(() => { $("nextBtn").disabled = false; }, 1400);   // a moment to say it out loud
 }
 function finishSession() {
-  state.progress.sessions++;
+  state.progress.sessions++; logDay("r");
   state.progress.roundsSinceQuiz++;
   state.progress.lastPlayed = today();
   const fresh = awardStickers();
@@ -1193,7 +1243,7 @@ function quitSession() {
 
 /* ---------- quiz: picture only, no hints, one try per word ---------- */
 function quizWords() {
-  const practised = state.words.filter(w => (prog(w.id).seen || 0) > 0);
+  const practised = [...state.words.filter(w => (prog(w.id).seen || 0) > 0), ...reviewWords(2)];
   const pool = practised.length >= 3 ? practised : state.words;
   const rank = (w) => { const q = prog(w.id).q; if (!q) return -1e6; return (Date.parse(q.last) / 864e5 || 0) - (q.w || 0) * 2 + (q.ok === false ? -50 : 0); };
   return shuffle(shuffle(pool).sort((a, b) => rank(a) - rank(b)).slice(0, Math.min(QUIZ_SIZE, pool.length)));
@@ -1256,7 +1306,7 @@ function quizAnswer(a, btn) {
   spoken.then(() => sleep(ok ? 500 : 900)).then(() => { if (Q === my) { Q.i++; nextQ(); } });
 }
 function finishQuiz() {
-  state.progress.quizzes++;
+  state.progress.quizzes++; logDay("q");
   state.progress.roundsSinceQuiz = 0;
   state.progress.lastPlayed = today();
   const fresh = awardStickers();
@@ -1468,7 +1518,7 @@ $("mgrid").addEventListener("click", (e) => {
       M.matched.add(x); M.matched.add(y); M.open = []; M.found++; M.earned++;
       cx.classList.add("matched"); cy.classList.add("matched");
       chime(); cheer(wx.article, cy); sparkle(cx, 8); sparkle(cy, 8);
-      state.progress.stars++; renderStars();
+      addStars();
       renderMDots();
       M.lock = false;
       if (M.found === M.pairs) setTimeout(finishMemory, 1300);
@@ -1481,7 +1531,7 @@ function finishMemory() {
   if (!M) return;
   const seen = new Set(), rows = [];
   for (const w of M.cards) if (!seen.has(w.id)) { seen.add(w.id); rows.push({ w, mark: "" }); }
-  const earned = M.earned, grew = markDay();
+  const earned = M.earned, grew = markDay(); logDay("g");
   M = null; lastActivity = "memory";
   state.progress.lastPlayed = today(); saveProgress();
   showDone(earned, rows, [], quizDue(), grew);
@@ -1514,7 +1564,7 @@ function jReveal(w, ok) {
   $("jCaption").innerHTML = '<span class="art ' + w.article + '">' + w.article + "</span> " + esc(w.noun);
   $("jCaption").className = "caption show";
   J.res[w.id] = ok;
-  if (ok) { J.earned++; state.progress.stars++; renderStars(); }
+  if (ok) { J.earned++; addStars(); }
   renderJDots();
 }
 function jNext(spoken) { const my = J; spoken.then(() => sleep(900)).then(() => { if (J === my) { J.i++; nextJudge(false); } }); }
@@ -1522,7 +1572,7 @@ document.querySelectorAll("#jChoices .choice").forEach(btn => btn.addEventListen
   if (!J) return;
   const w = J.words[J.i], a = btn.dataset.a;
   if (J.phase === "big") {
-    // grown-up's claim: shown as a coloured chip, never spoken, so she never hears a wrong phrase
+    // grown-up's claim: shown as a coloured chip and said as a question; the right phrase always follows her judgement
     J.claim = a; J.phase = "kid";
     $("jClaim").className = "claim " + a;
     $("jClaim").innerHTML = '<span class="by">' + $("whoBig").innerHTML + '</span><svg class="sym" viewBox="0 0 20 20">' + SYMS[a] + "</svg>" + a;
@@ -1530,7 +1580,7 @@ document.querySelectorAll("#jChoices .choice").forEach(btn => btn.addEventListen
     $("jChoices").hidden = true;
     $("jThumbs").hidden = false; restart($("jThumbs"), "enter");
     jTurn("kid"); pop();
-    say([C("f-dudran"), C("f-stimmt")]);
+    say([Qs(w, a), C("f-stimmt")]);
   } else if (J.phase === "fix") {
     J.phase = "";
     document.querySelectorAll("#jChoices .choice").forEach(b => b.disabled = true);
@@ -1554,10 +1604,14 @@ function judge(saysRight) {
 }
 $("jYes").addEventListener("click", () => judge(true));
 $("jNo").addEventListener("click", () => judge(false));
-$("jListen").addEventListener("click", () => { if (J && J.phase === "" && J.words[J.i]) say([W(J.words[J.i])]); else say([C("f-stimmt")]); });
+$("jListen").addEventListener("click", () => {
+  if (!J || !J.words[J.i]) return;
+  const w = J.words[J.i];
+  if (J.phase === "") say([W(w)]); else if (J.phase === "kid") say([Qs(w, J.claim), C("f-stimmt")]); else say([C("f-grosse")]);
+});
 function finishJudge() {
   const rows = J.words.map(w => ({ w, mark: J.res[w.id] ? "ok" : "miss" }));
-  const earned = J.earned, grew = markDay();
+  const earned = J.earned, grew = markDay(); logDay("g");
   J = null; lastActivity = "judge";
   state.progress.lastPlayed = today(); saveProgress();
   showDone(earned, rows, [], quizDue(), grew);
@@ -1570,7 +1624,7 @@ function colourText(t) {
 function startStory() {
   const st = state.stories[state.stories.length - 1];
   if (!st) return;
-  ST = { st, i: 0 };
+  ST = { st, i: 0, asked: {} };
   renderStars(); show("story"); showPage();
 }
 function showPage() {
@@ -1580,26 +1634,52 @@ function showPage() {
   restart($("spage"), "turn-in");
   $("stext").innerHTML = colourText(pg.text);
   $("sPrev").disabled = ST.i === 0;
-  readPage();
+  $("squiz").hidden = true; $("snav").hidden = false;
+  const my = ST, idx = ST.i;
+  readPage().then(() => { if (ST === my && ST.i === idx && pg.q && !(idx in ST.asked)) askStory(pg.q); });
 }
 function readPage() {
   const pg = ST.st.pages[ST.i], my = ST, idx = ST.i;
   const words = [...$("stext").querySelectorAll(".wd")];
   words.forEach((el, k) => setTimeout(() => { if (ST === my && ST.i === idx) { el.classList.add("hi"); setTimeout(() => el.classList.remove("hi"), 500); } }, 300 + k * 900));
-  say([{ key: pg.audio, text: pg.text }], 0.8);
+  return say([{ key: pg.audio, text: pg.text }], 0.8);
 }
+// A question after some pages: she taps the right picture and hears it with its article.
+const findWord = (id) => allWords().find(w => w.id === id) || normalizeWords(SAMPLE).find(w => w.id === id);
+function askStory(q) {
+  const choices = shuffle(q.choices.map(findWord).filter(Boolean));
+  if (!choices.length) return;
+  ST.asked[ST.i] = "open";
+  $("snav").hidden = true;
+  $("squiz").innerHTML = choices.map(w => '<button class="sq" data-id="' + esc(w.id) + '" aria-label="' + esc(w.noun) + '">' + faceHTML(w) + "</button>").join("");
+  $("squiz").hidden = false;
+  say([{ key: q.audio, text: q.text }]);
+}
+$("squiz").addEventListener("click", (e) => {
+  const b = e.target.closest(".sq"); if (!b || !ST || ST.asked[ST.i] !== "open") return;
+  const q = ST.st.pages[ST.i].q, right = findWord(q.answer), ok = b.dataset.id === q.answer;
+  ST.asked[ST.i] = ok ? "ok" : "miss";
+  const my = ST, idx = ST.i;
+  const done = () => { if (ST === my && ST.i === idx) { $("squiz").hidden = true; $("snav").hidden = false; bump($("sNext")); } };
+  if (ok) { chime(); b.classList.add("right"); cheer(right.article, b); sparkle(b, 12); addStars(); say([C(pick(PRAISE)), W(right)]).then(() => sleep(300)).then(done); }
+  else {
+    boop(); b.classList.add("wrong");
+    const rb = $("squiz").querySelector('[data-id="' + q.answer + '"]'); if (rb) rb.classList.add("hint");
+    say([C("f-schau"), W(right)]).then(() => sleep(500)).then(done);
+  }
+});
 $("sNext").addEventListener("click", () => {
   if (!ST) return; pop();
   if (ST.i < ST.st.pages.length - 1) { ST.i++; showPage(); return; }
   const st = ST.st; ST = null; lastActivity = "story";
   state.progress.storySeen = st.id;
-  state.progress.stars += 2;
+  addStars(2); logDay("g");
   const grew = markDay(); state.progress.lastPlayed = today(); saveProgress();
   showDone(2, [], [], false, grew);
 });
 $("sPrev").addEventListener("click", () => { if (ST && ST.i > 0) { pop(); ST.i--; showPage(); } });
-$("sListen").addEventListener("click", () => { if (ST) readPage(); });
-$("spage").addEventListener("click", () => { if (ST) readPage(); });
+$("sListen").addEventListener("click", () => { if (!ST) return; const pg = ST.st.pages[ST.i]; if (ST.asked[ST.i] === "open") say([{ key: pg.q.audio, text: pg.q.text }]); else readPage(); });
+$("spage").addEventListener("click", () => { if (ST && ST.asked[ST.i] !== "open") readPage(); });
 
 /* ---------- speak to the app: she says it, gets gentle feedback and hears herself ---------- */
 // Needs the microphone, so it runs in the GitHub version only (the Claude page blocks it).
@@ -1685,7 +1765,8 @@ async function recordHer(w) {
   if (verdict === "great" || verdict === "almost" || (verdict === null && her) || (S && S.card && S.card.tries >= 3)) unlockNext();
   if (verdict === "great") {
     chime(); cheer(w.article, btn); sparkle(btn, 14);
-    if (S && S.card && !S.card.spoke) { S.card.spoke = true; state.progress.stars++; renderStars(); }
+    if (S && S.card && !S.card.spoke) { S.card.spoke = true; addStars(); }
+    logDay("s");
     setProg(w.id, { said: (p.said || 0) + 1 }); saveProgress();
     if (her) { await playBuffer(her); await sleep(200); }
     await say([C("f-supergesagt")]);
@@ -1720,7 +1801,9 @@ async function applyDataFiles() {
     if (r.ok) {
       const d = await r.json();
       if (Number(d.version) > (Number(state.settings.listVersion) || 0) && Array.isArray(d.words) && d.words.length) {
+        const old = state.words;
         state.words = normalizeWords(d.words);
+        archiveWords(old);
         state.settings.listVersion = Number(d.version);
         state.sample = false;
         await saveWords();
@@ -1759,13 +1842,14 @@ function renderGrown() {
   const modeNote = state.mode === "online"
     ? "Words and progress are saved online, so this list is the same on every device that opens this page. You can also send Claude a photo of the school list and ask it to update this list."
     : state.mode === "local" ? "Words and progress are saved on this device only. Use the same device and the same browser each time." : "Connecting…";
-  const weak = state.words.map(w => ({ w, r: needsPractice(w) })).filter(x => x.r);
+  const weak = allWords().map(w => ({ w, r: needsPractice(w) })).filter(x => x.r);
   const mastered = state.words.filter(w => prog(w.id).box >= MASTERED).length;
   $("sheet").innerHTML =
     '<header><h2>Word list</h2><button class="btn primary" data-act="close">Done</button></header>' +
     '<p class="note">' + esc(modeNote) + (state.dbError ? "<br><strong>" + esc(state.dbError) + "</strong>" : "") + "</p>" +
     '<p class="note hot"><b>New school words each week:</b> send Claude a photo of the list. It adds the words with pictures, recordings, short sentences and a new story, and the app picks them up automatically.</p>' +
     (state.sample ? '<p class="note">These are example words. Tap <b>Start a new list</b> below and paste the words from school.</p>' : "") +
+    weeklyReport() +
     '<section><h3>Needs practice (' + weak.length + ')</h3>' +
       (weak.length ? '<ul class="list">' + weak.map(x => wordRow(x.w, x.r)).join("") + "</ul>" +
         '<p class="small" style="margin-top:8px">These words come first in her next practice rounds.</p>'
@@ -1773,6 +1857,7 @@ function renderGrown() {
     '<section><h3>All words (' + state.words.length + ')</h3>' +
       (state.words.length ? '<ul class="list">' + state.words.map(w => wordRow(w, "")).join("") + "</ul>" : '<p class="small">No words yet. Add some below.</p>') +
       '<p class="small" style="margin-top:8px">Yellow dots show practice progress; after 3 right answers on different days a word gets a star on the home screen.</p></section>' +
+    (state.bank.length ? '<section><h3>Older words (' + state.bank.length + ')</h3><ul class="list">' + state.bank.map(w => wordRow(w, "")).join("").replace(/data-act="del"/g, 'data-act="delbank"') + '</ul><p class="small" style="margin-top:8px">Words from earlier weeks. Up to ' + REVIEW_SLOTS + ' come back in every practice round: the ones she missed first, the ones she knows only now and then.</p></section>' : "") +
     '<section><h3>Add a word</h3><div class="addrow">' +
       '<div class="seg" role="group" aria-label="Article">' + ARTS.map(a => '<button data-act="art" data-a="' + a + '" aria-pressed="' + (a === addArt) + '">' + a + "</button>").join("") + "</div>" +
       '<input type="text" id="addNoun" placeholder="Hund" autocomplete="off" autocapitalize="words" spellcheck="false">' +
@@ -1785,7 +1870,7 @@ function renderGrown() {
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
       '<p class="small" style="margin-top:6px">One word per line: article, word, an optional emoji, and after a | an optional short sentence that starts with the word (Der Hund bellt.). <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
-    '<section><h3>Hand signs</h3><p>Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊ (round, like ●), <b>die</b> = one finger pointing up ☝️ (pointed, like ▲), <b>das</b> = flat hand ✋ (flat, like ■). The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
+    '<section><h3>Hand signs &amp; house friends</h3><p>The three house friends are called DER, DIE and DAS. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊ (round, like ●), <b>die</b> = one finger pointing up ☝️ (pointed, like ▲), <b>das</b> = flat hand ✋ (flat, like ■). The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     voiceSection() +
     '<section><h3>Progress</h3><div class="stats">' +
       "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div>" +
@@ -1827,6 +1912,24 @@ function voiceSection() {
   return '<section><h3>Voice</h3>' + body +
     '<div class="settings" style="margin-top:10px"><button class="btn" data-act="testclip">Test recorded voice</button>' +
     (hasTTS ? '<button class="btn" data-act="testvoice">Test iPad voice</button>' : "") + "</div></section>";
+}
+// The grown-ups' weekly summary: last 7 days from the daily log.
+function weeklyReport() {
+  const days = Array.from({ length: 7 }, (_, i) => addDays(today(), i - 6));
+  const log = state.progress.log || {};
+  const rows = days.map(d => ({ d, ...(log[d] || { st: 0, r: 0, q: 0, g: 0, s: 0 }) }));
+  const sum = (k) => rows.reduce((a, r) => a + (r[k] || 0), 0);
+  const played = rows.filter(r => r.st || r.r || r.q || r.g).length;
+  const max = Math.max(4, ...rows.map(r => r.st || 0));
+  const wd = (d) => new Date(d + "T12:00").toLocaleDateString("en-GB", { weekday: "short" });
+  const all = allWords(), known = all.filter(w => (prog(w.id).box || 0) >= MASTERED).length;
+  const weak = all.filter(w => needsPractice(w)).slice(0, 8);
+  const bars = rows.map(r => '<div class="wk-col"><div class="wk-bar" style="height:' + Math.round((r.st || 0) / max * 100) + '%" data-v="' + (r.st || 0) + ' ★"></div><span>' + (r.d === today() ? "Today" : wd(r.d)) + "</span></div>").join("");
+  return '<section class="report"><h3>This week</h3>' +
+    '<div class="stats wk-stats"><div><b>' + played + ' / 7</b>days played</div><div><b>' + sum("st") + '</b>stars</div><div><b>' + sum("r") + '</b>practice rounds</div><div><b>' + sum("q") + '</b>quizzes</div><div><b>' + sum("g") + '</b>games &amp; stories</div><div><b>' + sum("s") + '</b>words said right</div></div>' +
+    '<div class="wk-chart" role="img" aria-label="Stars per day, last 7 days: ' + rows.map(r => wd(r.d) + " " + (r.st || 0)).join(", ") + '"><div class="wk-title">Stars per day</div><div class="wk-plot">' + bars + "</div></div>" +
+    '<p style="margin-top:12px"><b>' + known + " of " + all.length + "</b> words known well." +
+    (weak.length ? " Still tricky: " + weak.map(w => '<span class="chip ' + w.article + '" style="display:inline-block;padding:2px 10px;margin:2px">' + w.article + " " + esc(w.noun) + "</span>").join(" ") : " Nothing tricky right now.") + "</p></section>";
 }
 function flash(text, err) { const m = $("msg"); if (m) { m.textContent = text; m.className = "msg" + (err ? " err" : ""); } }
 function parseLines(text) {
@@ -1870,13 +1973,14 @@ $("sheet").addEventListener("click", async (e) => {
   if (act === "testclip") { say([C("p-super"), { key: "w-hund", text: "der Hund" }, { key: "s-hund", text: "Der Hund bellt." }]); return; }
   if (act === "testvoice") { say("der Hund, die Katze, das Haus"); return; }
   if (act === "hear") { const w = state.words.find(x => x.id === b.dataset.id); if (w) say([W(w), SENT(w)]); return; }
+  if (act === "delbank") { state.bank = state.bank.filter(x => x.id !== b.dataset.id); return commitWords("Removed."); }
   if (act === "del") { state.words = state.words.filter(x => x.id !== b.dataset.id); return commitWords("Removed."); }
   if (act === "bulk" || act === "newlist") {
     const { out, bad } = parseLines($("bulk").value || "");
     if (!out.length) { renderGrown(); flash("Nothing to add. Write lines like: der Hund", true); return; }
     if (act === "newlist" && armed !== "newlist") { const keep = $("bulk").value; armed = "newlist"; renderGrown(); $("bulk").value = keep; return; }
     armed = "";
-    if (act === "newlist") state.words = [];
+    if (act === "newlist") { const old = state.words; state.words = []; for (const w of out) state.words.push(w); archiveWords(old); state.words = []; }
     for (const w of out) { const i = state.words.findIndex(x => x.id === norm(w.noun)); if (i >= 0) state.words.splice(i, 1); state.words.push(w); }
     state.sample = false;
     await commitWords((act === "newlist" ? "New list: " : "Added ") + out.length + " words." + (bad.length ? " Skipped: " + bad.join(", ") : ""));
@@ -1906,6 +2010,7 @@ renderHome();
   db.doc("lists/current").onSnapshot((snap) => {
     const d = snap.exists ? snap.data() : null;
     state.words = normalizeWords(d && d.words);
+    state.bank = normalizeWords(d && d.bank);
     state.sample = !!(d && d.sample);
     state.settings = { ...state.settings, ...((d && d.settings) || {}) };
     state.wordsLoaded = true;
