@@ -1,10 +1,11 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Der Die Das"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}</style></head><body><title>Der Die Das</title>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Der Die Das"><link rel="apple-touch-icon" href="img/house-das.webp"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}</style></head><body><title>Der Die Das</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
 :root{
-  --ground:#F4F2FB; --surface:#FFFFFF; --ink:#27233A; --muted:#6D6886; --line:#E2DEEF;
+  --ground:#F1EEE6; --surface:#FFFFFF; --ink:#2A2622; --muted:#6F695D; --line:#E2DCCF;
+  --paper:#F1EEE6; --lift:0 14px 32px rgba(70,50,20,.12), 0 2px 0 rgba(70,50,20,.06);
   --der:#2F6FE0; --die:#E0433B; --das:#1E9E57; --star:#F5B400;
   --der-deep:#1F4FAD; --die-deep:#A92B25; --das-deep:#12703C;
   --der-soft:#E2EBFD; --die-soft:#FCE4E2; --das-soft:#DDF4E6;
@@ -70,22 +71,51 @@ button:disabled{cursor:default}
 .w .txt{font-family:var(--display);font-size:16px;font-weight:600;color:var(--ink)}
 .empty{color:var(--muted);font-size:15px;text-align:center;padding:8px;align-self:center}
 
+/* ---------- pictures ---------- */
+.pic{display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:darken}
+.tile{background:var(--paper);border-radius:22%;overflow:hidden;display:block}
+.home .houses{align-items:start}
+.house-top{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%}
+.house-img{width:min(100%,190px);aspect-ratio:1;border-radius:28px;transition:transform .15s}
+.house-top:active .house-img{transform:scale(.96)}
+.house.pics .roof{display:none}
+.house:not(.pics) .house-img{display:none}
+.label{display:inline-flex;align-items:center;gap:.25em;font-family:var(--display);font-weight:800;font-size:clamp(24px,4.2vmin,36px);line-height:1;margin-top:-6px}
+.house[data-a="der"] .label{color:var(--der)} .house[data-a="die"] .label{color:var(--die)} .house[data-a="das"] .label{color:var(--das)}
+.label .sym{width:.6em;height:.6em}
+.house:not(.pics) .label{display:none}
+.house.pics .rooms{border-radius:22px;margin-top:10px}
+.w .tile{width:clamp(48px,8.4vmin,72px);height:clamp(48px,8.4vmin,72px)}
+.w{padding:3px}
+.card-pic{width:min(78%,340px);aspect-ratio:1;flex:0 1 auto;min-height:0;max-height:62%}
+.card-pic .pic{animation:arrive .45s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes arrive{from{transform:scale(.6) translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.yay{position:absolute;left:14px;top:14px;width:clamp(84px,15vmin,130px);aspect-ratio:1;pointer-events:none;z-index:2}
+.yay .tile{width:100%;height:100%;box-shadow:var(--lift)}
+.yay .fallback{display:grid;place-items:center;width:100%;height:100%;font-size:clamp(52px,9vmin,80px)}
+.yay.show{animation:yay .6s cubic-bezier(.3,1.7,.5,1) both}
+@keyframes yay{from{transform:scale(.2) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
+.flyer{isolation:isolate;position:fixed;z-index:20;pointer-events:none;border-radius:24px;overflow:hidden;background:var(--paper)}
+.star-img{width:clamp(160px,34vmin,280px);aspect-ratio:1;animation:pop .6s cubic-bezier(.3,1.6,.5,1) both, bob 1.8s ease-in-out .6s infinite}
+.practised .tile{width:clamp(56px,9vmin,84px);height:clamp(56px,9vmin,84px)}
+.row .e .tile{width:40px;height:40px;border-radius:10px}
+
 /* ---------- play ---------- */
 .dots{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;flex:1}
 .dot{width:16px;height:16px;border-radius:50%;background:var(--line);transition:background .25s,transform .25s}
 .dot.now{transform:scale(1.35);box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--muted)}
 .dot.der{background:var(--der)} .dot.die{background:var(--die)} .dot.das{background:var(--das)}
 .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:16px;min-height:0}
-.card{position:relative;width:min(100%,560px);flex:1;max-height:440px;min-height:0;background:var(--surface);border-radius:36px;
+.card{position:relative;width:min(100%,560px);flex:1;max-height:460px;min-height:0;background:var(--paper);border-radius:36px;box-shadow:var(--lift);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  box-shadow:0 0 0 0 transparent;transition:box-shadow .25s}
-.card.der{box-shadow:0 0 0 8px var(--der)} .card.die{box-shadow:0 0 0 8px var(--die)} .card.das{box-shadow:0 0 0 8px var(--das)}
+  transition:box-shadow .25s}
+.card.der{box-shadow:0 0 0 8px var(--der),var(--lift)} .card.die{box-shadow:0 0 0 8px var(--die),var(--lift)} .card.das{box-shadow:0 0 0 8px var(--das),var(--lift)}
 .emoji{font-size:clamp(96px,26vmin,220px);line-height:1.05}
 .emoji.text{font-family:var(--display);font-weight:800;font-size:clamp(48px,10vmin,90px)}
 .caption{font-family:var(--display);font-weight:800;font-size:clamp(34px,6.5vmin,60px);line-height:1;min-height:1em;visibility:hidden}
 .caption.show{visibility:visible}
 .caption .art.der{color:var(--der)} .caption .art.die{color:var(--die)} .caption .art.das{color:var(--das)}
-.listen{position:absolute;right:14px;top:14px;width:64px;height:64px;border-radius:50%;background:var(--ground);display:grid;place-items:center;color:var(--ink)}
+.listen{position:absolute;right:14px;top:14px;width:64px;height:64px;border-radius:50%;background:var(--surface);box-shadow:0 2px 0 var(--line);display:grid;place-items:center;color:var(--ink)}
 .listen svg{width:30px;height:30px}
 .sym{width:.5em;height:.5em;flex:none}
 .roof .sym{width:.62em;height:.62em;margin-right:.18em;margin-bottom:.08em}
@@ -105,6 +135,14 @@ button:disabled{cursor:default}
 .round{width:clamp(80px,13vmin,110px);aspect-ratio:1;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--ink);box-shadow:0 6px 0 var(--line)}
 .round svg{width:44%;height:44%}
 .mouth{font-size:clamp(56px,10vmin,90px);line-height:1;animation:bob 1.4s ease-in-out infinite}
+.sign{position:relative;width:clamp(96px,17vmin,150px);aspect-ratio:1;flex:none}
+.sign .tile{width:100%;height:100%;box-shadow:var(--lift)}
+.sign .fallback{display:grid;place-items:center;width:100%;height:100%;font-size:clamp(56px,10vmin,90px)}
+.sign .badge{position:absolute;right:-6px;bottom:-6px;width:40%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;color:var(--on-color);box-shadow:0 0 0 4px var(--ground)}
+.sign .badge .sym{width:52%;height:52%}
+.sign[data-a="der"] .badge{background:var(--der)} .sign[data-a="die"] .badge{background:var(--die)} .sign[data-a="das"] .badge{background:var(--das)}
+.row .n small{display:block;font-weight:600;font-size:14px;color:var(--muted)}
+#addSentence{flex:1 1 100%}
 .go{flex:0 1 260px;min-height:clamp(96px,17vmin,150px);border-radius:30px;background:var(--ink);color:var(--ground);display:grid;place-items:center;
   box-shadow:0 8px 0 var(--muted);transition:opacity .3s,transform .12s}
 .go svg{width:64px;height:64px}
@@ -191,9 +229,9 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
     </button>
     <div class="houses" id="houses">
-      <div class="house" data-a="der"><button class="roof" data-say="der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</button><div class="rooms" id="rooms-der"></div></div>
-      <div class="house" data-a="die"><button class="roof" data-say="die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</button><div class="rooms" id="rooms-die"></div></div>
-      <div class="house" data-a="das"><button class="roof" data-say="das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</button><div class="rooms" id="rooms-das"></div></div>
+      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="tile house-img"><img class="pic" src="img/house-der.webp" alt="" data-house="der"></span><span class="label"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button><button class="roof" data-say="der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</button><div class="rooms" id="rooms-der"></div></div>
+      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="tile house-img"><img class="pic" src="img/house-die.webp" alt="" data-house="die"></span><span class="label"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</span></button><button class="roof" data-say="die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 19 18H1z" fill="currentColor"/></svg>die</button><div class="rooms" id="rooms-die"></div></div>
+      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="tile house-img"><img class="pic" src="img/house-das.webp" alt="" data-house="das"></span><span class="label"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</span></button><button class="roof" data-say="das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/></svg>das</button><div class="rooms" id="rooms-das"></div></div>
     </div>
   </div>
 </section>
@@ -212,6 +250,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <button class="listen" id="listenBtn" aria-label="Nochmal hören">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
       </button>
+      <div class="yay" id="yay" hidden><span class="tile"><img class="pic" src="img/yay.webp" alt="" data-yay="1"></span></div>
+      <div class="card-pic" id="cardPic" hidden></div>
       <div class="emoji" id="emoji"></div>
       <div class="caption" id="caption"></div>
     </div>
@@ -224,6 +264,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <button class="round" id="againBtn" aria-label="Nochmal hören">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
       </button>
+      <div class="sign" id="sign" aria-hidden="true"></div>
       <div class="mouth" aria-hidden="true">🗣️</div>
       <button class="go" id="nextBtn" aria-label="Weiter" disabled>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -235,7 +276,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 <!-- DONE -->
 <section class="screen" id="done" hidden>
   <div class="done">
-    <div class="big-star">★</div>
+    <div class="star-img" id="starImg" hidden><img class="pic" src="img/star.webp" alt="" data-star="1"></div>
+    <div class="big-star" id="bigStar">★</div>
     <div class="earned" id="earned">+0</div>
     <div class="practised" id="practised"></div>
     <div class="done-actions">
@@ -285,6 +327,53 @@ const EMOJI = {hund:"🐶",katze:"🐱",maus:"🐭",pferd:"🐴",kuh:"🐮",schw
   geschenk:"🎁",kerze:"🕯️",ballon:"🎈",luftballon:"🎈",teddy:"🧸",trommel:"🥁",gitarre:"🎸",krone:"👑",
   mama:"👩",papa:"👨",baby:"👶",kind:"🧒",junge:"👦",maedchen:"👧",oma:"👵",opa:"👴"};
 
+/* ---------- sentences & hand signs ---------- */
+// Short sentences keep the article in front (nominative), so "der/die/das" is never changed to "den".
+const SENTENCES = {hund:"Der Hund bellt.",apfel:"Der Apfel ist rot.",ball:"Der Ball rollt.",mond:"Der Mond schläft.",
+  katze:"Die Katze miaut.",sonne:"Die Sonne lacht.",banane:"Die Banane ist gelb.",blume:"Die Blume blüht.",
+  haus:"Das Haus ist klein.",auto:"Das Auto fährt.",buch:"Das Buch ist offen.",ei:"Das Ei ist rund."};
+const sentenceOf = (w) => w.s ? String(w.s) : (SENTENCES[w.id] || "");
+// Hand signs echo the shapes: fist = ● der, raised pointing finger = ▲ die, flat hand = ■ das.
+// The peace sign is kept for "well done", because that is her own gesture for liking something.
+const SIGNS = {der:{img:"img/sign-der.webp",emoji:"✊"},die:{img:"img/sign-die.webp",emoji:"☝️"},das:{img:"img/sign-das.webp",emoji:"✋"}};
+const SYMS = {der:'<circle cx="10" cy="10" r="8" fill="currentColor"/>',die:'<path d="M10 2 19 18H1z" fill="currentColor"/>',das:'<rect x="2" y="2" width="16" height="16" rx="2" fill="currentColor"/>'};
+function renderSign(a) {
+  const el = $("sign"), sg = SIGNS[a];
+  el.dataset.a = a;
+  const face = failedPics.has(sg.img) ? '<span class="fallback">' + sg.emoji + "</span>"
+    : '<span class="tile"><img class="pic" src="' + sg.img + '" alt="" data-fallback="' + sg.emoji + '"></span>';
+  el.innerHTML = face + '<span class="badge"><svg class="sym" viewBox="0 0 20 20">' + SYMS[a] + "</svg></span>";
+}
+
+/* ---------- pictures ---------- */
+// Clay illustrations shipped next to the page. Words without one fall back to their emoji.
+const PICS = new Set(["hund","apfel","ball","mond","katze","sonne","banane","blume","haus","auto","buch","ei"]);
+const picSrc = (w) => w.pic ? String(w.pic) : (PICS.has(w.id) ? "img/" + w.id + ".webp" : "");
+const failedPics = new Set();
+function faceHTML(w, tileClass) {
+  const src = picSrc(w);
+  if (src && !failedPics.has(src)) return '<span class="tile ' + (tileClass || "") + '"><img class="pic" src="' + esc(src) + '" alt="" data-fallback="' + esc(w.emoji || w.noun) + '"></span>';
+  return w.emoji ? esc(w.emoji) : '<span class="txt">' + esc(w.noun) + "</span>";
+}
+document.addEventListener("error", (e) => {
+  const img = e.target;
+  if (!img || img.tagName !== "IMG") return;
+  failedPics.add(img.getAttribute("src"));
+  if (img.dataset.house) return;                       // house art missing: the CSS roof stays
+  if (img.dataset.yay) { img.closest(".tile").outerHTML = '<span class="fallback">✌️</span>'; return; }
+  if (img.dataset.star) { $("starImg").hidden = true; $("bigStar").hidden = false; return; }
+  const holder = img.closest(".tile, .card-pic");
+  if (!holder) return;
+  if (holder.id === "cardPic") { holder.hidden = true; $("emoji").hidden = false; return; }
+  holder.replaceWith(document.createTextNode(img.dataset.fallback || ""));
+}, true);
+document.querySelectorAll("img[data-house]").forEach(img => {
+  const mark = () => img.closest(".house").classList.add("pics");
+  if (img.complete && img.naturalWidth) mark(); else img.addEventListener("load", mark);
+});
+{ const st = document.querySelector("img[data-star]"); const ok = () => { $("starImg").hidden = false; $("bigStar").hidden = true; };
+  if (st.complete && st.naturalWidth) ok(); else st.addEventListener("load", ok); }
+
 /* ---------- helpers ---------- */
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -328,7 +417,7 @@ function normalizeWords(list) {
     const noun = capNoun(w.noun), id = w.id ? String(w.id) : norm(noun);
     if (!id || seen.has(id)) continue;
     seen.add(id);
-    out.push({ id, noun, article: String(w.article).toLowerCase(), emoji: String(w.emoji || "") });
+    out.push({ id, noun, article: String(w.article).toLowerCase(), emoji: String(w.emoji || ""), ...(w.pic ? { pic: String(w.pic) } : {}), ...(w.s ? { s: String(w.s) } : {}) });
   }
   return out;
 }
@@ -457,7 +546,7 @@ function renderHome() {
     if (!ws.length) { box.innerHTML = ""; continue; }
     box.innerHTML = ws.map(w => {
       const m = prog(w.id).box >= MASTERED;
-      const face = w.emoji ? esc(w.emoji) : '<span class="txt">' + esc(w.noun) + "</span>";
+      const face = faceHTML(w);
       return '<button class="w ' + (m ? "mastered" : "learning") + '" data-id="' + esc(w.id) + '" aria-label="' + esc(w.article + " " + w.noun) + '">' + face + "</button>";
     }).join("");
   }
@@ -500,12 +589,18 @@ function nextCard() {
   const w = S.words.find(x => x.id === id);
   const hinted = state.settings.sayFirst !== "new" || prog(w.id).box < MASTERED;
   S.card = { w, attempts: 0, locked: false, hinted, listening: true };
-  const em = $("emoji");
+  const em = $("emoji"), cp = $("cardPic"), src = picSrc(w);
   em.className = "emoji" + (w.emoji ? "" : " text");
   em.textContent = w.emoji || w.noun;
+  if (src && !failedPics.has(src)) {
+    cp.innerHTML = '<img class="pic" src="' + esc(src) + '" alt="">';
+    cp.hidden = false; em.hidden = true;
+  } else { cp.hidden = true; em.hidden = false; }
+  preloadNext();
   $("caption").className = "caption";
   $("caption").innerHTML = "";
   $("card").className = "card";
+  $("yay").hidden = true;
   document.querySelectorAll(".choice").forEach(b => { b.disabled = false; b.className = "choice"; });
   $("choices").hidden = false;
   $("repeat").hidden = true;
@@ -516,6 +611,31 @@ function nextCard() {
   say(hinted ? w.article + " " + w.noun : "Wie heißt das?", 0.75).then(() => {
     if (S && S.card === card) { card.listening = false; $("choices").classList.remove("wait"); }
   });
+}
+function preloadNext() {
+  const nid = S.queue[0], nw = nid && S.words.find(x => x.id === nid), src = nw && picSrc(nw);
+  if (src && !failedPics.has(src)) { const i = new Image(); i.src = src; }
+}
+// On a right answer the picture flies into its coloured button, like moving into its house.
+function flyTo(btn) {
+  const from = $("cardPic").hidden ? $("emoji") : $("cardPic");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !from.animate) return;
+  const a = from.getBoundingClientRect(), b = btn.getBoundingClientRect();
+  if (!a.width || !b.width) return;
+  const f = from.cloneNode(true);
+  f.removeAttribute("id"); f.hidden = false; f.classList.add("flyer");
+  Object.assign(f.style, { left: a.left + "px", top: a.top + "px", width: a.width + "px", height: a.height + "px", margin: 0 });
+  document.body.appendChild(f);
+  const dx = b.left + b.width / 2 - (a.left + a.width / 2), dy = b.top + b.height / 2 - (a.top + a.height / 2);
+  const s = Math.min(b.height / a.height, .4);
+  f.animate([
+    { transform: "translate(0,0) scale(1)", opacity: 1 },
+    { transform: "translate(" + dx * .5 + "px," + (dy * .5 - 60) + "px) scale(" + (s + .25) + ")", opacity: 1, offset: .55 },
+    { transform: "translate(" + dx + "px," + dy + "px) scale(" + s + ")", opacity: 0 }
+  ], { duration: 750, easing: "cubic-bezier(.3,.1,.3,1)" }).onfinish = () => {
+    f.remove();
+    btn.animate([{ transform: "scale(1.06)" }, { transform: "scale(1.16)" }, { transform: "scale(1.06)" }], { duration: 260 });
+  };
 }
 function requeue(id) {
   S.misses[id] = (S.misses[id] || 0) + 1;
@@ -540,13 +660,15 @@ function answer(a, btn) {
     c.locked = true;
     chime();
     btn.classList.add("right");
+    flyTo(btn);
+    const y = $("yay"); y.hidden = false; y.classList.remove("show"); void y.offsetWidth; y.classList.add("show");
     const clean = c.attempts === 1;
     grade(w.id, clean);
     if (clean) { S.done[w.id] = true; S.earned++; state.progress.stars++; $("starsPlay").textContent = state.progress.stars; }
     else requeue(w.id);
     saveProgress();
     reveal();
-    say(pick(PRAISE) + " " + w.article + " " + w.noun + "!").then(showRepeat);
+    say(pick(PRAISE) + " " + (sentenceOf(w) || w.article + " " + w.noun + "!")).then(showRepeat);
   } else {
     boop();
     btn.classList.add("wrong"); btn.disabled = true;
@@ -555,7 +677,7 @@ function answer(a, btn) {
       grade(w.id, false); requeue(w.id); saveProgress();
       document.querySelectorAll(".choice").forEach(b => { b.disabled = true; if (b.dataset.a === w.article) b.classList.add("hint"); });
       reveal();
-      say("Schau: " + w.article + " " + w.noun + ". Sag mal: " + w.article + " " + w.noun + "!").then(showRepeat);
+      say("Schau: " + w.article + " " + w.noun + ". " + sentenceOf(w) + " Sag mal: " + w.article + " " + w.noun + "!").then(showRepeat);
     } else {
       say("Hmm, nochmal!");
     }
@@ -572,6 +694,7 @@ let nextTimer = 0;
 function showRepeat() {
   if (!S) return;
   $("choices").hidden = true;
+  renderSign(S.card.w.article);
   $("repeat").hidden = false;
   $("nextBtn").disabled = true;
   clearTimeout(nextTimer);
@@ -582,7 +705,7 @@ function finishSession() {
   state.progress.lastPlayed = today();
   saveProgress();
   $("earned").textContent = "+" + S.earned;
-  $("practised").innerHTML = S.words.map(w => '<span>' + esc(w.emoji || w.noun) + "</span>").join("");
+  $("practised").innerHTML = S.words.map(w => "<span>" + faceHTML(w) + "</span>").join("");
   S = null;
   show("done");
   confetti();
@@ -600,7 +723,11 @@ $("listenBtn").addEventListener("click", () => {
   const w = S.card.w;
   say(S.card.locked || S.card.hinted ? w.article + " " + w.noun : "Wie heißt das?", 0.75);
 });
-$("againBtn").addEventListener("click", () => { if (S && S.card) say(S.card.w.article + " " + S.card.w.noun, 0.72); });
+$("againBtn").addEventListener("click", () => {
+  if (!S || !S.card) return;
+  const w = S.card.w, sent = sentenceOf(w);
+  say(w.article + " " + w.noun + "." + (sent ? " " + sent : ""), 0.72);
+});
 $("nextBtn").addEventListener("click", () => { if (S) nextCard(); });
 $("quitBtn").addEventListener("click", quitSession);
 $("playBtn").addEventListener("click", () => { tone([523], "triangle", 0.1); startSession(); });
@@ -653,8 +780,8 @@ function renderGrown() {
       : "Connecting…";
   const rows = state.words.map(w => {
     const p = prog(w.id);
-    return '<li class="row"><span class="e">' + esc(w.emoji || "·") + '</span><span class="chip ' + w.article + '">' + w.article +
-      '</span><span class="n">' + esc(w.noun) + '</span><span class="pips" title="Progress">' +
+    return '<li class="row"><span class="e">' + (picSrc(w) || w.emoji ? faceHTML(w) : "·") + '</span><span class="chip ' + w.article + '">' + w.article +
+      '</span><span class="n">' + esc(w.noun) + (sentenceOf(w) ? "<small>" + esc(sentenceOf(w)) + "</small>" : "") + '</span><span class="pips" title="Progress">' +
       [1, 2, 3, 4].map(i => '<span class="pip' + (p.box >= i ? " on" : "") + '"></span>').join("") +
       '</span><button class="mini" data-act="hear" data-id="' + esc(w.id) + '" aria-label="Hear ' + esc(w.article + " " + w.noun) + '"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5 6 9H3v6h3l5 4V5z"/></svg></button>' +
       '<button class="mini" data-act="del" data-id="' + esc(w.id) + '" aria-label="Remove ' + esc(w.noun) + '">✕</button></li>';
@@ -664,6 +791,7 @@ function renderGrown() {
     '<header><h2>Word list</h2><button class="btn primary" data-act="close">Done</button></header>' +
     '<p class="note">' + esc(modeNote) + (state.dbError ? "<br><strong>" + esc(state.dbError) + "</strong>" : "") + "</p>" +
     (state.sample ? '<p class="note">These are example words. Tap <b>Start a new list</b> below and paste the words from school.</p>' : "") +
+    '<section><h3>Hand signs</h3><p>Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊ (round, like ●), <b>die</b> = one finger pointing up ☝️ (pointed, like ▲), <b>das</b> = flat hand ✋ (flat, like ■). The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     '<section><h3>Words (' + state.words.length + ')</h3>' +
       (state.words.length ? '<ul class="list">' + rows + "</ul>" : '<p class="small">No words yet. Add some below.</p>') +
       '<p class="small" style="margin-top:8px">Yellow dots show progress. After 3 right answers on different days a word gets a star on the home screen.</p></section>' +
@@ -671,12 +799,13 @@ function renderGrown() {
       '<div class="seg" role="group" aria-label="Article">' + ARTS.map(a => '<button data-act="art" data-a="' + a + '" aria-pressed="' + (a === addArt) + '">' + a + "</button>").join("") + "</div>" +
       '<input type="text" id="addNoun" placeholder="Hund" autocomplete="off" autocapitalize="words" spellcheck="false">' +
       '<input type="text" id="addEmoji" placeholder="🐶" autocomplete="off" aria-label="Picture (emoji)">' +
+      '<input type="text" id="addSentence" placeholder="Short sentence (optional): Der Hund bellt." autocomplete="off">' +
       '<button class="btn primary" data-act="add">Add</button></div>' +
       '<p class="small" style="margin-top:6px">The picture fills in by itself for common words. Otherwise pick an emoji from the iPad keyboard.</p></section>' +
-    '<section><h3>Paste a list</h3><textarea id="bulk" placeholder="der Hund 🐶&#10;die Katze&#10;das Haus 🏠"></textarea>' +
+    '<section><h3>Paste a list</h3><textarea id="bulk" placeholder="der Hund 🐶 | Der Hund bellt.&#10;die Katze&#10;das Haus 🏠 | Das Haus ist klein."></textarea>' +
       '<div class="addrow" style="margin-top:8px"><button class="btn primary" data-act="bulk">Add these words</button>' +
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
-      '<p class="small" style="margin-top:6px">One word per line: article, word, and an optional emoji. <b>Start a new list</b> replaces all words with the ones in the box (stars and progress are kept).</p>' +
+      '<p class="small" style="margin-top:6px">One word per line: article, word, an optional emoji, and after a | an optional short sentence that starts with the word (Der Hund bellt.). <b>Start a new list</b> replaces all words with the ones in the box (stars and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
     voiceSection() +
     '<section><h3>Practice</h3><div class="stats">' +
@@ -713,9 +842,12 @@ function parseLines(text) {
   const out = [], bad = [];
   for (const raw of text.split(/\n+/)) {
     const line = raw.trim(); if (!line) continue;
-    const m = line.match(/^(der|die|das)\s+([A-Za-zÄÖÜäöüß-]+)\s*(.*)$/i);
+    const [main, sent] = line.split("|");
+    const m = main.trim().match(/^(der|die|das)\s+([A-Za-zÄÖÜäöüß-]+)\s*(.*)$/i);
     if (!m) { bad.push(line); continue; }
-    out.push({ article: m[1].toLowerCase(), noun: capNoun(m[2]), emoji: m[3].trim() || guessEmoji(m[2]) });
+    const w = { article: m[1].toLowerCase(), noun: capNoun(m[2]), emoji: m[3].trim() || guessEmoji(m[2]) };
+    if (sent && sent.trim()) w.s = sent.trim();
+    out.push(w);
   }
   return { out, bad };
 }
@@ -729,6 +861,8 @@ function addOne() {
   const noun = ($("addNoun").value || "").trim();
   if (!/^[A-Za-zÄÖÜäöüß-]+$/.test(noun)) { flash("Type one word, like Hund.", true); return; }
   const w = { id: norm(noun), noun: capNoun(noun), article: addArt, emoji: ($("addEmoji").value || "").trim() || guessEmoji(noun) };
+  const sent = ($("addSentence").value || "").trim();
+  if (sent) w.s = sent;
   const i = state.words.findIndex(x => x.id === w.id);
   if (i >= 0) state.words[i] = w; else state.words.push(w);
   state.sample = false;
@@ -743,7 +877,7 @@ $("sheet").addEventListener("click", async (e) => {
   if (act === "art") { addArt = b.dataset.a; document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x.dataset.a === addArt)); return; }
   if (act === "add") return addOne();
   if (act === "testvoice") { say("der Hund, die Katze, das Haus"); return; }
-  if (act === "hear") { const w = state.words.find(x => x.id === b.dataset.id); if (w) say(w.article + " " + w.noun); return; }
+  if (act === "hear") { const w = state.words.find(x => x.id === b.dataset.id); if (w) say(w.article + " " + w.noun + ". " + sentenceOf(w)); return; }
   if (act === "del") { state.words = state.words.filter(x => x.id !== b.dataset.id); return commitWords("Removed."); }
   if (act === "bulk" || act === "newlist") {
     const { out, bad } = parseLines($("bulk").value || "");
