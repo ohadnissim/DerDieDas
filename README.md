@@ -4,7 +4,7 @@ A der/die/das practice game for young children. No reading needed: every word is
 
 **Play it:** https://ohadnissim.github.io/DerDieDas/
 
-- **Practice (purple button):** the app says the word with its article ("der Hund"), the child taps **der** (blue ●), **die** (red ▲) or **das** (yellow ■), then says it out loud with the hand sign (der ✊ fist, die ☝️ pointing finger, das ✋ flat hand). A peace sign ✌️ celebrates right answers; short sentences ("Der Hund bellt.") put the word in context. Missed words come back a few cards later; across days, known words come back less often.
+- **Practice (purple button):** the app says the word with its article ("der Hund"), the child taps **der** (blue ●), **die** (red ●) or **das** (yellow ●), then says it out loud with the hand sign (der ✊ fist, die ☝️ pointing finger, das ✋ flat hand). A peace sign ✌️ celebrates right answers; Missed words come back a few cards later; across days, known words come back less often.
 - **Quiz (pink button, gets a "!" every 2 rounds):** picture only, no hints, one try per word. Missed words are flagged for the grown-ups and go back into practice.
 - **Speaking:** in the say-it step she taps the microphone and says the word; she gets kind feedback ("Super gesagt!" / "Fast! Hör mal:") and hears her own voice back. Needs the microphone permission; works on this GitHub version only.
 - **Memory (pink cards):** find two pictures that live in the same house; each card says its word.
@@ -15,7 +15,7 @@ A der/die/das practice game for young children. No reading needed: every word is
 - **Weekly report (⚙️):** days played, stars per day, rounds, quizzes, words said right, and which words are still tricky.
 - **House friends DER, DIE and DAS:** a round (der), pointy (die) and square (das) friend live in the houses and cheer for right answers.
 - **Stickers:** every 10 first-try answers unlock a new sticker in the sticker book (24 to collect).
-- **Grown-ups:** tap ⚙️ and answer the sum to see which words need practice, edit the word list (`der Hund 🐶 | Der Hund bellt.`, one per line) and change settings.
+- **Grown-ups:** tap ⚙️ and answer the sum to see which words need practice, edit the word list (`der Hund 🐶`, one per line) and change settings.
 
 **New words each week:** `data/words.json` (bump `version`; add `"replace": true` to drop earlier words instead of keeping them for review) and `data/stories.json`; the app picks them up automatically.
 

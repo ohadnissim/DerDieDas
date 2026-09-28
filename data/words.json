@@ -7,7 +7,6 @@
    "noun": "Maus",
    "article": "die",
    "emoji": "🐭",
-   "s": "Die Maus piepst.",
    "rec": true,
    "pic": "img/m-maus.webp"
   },
@@ -16,7 +15,6 @@
    "noun": "Mann",
    "article": "der",
    "emoji": "👨",
-   "s": "Der Mann lacht.",
    "rec": true,
    "pic": "img/m-mann.webp"
   },
@@ -25,7 +23,6 @@
    "noun": "Mond",
    "article": "der",
    "emoji": "🌙",
-   "s": "Der Mond schläft.",
    "pic": "img/m-mond.webp",
    "rec": true
   },
@@ -34,7 +31,6 @@
    "noun": "Mauer",
    "article": "die",
    "emoji": "🧱",
-   "s": "Die Mauer ist hoch.",
    "rec": true,
    "pic": "img/m-mauer.webp"
   },
@@ -43,7 +39,6 @@
    "noun": "Wurm",
    "article": "der",
    "emoji": "🪱",
-   "s": "Der Wurm kriecht.",
    "rec": true,
    "pic": "img/m-wurm.webp"
   },
@@ -52,7 +47,6 @@
    "noun": "Mama",
    "article": "die",
    "emoji": "👩",
-   "s": "Die Mama singt.",
    "rec": true,
    "pic": "img/m-mama.webp"
   },
@@ -61,7 +55,6 @@
    "noun": "Messer",
    "article": "das",
    "emoji": "🔪",
-   "s": "Das Messer ist scharf.",
    "rec": true,
    "pic": "img/m-messer.webp"
   },
@@ -70,7 +63,6 @@
    "noun": "Mantel",
    "article": "der",
    "emoji": "🧥",
-   "s": "Der Mantel ist warm.",
    "rec": true,
    "pic": "img/m-mantel.webp"
   },
@@ -79,7 +71,6 @@
    "noun": "Murmel",
    "article": "die",
    "emoji": "🔮",
-   "s": "Die Murmel rollt.",
    "rec": true,
    "pic": "img/m-murmel.webp"
   },
@@ -88,7 +79,6 @@
    "noun": "Mund",
    "article": "der",
    "emoji": "👄",
-   "s": "Der Mund ist rot.",
    "rec": true,
    "pic": "img/m-mund.webp"
   },
@@ -97,7 +87,6 @@
    "noun": "Milch",
    "article": "die",
    "emoji": "🥛",
-   "s": "Die Milch ist weiß.",
    "rec": true,
    "pic": "img/m-milch.webp"
   },
@@ -106,7 +95,6 @@
    "noun": "Ameise",
    "article": "die",
    "emoji": "🐜",
-   "s": "Die Ameise krabbelt.",
    "rec": true,
    "pic": "img/m-ameise.webp"
   },
@@ -115,7 +103,6 @@
    "noun": "Muschel",
    "article": "die",
    "emoji": "🐚",
-   "s": "Die Muschel glänzt.",
    "rec": true,
    "pic": "img/m-muschel.webp"
   },
@@ -124,7 +111,6 @@
    "noun": "Eimer",
    "article": "der",
    "emoji": "🪣",
-   "s": "Der Eimer ist voll.",
    "rec": true,
    "pic": "img/m-eimer.webp"
   },
@@ -133,7 +119,6 @@
    "noun": "Helm",
    "article": "der",
    "emoji": "⛑️",
-   "s": "Der Helm ist rot.",
    "rec": true,
    "pic": "img/m-helm.webp"
   },
@@ -142,7 +127,6 @@
    "noun": "Ampel",
    "article": "die",
    "emoji": "🚦",
-   "s": "Die Ampel leuchtet.",
    "rec": true,
    "pic": "img/m-ampel.webp"
   }

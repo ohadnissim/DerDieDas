@@ -295,7 +295,6 @@ body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
 input[type=text],textarea,select{font:inherit;font-size:17px;color:var(--ink);background:var(--ground);border:2px solid var(--line);border-radius:12px;padding:8px 12px;box-sizing:border-box;min-height:44px}
 #addEmoji{width:64px;text-align:center;font-size:22px}
 #addNoun{flex:1;min-width:140px}
-#addSentence{flex:1 1 100%}
 textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .small{font-size:14px;color:var(--muted)}
 .stats{display:flex;flex-wrap:wrap;gap:8px 24px;font-variant-numeric:tabular-nums}
@@ -702,14 +701,9 @@ const DEFAULT_STORIES = [{id:"story2", title:"Wo ist der Ball?", pages:[
   {img:"img/story2-8.webp", audio:"story2-8", text:"Der Hund springt. Platsch! Die Katze lacht."},
   {img:"img/story2-9.webp", audio:"story2-9", text:"Der Mond kommt. Der Hund und die Katze schlafen. Gute Nacht!", q:{"text": "Wer schläft?", "audio": "sq-schlaeft", "answer": "katze", "choices": ["katze", "apfel", "auto"]}}]}];
 
-/* ---------- sentences & hand signs ---------- */
-// Short sentences keep the article in front (nominative), so "der/die/das" is never changed to "den".
-const SENTENCES = {hund:"Der Hund bellt.",apfel:"Der Apfel ist rot.",ball:"Der Ball rollt.",mond:"Der Mond schläft.",
-  katze:"Die Katze miaut.",sonne:"Die Sonne lacht.",banane:"Die Banane ist gelb.",blume:"Die Blume blüht.",
-  haus:"Das Haus ist klein.",auto:"Das Auto fährt.",buch:"Das Buch ist offen.",ei:"Das Ei ist rund."};
+/* ---------- hand signs ---------- */
 const DEFAULT_ART = {hund:"der",apfel:"der",ball:"der",mond:"der",katze:"die",sonne:"die",banane:"die",blume:"die",haus:"das",auto:"das",buch:"das",ei:"das"};
-const sentenceOf = (w) => w.s ? String(w.s) : (SENTENCES[w.id] || "");
-// Hand signs echo the shapes: fist = ● der, raised pointing finger = ▲ die, flat hand = ■ das.
+// Hand signs: fist = der, raised pointing finger = die, flat hand = das.
 // The peace sign is kept for "well done", because that is her own gesture for liking something.
 const SIGNS = {der:{img:"img/sign-der.webp",emoji:"✊"},die:{img:"img/sign-die.webp",emoji:"☝️"},das:{img:"img/sign-das.webp",emoji:"✋"}};
 const SYMS = {der:'<circle cx="10" cy="10" r="8" fill="currentColor"/>',die:'<circle cx="10" cy="10" r="8" fill="currentColor"/>',das:'<circle cx="10" cy="10" r="8" fill="currentColor"/>'};
@@ -859,19 +853,18 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
   "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
-const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, "s-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
+const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
 // Words recorded later carry rec: true (their w-/s- clips ship in audio/).
 const builtIn = (w) => DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id;
 function registerClips() {
-  for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); if (w.s) CLIPS.add("s-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
+  for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
   for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); }
 }
 const W = (w) => ({ key: builtIn(w) || w.rec ? "w-" + w.id : null, text: w.article + " " + w.noun });
 // The grown-up's answer in "Stimmt das?", said as a question (all three articles recorded the same way,
 // so the tone never gives away whether it is right).
 const Qs = (w, a) => ({ key: builtIn(w) || w.rec ? "q-" + w.id + "-" + a : null, text: a + " " + w.noun + "?" });
-const SENT = (w) => { const t = sentenceOf(w); return t ? { key: (w.rec && w.s) || (!w.s && SENTENCES[w.id] && builtIn(w)) ? "s-" + w.id : null, text: t } : null; };
 
 let actx = null;
 function ctx() {
@@ -1213,7 +1206,7 @@ function answer(a, btn) {
     else requeue(w.id);
     saveProgress();
     reveal();
-    say([C(pick(PRAISE)), SENT(w) || W(w)]).then(showRepeat);
+    say([C(pick(PRAISE)), W(w)]).then(showRepeat);
   } else {
     boop();
     btn.classList.add("wrong"); btn.disabled = true;
@@ -1222,7 +1215,7 @@ function answer(a, btn) {
       grade(w.id, false); requeue(w.id); saveProgress();
       document.querySelectorAll(".choice").forEach(b => { b.disabled = true; if (b.dataset.a === w.article) b.classList.add("hint"); });
       reveal();
-      say([C("f-schau"), W(w), SENT(w), C("f-sagmal"), W(w)]).then(showRepeat);
+      say([C("f-schau"), W(w), C("f-sagmal"), W(w)]).then(showRepeat);
     } else {
       $("card").animate && !RM() && $("card").animate([{ transform: "rotate(0)" }, { transform: "rotate(-2deg)" }, { transform: "rotate(2deg)" }, { transform: "rotate(0)" }], { duration: 400 });
       say([C("f-nochmal")]);
@@ -1416,7 +1409,7 @@ $("listenBtn").addEventListener("click", () => {
   say(S.card.locked || S.card.hinted ? [W(w)] : [C("f-wieheisst")], 0.75);
 });
 $("qListen").addEventListener("click", () => { if (Q && Q.words[Q.i]) say(Q.locked && Q.words[Q.i].id in Q.res ? [W(Q.words[Q.i])] : [C("f-welche")]); });
-$("againBtn").addEventListener("click", () => { if (S && S.card) say([W(S.card.w), SENT(S.card.w)], 0.72); });
+$("againBtn").addEventListener("click", () => { if (S && S.card) say([W(S.card.w)], 0.72); });
 $("nextBtn").addEventListener("click", () => { if (S) { pop(); nextCard(); } });
 $("quitBtn").addEventListener("click", quitSession);
 $("quizQuit").addEventListener("click", quitSession);
@@ -1873,7 +1866,7 @@ function wordRow(w, reason) {
   const p = prog(w.id), q = p.q;
   return '<li class="row"><span class="e">' + (picSrc(w) || w.emoji ? faceHTML(w) : "·") + '</span><span class="chip ' + w.article + '">' + w.article +
     '</span><span class="n">' + esc(w.noun) + (reason ? '<span class="flag">practise</span>' : "") +
-    (reason ? "<small>" + esc(reason) + "</small>" : (sentenceOf(w) ? "<small>" + esc(sentenceOf(w)) + "</small>" : "")) + "</span>" +
+    (reason ? "<small>" + esc(reason) + "</small>" : "") + "</span>" +
     '<span class="stat"><span class="pips" title="Progress">' + [1, 2, 3, 4].map(i => '<span class="pip' + (p.box >= i ? " on" : "") + '"></span>').join("") + "</span>" +
     "<span>" + (q ? "quiz " + q.r + "/" + (q.r + q.w) : "no quiz yet") + (p.said ? " · said ✓" + p.said : "") + "</span></span>" +
     '<button class="mini" data-act="hear" data-id="' + esc(w.id) + '" aria-label="Hear ' + esc(w.article + " " + w.noun) + '"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5 6 9H3v6h3l5 4V5z"/></svg></button>' +
@@ -1889,7 +1882,7 @@ function renderGrown() {
   $("sheet").innerHTML =
     '<header><h2>Word list</h2><button class="btn primary" data-act="close">Done</button></header>' +
     '<p class="note">' + esc(modeNote) + (state.dbError ? "<br><strong>" + esc(state.dbError) + "</strong>" : "") + "</p>" +
-    '<p class="note hot"><b>New school words each week:</b> send Claude a photo of the list. It adds the words with pictures, recordings, short sentences and a new story, and the app picks them up automatically.</p>' +
+    '<p class="note hot"><b>New school words each week:</b> send Claude a photo of the list. It adds the words with pictures, recordings and a new story, and the app picks them up automatically.</p>' +
     (state.sample ? '<p class="note">These are example words. Tap <b>Start a new list</b> below and paste the words from school.</p>' : "") +
     weeklyReport() +
     '<section><h3>Needs practice (' + weak.length + ')</h3>' +
@@ -1904,13 +1897,12 @@ function renderGrown() {
       '<div class="seg" role="group" aria-label="Article">' + ARTS.map(a => '<button data-act="art" data-a="' + a + '" aria-pressed="' + (a === addArt) + '">' + a + "</button>").join("") + "</div>" +
       '<input type="text" id="addNoun" placeholder="Hund" autocomplete="off" autocapitalize="words" spellcheck="false">' +
       '<input type="text" id="addEmoji" placeholder="🐶" autocomplete="off" aria-label="Picture (emoji)">' +
-      '<input type="text" id="addSentence" placeholder="Short sentence (optional): Der Hund bellt." autocomplete="off">' +
       '<button class="btn primary" data-act="add">Add</button></div>' +
       '<p class="small" style="margin-top:6px">New words show their emoji until Claude makes a picture and a recording for them.</p></section>' +
-    '<section><h3>Paste a list</h3><textarea id="bulk" placeholder="der Hund 🐶 | Der Hund bellt.&#10;die Katze&#10;das Haus 🏠 | Das Haus ist klein."></textarea>' +
+    '<section><h3>Paste a list</h3><textarea id="bulk" placeholder="der Hund 🐶&#10;die Katze&#10;das Haus 🏠"></textarea>' +
       '<div class="addrow" style="margin-top:8px"><button class="btn primary" data-act="bulk">Add these words</button>' +
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
-      '<p class="small" style="margin-top:6px">One word per line: article, word, an optional emoji, and after a | an optional short sentence that starts with the word (Der Hund bellt.). <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
+      '<p class="small" style="margin-top:6px">One word per line: article, word and an optional emoji. <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
     '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     voiceSection() +
@@ -1997,8 +1989,6 @@ function addOne() {
   const noun = ($("addNoun").value || "").trim();
   if (!/^[A-Za-zÄÖÜäöüß-]+$/.test(noun)) { flash("Type one word, like Hund.", true); return; }
   const w = { id: norm(noun), noun: capNoun(noun), article: addArt, emoji: ($("addEmoji").value || "").trim() || guessEmoji(noun) };
-  const sent = ($("addSentence").value || "").trim();
-  if (sent) w.s = sent;
   const i = state.words.findIndex(x => x.id === w.id);
   if (i >= 0) state.words[i] = w; else state.words.push(w);
   state.sample = false;
@@ -2012,9 +2002,9 @@ $("sheet").addEventListener("click", async (e) => {
   if (act === "gate") { if (b.dataset.ok === "1") { gateOk = true; renderGrown(); } else renderGate(); return; }
   if (act === "art") { addArt = b.dataset.a; document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x.dataset.a === addArt)); return; }
   if (act === "add") return addOne();
-  if (act === "testclip") { say([C("p-super"), { key: "w-hund", text: "der Hund" }, { key: "s-hund", text: "Der Hund bellt." }]); return; }
+  if (act === "testclip") { say([C("p-super"), { key: "w-hund", text: "der Hund" }]); return; }
   if (act === "testvoice") { say("der Hund, die Katze, das Haus"); return; }
-  if (act === "hear") { const w = state.words.find(x => x.id === b.dataset.id); if (w) say([W(w), SENT(w)]); return; }
+  if (act === "hear") { const w = state.words.find(x => x.id === b.dataset.id); if (w) say([W(w)]); return; }
   if (act === "delbank") { state.bank = state.bank.filter(x => x.id !== b.dataset.id); return commitWords("Removed."); }
   if (act === "del") { state.words = state.words.filter(x => x.id !== b.dataset.id); return commitWords("Removed."); }
   if (act === "bulk" || act === "newlist") {
