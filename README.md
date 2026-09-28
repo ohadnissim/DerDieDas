@@ -1,6 +1,6 @@
 # Der Die Das
 
-A der/die/das practice game for young children. No reading needed: every word is a picture, and a recorded voice says it in German.
+A der/die/das practice game for young children. No reading needed: every word is a picture, and a recorded voice says it in German. The voice is **Mila**, the teacher from her school book; her pupils Mia, Mil and Max live in the garden.
 
 **Play it:** https://ohadnissim.github.io/DerDieDas/
 
@@ -19,4 +19,4 @@ A der/die/das practice game for young children. No reading needed: every word is
 
 **New words each week:** `data/words.json` (bump `version`) and `data/stories.json`; the app picks them up automatically.
 
-Words and progress are saved in the browser on the device (no account, nothing sent anywhere). Pictures (`img/`) are clay-style illustrations; the voice (`audio/`) is pre-recorded. Words added later show their emoji and use the device's German voice until a picture and recording are added.
+Words and progress are saved in the browser on the device (no account, nothing sent anywhere). Pictures (`img/`) are clay-style illustrations (Mila and the kids are original clay characters, not copies of the book's drawings); the voice (`audio/`) is pre-recorded. Words added later show their emoji and use the device's German voice until a picture and recording are added.

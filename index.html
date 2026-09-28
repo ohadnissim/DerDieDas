@@ -157,6 +157,15 @@ button:disabled{cursor:default}
 .caption .art.der{color:var(--der)} .caption .art.die{color:var(--die)} .caption .art.das{color:var(--das-ink)}
 .listen{position:absolute;right:16px;top:16px;width:64px;height:64px;border-radius:50%;background:var(--surface);box-shadow:var(--lift);display:grid;place-items:center;color:var(--grape)}
 .listen svg{width:30px;height:30px}
+.mila-btn{overflow:hidden;background:var(--paper)!important;padding:0}
+.listen.mila-btn{width:78px;height:78px}
+.mila-face{width:100%;height:100%;object-fit:contain;display:block;transform-origin:50% 90%}
+.mila-home{width:clamp(90px,15vmin,130px);aspect-ratio:1;border-radius:50%;background:var(--paper);box-shadow:var(--lift);overflow:hidden;animation:bob 2.6s ease-in-out infinite}
+.mila-home .mila-face{padding:6px;box-sizing:border-box}
+body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
+@keyframes talk{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-5%) rotate(3deg) scale(1.04)}}
+.kid{position:absolute;transform:translate(-50%,-100%) translateZ(34px);background:none;padding:0}
+.kid img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 5px rgba(60,30,40,.25))}
 .yay{position:absolute;left:16px;top:16px;width:clamp(84px,14vmin,124px);aspect-ratio:1;pointer-events:none;z-index:2}
 .yay .tile{width:100%;height:100%;box-shadow:var(--lift)}
 .yay .fallback{display:grid;place-items:center;width:100%;height:100%;font-size:clamp(52px,9vmin,80px)}
@@ -439,6 +448,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <button class="candy grape play" id="playBtn" aria-label="Los geht's" disabled>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
       </button>
+      <button class="mila-home" id="milaBtn" aria-label="Mila"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
       <button class="candy pink quizbtn" id="quizBtn" aria-label="Quiz" disabled>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2.5 11h2.5v9h5v-5.5h4V20h5v-9h2.5z"/><circle cx="12" cy="10" r="1.6" fill="var(--pink)"/></svg>
         <span class="due" id="quizDue" hidden>!</span>
@@ -469,7 +479,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   <div class="stage">
     <div class="card" id="card">
       <div class="yay" id="yay" hidden><span class="tile"><img class="pic" src="img/yay.webp" alt="" data-yay="1"></span></div>
-      <button class="listen" id="listenBtn" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      <button class="listen mila-btn" id="listenBtn" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
       <div class="card-pic" id="cardPic" hidden></div>
       <div class="emoji" id="emoji"></div>
       <div class="caption" id="caption"></div>
@@ -498,7 +508,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   </div>
   <div class="stage">
     <div class="card" id="qcard">
-      <button class="listen" id="qListen" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      <button class="listen mila-btn" id="qListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
       <div class="card-pic" id="qPic" hidden></div>
       <div class="emoji" id="qEmoji"></div>
       <div class="caption" id="qCaption"></div>
@@ -560,7 +570,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   </div>
   <div class="stage">
     <div class="card" id="jcard">
-      <button class="listen" id="jListen" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      <button class="listen mila-btn" id="jListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
       <div class="card-pic" id="jPic" hidden></div>
       <div class="emoji" id="jEmoji"></div>
       <div class="caption" id="jCaption"></div>
@@ -591,7 +601,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
     <div class="squiz" id="squiz" hidden></div>
     <div class="snav" id="snav">
       <button class="round" id="sPrev" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
-      <button class="round" id="sListen" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      <button class="round mila-btn" id="sListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
       <button class="go" id="sNext" aria-label="Weiter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </div>
@@ -641,7 +651,7 @@ const EMOJI = {hund:"🐶",katze:"🐱",maus:"🐭",pferd:"🐴",kuh:"🐮",schw
   herz:"❤️",hand:"✋",fuss:"🦶",auge:"👁️",ohr:"👂",nase:"👃",mund:"👄",zahn:"🦷",
   hut:"🎩",muetze:"🧢",schuh:"👟",socke:"🧦",hose:"👖",kleid:"👗",jacke:"🧥",brille:"👓",
   geschenk:"🎁",kerze:"🕯️",ballon:"🎈",luftballon:"🎈",teddy:"🧸",trommel:"🥁",gitarre:"🎸",krone:"👑",puppe:"🪆",
-  mama:"👩",papa:"👨",baby:"👶",kind:"🧒",junge:"👦",maedchen:"👧",oma:"👵",opa:"👴"};
+  mama:"👩",papa:"👨",mann:"👨",murmel:"🔮",mauer:"🧱",ameise:"🐜",wurm:"🪱",muschel:"🐚",eimer:"🪣",messer:"🔪",helm:"⛑️",mantel:"🧥",ampel:"🚦",baby:"👶",kind:"🧒",junge:"👦",maedchen:"👧",oma:"👵",opa:"👴"};
 // Sticker collection, in the order she earns them (mixed themes so each one feels different).
 const STICKERS = ["dollhouse","firetruck","tiara","train","flamingo","palette","puppy","plane","doll","dumptruck","wings","lolly",
   "helmet","unicorn","suitcase","craft","kitten","balloon","costume","goggles","bracelet","camera","rainbow","cupcake"];
@@ -654,6 +664,8 @@ const GARDEN = [
   {id:"tulips",x:22,y:52,w:11.2},{id:"tree",x:76,y:47,w:16.8,cls:"sway"},{id:"butterfly",x:30,y:26,w:8.4,cls:"fly"},{id:"swing",x:28,y:45,w:15.4},
   {id:"bunny",x:47,y:70,w:8.4},{id:"pool",x:61,y:69,w:15.4},{id:"sunflower",x:79,y:60,w:7.0,cls:"sway"},{id:"kite",x:72,y:27,w:8.4,cls:"fly"},
   {id:"mushroom",x:19,y:61,w:8.4},{id:"birdhouse",x:57.5,y:33,w:7.0},{id:"sandbox",x:33,y:71,w:12.6},{id:"pond",x:70,y:55,w:12.6}];
+// Mia, Mil and Max from school come to play in the garden.
+const KIDS = [{id:"mia",x:43,y:63,w:5.5},{id:"mil",x:30,y:67,w:5.5},{id:"max",x:72,y:60,w:6}];
 const HOUSE_SPOTS = {der:{x:37,y:42},die:{x:50,y:38},das:{x:63,y:42}};
 // Built-in story: a whole little tale in simple sentences where der/die/das never change form. Weekly stories come from data/stories.json.
 const DEFAULT_STORIES = [{id:"story2", title:"Wo ist der Ball?", pages:[
@@ -823,7 +835,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "f-welcheshaus":"Welches Haus?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
   "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
-  "f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
+  "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, "s-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
@@ -866,13 +878,15 @@ function unlockAudio() {
 }
 document.addEventListener("pointerdown", unlockAudio, { capture: true });
 let current = null;
-function stopAudio() { try { current && current.stop(); } catch {} current = null; try { window.speechSynthesis && speechSynthesis.cancel(); } catch {} }
+function stopAudio() { talkers = 0; document.body.classList.remove("talking"); try { current && current.stop(); } catch {} current = null; try { window.speechSynthesis && speechSynthesis.cancel(); } catch {} }
+let talkers = 0;
+function talking(on) { talkers = Math.max(0, talkers + (on ? 1 : -1)); document.body.classList.toggle("talking", talkers > 0); }
 function playBuffer(buf) {
   return new Promise((resolve) => {
     const c = ctx(); if (!c) return resolve();
     const s = c.createBufferSource(); s.buffer = buf; s.connect(c.destination);
-    let done = false; const fin = () => { if (!done) { done = true; resolve(); } };
-    s.onended = fin; current = s; s.start();
+    let done = false; const fin = () => { if (!done) { done = true; talking(false); resolve(); } };
+    talking(true); s.onended = fin; current = s; s.start();
     setTimeout(fin, buf.duration * 1000 + 300);
   });
 }
@@ -922,7 +936,8 @@ function tts(text, rate, my) {
   return new Promise((resolve) => {
     if (!hasTTS) return resolve();
     let finished = false;
-    const done = () => { if (!finished) { finished = true; resolve(); } };
+    talking(true);
+    const done = () => { if (!finished) { finished = true; talking(false); resolve(); } };
     setTimeout(done, 2500 + text.length * 120);   // never leave the game waiting on speech
     (deVoice ? Promise.resolve() : waitForVoices()).then(() => {
       if (my !== sayToken) return done();
@@ -1393,6 +1408,7 @@ $("memBtn").addEventListener("click", () => { pop(); startMemory(); });
 $("judgeBtn").addEventListener("click", () => { pop(); startJudge(); });
 $("storyBtn").addEventListener("click", () => { pop(); startStory(); });
 $("gardenBtn").addEventListener("click", () => { pop(); openGarden(); });
+$("milaBtn").addEventListener("click", () => { say([C("f-hallo")]); sparkle($("milaBtn"), 10); });
 document.querySelectorAll("[data-home]").forEach(b => b.addEventListener("click", quitSession));
 $("micBtn").addEventListener("click", () => { if (S && S.card) recordHer(S.card.w); });
 $("bookBtn").addEventListener("click", () => { pop(); openBook(); });
@@ -1438,6 +1454,7 @@ function openGarden() {
   $("garden").innerHTML = '<div class="island" id="island"><div class="floaty"><img class="base" src="img/island.webp" alt="">' +
     ARTS.map((a, i) => { const h = HOUSE_SPOTS[a]; return '<button class="ghouse" data-a="' + a + '" style="left:' + h.x + "%;top:" + h.y + "%;width:15%;z-index:" + h.y + ";--z:" + z(h.y) + 'px"><img src="img/key-house-' + a + '.webp" alt="" data-garden="1"><img class="gf" src="' + FRIEND(a) + '" alt="" data-friend="1" style="animation-delay:' + (-i * .7) + 's"></button>'; }).join("") +
     GARDEN.slice(0, n).map(gi).join("") +
+    KIDS.map(k => '<button class="kid" data-kid="' + k.id + '" style="left:' + k.x + "%;top:" + k.y + "%;width:" + k.w + "%;z-index:" + k.y + '"><img src="img/kid-' + k.id + '.webp" alt="" data-garden="1"></button>').join("") +
     (next ? '<div class="sprout" style="left:' + next.x + "%;top:" + Math.max(next.y, 30) + '%;z-index:' + Math.round(next.y) + '">🌱</div>' : "") +
     Array.from({ length: 10 }, (_, i) => '<span class="mote" style="left:' + (20 + Math.random() * 60) + "%;top:" + (40 + Math.random() * 35) + "%;animation-delay:" + (-Math.random() * 7) + 's"></span>').join("") +
     "</div></div>";
@@ -1476,6 +1493,8 @@ function askOrientation() {
 $("garden").addEventListener("click", (e) => {
   const h = e.target.closest(".ghouse");
   if (h) { say([C("a-" + h.dataset.a)]); jump(h.querySelector(".gf")); return; }
+  const k = e.target.closest(".kid");
+  if (k) { pop(); jump(k.querySelector("img")); sparkle(k, 10); return; }
   const g = e.target.closest(".gi");
   if (g) { pop(); jump(g.querySelector("img")); sparkle(g, 8); }
 });
@@ -1870,7 +1889,7 @@ function renderGrown() {
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
       '<p class="small" style="margin-top:6px">One word per line: article, word, an optional emoji, and after a | an optional short sentence that starts with the word (Der Hund bellt.). <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
-    '<section><h3>Hand signs &amp; house friends</h3><p>The three house friends are called DER, DIE and DAS. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊ (round, like ●), <b>die</b> = one finger pointing up ☝️ (pointed, like ▲), <b>das</b> = flat hand ✋ (flat, like ■). The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
+    '<section><h3>Hand signs &amp; house friends</h3><p>The voice is Mila, the class caterpillar: tap her face to hear a word again. The three house friends are called DER, DIE and DAS. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊ (round, like ●), <b>die</b> = one finger pointing up ☝️ (pointed, like ▲), <b>das</b> = flat hand ✋ (flat, like ■). The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     voiceSection() +
     '<section><h3>Progress</h3><div class="stats">' +
       "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div>" +

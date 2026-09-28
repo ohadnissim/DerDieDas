@@ -1,32 +1,21 @@
 {
- "version": 1,
- "week": "Starter words",
+ "version": 2,
+ "week": "Wortschatz M,m",
  "words": [
   {
-   "id": "hund",
-   "noun": "Hund",
-   "article": "der",
-   "emoji": "🐶",
-   "s": "Der Hund bellt.",
-   "pic": "img/hund.webp",
+   "id": "maus",
+   "noun": "Maus",
+   "article": "die",
+   "emoji": "🐭",
+   "s": "Die Maus piepst.",
    "rec": true
   },
   {
-   "id": "apfel",
-   "noun": "Apfel",
+   "id": "mann",
+   "noun": "Mann",
    "article": "der",
-   "emoji": "🍎",
-   "s": "Der Apfel ist rot.",
-   "pic": "img/apfel.webp",
-   "rec": true
-  },
-  {
-   "id": "ball",
-   "noun": "Ball",
-   "article": "der",
-   "emoji": "⚽",
-   "s": "Der Ball rollt.",
-   "pic": "img/ball.webp",
+   "emoji": "👨",
+   "s": "Der Mann lacht.",
    "rec": true
   },
   {
@@ -39,75 +28,107 @@
    "rec": true
   },
   {
-   "id": "katze",
-   "noun": "Katze",
+   "id": "mauer",
+   "noun": "Mauer",
    "article": "die",
-   "emoji": "🐱",
-   "s": "Die Katze miaut.",
-   "pic": "img/katze.webp",
+   "emoji": "🧱",
+   "s": "Die Mauer ist hoch.",
    "rec": true
   },
   {
-   "id": "sonne",
-   "noun": "Sonne",
+   "id": "wurm",
+   "noun": "Wurm",
+   "article": "der",
+   "emoji": "🪱",
+   "s": "Der Wurm kriecht.",
+   "rec": true
+  },
+  {
+   "id": "mama",
+   "noun": "Mama",
    "article": "die",
-   "emoji": "☀️",
-   "s": "Die Sonne lacht.",
-   "pic": "img/sonne.webp",
+   "emoji": "👩",
+   "s": "Die Mama singt.",
    "rec": true
   },
   {
-   "id": "banane",
-   "noun": "Banane",
+   "id": "messer",
+   "noun": "Messer",
+   "article": "das",
+   "emoji": "🔪",
+   "s": "Das Messer ist scharf.",
+   "rec": true
+  },
+  {
+   "id": "mantel",
+   "noun": "Mantel",
+   "article": "der",
+   "emoji": "🧥",
+   "s": "Der Mantel ist warm.",
+   "rec": true
+  },
+  {
+   "id": "murmel",
+   "noun": "Murmel",
    "article": "die",
-   "emoji": "🍌",
-   "s": "Die Banane ist gelb.",
-   "pic": "img/banane.webp",
+   "emoji": "🔮",
+   "s": "Die Murmel rollt.",
    "rec": true
   },
   {
-   "id": "blume",
-   "noun": "Blume",
+   "id": "mund",
+   "noun": "Mund",
+   "article": "der",
+   "emoji": "👄",
+   "s": "Der Mund ist rot.",
+   "rec": true
+  },
+  {
+   "id": "milch",
+   "noun": "Milch",
    "article": "die",
-   "emoji": "🌸",
-   "s": "Die Blume blüht.",
-   "pic": "img/blume.webp",
+   "emoji": "🥛",
+   "s": "Die Milch ist weiß.",
    "rec": true
   },
   {
-   "id": "haus",
-   "noun": "Haus",
-   "article": "das",
-   "emoji": "🏠",
-   "s": "Das Haus ist klein.",
-   "pic": "img/haus.webp",
+   "id": "ameise",
+   "noun": "Ameise",
+   "article": "die",
+   "emoji": "🐜",
+   "s": "Die Ameise krabbelt.",
    "rec": true
   },
   {
-   "id": "auto",
-   "noun": "Auto",
-   "article": "das",
-   "emoji": "🚗",
-   "s": "Das Auto fährt.",
-   "pic": "img/auto.webp",
+   "id": "muschel",
+   "noun": "Muschel",
+   "article": "die",
+   "emoji": "🐚",
+   "s": "Die Muschel glänzt.",
    "rec": true
   },
   {
-   "id": "buch",
-   "noun": "Buch",
-   "article": "das",
-   "emoji": "📖",
-   "s": "Das Buch ist offen.",
-   "pic": "img/buch.webp",
+   "id": "eimer",
+   "noun": "Eimer",
+   "article": "der",
+   "emoji": "🪣",
+   "s": "Der Eimer ist voll.",
    "rec": true
   },
   {
-   "id": "ei",
-   "noun": "Ei",
-   "article": "das",
-   "emoji": "🥚",
-   "s": "Das Ei ist rund.",
-   "pic": "img/ei.webp",
+   "id": "helm",
+   "noun": "Helm",
+   "article": "der",
+   "emoji": "⛑️",
+   "s": "Der Helm ist rot.",
+   "rec": true
+  },
+  {
+   "id": "ampel",
+   "noun": "Ampel",
+   "article": "die",
+   "emoji": "🚦",
+   "s": "Die Ampel leuchtet.",
    "rec": true
   }
  ]
