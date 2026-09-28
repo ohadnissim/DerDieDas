@@ -631,12 +631,17 @@ const GARDEN = [
   {id:"bunny",x:47,y:70,w:8.4},{id:"pool",x:61,y:69,w:15.4},{id:"sunflower",x:79,y:60,w:7.0,cls:"sway"},{id:"kite",x:72,y:27,w:8.4,cls:"fly"},
   {id:"mushroom",x:19,y:61,w:8.4},{id:"birdhouse",x:57.5,y:33,w:7.0},{id:"sandbox",x:33,y:71,w:12.6},{id:"pond",x:70,y:55,w:12.6}];
 const HOUSE_SPOTS = {der:{x:37,y:42},die:{x:50,y:38},das:{x:63,y:42}};
-// Built-in first story (nominative sentences only, so articles never change). Weekly stories come from data/stories.json.
-const DEFAULT_STORIES = [{id:"story1", pages:[
-  {img:"img/story1-1.webp", audio:"story1-1", text:"Die Sonne lacht. Der Hund wacht auf."},
-  {img:"img/story1-2.webp", audio:"story1-2", text:"Das Auto ist lila. Die Katze winkt."},
-  {img:"img/story1-3.webp", audio:"story1-3", text:"Der Ball ist bunt. Die Blume ist rosa."},
-  {img:"img/story1-4.webp", audio:"story1-4", text:"Der Mond schläft. Gute Nacht!"}]}];
+// Built-in story: a whole little tale in simple sentences where der/die/das never change form. Weekly stories come from data/stories.json.
+const DEFAULT_STORIES = [{id:"story2", title:"Wo ist der Ball?", pages:[
+  {img:"img/story2-1.webp", audio:"story2-1", text:"Die Sonne lacht. Der Hund wacht auf. Der Ball ist auch da."},
+  {img:"img/story2-2.webp", audio:"story2-2", text:"Oh nein! Wo ist der Ball? Der Ball ist weg!"},
+  {img:"img/story2-3.webp", audio:"story2-3", text:"Da kommt die Katze. „Ich helfe dir!“, sagt die Katze."},
+  {img:"img/story2-4.webp", audio:"story2-4", text:"Das Auto ist lila. Die Katze und der Hund fahren los. Brumm, brumm!"},
+  {img:"img/story2-5.webp", audio:"story2-5", text:"Das Haus ist leer. Der Ball ist nicht hier."},
+  {img:"img/story2-6.webp", audio:"story2-6", text:"Die Blume winkt. „Da drüben!“, sagt die Blume."},
+  {img:"img/story2-7.webp", audio:"story2-7", text:"Da ist der Ball! Der Ball schwimmt."},
+  {img:"img/story2-8.webp", audio:"story2-8", text:"Der Hund springt. Platsch! Die Katze lacht."},
+  {img:"img/story2-9.webp", audio:"story2-9", text:"Der Mond kommt. Der Hund und die Katze schlafen. Gute Nacht!"}]}];
 
 /* ---------- sentences & hand signs ---------- */
 // Short sentences keep the article in front (nominative), so "der/die/das" is never changed to "den".
@@ -1159,7 +1164,10 @@ function showRepeat() {
   $("micBtn").classList.toggle("invite", micAllowed());
   document.querySelector("#repeat .mouth").hidden = micAllowed();   // the mic button replaces the talking-head hint
   clearTimeout(nextTimer);
-  nextTimer = setTimeout(() => { $("nextBtn").disabled = false; }, 1400);   // a moment to say it out loud
+  // With the microphone on, the arrow stays locked until she has said the word into it.
+  S.card.mustSpeak = micAllowed() && state.settings.mustSpeak !== false;
+  S.card.tries = 0;
+  if (!S.card.mustSpeak) nextTimer = setTimeout(() => { $("nextBtn").disabled = false; }, 1400);   // a moment to say it out loud
 }
 function finishSession() {
   state.progress.sessions++;
@@ -1629,6 +1637,10 @@ function judgeSpeech(alts, w) {
   }
   return heardArt ? "great" : heardNoun ? "almost" : "none";
 }
+function unlockNext() {
+  if (!S || !S.card || !$("nextBtn").disabled) return;
+  $("nextBtn").disabled = false; bump($("nextBtn"));
+}
 async function recordHer(w) {
   if (listening) return;
   listening = true;
@@ -1656,15 +1668,18 @@ async function recordHer(w) {
     btn.classList.remove("rec");
     if (chunks && chunks.length) {
       const data = await new Blob(chunks, { type: (recorder && recorder.mimeType) || "audio/mp4" }).arrayBuffer();
-      her = await new Promise((res) => ctx().decodeAudioData(data, res, () => res(null)));
+      her = await new Promise((res) => { const pr = ctx().decodeAudioData(data, res, () => res(null)); if (pr && pr.catch) pr.catch(() => res(null)); });
     }
     verdict = heard === null ? null : judgeSpeech(heard, w);
   } catch (e) {
     console.warn("mic", e);
     btn.classList.remove("rec");
-    if (!her && verdict === null) { micBroken = true; btn.hidden = true; listening = false; return; }
+    if (!her && verdict === null) { micBroken = true; btn.hidden = true; listening = false; unlockNext(); return; }
   }
   const p = prog(w.id);
+  if (S && S.card) S.card.tries++;
+  // she spoke (or this device can only record): let her go on; after 3 silent tries, don't keep her stuck
+  if (verdict === "great" || verdict === "almost" || (verdict === null && her) || (S && S.card && S.card.tries >= 3)) unlockNext();
   if (verdict === "great") {
     chime(); cheer(w.article, btn); sparkle(btn, 14);
     if (S && S.card && !S.card.spoke) { S.card.spoke = true; state.progress.stars++; renderStars(); }
@@ -1780,6 +1795,7 @@ function renderGrown() {
       '</select><label for="stkSel">Sticker every</label><select id="stkSel">' +
       [5, 10, 15, 20].map(n => '<option value="' + n + '"' + (perSticker() === n ? " selected" : "") + ">" + n + " right answers</option>").join("") +
       '</select><label for="recSel">Speaking</label><select id="recSel"><option value="on"' + (state.settings.record !== false ? " selected" : "") + '>On: she speaks, gets feedback, hears herself (GitHub version)</option><option value="off"' + (state.settings.record === false ? " selected" : "") + '>Off</option>' +
+      '</select><label for="mustSel">Must speak before next word</label><select id="mustSel"><option value="on"' + (state.settings.mustSpeak !== false ? " selected" : "") + '>Yes</option><option value="off"' + (state.settings.mustSpeak === false ? " selected" : "") + '>No</option>' +
       '</select><label for="firstSel">Say the answer first</label><select id="firstSel">' +
       '<option value="always"' + (state.settings.sayFirst !== "new" ? " selected" : "") + '>Always</option>' +
       '<option value="new"' + (state.settings.sayFirst === "new" ? " selected" : "") + '>Only for new words, then she remembers it herself</option>' +
@@ -1789,6 +1805,7 @@ function renderGrown() {
   emoIn.addEventListener("input", () => { emoIn.dataset.touched = emoIn.value ? "1" : ""; });
   nounIn.addEventListener("keydown", (e) => { if (e.key === "Enter") addOne(); });
   $("lenSel").addEventListener("change", (e) => { state.settings.sessionLength = Number(e.target.value); saveWords(); });
+  $("mustSel").addEventListener("change", (e) => { state.settings.mustSpeak = e.target.value === "on"; saveWords(); });
   $("recSel").addEventListener("change", (e) => { state.settings.record = e.target.value === "on"; saveWords(); });
   $("stkSel").addEventListener("change", (e) => { state.settings.perSticker = Number(e.target.value); saveWords(); });
   $("quizSel").addEventListener("change", (e) => { state.settings.quizEvery = Number(e.target.value); saveWords(); });
