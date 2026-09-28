@@ -17,6 +17,6 @@ A der/die/das practice game for young children. No reading needed: every word is
 - **Stickers:** every 10 first-try answers unlock a new sticker in the sticker book (24 to collect).
 - **Grown-ups:** tap ⚙️ and answer the sum to see which words need practice, edit the word list (`der Hund 🐶 | Der Hund bellt.`, one per line) and change settings.
 
-**New words each week:** `data/words.json` (bump `version`) and `data/stories.json`; the app picks them up automatically.
+**New words each week:** `data/words.json` (bump `version`; add `"replace": true` to drop earlier words instead of keeping them for review) and `data/stories.json`; the app picks them up automatically.
 
 Words and progress are saved in the browser on the device (no account, nothing sent anywhere). Pictures (`img/`) are clay-style illustrations (Mila and the kids are original clay characters, not copies of the book's drawings); the voice (`audio/`) is pre-recorded. Words added later show their emoji and use the device's German voice until a picture and recording are added.

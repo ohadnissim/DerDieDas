@@ -1822,7 +1822,8 @@ async function applyDataFiles() {
       if (Number(d.version) > (Number(state.settings.listVersion) || 0) && Array.isArray(d.words) && d.words.length) {
         const old = state.words;
         state.words = normalizeWords(d.words);
-        archiveWords(old);
+        // "replace": this list is the only focus now, so earlier words are dropped instead of kept for review.
+        if (d.replace) state.bank = []; else archiveWords(old);
         state.settings.listVersion = Number(d.version);
         state.sample = false;
         await saveWords();
