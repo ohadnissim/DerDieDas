@@ -1,91 +1,91 @@
 {
  "stories": [
   {
-   "id": "story2",
-   "title": "Wo ist der Ball?",
+   "id": "story3",
+   "title": "Die Murmel ist weg!",
    "pages": [
     {
-     "img": "img/story2-1.webp",
-     "audio": "story2-1",
-     "text": "Die Sonne lacht. Der Hund wacht auf. Der Ball ist auch da."
+     "img": "img/story3-1.webp",
+     "audio": "story3-1",
+     "text": "Guten Morgen! Mila ist da. Mia, Mil und Max sind auch da."
     },
     {
-     "img": "img/story2-2.webp",
-     "audio": "story2-2",
-     "text": "Oh nein! Wo ist der Ball? Der Ball ist weg!"
+     "img": "img/story3-2.webp",
+     "audio": "story3-2",
+     "text": "Oh nein! Die Murmel ist weg! Mia weint. „Wir suchen!“, sagt Mila."
     },
     {
-     "img": "img/story2-3.webp",
-     "audio": "story2-3",
-     "text": "Da kommt die Katze. „Ich helfe dir!“, sagt die Katze.",
+     "img": "img/story3-3.webp",
+     "audio": "story3-3",
+     "text": "Die Ampel ist rot. Stopp! Der Mann winkt. Jetzt ist die Ampel grün. Los!",
      "q": {
-      "text": "Wer hilft?",
-      "audio": "sq-hilft",
-      "answer": "katze",
+      "text": "Was ist rot?",
+      "audio": "sq3-rot",
+      "answer": "ampel",
       "choices": [
-       "katze",
-       "hund",
-       "auto"
+       "ampel",
+       "mond",
+       "eimer"
       ]
      }
     },
     {
-     "img": "img/story2-4.webp",
-     "audio": "story2-4",
-     "text": "Das Auto ist lila. Die Katze und der Hund fahren los. Brumm, brumm!",
+     "img": "img/story3-4.webp",
+     "audio": "story3-4",
+     "text": "Da ist die Mauer. Die Maus guckt. „Nicht hier!“, piepst die Maus.",
      "q": {
-      "text": "Was fährt?",
-      "audio": "sq-faehrt",
-      "answer": "auto",
+      "text": "Wer piepst?",
+      "audio": "sq3-piepst",
+      "answer": "maus",
       "choices": [
-       "auto",
-       "haus",
-       "blume"
+       "maus",
+       "wurm",
+       "ameise"
       ]
      }
     },
     {
-     "img": "img/story2-5.webp",
-     "audio": "story2-5",
-     "text": "Das Haus ist leer. Der Ball ist nicht hier."
+     "img": "img/story3-5.webp",
+     "audio": "story3-5",
+     "text": "Der Wurm kriecht. Die Ameise krabbelt. Der Eimer ist leer."
     },
     {
-     "img": "img/story2-6.webp",
-     "audio": "story2-6",
-     "text": "Die Blume winkt. „Da drüben!“, sagt die Blume."
+     "img": "img/story3-6.webp",
+     "audio": "story3-6",
+     "text": "Der Helm ist rot. Max ist schnell! Aber die Murmel ist nicht da."
     },
     {
-     "img": "img/story2-7.webp",
-     "audio": "story2-7",
-     "text": "Da ist der Ball! Der Ball schwimmt.",
+     "img": "img/story3-7.webp",
+     "audio": "story3-7",
+     "text": "Da kommt die Mama. Der Mantel ist warm. Der Mund lacht. „Schaut mal!“, sagt die Mama."
+    },
+    {
+     "img": "img/story3-8.webp",
+     "audio": "story3-8",
+     "text": "Da ist die Muschel. Und da? Da ist die Murmel! Juhu!",
      "q": {
-      "text": "Wo ist der Ball? Zeig mal!",
-      "audio": "sq-ball",
-      "answer": "ball",
+      "text": "Wo ist die Murmel? Zeig mal!",
+      "audio": "sq3-murmel",
+      "answer": "murmel",
       "choices": [
-       "ball",
-       "banane",
-       "ei"
+       "murmel",
+       "muschel",
+       "mond"
       ]
      }
     },
     {
-     "img": "img/story2-8.webp",
-     "audio": "story2-8",
-     "text": "Der Hund springt. Platsch! Die Katze lacht."
-    },
-    {
-     "img": "img/story2-9.webp",
-     "audio": "story2-9",
-     "text": "Der Mond kommt. Der Hund und die Katze schlafen. Gute Nacht!",
+     "img": "img/story3-9.webp",
+     "audio": "story3-9",
+     "text": "Die Milch ist warm. Der Mond scheint. Mia ist froh. Gute Nacht!",
      "q": {
-      "text": "Wer schläft?",
-      "audio": "sq-schlaeft",
-      "answer": "katze",
+      "text": "Was scheint?",
+      "audio": "sq3-scheint",
+      "answer": "mond",
       "choices": [
-       "katze",
-       "apfel",
-       "auto"
+       "mond",
+       "milch",
+       "maus"
       ]
      }
     }

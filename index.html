@@ -164,8 +164,7 @@ button:disabled{cursor:default}
 body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
 @keyframes talk{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-5%) rotate(3deg) scale(1.04)}}
 .kid{position:absolute;transform:translate(-50%,-100%) translateZ(34px);background:none;padding:0}
-.kid img{display:block;width:100%;height:auto;aspect-ratio:1;border-radius:50%;background:var(--paper);box-shadow:0 0 0 4px #fff,0 10px 16px -4px rgba(60,30,60,.35);animation:bob 2.6s ease-in-out infinite}
-.kid[data-kid="mil"] img{animation-delay:-.9s} .kid[data-kid="max"] img{animation-delay:-1.7s}
+.kid img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 5px rgba(60,30,40,.25))}
 .yay{position:absolute;left:16px;top:16px;width:clamp(84px,14vmin,124px);aspect-ratio:1;pointer-events:none;z-index:2}
 .yay .tile{width:100%;height:100%;box-shadow:var(--lift)}
 .yay .fallback{display:grid;place-items:center;width:100%;height:100%;font-size:clamp(52px,9vmin,80px)}
@@ -500,7 +499,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   <div class="stage">
     <div class="card" id="card">
       <div class="yay" id="yay" hidden><span class="tile"><img class="pic" src="img/yay.webp" alt="" data-yay="1"></span></div>
-      <button class="listen mila-btn" id="listenBtn" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
+      <button class="listen mila-btn" id="listenBtn" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button>
       <div class="card-pic" id="cardPic" hidden></div>
       <div class="emoji" id="emoji"></div>
       <div class="caption" id="caption"></div>
@@ -529,7 +528,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   </div>
   <div class="stage">
     <div class="card" id="qcard">
-      <button class="listen mila-btn" id="qListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
+      <button class="listen mila-btn" id="qListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button>
       <div class="card-pic" id="qPic" hidden></div>
       <div class="emoji" id="qEmoji"></div>
       <div class="caption" id="qCaption"></div>
@@ -591,7 +590,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   </div>
   <div class="stage">
     <div class="card" id="jcard">
-      <button class="listen mila-btn" id="jListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
+      <button class="listen mila-btn" id="jListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button>
       <div class="card-pic" id="jPic" hidden></div>
       <div class="emoji" id="jEmoji"></div>
       <div class="caption" id="jCaption"></div>
@@ -622,7 +621,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
     <div class="squiz" id="squiz" hidden></div>
     <div class="snav" id="snav">
       <button class="round" id="sPrev" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
-      <button class="round mila-btn" id="sListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
+      <button class="round mila-btn" id="sListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button>
       <button class="go" id="sNext" aria-label="Weiter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
   </div>
@@ -687,7 +686,7 @@ const GARDEN = [
   {id:"bunny",x:47,y:70,w:8.4},{id:"pool",x:61,y:69,w:15.4},{id:"sunflower",x:79,y:60,w:7.0,cls:"sway"},{id:"kite",x:72,y:27,w:8.4,cls:"fly"},
   {id:"mushroom",x:19,y:61,w:8.4},{id:"birdhouse",x:57.5,y:33,w:7.0},{id:"sandbox",x:33,y:71,w:12.6},{id:"pond",x:70,y:55,w:12.6}];
 // Mia, Mil and Max from school come to play in the garden.
-const KIDS = [{id:"mia",x:40,y:66,w:9},{id:"mil",x:26,y:70,w:9},{id:"max",x:74,y:63,w:9}];
+const KIDS = [{id:"mia",x:43,y:64,w:6,src:"img/kid-mia.webp"},{id:"mil",x:30,y:68,w:6,src:"img/kid-mil.webp"},{id:"max",x:72,y:61,w:6.4,src:"img/kid-max.webp"},{id:"mila",x:57,y:72,w:10,src:"img/mila.webp"}];
 const HOUSE_SPOTS = {der:{x:37,y:42},die:{x:50,y:38},das:{x:63,y:42}};
 // Built-in story: a whole little tale in simple sentences where der/die/das never change form. Weekly stories come from data/stories.json.
 const DEFAULT_STORIES = [{id:"story2", title:"Wo ist der Ball?", pages:[
@@ -1469,7 +1468,7 @@ function openGarden() {
   $("garden").innerHTML = '<div class="island" id="island"><div class="floaty"><img class="base" src="img/island.webp" alt="">' +
     ARTS.map((a, i) => { const h = HOUSE_SPOTS[a]; return '<button class="ghouse" data-a="' + a + '" style="left:' + h.x + "%;top:" + h.y + "%;width:9%;z-index:" + h.y + ";--z:" + z(h.y) + 'px">' + ORB(a) + '<span class="gshadow"></span></button>'; }).join("") +
     GARDEN.slice(0, n).map(gi).join("") +
-    KIDS.map(k => '<button class="kid" data-kid="' + k.id + '" style="left:' + k.x + "%;top:" + k.y + "%;width:" + k.w + "%;z-index:" + k.y + '"><img src="img/kid-' + k.id + '.webp" alt="" data-garden="1"></button>').join("") +
+    KIDS.map(k => '<button class="kid" data-kid="' + k.id + '" style="left:' + k.x + "%;top:" + k.y + "%;width:" + k.w + "%;z-index:" + k.y + '"><img src="' + k.src + '" alt="" data-garden="1"></button>').join("") +
     (next ? '<div class="sprout" style="left:' + next.x + "%;top:" + Math.max(next.y, 30) + '%;z-index:' + Math.round(next.y) + '">🌱</div>' : "") +
     Array.from({ length: 10 }, (_, i) => '<span class="mote" style="left:' + (20 + Math.random() * 60) + "%;top:" + (40 + Math.random() * 35) + "%;animation-delay:" + (-Math.random() * 7) + 's"></span>').join("") +
     "</div></div>";
@@ -1509,7 +1508,7 @@ $("garden").addEventListener("click", (e) => {
   const h = e.target.closest(".ghouse");
   if (h) { say([C("a-" + h.dataset.a)]); jump(h.querySelector(".orb")); sparkle(h, 8); return; }
   const k = e.target.closest(".kid");
-  if (k) { pop(); jump(k.querySelector("img")); sparkle(k, 10); return; }
+  if (k) { pop(); jump(k.querySelector("img")); sparkle(k, 10); if (k.dataset.kid === "mila") say([C("f-hallo")]); return; }
   const g = e.target.closest(".gi");
   if (g) { pop(); jump(g.querySelector("img")); sparkle(g, 8); }
 });
