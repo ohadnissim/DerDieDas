@@ -4,7 +4,7 @@ A der/die/das practice game for young children. No reading needed: every word is
 
 **Play it:** https://ohadnissim.github.io/DerDieDas/
 
-- **Practice (purple button):** the app says the word with its article ("der Hund"), the child taps **der** (blue ●), **die** (red ▲) or **das** (green ■), then says it out loud with the hand sign (der ✊ fist, die ☝️ pointing finger, das ✋ flat hand). A peace sign ✌️ celebrates right answers; short sentences ("Der Hund bellt.") put the word in context. Missed words come back a few cards later; across days, known words come back less often.
+- **Practice (purple button):** the app says the word with its article ("der Hund"), the child taps **der** (blue ●), **die** (red ▲) or **das** (yellow ■), then says it out loud with the hand sign (der ✊ fist, die ☝️ pointing finger, das ✋ flat hand). A peace sign ✌️ celebrates right answers; short sentences ("Der Hund bellt.") put the word in context. Missed words come back a few cards later; across days, known words come back less often.
 - **Quiz (pink button, gets a "!" every 2 rounds):** picture only, no hints, one try per word. Missed words are flagged for the grown-ups and go back into practice.
 - **Speaking:** in the say-it step she taps the microphone and says the word; she gets kind feedback ("Super gesagt!" / "Fast! Hör mal:") and hears her own voice back. Needs the microphone permission; works on this GitHub version only.
 - **Memory (pink cards):** find two pictures that live in the same house; each card says its word.
