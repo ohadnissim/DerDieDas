@@ -390,6 +390,64 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .squiz.asking .choice.orb{flex:none;width:clamp(84px,14vmin,124px)}
 .squiz.asking .askpic{width:clamp(84px,14vmin,124px)}
 
+/* ---------- home: circles fill up as words get their star ---------- */
+.orbwrap{position:relative;display:block;width:min(78%,clamp(88px,15vmin,136px));animation:float 3.4s ease-in-out infinite}
+.orbwrap .house-img{width:100%;animation:none}
+.house[data-a="die"] .orbwrap{animation-delay:-1.1s} .house[data-a="das"] .orbwrap{animation-delay:-2.2s}
+.ring{--pct:0;position:absolute;inset:-13%;border-radius:50%;pointer-events:none;
+  background:conic-gradient(var(--rc) calc(var(--pct) * 1%),rgba(120,90,150,.13) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 8px),#000 calc(100% - 7px));mask:radial-gradient(farthest-side,transparent calc(100% - 8px),#000 calc(100% - 7px));transition:--pct .6s}
+.ring.der{--rc:var(--der)} .ring.die{--rc:var(--die)} .ring.das{--rc:var(--das-deep)}
+.ring.full{filter:drop-shadow(0 0 8px var(--star))}
+.house-top .orb::after{display:none}
+.label .cnt{font-size:.5em;font-weight:800;color:var(--muted);margin-left:.35em;align-self:flex-end;margin-bottom:.15em}
+.w.newstar{animation:newstar 1.1s cubic-bezier(.3,1.6,.5,1) both;opacity:1}
+@keyframes newstar{0%{transform:scale(.4) rotate(-12deg);opacity:.3}45%{transform:scale(1.45) rotate(6deg);opacity:1;box-shadow:0 0 0 6px var(--star)}100%{transform:none}}
+
+/* ---------- circle games ---------- */
+.candy.sky{background:radial-gradient(circle at 35% 30%,#C9E9FF,#6FB8EE 60%);box-shadow:0 8px 0 #3C85BD,var(--lift)}
+.candy.peach{background:radial-gradient(circle at 35% 30%,#FFD9C2,#FF9E6E 60%);box-shadow:0 8px 0 #D86C3A,var(--lift)}
+.kidgame{overflow:hidden}
+.kidgame img{width:92%;height:92%;object-fit:cover;object-position:50% 4%;border-radius:50%;margin-top:14%}
+.gico{font-size:clamp(28px,5vmin,40px);line-height:1}
+.games{flex-wrap:wrap}
+.gmax{position:absolute;left:10px;bottom:6px;display:flex;align-items:flex-end;gap:4px;pointer-events:none}
+.gmax img{height:clamp(120px,24vh,210px);filter:drop-shadow(0 6px 8px rgba(60,30,60,.3));transform-origin:50% 100%}
+.gmax.enter img{animation:kidpop 1.2s cubic-bezier(.3,1.4,.5,1) both}
+.gmax.talk img{animation:talk .5s ease 2}
+@keyframes talk{50%{transform:rotate(-4deg) translateY(-6px)}}
+.gmax .bubble{margin-bottom:clamp(90px,18vh,160px);padding:8px 16px;border-radius:22px 22px 22px 4px;background:var(--surface);box-shadow:var(--lift);font-family:var(--display);font-weight:800;font-size:clamp(22px,4vmin,34px);color:var(--ink);white-space:nowrap}
+.gmax .bubble.der{color:var(--der)} .gmax .bubble.die{color:var(--die)} .gmax .bubble.das{color:var(--das-ink)}
+.gmoves{margin-top:-6px}
+.gmoves span{justify-self:center;font-size:clamp(30px,6vmin,48px);line-height:1}
+.choice.stomp{animation:stomp .55s ease 2}
+.choice.clap{animation:clap .22s ease 5}
+.choice.hop{animation:hop .5s cubic-bezier(.3,1.4,.5,1) 2}
+@keyframes stomp{40%{transform:translateY(10%) scale(1.12,.8)}70%{transform:translateY(-4%) scale(.95,1.05)}}
+@keyframes clap{50%{transform:scale(1.14) rotate(-6deg)}}
+@keyframes hop{45%{transform:translateY(-38%) scale(.94,1.08)}80%{transform:translateY(0) scale(1.08,.92)}}
+
+/* ---------- printable cards ---------- */
+.printsheet{position:fixed;inset:0;z-index:60;overflow:auto;background:#fff;color:#222;padding:16px}
+.ptools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.pcards{display:grid;grid-template-columns:repeat(3,1fr);max-width:190mm;margin:0 auto}
+.pcard,.pin{box-sizing:border-box}
+.pcard{height:88mm;padding:3mm;border:1px dashed #bbb;break-inside:avoid;page-break-inside:avoid}
+.pin{height:100%;border:3.5mm solid var(--pc);border-radius:6mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4mm 2mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pin.der{--pc:var(--der)} .pin.die{--pc:var(--die)} .pin.das{--pc:var(--das)}
+.pin img{flex:1;min-height:0;width:100%;max-height:60mm;object-fit:contain}
+.pemo{font-size:40mm;line-height:1}
+.pword{display:flex;align-items:center;gap:2mm;font-family:var(--display);font-weight:800;font-size:19pt;color:#3B2352}
+.pword i{width:5mm;height:5mm;border-radius:50%;background:var(--pc);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pword.der{--pc:var(--der)} .pword.die{--pc:var(--die)} .pword.das{--pc:var(--das)}
+@media print{
+  @page{size:A4;margin:10mm}
+  body{background:#fff!important}
+  body>*:not(#printSheet){display:none!important}
+  .printsheet{position:static;padding:0;overflow:visible}
+  .ptools{display:none}
+}
+
 /* ---------- memory game ---------- */
 .mwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
 .mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,2vw,18px);width:min(100%,760px,calc((100vh - 150px) * 1.3))}
@@ -526,12 +584,15 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <button class="candy grape game" id="judgeBtn" aria-label="Stimmt das?"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21h3V10H2v11zm20-10a2 2 0 0 0-2-2h-6.3l1-4.6v-.3a1.5 1.5 0 0 0-.4-1L14.2 2 7.6 8.6A2 2 0 0 0 7 10v9a2 2 0 0 0 2 2h9a2 2 0 0 0 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg></button>
       <button class="candy sun game" id="storyBtn" aria-label="Geschichte"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 6.5C10.2 5 7.6 4.5 4 4.5v14c3.6 0 6.2.5 8 2 1.8-1.5 4.4-2 8-2v-14c-3.6 0-6.2.5-8 2z"/></svg><span class="due" id="storyDue" hidden>!</span></button>
       <button class="candy mint game" id="gardenBtn" aria-label="Garten"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="3.2"/><circle cx="8.2" cy="6" r="2.6" opacity=".8"/><circle cx="15.8" cy="6" r="2.6" opacity=".8"/><circle cx="12" cy="3.6" r="2.6" opacity=".8"/><path d="M11 11h2v10h-2z"/><path d="M12 17c-2-3-5-3-6-2 1 2 3 3 6 2zm0-2c2-3 5-3 6-2-1 2-3 3-6 2z"/></svg><span class="due" id="gardenDue" hidden>!</span></button>
+      <button class="candy sky game kidgame" id="maxBtn" aria-label="Stimmt das, Max?"><img src="img/kid-max.webp" alt="" data-friend="1"></button>
+      <button class="candy peach game" id="moveBtn" aria-label="Bewegungsspiel"><span class="gico" aria-hidden="true">🦶</span></button>
+      <button class="candy grape game" id="hearBtn" aria-label="Hörspiel"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7h2a5 5 0 0 1 10 0c0 1.9-.9 2.9-2 4-1.2 1.1-2.5 2.3-2.9 4.6-.2 1.3-1 2.4-2.6 2.4A2.5 2.5 0 0 1 7 19.5H5A4.5 4.5 0 0 0 9.5 24c2.6 0 4.2-1.8 4.6-4.1.3-1.6 1.1-2.4 2.2-3.4C17.6 15.2 19 13.7 19 9a7 7 0 0 0-7-7zm0 4a3 3 0 0 0-3 3h2a1 1 0 0 1 2 0c0 .7-.4 1-1 1.5-.8.6-2 1.5-2 3.5h2c0-1 .5-1.4 1.2-1.9C14 11.5 15 10.6 15 9a3 3 0 0 0-3-3z"/></svg></button>
     </div>
     <button class="nextsticker" id="nextSticker" aria-label="Nächster Sticker"><span id="slots"></span><span class="gift" id="gift">?</span></button>
     <div class="cols" id="houses">
-      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="orb der house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button><div class="rooms" id="rooms-der"></div></div>
-      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="orb die house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>die</span></button><div class="rooms" id="rooms-die"></div></div>
-      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="orb das house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>das</span></button><div class="rooms" id="rooms-das"></div></div>
+      <div class="house" data-a="der"><button class="house-top" data-say="der" aria-label="der"><span class="orbwrap"><span class="ring der" id="ring-der"></span><span class="orb der house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der<span class="cnt" id="cnt-der"></span></span></button><div class="rooms" id="rooms-der"></div></div>
+      <div class="house" data-a="die"><button class="house-top" data-say="die" aria-label="die"><span class="orbwrap"><span class="ring die" id="ring-die"></span><span class="orb die house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>die<span class="cnt" id="cnt-die"></span></span></button><div class="rooms" id="rooms-die"></div></div>
+      <div class="house" data-a="das"><button class="house-top" data-say="das" aria-label="das"><span class="orbwrap"><span class="ring das" id="ring-das"></span><span class="orb das house-img"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>das<span class="cnt" id="cnt-das"></span></span></button><div class="rooms" id="rooms-das"></div></div>
     </div>
   </div>
 </section>
@@ -671,6 +732,34 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   </div>
 </section>
 
+<!-- CIRCLE GAMES: Max says it / move with the circles / listen and pick -->
+<section class="screen" id="cgame" hidden>
+  <div class="bar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="dots" id="gdots"></div></div>
+    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+  </div>
+  <div class="stage">
+    <div class="card" id="gcard">
+      <button class="listen mila-btn" id="gListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button>
+      <div class="card-pic" id="gPic" hidden></div>
+      <div class="emoji" id="gEmoji"></div>
+      <div class="caption" id="gCaption"></div>
+      <div class="gmax" id="gMax" hidden><img src="img/kid-max.webp" alt="" data-friend="1"><span class="bubble" id="gBubble"></span></div>
+    </div>
+    <div class="cols choices small" id="gChoices">
+      <button class="choice orb der" data-a="der"><span class="ow">der</span></button>
+      <button class="choice orb die" data-a="die"><span class="ow">die</span></button>
+      <button class="choice orb das" data-a="das"><span class="ow">das</span></button>
+    </div>
+    <div class="cols gmoves" id="gMoves" hidden><span>🦶</span><span>👏</span><span>🦘</span></div>
+    <div class="thumbs" id="gThumbs" hidden>
+      <button class="thumb yes" id="gYes" aria-label="Stimmt">👍</button>
+      <button class="thumb no" id="gNo" aria-label="Stimmt nicht">👎</button>
+    </div>
+  </div>
+</section>
+
 <!-- STORY -->
 <section class="screen" id="story" hidden>
   <div class="bar">
@@ -701,6 +790,9 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 </section>
 
 <canvas id="confetti" hidden></canvas>
+
+<!-- PRINTABLE WORD CARDS (grown-ups) -->
+<div class="printsheet" id="printSheet" hidden></div>
 
 <!-- GROWN-UPS -->
 <div class="overlay" id="grown" hidden><div class="sheet" id="sheet"></div></div>
@@ -832,7 +924,7 @@ const state = {
   stories: DEFAULT_STORIES,
   dbError: ""
 };
-function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed: null, points: 0, pointsUsed: 0, stickers: [], roundsSinceQuiz: 0, quizzes: 0, days: [], gardenSeen: 0, storySeen: "", log: {} }; }
+function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed: null, points: 0, pointsUsed: 0, stickers: [], roundsSinceQuiz: 0, quizzes: 0, days: [], gardenSeen: 0, storySeen: "", log: {}, starred: null }; }
 function normalizeProgress(p) {
   const out = blankProgress();
   if (p && typeof p === "object") {
@@ -843,6 +935,7 @@ function normalizeProgress(p) {
     out.lastPlayed = p.lastPlayed || null;
     if (p.words && typeof p.words === "object") out.words = clone(p.words);
     if (Array.isArray(p.stickers)) out.stickers = p.stickers.filter(s => STICKERS.includes(s));
+    if (Array.isArray(p.starred)) out.starred = p.starred.filter(s => typeof s === "string");
   }
   return out;
 }
@@ -857,6 +950,14 @@ function normalizeWords(list) {
   }
   return out;
 }
+// Which wrong circle she tapped for a word, so the grown-ups can see what gets mixed up.
+function noteMiss(w, picked) {
+  if (!w || !ARTS.includes(picked) || picked === w.article) return;
+  const mix = { ...(prog(w.id).mix || {}) };
+  mix[picked] = (mix[picked] || 0) + 1;
+  setProg(w.id, { mix, missed: today() });
+}
+const mixText = (p) => ARTS.filter(a => p.mix && p.mix[a]).sort((a, b) => p.mix[b] - p.mix[a]).map(a => "“" + a + "” " + p.mix[a] + "×").join(", ");
 const prog = (id) => state.progress.words[id] || { box: 0, due: null, seen: 0, wrong: 0 };
 const setProg = (id, patch) => { state.progress.words[id] = { ...prog(id), ...patch }; };
 // First-try answers (practice and quiz) needed for each new sticker.
@@ -867,6 +968,8 @@ function needsPractice(w) {
   if (q && q.ok === false) return "missed in the last quiz";
   if (q && q.w > 0 && q.w >= q.r) return "often missed in quizzes";
   if ((p.wrong || 0) >= 2 && (p.box || 0) < 2) return "often missed in practice";
+  const mix = p.mix || {}, top = ARTS.filter(a => mix[a]).sort((a, b) => mix[b] - mix[a])[0];
+  if (top && mix[top] >= 2 && (p.box || 0) < MASTERED) return "often picks “" + top + "”";
   return "";
 }
 
@@ -908,7 +1011,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 12;
+const AUDIO_V = 13;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -919,13 +1022,23 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "k-mia-hallo":"Hallo! Ich bin Mia!","k-mia-c1":"Juhu!","k-mia-c2":"Super!","k-mia-c3":"Klasse!",
   "k-mil-hallo":"Hallo! Ich bin Mil!","k-mil-c1":"Juhu, super!","k-mil-c2":"Klasse! Toll gemacht!",
   "k-max-hallo":"Hallo! Ich bin Max!","k-max-c1":"Juhu, super!","k-max-c2":"Klasse! Toll gemacht!",
+  "f-stampfen":"Stampfen!","f-klatschen":"Klatschen!","f-springen":"Springen!","f-bewegung":"Bewegungsspiel! Hör gut zu und mach mit!","f-machmit":"Mach mit!","f-maxsagt":"Max sagt ein Wort. Stimmt das?","f-hoerspiel":"Hörspiel! Hör gut zu!",
   "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
+// The word alone (no article), for the listening and moving games.
+const NOUN_IDS = new Set(["maus", "mann", "mond", "mauer", "wurm", "mama", "messer", "mantel", "murmel", "mund", "milch", "ameise", "muschel", "eimer", "helm", "ampel"]);
+const N = (w) => ({ key: NOUN_IDS.has(w.id) && norm(w.noun) === w.id ? "n-" + w.id : null, text: w.noun });
+// Max says each of these words twice over: [the right article, his favourite mistake].
+const MAX_CLAIMS = { maus: ["die", "der"], mann: ["der", "die"], mond: ["der", "das"], mauer: ["die", "der"], wurm: ["der", "die"], mama: ["die", "der"], messer: ["das", "der"], mantel: ["der", "die"],
+  murmel: ["die", "der"], mund: ["der", "die"], milch: ["die", "das"], ameise: ["die", "der"], muschel: ["die", "das"], eimer: ["der", "die"], helm: ["der", "das"], ampel: ["die", "der"] };
+const maxSays = (w, a) => ({ key: "x-max-" + w.id + "-" + a, text: a + " " + w.noun });
 // Words recorded later carry rec: true (their w-/s- clips ship in audio/).
 const builtIn = (w) => DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id;
 function registerClips() {
+  for (const id of NOUN_IDS) CLIPS.add("n-" + id);
+  for (const id in MAX_CLAIMS) for (const a of MAX_CLAIMS[id]) CLIPS.add("x-max-" + id + "-" + a);
   for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
   for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); for (const l of pg.lines || (pg.kid ? [pg.kid] : [])) if (l.audio) CLIPS.add(l.audio); if (pg.find && pg.find.audio) CLIPS.add(pg.find.audio); }
 }
@@ -1141,11 +1254,11 @@ function confetti() {
 }
 
 /* ---------- screens ---------- */
-const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "judge", "story", "gardenScreen"];
+const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "judge", "cgame", "story", "gardenScreen"];
 function show(name) { for (const s of SCREENS) $(s).hidden = s !== name; }
-let S = null, Q = null, M = null, J = null, ST = null, WU = null;
+let S = null, Q = null, M = null, J = null, ST = null, WU = null, G = null;
 let lastActivity = "practice";
-const busy = () => !!(S || Q || M || J || ST || WU);
+const busy = () => !!(S || Q || M || J || ST || WU || G);
 
 /* ---------- home ---------- */
 function renderStars() {
@@ -1159,6 +1272,8 @@ function renderHome() {
   $("quizBtn").disabled = !(ready && state.words.length >= 3);
   $("quizDue").hidden = !quizDue();
   $("memBtn").disabled = $("judgeBtn").disabled = !(ready && state.words.length >= 3);
+  $("moveBtn").disabled = $("hearBtn").disabled = !(ready && state.words.length >= 3);
+  $("maxBtn").disabled = gameWords("max").length < 3;
   $("gardenDue").hidden = !(gardenCount() > state.progress.gardenSeen);
   const latest = state.stories[state.stories.length - 1];
   $("storyDue").hidden = !latest || state.progress.storySeen === latest.id;
@@ -1178,7 +1293,31 @@ function renderHome() {
       return '<button class="w ' + (m ? "mastered" : "learning") + '" data-id="' + esc(w.id) + '" aria-label="' + esc(w.article + " " + w.noun) + '">' + faceHTML(w) + "</button>";
     }).join("");
   }
+  for (const a of ARTS) {
+    const ws = state.words.filter(w => w.article === a), m = ws.filter(w => prog(w.id).box >= MASTERED).length;
+    $("ring-" + a).style.setProperty("--pct", ws.length ? Math.round(m / ws.length * 100) : 0);
+    $("cnt-" + a).textContent = ws.length ? m + "/" + ws.length : "";
+    $("ring-" + a).classList.toggle("full", ws.length > 0 && m === ws.length);
+  }
   renderVoiceWarn();
+  setTimeout(celebrateStarred, 500);
+}
+// A word just earned its star: it lights up in its circle's room; a circle whose words all have stars gets confetti.
+function celebrateStarred() {
+  if (busy() || $("home").hidden || !state.wordsLoaded || grownOpen) return;
+  const pr = state.progress, mastered = state.words.filter(w => prog(w.id).box >= MASTERED);
+  if (!Array.isArray(pr.starred)) { pr.starred = mastered.map(w => w.id); saveProgress(); return; }   // first time: no fuss about old stars
+  const fresh = mastered.filter(w => !pr.starred.includes(w.id));
+  if (!fresh.length) return;
+  pr.starred = [...pr.starred, ...fresh.map(w => w.id)].slice(-300); saveProgress();
+  fresh.slice(0, 4).forEach((w, k) => setTimeout(() => {
+    const tile = document.querySelector('#rooms-' + w.article + ' .w[data-id="' + w.id + '"]');
+    if (tile) { restart(tile, "newstar"); sparkle(tile, 12); }
+  }, k * 500));
+  chime();
+  const full = ARTS.filter(a => fresh.some(w => w.article === a) && state.words.filter(w => w.article === a).every(w => prog(w.id).box >= MASTERED));
+  if (full.length) { setTimeout(() => { fanfare(); confetti(); full.forEach(a => sparkle(document.querySelector('.house[data-a="' + a + '"] .house-img'), 16)); }, 900); }
+  say([C(pick(PRAISE)), ...fresh.slice(0, 3).map(w => W(w))]);
 }
 $("houses").addEventListener("click", (e) => {
   const top = e.target.closest("[data-say]");
@@ -1204,7 +1343,14 @@ function reviewWords(max) {
   return shuffle(cand).sort((a, b) => weakness(b) - weakness(a)).slice(0, max);
 }
 const allWords = () => [...state.words, ...state.bank];
-function startSession() {
+function startSession(only) {
+  if (Array.isArray(only) && only.length) {
+    // grown-ups' "Practise these now": just the tricky words (topped up to 3 with others)
+    const extra = shuffle(state.words.filter(w => !only.includes(w))).slice(0, Math.max(0, 3 - only.length));
+    const words = shuffle([...only, ...extra]).slice(0, 12);
+    S = { words, queue: words.map(w => w.id), done: {}, graded: {}, misses: {}, earned: 0, card: null };
+    renderStars(); show("play"); nextCard(); return;
+  }
   if (!state.words.length) return;
   const t = today();
   const pool = shuffle(state.words).map(w => ({ w, p: prog(w.id) }));
@@ -1297,7 +1443,7 @@ function answer(a, btn) {
     if (kid) kidPop(kid);
     say([C(kid ? pick(KID_CHEERS[kid]) : pick(PRAISE)), W(w)]).then(showRepeat);
   } else {
-    boop();
+    boop(); noteMiss(w, a);
     btn.classList.add("wrong"); btn.disabled = true;
     if (c.attempts >= 2) {
       c.locked = true;
@@ -1355,7 +1501,7 @@ function finishSession() {
   showDone(earned, rows, fresh, quizDue(), grew);
 }
 function quitSession() {
-  if (busy()) { saveProgress(); S = Q = M = J = ST = null; }
+  if (busy()) { saveProgress(); S = Q = M = J = ST = G = null; }
   stopRecording();
   stopAudio();
   renderHome(); show("home");
@@ -1404,6 +1550,7 @@ function quizAnswer(a, btn) {
   const patch = { q: { r: q.r + (ok ? 1 : 0), w: q.w + (ok ? 0 : 1), last: today(), ok } };
   if (!ok) { patch.box = 0; patch.due = today(); }          // back into practice soon
   setProg(w.id, patch);
+  if (!ok) noteMiss(w, a);
   document.querySelectorAll(".qhouse").forEach(b => b.disabled = true);
   $("qcard").className = "card " + w.article;
   $("qCaption").innerHTML = '<span class="art ' + w.article + '">' + w.article + "</span> " + esc(w.noun);
@@ -1508,7 +1655,7 @@ $("playBtn").addEventListener("click", () => { pop(); startPractice(); });
 $("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
 $("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
 $("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, judge: startJudge, story: startStory })[lastActivity](); });
+$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, judge: startJudge, story: startStory, max: () => startCircleGame("max"), move: () => startCircleGame("move"), hear: () => startCircleGame("hear") })[lastActivity](); });
 $("doneGarden").addEventListener("click", () => { pop(); openGarden(); });
 $("memBtn").addEventListener("click", () => { pop(); startMemory(); });
 $("judgeBtn").addEventListener("click", () => { pop(); startJudge(); });
@@ -1807,7 +1954,7 @@ document.querySelectorAll("#jChoices .choice").forEach(btn => btn.addEventListen
     document.querySelectorAll("#jChoices .choice").forEach(b => b.disabled = true);
     const ok = a === w.article;
     if (ok) { chime(); btn.classList.add("right"); cheer(a, btn); jReveal(w, true); jNext(say([C(pick(PRAISE)), W(w)])); }
-    else { boop(); btn.classList.add("wrong"); document.querySelector('#jChoices .choice[data-a="' + w.article + '"]').classList.add("hint"); jReveal(w, false); jNext(say([C("f-schau"), W(w)])); }
+    else { boop(); noteMiss(w, a); btn.classList.add("wrong"); document.querySelector('#jChoices .choice[data-a="' + w.article + '"]').classList.add("hint"); jReveal(w, false); jNext(say([C("f-schau"), W(w)])); }
   }
 }));
 function judge(saysRight) {
@@ -1837,6 +1984,162 @@ function finishJudge() {
   state.progress.lastPlayed = today(); saveProgress();
   showDone(earned, rows, [], quizDue(), grew);
 }
+
+/* ---------- three circle games ---------- */
+// max:  Max says a word with an article – sometimes the wrong one. Thumbs up or down; if he got it wrong she shows him the right circle.
+// move: Mila says only the word. She moves like its circle (der stampfen, die klatschen, das springen) and taps it.
+// hear: Mila says only the word, no picture. She picks the circle, then sees the picture.
+const MOVES = { der: { key: "f-stampfen", fx: "stomp" }, die: { key: "f-klatschen", fx: "clap" }, das: { key: "f-springen", fx: "hop" } };
+const tricky = (w) => { const p = prog(w.id); return (needsPractice(w) ? 5 : 0) + ARTS.reduce((n, a) => n + ((p.mix || {})[a] || 0), 0); };
+function gameWords(mode) {
+  let ws = mode === "max" ? allWords().filter(w => MAX_CLAIMS[w.id] && MAX_CLAIMS[w.id][0] === w.article && norm(w.noun) === w.id) : state.words;
+  if (mode !== "max") { const rec = ws.filter(w => N(w).key); if (rec.length >= 3) ws = rec; }
+  // a couple of her tricky words always come along, the rest at random
+  const byTrick = shuffle(ws).sort((a, b) => tricky(b) - tricky(a));
+  return shuffle([...byTrick.slice(0, 2), ...shuffle(byTrick.slice(2)).slice(0, 4)]);
+}
+const gOrb = (a) => document.querySelector('#gChoices .choice[data-a="' + a + '"]');
+function gOrbsReset(disabled) { document.querySelectorAll("#gChoices .choice").forEach(b => { b.disabled = !!disabled; b.className = "choice orb " + b.dataset.a; }); }
+function startCircleGame(mode) {
+  const words = gameWords(mode);
+  if (words.length < 3) return;
+  G = { mode, words, i: 0, earned: 0, res: {}, phase: "intro", claim: "" };
+  $("gMoves").hidden = mode !== "move";
+  $("gMax").hidden = true; $("gThumbs").hidden = true;
+  $("gPic").hidden = true; $("gEmoji").hidden = false; $("gEmoji").className = "emoji";
+  $("gEmoji").textContent = mode === "max" ? "" : mode === "move" ? "🎵" : "👂";
+  $("gCaption").className = "caption"; $("gCaption").innerHTML = "";
+  $("gcard").className = "card";
+  gOrbsReset(true); $("gChoices").hidden = mode === "max";
+  renderStars(); renderGDots(); show("cgame");
+  const my = G;
+  const intro = async () => {
+    await sleep(300);
+    if (mode === "max") { if (G === my) { $("gMax").hidden = false; restart($("gMax"), "enter"); } return say([C("f-maxsagt")]); }
+    if (mode === "hear") return say([C("f-hoerspiel")]);
+    await say([C("f-bewegung")]);
+    for (const a of ARTS) {                                   // each circle shows its move once
+      if (G !== my) return;
+      const b = gOrb(a); b.classList.add(MOVES[a].fx);
+      await say([ART(a), C(MOVES[a].key)]);
+      b.classList.remove(MOVES[a].fx);
+    }
+  };
+  intro().then(() => { if (G === my) nextG(); });
+}
+function renderGDots() { $("gdots").innerHTML = G.words.map((w, i) => '<span class="dot ' + (w.id in G.res ? (G.res[w.id] ? "ok" : "miss") : "") + (i === G.i ? " now" : "") + '"></span>').join(""); }
+function gPrompt() {
+  const w = G && G.words[G.i]; if (!w) return;
+  if (G.mode === "max") return say([maxSays(w, G.claim), C("f-stimmt")]);
+  return say(G.mode === "move" && G.i < 2 ? [N(w), C("f-machmit")] : [N(w)]);
+}
+function nextG() {
+  if (G.i >= G.words.length) return finishG();
+  const w = G.words[G.i], my = G;
+  G.phase = "listen";
+  $("gCaption").className = "caption"; $("gCaption").innerHTML = "";
+  $("gcard").className = "card"; restart($("gcard"), "enter");
+  $("gThumbs").hidden = true;
+  gOrbsReset(true);
+  renderGDots();
+  if (G.mode === "max") {
+    setPicture($("gPic"), $("gEmoji"), w);
+    G.claim = Math.random() < 0.5 ? w.article : MAX_CLAIMS[w.id][1];
+    $("gChoices").hidden = true;
+    $("gBubble").className = "bubble " + G.claim; $("gBubble").textContent = G.claim + " " + w.noun + "!";
+    $("gMax").hidden = false; restart($("gMax"), "talk");
+    gPrompt().then(() => { if (G === my && G.words[G.i] === w && G.phase === "listen") { G.phase = "judge"; $("gThumbs").hidden = false; restart($("gThumbs"), "enter"); } });
+  } else {
+    $("gPic").hidden = true; $("gEmoji").hidden = false; $("gEmoji").className = "emoji"; $("gEmoji").textContent = G.mode === "move" ? "🎵" : "👂";
+    $("gChoices").hidden = false; restart($("gChoices"), "enter");
+    gPrompt().then(() => { if (G === my && G.words[G.i] === w && G.phase === "listen") { G.phase = "pick"; gOrbsReset(false); } });
+  }
+}
+function gReveal(w, ok) {
+  setPicture($("gPic"), $("gEmoji"), w);
+  $("gcard").className = "card " + w.article;
+  $("gCaption").innerHTML = '<span class="art ' + w.article + '">' + w.article + "</span> " + esc(w.noun);
+  $("gCaption").className = "caption show";
+  G.res[w.id] = ok;
+  if (ok) { G.earned++; addStars(); }
+  renderGDots();
+}
+function gNext(spoken) { const my = G; spoken.then(() => sleep(900)).then(() => { if (G === my) { G.i++; nextG(); } }); }
+function gPick(btn) {
+  if (!G || (G.phase !== "pick" && G.phase !== "fix")) return;
+  const w = G.words[G.i], a = btn.dataset.a, fix = G.phase === "fix";
+  G.phase = "";
+  document.querySelectorAll("#gChoices .choice").forEach(b => b.disabled = true);
+  if (a === w.article) {
+    chime(); btn.classList.add("right"); cheer(a, btn); sparkle(btn, 10); gReveal(w, true);
+    if (G.mode === "move") { restart(btn, MOVES[a].fx); gNext(say([W(w), C(MOVES[a].key)])); }
+    else if (fix) { restart($("gMax"), "talk"); gNext(say([C("k-max-danke"), W(w)])); }
+    else gNext(say([C(pick(PRAISE)), W(w)]));
+  } else {
+    boop(); btn.classList.add("wrong"); noteMiss(w, a); gReveal(w, false);
+    const rb = gOrb(w.article); rb.classList.add("hint");
+    if (G.mode === "move") { restart(rb, MOVES[w.article].fx); gNext(say([C("f-schau"), W(w), C(MOVES[w.article].key)])); }
+    else gNext(say([C("f-schau"), ART(w.article), W(w)]));
+  }
+}
+function gJudge(yes) {
+  if (!G || G.phase !== "judge") return;
+  const w = G.words[G.i], right = G.claim === w.article;
+  $("gThumbs").hidden = true;
+  if (yes && right) { G.phase = ""; chime(); cheer(w.article, $("gcard")); gReveal(w, true); gNext(say([C("k-max-c1"), W(w)])); }
+  else if (!yes && !right) {
+    // she caught Max's mistake: now she shows him the right circle
+    G.phase = "fix"; chime(); sparkle($("gBubble"), 10);
+    gOrbsReset(false); const cb = gOrb(G.claim); cb.disabled = true; cb.classList.add("wrong");
+    $("gChoices").hidden = false; restart($("gChoices"), "enter");
+    say([C("f-nein"), C("f-welche")]);
+  } else {
+    G.phase = ""; boop(); if (yes) noteMiss(w, G.claim); gReveal(w, false);
+    gNext(say([C("f-oh"), C("f-schau"), W(w)]));
+  }
+}
+document.querySelectorAll("#gChoices .choice").forEach(b => b.addEventListener("click", () => gPick(b)));
+$("gYes").addEventListener("click", () => gJudge(true));
+$("gNo").addEventListener("click", () => gJudge(false));
+$("gListen").addEventListener("click", () => {
+  if (!G) return;
+  const w = G.words[G.i]; if (!w) return;
+  if (G.phase === "fix") say([C("f-welche")]); else if (G.phase === "") say([W(w)]); else gPrompt();
+});
+function finishG() {
+  const rows = G.words.map(w => ({ w, mark: G.res[w.id] ? "ok" : "miss" }));
+  const earned = G.earned, grew = markDay(); logDay("g");
+  lastActivity = G.mode; G = null;
+  state.progress.lastPlayed = today(); saveProgress();
+  showDone(earned, rows, [], quizDue(), grew);
+}
+$("maxBtn").addEventListener("click", () => { pop(); startCircleGame("max"); });
+$("moveBtn").addEventListener("click", () => { pop(); startCircleGame("move"); });
+$("hearBtn").addEventListener("click", () => { pop(); startCircleGame("hear"); });
+
+/* ---------- printable word cards (grown-ups) ---------- */
+// The iPad app can't print, so there the button opens this page in Safari, which prints straight away.
+const PRINT_URL = "https://ohadnissim.github.io/DerDieDas/";
+const inApp = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+function openPrint(pairs) {
+  if (inApp()) { window.open(PRINT_URL + "#print" + (pairs ? "-pairs" : ""), "_blank"); return; }
+  const words = state.words.length ? state.words : allWords();
+  const cards = (pairs ? words.flatMap(w => [w, w]) : words).map(w => {
+    const src = picSrc(w);
+    return '<div class="pcard"><div class="pin ' + w.article + '">' +
+      (src ? '<img src="' + esc(src) + '" alt="">' : '<span class="pemo">' + esc(w.emoji || "") + "</span>") +
+      '<span class="pword ' + w.article + '"><i></i>' + w.article + " " + esc(w.noun) + "</span></div></div>";
+  }).join("");
+  $("printSheet").innerHTML = '<div class="ptools"><button class="btn primary" id="pGo">Print</button><button class="btn" id="pClose">Close</button>' +
+    '<span class="small">' + words.length + " words" + (pairs ? " · 2 of each for Memory" : "") + '. If nothing happens, use Share → Print.</span></div><div class="pcards">' + cards + "</div>";
+  $("printSheet").hidden = false;
+  $("pGo").addEventListener("click", () => { try { window.print(); } catch {} });
+  $("pClose").addEventListener("click", () => { $("printSheet").hidden = true; });
+  if (grownOpen) $("grown").hidden = true;
+  const imgs = [...$("printSheet").querySelectorAll("img")];
+  Promise.all(imgs.map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))).then(() => sleep(200)).then(() => { try { window.print(); } catch {} });
+}
+$("printSheet").addEventListener("click", (e) => { if (e.target.id === "pClose") { if (grownOpen) $("grown").hidden = false; } });
 
 /* ---------- story of the week ---------- */
 function colourText(t) {
@@ -1966,7 +2269,7 @@ function askTap(b) {
     chime(); b.classList.add("right"); cheer(w.article, b); sparkle(b, 12); addStars();
     say([W(w)]).then(() => sleep(200)).then(thanks).then(() => endStep(300));
   } else {
-    boop(); b.classList.add("wrong");
+    boop(); b.classList.add("wrong"); noteMiss(w, b.dataset.a);
     const rb = $("squiz").querySelector('.choice[data-a="' + w.article + '"]'); if (rb) rb.classList.add("hint");
     say([C("f-schau"), ART(w.article), W(w)]).then(() => sleep(300)).then(thanks).then(() => endStep(300));
   }
@@ -2187,6 +2490,8 @@ async function applyDataFiles() {
   } catch {}
   registerClips();
   if (!busy()) renderHome();
+  // opened from the iPad app's "Print word cards" button
+  if (/^#print/.test(location.hash)) { const pairs = location.hash === "#print-pairs"; history.replaceState(null, "", location.pathname); openPrint(pairs); }
 }
 
 /* ---------- grown-ups panel ---------- */
@@ -2208,7 +2513,7 @@ function wordRow(w, reason) {
     '</span><span class="n">' + esc(w.noun) + (reason ? '<span class="flag">practise</span>' : "") +
     (reason ? "<small>" + esc(reason) + "</small>" : "") + "</span>" +
     '<span class="stat"><span class="pips" title="Progress">' + [1, 2, 3, 4].map(i => '<span class="pip' + (p.box >= i ? " on" : "") + '"></span>').join("") + "</span>" +
-    "<span>" + (q ? "quiz " + q.r + "/" + (q.r + q.w) : "no quiz yet") + (p.said ? " · said ✓" + p.said : "") + "</span></span>" +
+    "<span>" + (q ? "quiz " + q.r + "/" + (q.r + q.w) : "no quiz yet") + (p.said ? " · said ✓" + p.said : "") + (p.mix ? " · wrong picks: " + esc(mixText(p)) : "") + "</span></span>" +
     '<button class="mini" data-act="hear" data-id="' + esc(w.id) + '" aria-label="Hear ' + esc(w.article + " " + w.noun) + '"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5 6 9H3v6h3l5 4V5z"/></svg></button>' +
     '<button class="mini" data-act="del" data-id="' + esc(w.id) + '" aria-label="Remove ' + esc(w.noun) + '">✕</button></li>';
 }
@@ -2227,7 +2532,8 @@ function renderGrown() {
     weeklyReport() +
     '<section><h3>Needs practice (' + weak.length + ')</h3>' +
       (weak.length ? '<ul class="list">' + weak.map(x => wordRow(x.w, x.r)).join("") + "</ul>" +
-        '<p class="small" style="margin-top:8px">These words come first in her next practice rounds.</p>'
+        '<div class="settings" style="margin-top:10px"><button class="btn primary" data-act="drill">Practise these now</button></div>' +
+        '<p class="small" style="margin-top:8px">These words come first in her next practice rounds. “Wrong picks” shows which circle she tapped instead, so you know what gets mixed up.</p>'
       : '<p class="small">Nothing flagged yet. Every ' + (Number(state.settings.quizEvery) || 2) + ' practice rounds the pink quiz button gets a “!”: the quiz shows only the picture, no hints, one try per word. Missed words show up here and go back into practice.</p>') + "</section>" +
     '<section><h3>All words (' + state.words.length + ')</h3>' +
       (state.words.length ? '<ul class="list">' + state.words.map(w => wordRow(w, "")).join("") + "</ul>" : '<p class="small">No words yet. Add some below.</p>') +
@@ -2245,6 +2551,8 @@ function renderGrown() {
       '<p class="small" style="margin-top:6px">One word per line: article, word and an optional emoji. <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
     '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. Every practice round starts with a short colour warm-up: Mila says der, die or das and she taps the matching circle (switch it off below). Tap Mila on the home screen and the three circles light up while she says der, die, das. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
+    '<section><h3>Print word cards</h3><p class="small">Cards with the picture, the coloured circle and the word, for Memory or snap at the table. Cut along the dashed lines.</p>' +
+      '<div class="settings" style="margin-top:10px"><button class="btn" data-act="print" data-pairs="0">One card per word</button><button class="btn" data-act="print" data-pairs="1">Memory set (pairs)</button></div></section>' +
     voiceSection() +
     '<section><h3>Progress</h3><div class="stats">' +
       "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div>" +
@@ -2344,6 +2652,8 @@ $("sheet").addEventListener("click", async (e) => {
   if (act === "gate") { if (b.dataset.ok === "1") { gateOk = true; renderGrown(); } else renderGate(); return; }
   if (act === "art") { addArt = b.dataset.a; document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x.dataset.a === addArt)); return; }
   if (act === "add") return addOne();
+  if (act === "drill") { const ws = allWords().filter(w => needsPractice(w)); closeGrown(); if (ws.length) startSession(ws); return; }
+  if (act === "print") { openPrint(b.dataset.pairs === "1"); return; }
   if (act === "testclip") { say([C("p-super"), { key: "w-hund", text: "der Hund" }]); return; }
   if (act === "testvoice") { say("der Hund, die Katze, das Haus"); return; }
   if (act === "hear") { const w = state.words.find(x => x.id === b.dataset.id); if (w) say([W(w)]); return; }
