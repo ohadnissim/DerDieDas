@@ -448,6 +448,17 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   .ptools{display:none}
 }
 
+/* ---------- a wrong tap: the circle shakes its head, the right one calls her ---------- */
+.oops{position:relative;animation:nope .75s ease both;opacity:.4;filter:saturate(.35)}
+@keyframes nope{0%{transform:none;opacity:1;filter:none}15%{transform:rotate(-12deg) scale(.96)}35%{transform:rotate(10deg) scale(.94)}55%{transform:rotate(-7deg) scale(.92)}75%{transform:rotate(4deg) scale(.9)}100%{transform:scale(.88)}}
+.oopsbadge{position:absolute;right:-6%;top:-10%;font-size:clamp(28px,5vmin,44px);line-height:1;filter:saturate(1) drop-shadow(0 3px 4px rgba(60,30,60,.35));animation:pop .45s .25s cubic-bezier(.3,1.6,.5,1) both;pointer-events:none;z-index:2}
+.callme{position:relative;z-index:3;animation:callme 1s ease-in-out infinite!important;opacity:1!important;filter:none!important}
+.choice.callme,.worb.callme .orb,.qhouse.callme,.sq.callme{box-shadow:0 0 0 8px var(--star),0 0 34px 8px rgba(255,196,60,.7),var(--lift)!important}
+@keyframes callme{0%,100%{transform:translateY(0) scale(1.06)}50%{transform:translateY(-9%) scale(1.14)}}
+.fixhand{position:fixed;z-index:45;font-size:clamp(46px,8vmin,70px);line-height:1;pointer-events:none;transform:translateX(-30%);filter:drop-shadow(0 4px 6px rgba(60,30,60,.35));animation:fixhand .8s ease-in-out infinite}
+@keyframes fixhand{0%,100%{margin-top:0}50%{margin-top:14px}}
+.fixed{box-shadow:0 0 0 7px var(--star),var(--lift)}
+
 /* ---------- memory game ---------- */
 .mwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
 .mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,2vw,18px);width:min(100%,760px,calc((100vh - 150px) * 1.3))}
@@ -1011,7 +1022,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 13;
+const AUDIO_V = 14;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -1022,6 +1033,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "k-mia-hallo":"Hallo! Ich bin Mia!","k-mia-c1":"Juhu!","k-mia-c2":"Super!","k-mia-c3":"Klasse!",
   "k-mil-hallo":"Hallo! Ich bin Mil!","k-mil-c1":"Juhu, super!","k-mil-c2":"Klasse! Toll gemacht!",
   "k-max-hallo":"Hallo! Ich bin Max!","k-max-c1":"Juhu, super!","k-max-c2":"Klasse! Toll gemacht!",
+  "f-upsi":"Upsi! Nicht schlimm.","f-hoppla":"Hoppla! Macht nichts.","f-jetztdu":"Jetzt du! Tipp mal!","f-jetztweisst":"Super! Jetzt weißt du es!",
   "f-stampfen":"Stampfen!","f-klatschen":"Klatschen!","f-springen":"Springen!","f-bewegung":"Bewegungsspiel! Hör gut zu und mach mit!","f-machmit":"Mach mit!","f-maxsagt":"Max sagt ein Wort. Stimmt das?","f-hoerspiel":"Hörspiel! Hör gut zu!",
   "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
@@ -1255,7 +1267,7 @@ function confetti() {
 
 /* ---------- screens ---------- */
 const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "judge", "cgame", "story", "gardenScreen"];
-function show(name) { for (const s of SCREENS) $(s).hidden = s !== name; }
+function show(name) { clearFix(); for (const s of SCREENS) $(s).hidden = s !== name; }
 let S = null, Q = null, M = null, J = null, ST = null, WU = null, G = null;
 let lastActivity = "practice";
 const busy = () => !!(S || Q || M || J || ST || WU || G);
@@ -1443,19 +1455,13 @@ function answer(a, btn) {
     if (kid) kidPop(kid);
     say([C(kid ? pick(KID_CHEERS[kid]) : pick(PRAISE)), W(w)]).then(showRepeat);
   } else {
-    boop(); noteMiss(w, a);
-    btn.classList.add("wrong"); btn.disabled = true;
-    if (c.attempts >= 2) {
-      c.locked = true;
-      grade(w.id, false); requeue(w.id); saveProgress();
-      document.querySelectorAll(".choice").forEach(b => { b.disabled = true; if (b.dataset.a === w.article) b.classList.add("hint"); });
-      reveal();
-      sparkle(document.querySelector('#choices .choice[data-a="' + w.article + '"]'), 10);
-      say([C("f-schau"), ART(w.article), W(w), C("f-sagmal"), W(w)]).then(showRepeat);
-    } else {
-      $("card").animate && !RM() && $("card").animate([{ transform: "rotate(0)" }, { transform: "rotate(-2deg)" }, { transform: "rotate(2deg)" }, { transform: "rotate(0)" }], { duration: 400 });
-      say([C("f-nochmal")]);
-    }
+    // she is shown the right circle and taps it herself; the word comes back later in this round
+    c.locked = true; noteMiss(w, a);
+    grade(w.id, false); requeue(w.id); saveProgress();
+    const right = document.querySelector('#choices .choice[data-a="' + w.article + '"]');
+    document.querySelectorAll("#choices .choice").forEach(b => { b.disabled = b !== right; });
+    reveal();
+    oops(btn, right, w, { pic: $("cardPic").hidden ? $("emoji") : $("cardPic") }).then(() => { if (S && S.card === c) showRepeat(); });
   }
 }
 function reveal() {
@@ -1501,6 +1507,7 @@ function finishSession() {
   showDone(earned, rows, fresh, quizDue(), grew);
 }
 function quitSession() {
+  clearFix();
   if (busy()) { saveProgress(); S = Q = M = J = ST = G = null; }
   stopRecording();
   stopAudio();
@@ -1564,9 +1571,7 @@ function quizAnswer(a, btn) {
     Q.earned++; earnStar("starsQuiz");
     spoken = say([C("f-ja"), W(w)]);
   } else {
-    boop(); btn.classList.add("wrong"); right.classList.add("hint");
-    sparkle(right, 10);
-    spoken = say([C("f-oh"), ART(w.article), W(w)]);
+    spoken = oops(btn, right, w, { pic: $("qPic").hidden ? $("qEmoji") : $("qPic") });
   }
   renderQDots();
   saveProgress();
@@ -1668,6 +1673,63 @@ $("bookBtn").addEventListener("click", () => { pop(); openBook(); });
 $("nextSticker").addEventListener("click", () => { pop(); openBook(); });
 $("bookBack").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
 
+/* ---------- a wrong tap: clear, kind, and she puts it right herself ---------- */
+// The tapped circle shakes its head (🙈), Mila says "Upsi! Nicht schlimm.", the right circle lights up gold with a
+// finger pointing at it, Mila says the answer and "Jetzt du!". She taps the right circle herself, the picture flies into it,
+// and she hears it once more: seeing, hearing and doing the right answer is what makes it stick.
+let FIX = null;
+function clearFix() {
+  document.querySelectorAll(".oopsbadge").forEach(n => n.remove());
+  if (!FIX) return;
+  clearTimeout(FIX.timer); FIX.hand.remove(); FIX.right.classList.remove("callme"); FIX = null;
+}
+function oops(wrongBtn, rightBtn, w, opts = {}) {
+  clearFix();
+  boop();
+  if (wrongBtn) {
+    wrongBtn.classList.remove("oops", "wrong", "hint"); void wrongBtn.offsetWidth; wrongBtn.classList.add("oops");
+    const bd = document.createElement("span"); bd.className = "oopsbadge"; bd.textContent = "🙈"; bd.setAttribute("aria-hidden", "true");
+    wrongBtn.appendChild(bd);
+  }
+  if (!rightBtn) return say([C(pick(["f-upsi", "f-hoppla"])), ...(w ? [W(w)] : [])]);
+  rightBtn.disabled = false; rightBtn.classList.remove("wrong", "hint", "oops");
+  return new Promise((resolve) => {
+    const hand = document.createElement("span");
+    hand.className = "fixhand"; hand.textContent = "👆"; hand.setAttribute("aria-hidden", "true"); hand.hidden = true;
+    document.body.appendChild(hand);
+    const f = FIX = { right: rightBtn, hand, resolve, w, opts, timer: 0 };
+    f.prompt = () => say([w ? ART(w.article) : ART(opts.art), ...(w ? [W(w)] : []), C("f-jetztdu")]);
+    f.place = () => { const r = rightBtn.getBoundingClientRect(); hand.style.left = (r.left + r.width / 2) + "px"; hand.style.top = (r.top + r.height * .62) + "px"; };
+    setTimeout(() => { if (FIX !== f) return; rightBtn.classList.add("callme"); f.place(); hand.hidden = false; sparkle(rightBtn, 10); }, 550);
+    say([C(pick(["f-upsi", "f-hoppla"]))]).then(() => FIX === f && f.prompt()).then(() => {
+      // still waiting? after a little while the right circle waves again and Mila repeats it
+      const again = () => { if (FIX !== f) return; restart(rightBtn, "callme"); f.place(); f.prompt(); f.timer = setTimeout(again, 9000); };
+      if (FIX === f) f.timer = setTimeout(again, 7000);
+    });
+  });
+}
+function fixDone() {
+  const f = FIX; if (!f) return;
+  clearTimeout(f.timer); f.hand.remove(); FIX = null;
+  const b = f.right, a = f.w ? f.w.article : f.opts.art;
+  stopAudio(); sayToken++;
+  b.classList.remove("callme"); b.classList.add("right", "fixed");
+  chime(); sparkle(b, 14); cheer(a, b);
+  if (f.opts.pic) flyTo(f.opts.pic, b);
+  setTimeout(() => document.querySelectorAll(".oopsbadge").forEach(n => n.remove()), 1200);
+  (f.w ? say([W(f.w), C("f-jetztweisst")]) : say([ART(a)])).then(f.resolve);
+}
+// While she is putting a mistake right, only the glowing circle counts; Mila's face repeats the answer.
+document.addEventListener("click", (e) => {
+  if (!FIX) return;
+  const b = e.target.closest("button");
+  if (!b || b.closest(".bar")) return;                       // home / close still work
+  e.stopPropagation(); e.preventDefault();
+  if (b === FIX.right || FIX.right.contains(b)) fixDone();
+  else if (b.classList.contains("mila-btn")) FIX.prompt();
+  else { restart(FIX.right, "callme"); FIX.place(); }
+}, true);
+
 /* ---------- colour help: just the circle and its article, no pictures or sentences ---------- */
 const ART = (a) => C("a-" + a);
 // Tap Mila: each circle lights up in turn while she says its article: der (blue), die (red), das (yellow).
@@ -1725,12 +1787,12 @@ function warmTap(b) {
     const my = WU;
     say([ART(a)]).then(() => sleep(250)).then(() => { if (WU === my) warmPrompt(); });
   } else {
-    boop(); b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong");
     WU.miss = true; WU.locked = true;
-    const right = document.querySelector('.worb[data-a="' + a + '"]');
-    right.classList.add("hint"); sparkle(right, 10);
-    const my = WU;
-    say([ART(a)], 0.8).then(() => { if (WU === my) WU.locked = false; });   // now she taps the right one
+    const right = document.querySelector('.worb[data-a="' + a + '"]'), my = WU;
+    oops(b, right, null, { art: a }).then(() => {                          // she tapped the right one herself
+      if (WU !== my) return;
+      WU.marks[WU.i] = a; WU.i++; renderWarmDots(); warmPrompt();
+    });
   }
 }
 function warmDone() {
@@ -1912,6 +1974,7 @@ function startJudge() {
   renderStars(); show("judge"); nextJudge(true);
 }
 function renderJDots() { $("jdots").innerHTML = J.words.map((w, i) => '<span class="dot ' + (w.id in J.res ? (J.res[w.id] ? "ok" : "miss") : "") + (i === J.i ? " now" : "") + '"></span>').join(""); }
+const jPicEl = () => $("jPic").hidden ? $("jEmoji") : $("jPic");
 function jTurn(who) { $("whoBig").classList.toggle("on", who === "big"); $("whoKid").classList.toggle("on", who === "kid"); }
 function nextJudge(first) {
   if (J.i >= J.words.length) return finishJudge();
@@ -1954,7 +2017,7 @@ document.querySelectorAll("#jChoices .choice").forEach(btn => btn.addEventListen
     document.querySelectorAll("#jChoices .choice").forEach(b => b.disabled = true);
     const ok = a === w.article;
     if (ok) { chime(); btn.classList.add("right"); cheer(a, btn); jReveal(w, true); jNext(say([C(pick(PRAISE)), W(w)])); }
-    else { boop(); noteMiss(w, a); btn.classList.add("wrong"); document.querySelector('#jChoices .choice[data-a="' + w.article + '"]').classList.add("hint"); jReveal(w, false); jNext(say([C("f-schau"), W(w)])); }
+    else { noteMiss(w, a); jReveal(w, false); jNext(oops(btn, document.querySelector('#jChoices .choice[data-a="' + w.article + '"]'), w, { pic: jPicEl() })); }
   }
 }));
 function judge(saysRight) {
@@ -1968,7 +2031,13 @@ function judge(saysRight) {
     document.querySelectorAll("#jChoices .choice").forEach(b => { b.disabled = b.dataset.a === J.claim; b.className = "choice orb " + b.dataset.a + (b.dataset.a === J.claim ? " wrong" : ""); });
     $("jChoices").hidden = false; restart($("jChoices"), "enter");
     say([C("f-nein"), C("f-welche")]);
-  } else { J.phase = ""; boop(); jReveal(w, false); jNext(say([C("f-oh"), C("f-schau"), W(w)])); }
+  } else {
+    J.phase = ""; jReveal(w, false);
+    document.querySelectorAll("#jChoices .choice").forEach(b => { b.disabled = true; b.className = "choice orb " + b.dataset.a; });
+    $("jChoices").hidden = false; restart($("jChoices"), "enter");
+    const orb = (x) => document.querySelector('#jChoices .choice[data-a="' + x + '"]');
+    jNext(oops(saysRight ? orb(J.claim) : null, orb(w.article), w, { pic: jPicEl() }));
+  }
 }
 $("jYes").addEventListener("click", () => judge(true));
 $("jNo").addEventListener("click", () => judge(false));
@@ -1998,6 +2067,7 @@ function gameWords(mode) {
   const byTrick = shuffle(ws).sort((a, b) => tricky(b) - tricky(a));
   return shuffle([...byTrick.slice(0, 2), ...shuffle(byTrick.slice(2)).slice(0, 4)]);
 }
+const gPicEl = () => $("gPic").hidden ? $("gEmoji") : $("gPic");
 const gOrb = (a) => document.querySelector('#gChoices .choice[data-a="' + a + '"]');
 function gOrbsReset(disabled) { document.querySelectorAll("#gChoices .choice").forEach(b => { b.disabled = !!disabled; b.className = "choice orb " + b.dataset.a; }); }
 function startCircleGame(mode) {
@@ -2076,10 +2146,11 @@ function gPick(btn) {
     else if (fix) { restart($("gMax"), "talk"); gNext(say([C("k-max-danke"), W(w)])); }
     else gNext(say([C(pick(PRAISE)), W(w)]));
   } else {
-    boop(); btn.classList.add("wrong"); noteMiss(w, a); gReveal(w, false);
-    const rb = gOrb(w.article); rb.classList.add("hint");
-    if (G.mode === "move") { restart(rb, MOVES[w.article].fx); gNext(say([C("f-schau"), W(w), C(MOVES[w.article].key)])); }
-    else gNext(say([C("f-schau"), ART(w.article), W(w)]));
+    noteMiss(w, a); gReveal(w, false);
+    const rb = gOrb(w.article), fixed = oops(btn, rb, w, { pic: gPicEl() });
+    if (G.mode === "move") gNext(fixed.then(() => { restart(rb, MOVES[w.article].fx); return say([C(MOVES[w.article].key)]); }));
+    else if (fix) gNext(fixed.then(() => { restart($("gMax"), "talk"); return say([C("k-max-danke")]); }));
+    else gNext(fixed);
   }
 }
 function gJudge(yes) {
@@ -2094,8 +2165,10 @@ function gJudge(yes) {
     $("gChoices").hidden = false; restart($("gChoices"), "enter");
     say([C("f-nein"), C("f-welche")]);
   } else {
-    G.phase = ""; boop(); if (yes) noteMiss(w, G.claim); gReveal(w, false);
-    gNext(say([C("f-oh"), C("f-schau"), W(w)]));
+    // she agreed with Max's mistake, or said "no" when he was right: show the right circle and she taps it
+    G.phase = ""; if (yes) noteMiss(w, G.claim); gReveal(w, false);
+    gOrbsReset(true); $("gChoices").hidden = false; restart($("gChoices"), "enter");
+    gNext(oops(yes ? gOrb(G.claim) : null, gOrb(w.article), w, { pic: gPicEl() }));
   }
 }
 document.querySelectorAll("#gChoices .choice").forEach(b => b.addEventListener("click", () => gPick(b)));
@@ -2269,9 +2342,9 @@ function askTap(b) {
     chime(); b.classList.add("right"); cheer(w.article, b); sparkle(b, 12); addStars();
     say([W(w)]).then(() => sleep(200)).then(thanks).then(() => endStep(300));
   } else {
-    boop(); b.classList.add("wrong"); noteMiss(w, b.dataset.a);
-    const rb = $("squiz").querySelector('.choice[data-a="' + w.article + '"]'); if (rb) rb.classList.add("hint");
-    say([C("f-schau"), ART(w.article), W(w)]).then(() => sleep(300)).then(thanks).then(() => endStep(300));
+    noteMiss(w, b.dataset.a);
+    const rb = $("squiz").querySelector('.choice[data-a="' + w.article + '"]');
+    oops(b, rb, w, { pic: $("squiz").querySelector(".askpic") }).then(() => sleep(200)).then(thanks).then(() => endStep(300));
   }
 }
 
@@ -2289,9 +2362,8 @@ function qTap(b) {
   ST.step.type = "";
   if (ok) { chime(); b.classList.add("right"); cheer(right.article, b); sparkle(b, 12); addStars(); say([C(pick(PRAISE)), W(right)]).then(() => endStep(300)); }
   else {
-    boop(); b.classList.add("wrong");
-    const rb = $("squiz").querySelector('[data-id="' + q.answer + '"]'); if (rb) rb.classList.add("hint");
-    say([C("f-schau"), W(right)]).then(() => endStep(500));
+    const rb = $("squiz").querySelector('[data-id="' + q.answer + '"]');
+    oops(b, rb, right).then(() => endStep(400));
   }
 }
 $("squiz").addEventListener("click", (e) => {
