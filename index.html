@@ -888,7 +888,7 @@ function saveWords() {
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
-  "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
+  "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das","a-die-slow":"die",
   "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
   "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-farben":"Farbenspiel! Hör gut zu!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
@@ -1246,7 +1246,7 @@ function answer(a, btn) {
     else requeue(w.id);
     saveProgress();
     reveal();
-    say([C(pick(PRAISE)), W(w)]).then(showRepeat);
+    say([C(pick(PRAISE)), ...(w.article === "die" ? [ART("die")] : []), W(w)]).then(showRepeat);
   } else {
     boop();
     btn.classList.add("wrong"); btn.disabled = true;
@@ -1256,7 +1256,7 @@ function answer(a, btn) {
       document.querySelectorAll(".choice").forEach(b => { b.disabled = true; if (b.dataset.a === w.article) b.classList.add("hint"); });
       reveal();
       sparkle(document.querySelector('#choices .choice[data-a="' + w.article + '"]'), 10);
-      say([C("f-schau"), C("a-" + w.article), W(w), C("f-sagmal"), W(w)]).then(showRepeat);
+      say([C("f-schau"), ART(w.article), W(w), C("f-sagmal"), W(w)]).then(showRepeat);
     } else {
       $("card").animate && !RM() && $("card").animate([{ transform: "rotate(0)" }, { transform: "rotate(-2deg)" }, { transform: "rotate(2deg)" }, { transform: "rotate(0)" }], { duration: 400 });
       say([C("f-nochmal")]);
@@ -1370,7 +1370,7 @@ function quizAnswer(a, btn) {
   } else {
     boop(); btn.classList.add("wrong"); right.classList.add("hint");
     sparkle(right, 10);
-    spoken = say([C("f-oh"), C("a-" + w.article), W(w)]);
+    spoken = say([C("f-oh"), ART(w.article), W(w)]);
   }
   renderQDots();
   saveProgress();
@@ -1473,6 +1473,8 @@ $("nextSticker").addEventListener("click", () => { pop(); openBook(); });
 $("bookBack").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
 
 /* ---------- colour help: just the circle and its article, no pictures or sentences ---------- */
+// "die" is said slowly (a stretched "diiie") so she hears the long German ee, not the English "die".
+const ART = (a) => C(a === "die" ? "a-die-slow" : "a-" + a);
 // Tap Mila: each circle lights up in turn while she says its article: der (blue), die (red), das (yellow).
 let chantOn = false;
 async function playChant() {
@@ -1484,7 +1486,7 @@ async function playChant() {
   for (const it of items) {
     if (!chantOn) break;
     it.classList.add("on"); pop(); sparkle(it, 8);
-    await say([C("a-" + it.dataset.a)], 0.8);
+    await say([ART(it.dataset.a)], 0.8);
     await sleep(450);
     it.classList.remove("on"); it.classList.add("seen");
   }
@@ -1516,7 +1518,7 @@ function warmPrompt() {
   $("warmOrbs").classList.add("wait");
   renderWarmDots();
   const my = WU;
-  sleep(250).then(() => say([C("a-" + WU.seq[WU.i])], 0.8)).then(() => { if (WU === my) { WU.locked = false; $("warmOrbs").classList.remove("wait"); } });
+  sleep(250).then(() => say([ART(WU.seq[WU.i])], 0.8)).then(() => { if (WU === my) { WU.locked = false; $("warmOrbs").classList.remove("wait"); } });
 }
 function warmTap(b) {
   if (!WU || WU.locked) return;
@@ -1526,14 +1528,14 @@ function warmTap(b) {
     WU.marks[WU.i] = (WU.miss ? "" : "warmok ") + a;
     WU.i++; renderWarmDots();
     const my = WU;
-    say([C("a-" + a)]).then(() => sleep(250)).then(() => { if (WU === my) warmPrompt(); });
+    say([ART(a)]).then(() => sleep(250)).then(() => { if (WU === my) warmPrompt(); });
   } else {
     boop(); b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong");
     WU.miss = true; WU.locked = true;
     const right = document.querySelector('.worb[data-a="' + a + '"]');
     right.classList.add("hint"); sparkle(right, 10);
     const my = WU;
-    say([C("a-" + a)], 0.8).then(() => { if (WU === my) WU.locked = false; });   // now she taps the right one
+    say([ART(a)], 0.8).then(() => { if (WU === my) WU.locked = false; });   // now she taps the right one
   }
 }
 function warmDone() {
@@ -1544,7 +1546,7 @@ function warmDone() {
   say([C(perfect ? "p-super" : "p-toll")]).then(() => sleep(200)).then(() => { if (!$("warm").hidden) startSession(); });
 }
 document.querySelectorAll(".worb").forEach(b => b.addEventListener("click", () => warmTap(b)));
-$("warmListen").addEventListener("click", () => { if (WU && WU.seq[WU.i]) say([C("a-" + WU.seq[WU.i])], 0.8); });
+$("warmListen").addEventListener("click", () => { if (WU && WU.seq[WU.i]) say([ART(WU.seq[WU.i])], 0.8); });
 $("warmQuit").addEventListener("click", () => { WU = null; stopAudio(); renderHome(); show("home"); });
 
 /* ---------- circle friends: jump and cheer ---------- */
@@ -1632,19 +1634,26 @@ $("garden").addEventListener("click", (e) => {
 });
 
 /* ---------- memory: find two pictures that live in the same house ---------- */
+const MEM_PAIRS = 8;
 function startMemory() {
   const by = {}; for (const a of ARTS) by[a] = shuffle(state.words.filter(w => w.article === a));
-  let cards = [];
-  for (const a of ARTS) {
-    const ws = by[a]; if (!ws.length) continue;
-    const pairs = ws.length >= 4 ? 2 : 1;
-    for (let i = 0; i < pairs * 2; i++) cards.push(ws[i % ws.length]);
+  // up to 8 pairs (16 cards); each article gets pairs in proportion to its words, at least one if it has any
+  const want = Math.min(MEM_PAIRS, Math.max(3, state.words.length));
+  const plan = {}; for (const a of ARTS) plan[a] = by[a].length ? Math.max(1, Math.floor(by[a].length / 2)) : 0;
+  const total = () => ARTS.reduce((n, a) => n + plan[a], 0);
+  while (total() > want) { const a = ARTS.reduce((x, y) => plan[y] > plan[x] ? y : x); plan[a]--; }
+  for (let guard = 0; total() < want && guard < 20; guard++) {
+    const a = ARTS.filter(x => by[x].length).reduce((x, y) => by[y].length / (plan[y] + 1) > by[x].length / (plan[x] + 1) ? y : x, ARTS.find(x => by[x].length));
+    if (!a) break; plan[a]++;
   }
-  while (cards.length > 12) cards.splice(cards.length - 2, 2);
+  let cards = [];
+  for (const a of ARTS) for (let i = 0; i < plan[a] * 2; i++) cards.push(by[a][i % by[a].length]);
   if (cards.length < 6) return;
   cards = shuffle(cards);
   M = { cards, open: [], matched: new Set(), pairs: cards.length / 2, found: 0, earned: 0, lock: false };
-  $("mgrid").style.gridTemplateColumns = "repeat(" + (cards.length > 8 ? 4 : 3) + ",minmax(0,1fr))";
+  const cols = cards.length > 8 ? 4 : 3, rows = Math.ceil(cards.length / cols);
+  $("mgrid").style.gridTemplateColumns = "repeat(" + cols + ",minmax(0,1fr))";
+  $("mgrid").style.width = "min(100%, 760px, calc((100vh - 170px) * " + (cols / rows).toFixed(2) + "))";   // all rows fit on screen
   $("mgrid").innerHTML = cards.map((w, i) => '<button class="mcard deal ' + w.article + '" data-i="' + i + '" style="animation-delay:' + (i * 0.05) + 's"><span class="in"><span class="f back">★</span><span class="f front">' + faceHTML(w) + "</span></span></button>").join("");
   renderMDots();
   renderStars();
