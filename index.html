@@ -101,7 +101,7 @@ button:disabled{cursor:default}
 .play{width:clamp(128px,21vmin,180px);aspect-ratio:1;animation:breathe 2.6s ease-in-out infinite}
 .play svg{width:44%;height:44%;margin-left:8%}
 .quizbtn{width:clamp(92px,14vmin,120px);aspect-ratio:1}
-.quizbtn svg{width:52%;height:52%}
+.quizbtn svg{width:60%;height:60%;filter:drop-shadow(0 2px 2px rgba(120,20,70,.25))}
 .quizbtn .due{position:absolute;top:-4px;right:-4px;width:34px;height:34px;border-radius:50%;background:var(--star);color:var(--ink);
   font-family:var(--display);font-weight:800;font-size:22px;display:grid;place-items:center;box-shadow:0 0 0 4px var(--ground);animation:wiggle 1.4s ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
@@ -575,8 +575,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
       </button>
       <button class="mila-home" id="milaBtn" aria-label="Mila"><img class="mila-face" src="img/mila.webp" alt="" data-friend="1"></button>
-      <button class="candy pink quizbtn" id="quizBtn" aria-label="Quiz" disabled>
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4.3" fill="#fff"/><circle cx="6.5" cy="16.5" r="4.3" fill="#fff"/><circle cx="17.5" cy="16.5" r="4.3" fill="#fff"/></svg>
+      <button class="candy pink quizbtn" id="quizBtn" aria-label="Test" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.8" y="3.4" width="16.4" height="19.2" rx="2.6" fill="#fff"/><rect x="8.3" y="1.4" width="7.4" height="4.4" rx="1.5" fill="#8E3FC7"/><circle cx="7.9" cy="9.6" r="1.7" fill="#2F9BE0"/><circle cx="7.9" cy="14.2" r="1.7" fill="#E2553F"/><circle cx="7.9" cy="18.8" r="1.7" fill="#F6DB2A"/><path d="M11 9.7l1.9 1.9 4-4M11 14.3l1.9 1.9 4-4M11 18.9l1.9 1.9 4-4" fill="none" stroke="#3DBE78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="due" id="quizDue" hidden>!</span>
       </button>
     </div>
