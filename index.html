@@ -1010,7 +1010,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 15;
+const AUDIO_V = 16;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -1059,14 +1059,43 @@ function audioMode(type) { try { if (navigator.audioSession) navigator.audioSess
 // (Safari decodes one clip after another, so loading all ~200 at once made the first words wait and go silent.)
 const buffers = new Map(), waiting = new Map(), loadQueue = [];
 let loadsActive = 0;
-// In the iPad app, Capacitor serves .mp3 files without an HTTP status (status 0), so only a real error status counts as missing.
+// Mila's clips load three ways, so they also play inside the iPad app (Capacitor serves .mp3 files differently from a web server):
+// fetch, then XMLHttpRequest (both decoded for Web Audio), and if both fail say() plays the file with a plain <audio> element.
+const clipURL = (key) => "audio/" + key + ".mp3?v=" + AUDIO_V;
+const clipStat = { ok: 0, fail: 0, el: 0, err: "" };
+function xhrClip(url) {
+  return new Promise((res, rej) => {
+    const x = new XMLHttpRequest();
+    x.open("GET", url); x.responseType = "arraybuffer";
+    x.onload = () => ((x.status === 200 || x.status === 0) && x.response && x.response.byteLength ? res(x.response) : rej(new Error("xhr " + x.status)));
+    x.onerror = () => rej(new Error("xhr failed"));
+    x.send();
+  });
+}
 function fetchClip(key) {
-  const c = ctx();
-  return !c ? Promise.resolve(null) : fetch("audio/" + key + ".mp3?v=" + AUDIO_V)
-    .then(r => { if (!r.ok && r.status !== 0) throw new Error(r.status); return r.arrayBuffer(); })
-    .then(b => { if (!b || !b.byteLength) throw new Error("empty"); return b; })
-    .then(b => new Promise((res, rej) => { const pr = c.decodeAudioData(b, res, rej); if (pr && pr.catch) pr.catch(rej); }))
-    .catch(() => null);
+  const c = ctx(); if (!c) return Promise.resolve(null);
+  const url = clipURL(key);
+  const decode = (b) => new Promise((res, rej) => { const pr = c.decodeAudioData(b, res, rej); if (pr && pr.catch) pr.catch(rej); });
+  return fetch(url)
+    .then(r => { if (!r.ok && r.status !== 0) throw new Error("fetch " + r.status); return r.arrayBuffer(); })   // the app's files come with status 0
+    .then(b => { if (!b || !b.byteLength) throw new Error("fetch empty"); return decode(b); })
+    .catch(e1 => xhrClip(url).then(decode).catch(e2 => { throw new Error((e1 && e1.message || e1) + " / " + (e2 && e2.message || e2)); }))
+    .then(buf => { clipStat.ok++; return buf; }, e => { clipStat.fail++; clipStat.err = key + ": " + (e && e.message || e); return null; });
+}
+// Last resort before the iPad voice: play the recording with an <audio> element.
+function playElement(key, my) {
+  return new Promise((resolve) => {
+    let a, started = false, done = false;
+    try { a = new Audio(clipURL(key)); } catch { return resolve(false); }
+    const fin = (ok) => { if (done) return; done = true; talking(false); resolve(ok); };
+    a.onended = () => fin(true);
+    a.onerror = () => fin(started);
+    current = { stop: () => { try { a.pause(); } catch {} fin(true); } };
+    talking(true);
+    const pr = a.play();
+    if (pr && pr.then) pr.then(() => { started = true; clipStat.el++; }, () => fin(false)); else started = true;
+    setTimeout(() => { if (!started) fin(false); }, 4000);
+  });
 }
 function startLoad(key) {
   const resolve = waiting.get(key); if (!resolve) return;
@@ -1118,7 +1147,10 @@ async function say(parts, rate = 0.82) {
     let buf = null;
     if (key && CLIPS.has(key)) buf = await Promise.race([loadClip(key, true), sleep(8000).then(() => null)]);
     if (my !== sayToken) return;
-    if (buf) await playBuffer(buf); else if (text) await tts(text, rate, my);
+    if (buf) { await playBuffer(buf); continue; }
+    if (key && CLIPS.has(key) && await playElement(key, my)) continue;
+    if (my !== sayToken) return;
+    if (text) await tts(text, rate, my);
   }
 }
 
@@ -2642,6 +2674,9 @@ function voiceSection() {
   else body += '<div class="settings" style="margin-top:10px"><label for="voiceSel">iPad voice for added words</label><select id="voiceSel">' +
       de.map(v => '<option value="' + esc(v.voiceURI) + '"' + (deVoice && v.voiceURI === deVoice.voiceURI ? " selected" : "") + ">" + esc(v.name + " (" + v.lang + ")") + "</option>").join("") +
       '</select></div>';
+  body += '<p class="small" style="margin-top:8px">Recorded voice check (version ' + AUDIO_V + "): " + clipStat.ok + " clips loaded" +
+    (clipStat.el ? ", " + clipStat.el + " played directly" : "") + (clipStat.fail ? ", " + clipStat.fail + " failed" : "") +
+    (clipStat.err ? '<br><span style="word-break:break-all">Last problem: ' + esc(clipStat.err) + "</span>" : "") + "</p>";
   return '<section><h3>Voice</h3>' + body +
     '<div class="settings" style="margin-top:10px"><button class="btn" data-act="testclip">Test recorded voice</button>' +
     (hasTTS ? '<button class="btn" data-act="testvoice">Test iPad voice</button>' : "") + "</div></section>";
