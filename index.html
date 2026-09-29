@@ -1059,10 +1059,12 @@ function audioMode(type) { try { if (navigator.audioSession) navigator.audioSess
 // (Safari decodes one clip after another, so loading all ~200 at once made the first words wait and go silent.)
 const buffers = new Map(), waiting = new Map(), loadQueue = [];
 let loadsActive = 0;
+// In the iPad app, Capacitor serves .mp3 files without an HTTP status (status 0), so only a real error status counts as missing.
 function fetchClip(key) {
   const c = ctx();
   return !c ? Promise.resolve(null) : fetch("audio/" + key + ".mp3?v=" + AUDIO_V)
-    .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+    .then(r => { if (!r.ok && r.status !== 0) throw new Error(r.status); return r.arrayBuffer(); })
+    .then(b => { if (!b || !b.byteLength) throw new Error("empty"); return b; })
     .then(b => new Promise((res, rej) => { const pr = c.decodeAudioData(b, res, rej); if (pr && pr.catch) pr.catch(rej); }))
     .catch(() => null);
 }
