@@ -350,6 +350,28 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .orb.das .ow{color:#4A3A00;text-shadow:0 .05em 0 rgba(255,255,255,.7)}
 .label .dotc{width:.62em;height:.62em;border-radius:50%;background:currentColor}
 
+/* ---------- colour warm-up, anchor pictures, chant ---------- */
+.warm-stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.worb{display:flex;flex-direction:column;align-items:center;gap:14px;transition:transform .15s,opacity .25s}
+.worb .orb{width:min(88%,clamp(130px,24vmin,220px))}
+.worb .label{font-size:clamp(30px,5vmin,46px)}
+.worb:active:not(:disabled){transform:scale(.94)}
+.warm-orbs.wait .worb{opacity:.55}
+.worb.right .orb{animation:pulse .5s ease 1}
+.worb.hint .orb{animation:pulse 1s ease-in-out infinite;box-shadow:0 0 0 8px var(--star),0 10px 16px -6px rgba(60,30,80,.4)}
+.worb.wrong{animation:shake .45s}
+.dot.warmok{box-shadow:0 0 0 3px var(--star)}
+.anchor-pop{position:fixed;z-index:33;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(60,30,60,.3));animation:anchorpop 2.8s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes anchorpop{0%{transform:translateY(40px) scale(.2);opacity:0}14%{transform:translateY(0) scale(1.12);opacity:1}24%{transform:scale(1)}86%{opacity:1;transform:scale(1)}100%{opacity:0;transform:translateY(-12px) scale(.95)}}
+.chant{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(40,20,60,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.chant-row{display:flex;gap:clamp(18px,5vw,56px);align-items:flex-end}
+.chant-item{display:flex;flex-direction:column;align-items:center;gap:10px;opacity:.35;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1),opacity .3s}
+.chant-item .orb{width:clamp(110px,20vmin,190px)}
+.chant-pic{width:clamp(90px,16vmin,150px);opacity:0;transform:translateY(30px) scale(.4);transition:transform .45s cubic-bezier(.3,1.6,.5,1),opacity .3s;filter:drop-shadow(0 8px 10px rgba(0,0,0,.3))}
+.chant-item.on{opacity:1;transform:scale(1.12)}
+.chant-item.on .chant-pic,.chant-item.seen .chant-pic{opacity:1;transform:none}
+.chant-item.seen{opacity:1;transform:scale(1)}
+
 /* ---------- memory game ---------- */
 .mwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
 .mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,2vw,18px);width:min(100%,760px,calc((100vh - 150px) * 1.3))}
@@ -452,6 +474,13 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 <div class="bg" aria-hidden="true"><span class="blob a"></span><span class="blob b"></span><span class="blob c"></span></div>
 
 <!-- HOME -->
+<div class="chant" id="chant" hidden>
+  <div class="chant-row">
+    <div class="chant-item" data-a="der"><img class="chant-pic" src="img/anchor-der.webp" alt="" data-friend="1"><span class="orb der"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
+    <div class="chant-item" data-a="die"><img class="chant-pic" src="img/anchor-die.webp" alt="" data-friend="1"><span class="orb die"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
+    <div class="chant-item" data-a="das"><img class="chant-pic" src="img/anchor-das.webp" alt="" data-friend="1"><span class="orb das"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
+  </div>
+</div>
 <section class="screen" id="home">
   <div class="bar">
     <div class="pill" aria-label="Sterne"><span class="s">★</span><span id="starsHome">0</span></div>
@@ -515,6 +544,22 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <div class="mouth" aria-hidden="true">🗣️</div>
       <button class="round mic" id="micBtn" aria-label="Aufnehmen" hidden><svg viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0h-2a4 4 0 0 1-8 0zm5 7h2v3h-2z"/></svg></button>
       <button class="go" id="nextBtn" aria-label="Weiter" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- COLOUR WARM-UP: Mila says der/die/das, she taps the matching circle -->
+<section class="screen" id="warm" hidden>
+  <div class="bar">
+    <button class="icon-btn" id="warmQuit" aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="dots" id="warmDots"></div></div>
+    <button class="icon-btn mila-btn" id="warmListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button>
+  </div>
+  <div class="warm-stage">
+    <div class="cols warm-orbs" id="warmOrbs">
+      <button class="worb" data-a="der" aria-label="der"><span class="orb der"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button>
+      <button class="worb" data-a="die" aria-label="die"><span class="orb die"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>die</span></button>
+      <button class="worb" data-a="das" aria-label="das"><span class="orb das"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>das</span></button>
     </div>
   </div>
 </section>
@@ -850,7 +895,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
   "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
-  "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
+  "f-hallo":"Hallo! Ich bin Mila. Los geht's!","ch-der":"Der Himmel ist blau.","ch-die":"Die Erdbeere ist rot.","ch-das":"Das Küken ist gelb.","f-farben":"Farbenspiel! Hör gut zu!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
@@ -1053,11 +1098,11 @@ function confetti() {
 }
 
 /* ---------- screens ---------- */
-const SCREENS = ["home", "play", "quiz", "done", "bookScreen", "memory", "judge", "story", "gardenScreen"];
+const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "judge", "story", "gardenScreen"];
 function show(name) { for (const s of SCREENS) $(s).hidden = s !== name; }
-let S = null, Q = null, M = null, J = null, ST = null;
+let S = null, Q = null, M = null, J = null, ST = null, WU = null;
 let lastActivity = "practice";
-const busy = () => !!(S || Q || M || J || ST);
+const busy = () => !!(S || Q || M || J || ST || WU);
 
 /* ---------- home ---------- */
 function renderStars() {
@@ -1214,7 +1259,8 @@ function answer(a, btn) {
       grade(w.id, false); requeue(w.id); saveProgress();
       document.querySelectorAll(".choice").forEach(b => { b.disabled = true; if (b.dataset.a === w.article) b.classList.add("hint"); });
       reveal();
-      say([C("f-schau"), W(w), C("f-sagmal"), W(w)]).then(showRepeat);
+      showAnchor(document.querySelector('#choices .choice[data-a="' + w.article + '"]'), w.article);
+      say([C("f-schau"), C("ch-" + w.article), W(w), C("f-sagmal"), W(w)]).then(showRepeat);
     } else {
       $("card").animate && !RM() && $("card").animate([{ transform: "rotate(0)" }, { transform: "rotate(-2deg)" }, { transform: "rotate(2deg)" }, { transform: "rotate(0)" }], { duration: 400 });
       say([C("f-nochmal")]);
@@ -1327,7 +1373,8 @@ function quizAnswer(a, btn) {
     spoken = say([C("f-ja"), W(w)]);
   } else {
     boop(); btn.classList.add("wrong"); right.classList.add("hint");
-    spoken = say([C("f-oh"), C("f-schau"), W(w)]);
+    showAnchor(right.querySelector(".orb") || right, w.article);
+    spoken = say([C("f-oh"), C("ch-" + w.article), W(w)]);
   }
   renderQDots();
   saveProgress();
@@ -1412,24 +1459,111 @@ $("againBtn").addEventListener("click", () => { if (S && S.card) say([W(S.card.w
 $("nextBtn").addEventListener("click", () => { if (S) { pop(); nextCard(); } });
 $("quitBtn").addEventListener("click", quitSession);
 $("quizQuit").addEventListener("click", quitSession);
-$("playBtn").addEventListener("click", () => { pop(); startSession(); });
+$("playBtn").addEventListener("click", () => { pop(); startPractice(); });
 $("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
 $("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
 $("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startSession, quiz: startQuiz, memory: startMemory, judge: startJudge, story: startStory })[lastActivity](); });
+$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, judge: startJudge, story: startStory })[lastActivity](); });
 $("doneGarden").addEventListener("click", () => { pop(); openGarden(); });
 $("memBtn").addEventListener("click", () => { pop(); startMemory(); });
 $("judgeBtn").addEventListener("click", () => { pop(); startJudge(); });
 $("storyBtn").addEventListener("click", () => { pop(); startStory(); });
 $("gardenBtn").addEventListener("click", () => { pop(); openGarden(); });
-$("milaBtn").addEventListener("click", () => { say([C("f-hallo")]); sparkle($("milaBtn"), 10); });
+$("milaBtn").addEventListener("click", () => { sparkle($("milaBtn"), 10); playChant(); });
 document.querySelectorAll("[data-home]").forEach(b => b.addEventListener("click", quitSession));
 $("micBtn").addEventListener("click", () => { if (S && S.card) recordHer(S.card.w); });
 $("bookBtn").addEventListener("click", () => { pop(); openBook(); });
 $("nextSticker").addEventListener("click", () => { pop(); openBook(); });
 $("bookBack").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
 
-/* ---------- circle friends ---------- */
+/* ---------- colour anchors: der = blue sky, die = red strawberry, das = yellow chick ---------- */
+// A picture she knows, whose own article and colour match, so "der is blue" has something to hang on.
+const ANCHOR = (a) => "img/anchor-" + a + ".webp";
+function showAnchor(el, a) {
+  if (!el || RM()) return;
+  const r = el.getBoundingClientRect(); if (!r.width) return;
+  const s = Math.max(80, Math.min(150, r.width * .85));
+  const img = document.createElement("img");
+  img.src = ANCHOR(a); img.alt = ""; img.className = "anchor-pop"; img.dataset.friend = "1";
+  Object.assign(img.style, { left: (r.left + r.width / 2 - s / 2) + "px", top: Math.max(8, r.top - s * .9) + "px", width: s + "px" });
+  document.body.appendChild(img);
+  setTimeout(() => img.remove(), 2900);
+}
+// Tap Mila: she says the three lines while each circle lights up with its picture.
+let chantOn = false;
+async function playChant() {
+  if (chantOn) return;
+  chantOn = true;
+  const box = $("chant"), items = [...box.querySelectorAll(".chant-item")];
+  items.forEach(it => it.className = "chant-item");
+  box.hidden = false;
+  for (const it of items) {
+    if (!chantOn) break;
+    it.classList.add("on"); pop(); sparkle(it, 8);
+    await say([C("ch-" + it.dataset.a)]);
+    await sleep(250);
+    it.classList.remove("on"); it.classList.add("seen");
+  }
+  if (chantOn) await sleep(900);
+  closeChant();
+}
+function closeChant() { chantOn = false; $("chant").hidden = true; }
+$("chant").addEventListener("click", () => { stopAudio(); closeChant(); });
+
+/* ---------- colour warm-up before practice: hear der/die/das, tap the colour ---------- */
+const WARM_TAPS = 6;
+function startPractice() {
+  if (!state.words.length) return;
+  if (state.settings.warmup === false) return startSession();
+  let seq; do { seq = shuffle([...ARTS, ...ARTS]); } while (seq.some((a, i) => a === seq[i - 1]));   // no colour twice in a row
+  WU = { seq: seq.slice(0, WARM_TAPS), i: 0, miss: false, locked: true, marks: [] };
+  document.querySelectorAll(".worb").forEach(b => { b.className = "worb"; b.disabled = false; });
+  renderWarmDots();
+  show("warm");
+  const my = WU;
+  sleep(300).then(() => say([C("f-farben")])).then(() => { if (WU === my) warmPrompt(); });
+}
+function renderWarmDots() { $("warmDots").innerHTML = WU.seq.map((a, i) => '<span class="dot ' + (WU.marks[i] || "") + (i === WU.i ? " now" : "") + '"></span>').join(""); }
+function warmPrompt() {
+  if (!WU) return;
+  if (WU.i >= WU.seq.length) return warmDone();
+  WU.locked = true; WU.miss = false;
+  document.querySelectorAll(".worb").forEach(b => b.className = "worb");
+  $("warmOrbs").classList.add("wait");
+  renderWarmDots();
+  const my = WU;
+  sleep(250).then(() => say([C("a-" + WU.seq[WU.i])], 0.8)).then(() => { if (WU === my) { WU.locked = false; $("warmOrbs").classList.remove("wait"); } });
+}
+function warmTap(b) {
+  if (!WU || WU.locked) return;
+  const a = WU.seq[WU.i];
+  if (b.dataset.a === a) {
+    WU.locked = true; chime(); b.classList.add("right"); sparkle(b, 10); cheer(a, b);
+    WU.marks[WU.i] = (WU.miss ? "" : "warmok ") + a;
+    WU.i++; renderWarmDots();
+    const my = WU;
+    say([C("a-" + a)]).then(() => sleep(250)).then(() => { if (WU === my) warmPrompt(); });
+  } else {
+    boop(); b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong");
+    WU.miss = true; WU.locked = true;
+    const right = document.querySelector('.worb[data-a="' + a + '"]');
+    right.classList.add("hint"); showAnchor(right.querySelector(".orb"), a);
+    const my = WU;
+    say([C("ch-" + a), C("a-" + a)]).then(() => { if (WU === my) WU.locked = false; });   // now she taps the right one
+  }
+}
+function warmDone() {
+  const perfect = WU.marks.every(m => m.startsWith("warmok"));
+  WU = null;
+  document.querySelectorAll(".worb").forEach(b => sparkle(b, 8));
+  if (perfect) { chime(); addStars(); }
+  say([C(perfect ? "p-super" : "p-toll")]).then(() => sleep(200)).then(() => { if (!$("warm").hidden) startSession(); });
+}
+document.querySelectorAll(".worb").forEach(b => b.addEventListener("click", () => warmTap(b)));
+$("warmListen").addEventListener("click", () => { if (WU && WU.seq[WU.i]) say([C("a-" + WU.seq[WU.i])], 0.8); });
+$("warmQuit").addEventListener("click", () => { WU = null; stopAudio(); renderHome(); show("home"); });
+
+/* ---------- circle friends: jump and cheer ---------- */
 function jump(el) { if (!el || RM() || !el.animate) return; el.animate([{ transform: "translateY(0)" }, { transform: "translateY(-26px) scale(1.1)" }, { transform: "translateY(0)" }], { duration: 480, easing: "cubic-bezier(.3,1.4,.5,1)" }); }
 // The matching friend hops out of the button to cheer.
 function cheer(a, anchor) {
@@ -1922,7 +2056,7 @@ function renderGrown() {
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
       '<p class="small" style="margin-top:6px">One word per line: article, word and an optional emoji. <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
-    '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
+    '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. To remember the colours: <b>der</b> is blue like <i>der Himmel</i>, <b>die</b> is red like <i>die Erdbeere</i>, <b>das</b> is yellow like <i>das Küken</i>. Tap Mila on the home screen to hear the rhyme; every practice round starts with a short colour warm-up (switch it off below). Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     voiceSection() +
     '<section><h3>Progress</h3><div class="stats">' +
       "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div>" +
@@ -1935,6 +2069,7 @@ function renderGrown() {
       '</select><label for="stkSel">Sticker every</label><select id="stkSel">' +
       [5, 10, 15, 20].map(n => '<option value="' + n + '"' + (perSticker() === n ? " selected" : "") + ">" + n + " right answers</option>").join("") +
       '</select><label for="recSel">Speaking</label><select id="recSel"><option value="on"' + (state.settings.record !== false ? " selected" : "") + '>On: she speaks, gets feedback, hears herself (GitHub version)</option><option value="off"' + (state.settings.record === false ? " selected" : "") + '>Off</option>' +
+      '</select><label for="warmSel">Colour warm-up before practice</label><select id="warmSel"><option value="on"' + (state.settings.warmup !== false ? " selected" : "") + '>Yes (6 quick taps)</option><option value="off"' + (state.settings.warmup === false ? " selected" : "") + '>No</option>' +
       '</select><label for="mustSel">Must speak before next word</label><select id="mustSel"><option value="on"' + (state.settings.mustSpeak !== false ? " selected" : "") + '>Yes</option><option value="off"' + (state.settings.mustSpeak === false ? " selected" : "") + '>No</option>' +
       '</select><label for="firstSel">Say the answer first</label><select id="firstSel">' +
       '<option value="always"' + (state.settings.sayFirst !== "new" ? " selected" : "") + '>Always</option>' +
@@ -1945,6 +2080,7 @@ function renderGrown() {
   emoIn.addEventListener("input", () => { emoIn.dataset.touched = emoIn.value ? "1" : ""; });
   nounIn.addEventListener("keydown", (e) => { if (e.key === "Enter") addOne(); });
   $("lenSel").addEventListener("change", (e) => { state.settings.sessionLength = Number(e.target.value); saveWords(); });
+  $("warmSel").addEventListener("change", (e) => { state.settings.warmup = e.target.value === "on"; saveWords(); });
   $("mustSel").addEventListener("change", (e) => { state.settings.mustSpeak = e.target.value === "on"; saveWords(); });
   $("recSel").addEventListener("change", (e) => { state.settings.record = e.target.value === "on"; saveWords(); });
   $("stkSel").addEventListener("change", (e) => { state.settings.perSticker = Number(e.target.value); saveWords(); });
