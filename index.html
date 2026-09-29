@@ -350,7 +350,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .orb.das .ow{color:#4A3A00;text-shadow:0 .05em 0 rgba(255,255,255,.7)}
 .label .dotc{width:.62em;height:.62em;border-radius:50%;background:currentColor}
 
-/* ---------- colour warm-up, anchor pictures, chant ---------- */
+/* ---------- colour warm-up and Mila's der-die-das ---------- */
 .warm-stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
 .worb{display:flex;flex-direction:column;align-items:center;gap:14px;transition:transform .15s,opacity .25s}
 .worb .orb{width:min(88%,clamp(130px,24vmin,220px))}
@@ -361,15 +361,11 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .worb.hint .orb{animation:pulse 1s ease-in-out infinite;box-shadow:0 0 0 8px var(--star),0 10px 16px -6px rgba(60,30,80,.4)}
 .worb.wrong{animation:shake .45s}
 .dot.warmok{box-shadow:0 0 0 3px var(--star)}
-.anchor-pop{position:fixed;z-index:33;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(60,30,60,.3));animation:anchorpop 2.8s cubic-bezier(.3,1.5,.5,1) both}
-@keyframes anchorpop{0%{transform:translateY(40px) scale(.2);opacity:0}14%{transform:translateY(0) scale(1.12);opacity:1}24%{transform:scale(1)}86%{opacity:1;transform:scale(1)}100%{opacity:0;transform:translateY(-12px) scale(.95)}}
 .chant{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(40,20,60,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .chant-row{display:flex;gap:clamp(18px,5vw,56px);align-items:flex-end}
 .chant-item{display:flex;flex-direction:column;align-items:center;gap:10px;opacity:.35;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1),opacity .3s}
-.chant-item .orb{width:clamp(110px,20vmin,190px)}
-.chant-pic{width:clamp(90px,16vmin,150px);opacity:0;transform:translateY(30px) scale(.4);transition:transform .45s cubic-bezier(.3,1.6,.5,1),opacity .3s;filter:drop-shadow(0 8px 10px rgba(0,0,0,.3))}
+.chant-item .orb{width:clamp(120px,22vmin,210px)}
 .chant-item.on{opacity:1;transform:scale(1.12)}
-.chant-item.on .chant-pic,.chant-item.seen .chant-pic{opacity:1;transform:none}
 .chant-item.seen{opacity:1;transform:scale(1)}
 
 /* ---------- memory game ---------- */
@@ -476,9 +472,9 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 <!-- HOME -->
 <div class="chant" id="chant" hidden>
   <div class="chant-row">
-    <div class="chant-item" data-a="der"><img class="chant-pic" src="img/anchor-der.webp" alt="" data-friend="1"><span class="orb der"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
-    <div class="chant-item" data-a="die"><img class="chant-pic" src="img/anchor-die.webp" alt="" data-friend="1"><span class="orb die"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
-    <div class="chant-item" data-a="das"><img class="chant-pic" src="img/anchor-das.webp" alt="" data-friend="1"><span class="orb das"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
+    <div class="chant-item" data-a="der"><span class="orb der"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
+    <div class="chant-item" data-a="die"><span class="orb die"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
+    <div class="chant-item" data-a="das"><span class="orb das"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span></div>
   </div>
 </div>
 <section class="screen" id="home">
@@ -895,7 +891,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
   "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
-  "f-hallo":"Hallo! Ich bin Mila. Los geht's!","ch-der":"Der Himmel ist blau.","ch-die":"Die Erdbeere ist rot.","ch-das":"Das Küken ist gelb.","f-farben":"Farbenspiel! Hör gut zu!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
+  "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-farben":"Farbenspiel! Hör gut zu!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
@@ -1259,8 +1255,8 @@ function answer(a, btn) {
       grade(w.id, false); requeue(w.id); saveProgress();
       document.querySelectorAll(".choice").forEach(b => { b.disabled = true; if (b.dataset.a === w.article) b.classList.add("hint"); });
       reveal();
-      showAnchor(document.querySelector('#choices .choice[data-a="' + w.article + '"]'), w.article);
-      say([C("f-schau"), C("ch-" + w.article), W(w), C("f-sagmal"), W(w)]).then(showRepeat);
+      sparkle(document.querySelector('#choices .choice[data-a="' + w.article + '"]'), 10);
+      say([C("f-schau"), C("a-" + w.article), W(w), C("f-sagmal"), W(w)]).then(showRepeat);
     } else {
       $("card").animate && !RM() && $("card").animate([{ transform: "rotate(0)" }, { transform: "rotate(-2deg)" }, { transform: "rotate(2deg)" }, { transform: "rotate(0)" }], { duration: 400 });
       say([C("f-nochmal")]);
@@ -1373,8 +1369,8 @@ function quizAnswer(a, btn) {
     spoken = say([C("f-ja"), W(w)]);
   } else {
     boop(); btn.classList.add("wrong"); right.classList.add("hint");
-    showAnchor(right.querySelector(".orb") || right, w.article);
-    spoken = say([C("f-oh"), C("ch-" + w.article), W(w)]);
+    sparkle(right, 10);
+    spoken = say([C("f-oh"), C("a-" + w.article), W(w)]);
   }
   renderQDots();
   saveProgress();
@@ -1476,20 +1472,8 @@ $("bookBtn").addEventListener("click", () => { pop(); openBook(); });
 $("nextSticker").addEventListener("click", () => { pop(); openBook(); });
 $("bookBack").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
 
-/* ---------- colour anchors: der = blue sky, die = red strawberry, das = yellow chick ---------- */
-// A picture she knows, whose own article and colour match, so "der is blue" has something to hang on.
-const ANCHOR = (a) => "img/anchor-" + a + ".webp";
-function showAnchor(el, a) {
-  if (!el || RM()) return;
-  const r = el.getBoundingClientRect(); if (!r.width) return;
-  const s = Math.max(80, Math.min(150, r.width * .85));
-  const img = document.createElement("img");
-  img.src = ANCHOR(a); img.alt = ""; img.className = "anchor-pop"; img.dataset.friend = "1";
-  Object.assign(img.style, { left: (r.left + r.width / 2 - s / 2) + "px", top: Math.max(8, r.top - s * .9) + "px", width: s + "px" });
-  document.body.appendChild(img);
-  setTimeout(() => img.remove(), 2900);
-}
-// Tap Mila: she says the three lines while each circle lights up with its picture.
+/* ---------- colour help: just the circle and its article, no pictures or sentences ---------- */
+// Tap Mila: each circle lights up in turn while she says its article: der (blue), die (red), das (yellow).
 let chantOn = false;
 async function playChant() {
   if (chantOn) return;
@@ -1500,8 +1484,8 @@ async function playChant() {
   for (const it of items) {
     if (!chantOn) break;
     it.classList.add("on"); pop(); sparkle(it, 8);
-    await say([C("ch-" + it.dataset.a)]);
-    await sleep(250);
+    await say([C("a-" + it.dataset.a)], 0.8);
+    await sleep(450);
     it.classList.remove("on"); it.classList.add("seen");
   }
   if (chantOn) await sleep(900);
@@ -1547,9 +1531,9 @@ function warmTap(b) {
     boop(); b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong");
     WU.miss = true; WU.locked = true;
     const right = document.querySelector('.worb[data-a="' + a + '"]');
-    right.classList.add("hint"); showAnchor(right.querySelector(".orb"), a);
+    right.classList.add("hint"); sparkle(right, 10);
     const my = WU;
-    say([C("ch-" + a), C("a-" + a)]).then(() => { if (WU === my) WU.locked = false; });   // now she taps the right one
+    say([C("a-" + a)], 0.8).then(() => { if (WU === my) WU.locked = false; });   // now she taps the right one
   }
 }
 function warmDone() {
@@ -2056,7 +2040,7 @@ function renderGrown() {
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
       '<p class="small" style="margin-top:6px">One word per line: article, word and an optional emoji. <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
-    '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. To remember the colours: <b>der</b> is blue like <i>der Himmel</i>, <b>die</b> is red like <i>die Erdbeere</i>, <b>das</b> is yellow like <i>das Küken</i>. Tap Mila on the home screen to hear the rhyme; every practice round starts with a short colour warm-up (switch it off below). Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
+    '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. Every practice round starts with a short colour warm-up: Mila says der, die or das and she taps the matching circle (switch it off below). Tap Mila on the home screen and the three circles light up while she says der, die, das. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     voiceSection() +
     '<section><h3>Progress</h3><div class="stats">' +
       "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div>" +
