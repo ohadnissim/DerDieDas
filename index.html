@@ -368,6 +368,14 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .chant-item.on{opacity:1;transform:scale(1.12)}
 .chant-item.seen{opacity:1;transform:scale(1)}
 
+.kidpop{position:fixed;left:3vw;bottom:0;height:min(34vh,260px);z-index:34;pointer-events:none;transform-origin:50% 100%;
+  filter:drop-shadow(0 8px 10px rgba(60,30,60,.3));animation:kidpop 2.3s cubic-bezier(.3,1.4,.5,1) both}
+.kidpop.right{left:auto;right:3vw}
+@keyframes kidpop{0%{transform:translateY(105%)}16%{transform:translateY(0) rotate(-5deg)}28%{transform:translateY(-5%) rotate(4deg)}40%,82%{transform:translateY(0) rotate(0)}100%{transform:translateY(105%)}}
+
+.stext .snarr,.stext .skid{display:block}
+.stext .skid{font-size:.72em;color:var(--grape);margin-top:.25em}
+
 /* ---------- memory game ---------- */
 .mwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
 .mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,2vw,18px);width:min(100%,760px,calc((100vh - 150px) * 1.3))}
@@ -886,14 +894,17 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 6;
+const AUDIO_V = 8;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
   "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
   "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
-  "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-farben":"Farbenspiel! Hör gut zu!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
+  "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-farben":"Farbenspiel! Hör gut zu!",
+  "k-mia-hallo":"Hallo! Ich bin Mia!","k-mia-c1":"Juhu!","k-mia-c2":"Super!","k-mia-c3":"Klasse!",
+  "k-mil-hallo":"Hallo! Ich bin Mil!","k-mil-c1":"Juhu, super!","k-mil-c2":"Klasse! Toll gemacht!",
+  "k-max-hallo":"Hallo! Ich bin Max!","k-max-c1":"Juhu, super!","k-max-c2":"Klasse! Toll gemacht!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
@@ -901,7 +912,7 @@ const C = (key) => ({ key, text: CLIP_TEXT[key] });
 const builtIn = (w) => DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id;
 function registerClips() {
   for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
-  for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); }
+  for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); if (pg.kid && pg.kid.audio) CLIPS.add(pg.kid.audio); }
 }
 const W = (w) => ({ key: builtIn(w) || w.rec ? "w-" + w.id : null, text: w.article + " " + w.noun });
 // The grown-up's answer in "Stimmt das?", said as a question (all three articles recorded the same way,
@@ -1248,7 +1259,9 @@ function answer(a, btn) {
     else requeue(w.id);
     saveProgress();
     reveal();
-    say([C(pick(PRAISE)), W(w)]).then(showRepeat);
+    const kid = Math.random() < 0.5 ? pick(KID_IDS) : null;
+    if (kid) kidPop(kid);
+    say([C(kid ? pick(KID_CHEERS[kid]) : pick(PRAISE)), W(w)]).then(showRepeat);
   } else {
     boop();
     btn.classList.add("wrong"); btn.disabled = true;
@@ -1550,6 +1563,19 @@ document.querySelectorAll(".worb").forEach(b => b.addEventListener("click", () =
 $("warmListen").addEventListener("click", () => { if (WU && WU.seq[WU.i]) say([ART(WU.seq[WU.i])], 0.8); });
 $("warmQuit").addEventListener("click", () => { WU = null; stopAudio(); renderHome(); show("home"); });
 
+/* ---------- Mia, Mil and Max: their own voices ---------- */
+const KID_IDS = ["mia", "mil", "max"];
+const KID_NAMES = { mia: "Mia", mil: "Mil", max: "Max" };
+const KID_CHEERS = { mia: ["k-mia-c1", "k-mia-c2", "k-mia-c3"], mil: ["k-mil-c1", "k-mil-c2"], max: ["k-max-c1", "k-max-c2"] };
+// The kid slides up from the bottom corner while cheering, then slides away.
+function kidPop(id) {
+  if (RM()) return;
+  const img = document.createElement("img");
+  img.src = "img/kid-" + id + ".webp"; img.alt = ""; img.className = "kidpop" + (Math.random() < 0.5 ? " right" : ""); img.dataset.friend = "1";
+  document.body.appendChild(img);
+  setTimeout(() => img.remove(), 2400);
+}
+
 /* ---------- circle friends: jump and cheer ---------- */
 function jump(el) { if (!el || RM() || !el.animate) return; el.animate([{ transform: "translateY(0)" }, { transform: "translateY(-26px) scale(1.1)" }, { transform: "translateY(0)" }], { duration: 480, easing: "cubic-bezier(.3,1.4,.5,1)" }); }
 // The matching friend hops out of the button to cheer.
@@ -1629,7 +1655,7 @@ $("garden").addEventListener("click", (e) => {
   const h = e.target.closest(".ghouse");
   if (h) { say([C("a-" + h.dataset.a)]); jump(h.querySelector(".orb")); sparkle(h, 8); return; }
   const k = e.target.closest(".kid");
-  if (k) { pop(); jump(k.querySelector("img")); sparkle(k, 10); if (k.dataset.kid === "mila") say([C("f-hallo")]); return; }
+  if (k) { pop(); jump(k.querySelector("img")); sparkle(k, 10); say([C(k.dataset.kid === "mila" ? "f-hallo" : "k-" + k.dataset.kid + "-hallo")]); return; }
   const g = e.target.closest(".gi");
   if (g) { pop(); jump(g.querySelector("img")); sparkle(g, 8); }
 });
@@ -1793,7 +1819,9 @@ function showPage() {
   $("sdots").innerHTML = ST.st.pages.map((_, i) => '<span class="dot' + (i < ST.i ? " ok" : "") + (i === ST.i ? " now" : "") + '"></span>').join("");
   $("spage").innerHTML = '<img src="' + esc(pg.img) + '" alt="">';
   restart($("spage"), "turn-in");
-  $("stext").innerHTML = colourText(pg.text);
+  // a kid's own line (Mia, Mil or Max) sits under the narration, spoken in their voice after Mila reads
+  $("stext").innerHTML = '<span class="snarr">' + colourText(pg.text) + "</span>" +
+    (pg.kid ? '<span class="skid">' + esc(KID_NAMES[pg.kid.who] || "") + ": " + colourText(pg.kid.text) + "</span>" : "");
   $("sPrev").disabled = ST.i === 0;
   $("squiz").hidden = true; $("snav").hidden = false;
   const my = ST, idx = ST.i;
@@ -1801,9 +1829,14 @@ function showPage() {
 }
 function readPage() {
   const pg = ST.st.pages[ST.i], my = ST, idx = ST.i;
-  const words = [...$("stext").querySelectorAll(".wd")];
+  const words = [...$("stext").querySelectorAll(".snarr .wd")];
   words.forEach((el, k) => setTimeout(() => { if (ST === my && ST.i === idx) { el.classList.add("hi"); setTimeout(() => el.classList.remove("hi"), 500); } }, 300 + k * 900));
-  return say([{ key: pg.audio, text: pg.text }], 0.8);
+  return say([{ key: pg.audio, text: pg.text }], 0.8).then(async () => {
+    if (!pg.kid || ST !== my || ST.i !== idx) return;
+    await sleep(250); if (ST !== my || ST.i !== idx) return;
+    kidPop(pg.kid.who);
+    await say([{ key: pg.kid.audio, text: pg.kid.text }]);
+  });
 }
 // A question after some pages: she taps the right picture and hears it with its article.
 const findWord = (id) => allWords().find(w => w.id === id) || normalizeWords(SAMPLE).find(w => w.id === id);

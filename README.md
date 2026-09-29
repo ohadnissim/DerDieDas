@@ -15,6 +15,7 @@ A der/die/das practice game for young children. No reading needed: every word is
 - **Weekly report (⚙️):** days played, stars per day, rounds, quizzes, words said right, and which words are still tricky.
 - **House friends DER, DIE and DAS:** a round (der), pointy (die) and square (das) friend live in the houses and cheer for right answers.
 - **Stickers:** every 10 first-try answers unlock a new sticker in the sticker book (24 to collect).
+- **Mia, Mil and Max talk:** tap them in the garden to hear hello, one of them sometimes pops up to cheer a right answer, and in the story each says a short line in their own voice.
 - **Remembering the colours:** every practice round starts with a 6-tap colour warm-up: Mila says der, die or das and the child taps the matching circle. When she misses, the right circle glows and Mila says its article. Tapping Mila on the home screen lights up the three circles while she says der, die, das.
 - **Grown-ups:** tap ⚙️ and answer the sum to see which words need practice, edit the word list (`der Hund 🐶`, one per line) and change settings.
 

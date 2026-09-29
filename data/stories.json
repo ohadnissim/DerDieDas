@@ -7,12 +7,22 @@
     {
      "img": "img/story3-1.webp",
      "audio": "story3-1",
-     "text": "Guten Morgen! Mila ist da. Mia, Mil und Max sind auch da."
+     "text": "Guten Morgen! Mila ist da. Mia, Mil und Max sind auch da.",
+     "kid": {
+      "who": "mil",
+      "audio": "sk3-1",
+      "text": "Guten Morgen, Mila!"
+     }
     },
     {
      "img": "img/story3-2.webp",
      "audio": "story3-2",
-     "text": "Oh nein! Die Murmel ist weg! Mia weint. „Wir suchen!“, sagt Mila."
+     "text": "Oh nein! Die Murmel ist weg! Mia weint. „Wir suchen!“, sagt Mila.",
+     "kid": {
+      "who": "mia",
+      "audio": "sk3-2",
+      "text": "Wo ist die Murmel?"
+     }
     },
     {
      "img": "img/story3-3.webp",
@@ -27,6 +37,11 @@
        "mond",
        "eimer"
       ]
+     },
+     "kid": {
+      "who": "max",
+      "audio": "sk3-3",
+      "text": "Stopp! Die Ampel ist rot!"
      }
     },
     {
@@ -42,6 +57,11 @@
        "wurm",
        "ameise"
       ]
+     },
+     "kid": {
+      "who": "mil",
+      "audio": "sk3-4",
+      "text": "Hallo, Maus!"
      }
     },
     {
@@ -52,12 +72,22 @@
     {
      "img": "img/story3-6.webp",
      "audio": "story3-6",
-     "text": "Der Helm ist rot. Max ist schnell! Aber die Murmel ist nicht da."
+     "text": "Der Helm ist rot. Max ist schnell! Aber die Murmel ist nicht da.",
+     "kid": {
+      "who": "max",
+      "audio": "sk3-6",
+      "text": "Ich bin schnell!"
+     }
     },
     {
      "img": "img/story3-7.webp",
      "audio": "story3-7",
-     "text": "Da kommt die Mama. Der Mantel ist warm. Der Mund lacht. „Schaut mal!“, sagt die Mama."
+     "text": "Da kommt die Mama. Der Mantel ist warm. Der Mund lacht. „Schaut mal!“, sagt die Mama.",
+     "kid": {
+      "who": "mia",
+      "audio": "sk3-7",
+      "text": "Hallo, Mama!"
+     }
     },
     {
      "img": "img/story3-8.webp",
@@ -72,6 +102,11 @@
        "muschel",
        "mond"
       ]
+     },
+     "kid": {
+      "who": "mia",
+      "audio": "sk3-8",
+      "text": "Juhu! Da ist die Murmel!"
      }
     },
     {
@@ -87,6 +122,11 @@
        "milch",
        "maus"
       ]
+     },
+     "kid": {
+      "who": "mia",
+      "audio": "sk3-9",
+      "text": "Gute Nacht, Mila!"
      }
     }
    ]
