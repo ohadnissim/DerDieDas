@@ -1,53 +1,70 @@
 {
  "stories": [
   {
-   "id": "story3",
+   "id": "story3-long",
    "title": "Die Murmel ist weg!",
    "pages": [
     {
      "img": "img/story3-1.webp",
      "audio": "story3-1",
      "text": "Guten Morgen! Mila ist da. Mia, Mil und Max sind auch da.",
-     "kid": {
-      "who": "mil",
-      "audio": "sk3-1",
-      "text": "Guten Morgen, Mila!"
-     }
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk3-1",
+       "text": "Guten Morgen, Mila!"
+      }
+     ]
     },
     {
      "img": "img/story3-2.webp",
      "audio": "story3-2",
      "text": "Oh nein! Die Murmel ist weg! Mia weint. „Wir suchen!“, sagt Mila.",
-     "kid": {
-      "who": "mia",
-      "audio": "sk3-2",
-      "text": "Wo ist die Murmel?"
-     }
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk3-2",
+       "text": "Wo ist die Murmel?"
+      },
+      {
+       "who": "max",
+       "audio": "sk3-2a",
+       "text": "Ich helfe!"
+      },
+      {
+       "who": "mil",
+       "audio": "sk3-2b",
+       "text": "Ich auch!"
+      }
+     ]
     },
     {
      "img": "img/story3-3.webp",
      "audio": "story3-3",
      "text": "Die Ampel ist rot. Stopp! Der Mann winkt. Jetzt ist die Ampel grün. Los!",
-     "q": {
-      "text": "Was ist rot?",
-      "audio": "sq3-rot",
-      "answer": "ampel",
-      "choices": [
-       "ampel",
-       "mond",
-       "eimer"
-      ]
-     },
-     "kid": {
-      "who": "max",
-      "audio": "sk3-3",
-      "text": "Stopp! Die Ampel ist rot!"
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk3-3",
+       "text": "Stopp! Die Ampel ist rot!"
+      }
+     ],
+     "ask": {
+      "word": "ampel",
+      "who": "max"
      }
     },
     {
      "img": "img/story3-4.webp",
      "audio": "story3-4",
      "text": "Da ist die Mauer. Die Maus guckt. „Nicht hier!“, piepst die Maus.",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk3-4",
+       "text": "Hallo, Maus!"
+      }
+     ],
      "q": {
       "text": "Wer piepst?",
       "audio": "sq3-piepst",
@@ -57,62 +74,131 @@
        "wurm",
        "ameise"
       ]
-     },
-     "kid": {
-      "who": "mil",
-      "audio": "sk3-4",
-      "text": "Hallo, Maus!"
      }
     },
     {
      "img": "img/story3-5.webp",
      "audio": "story3-5",
-     "text": "Der Wurm kriecht. Die Ameise krabbelt. Der Eimer ist leer."
+     "text": "Der Wurm kriecht. Die Ameise krabbelt. Der Eimer ist leer.",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk3-5",
+       "text": "Oh, ein Wurm!"
+      }
+     ],
+     "ask": {
+      "word": "eimer",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story3-mantel.webp",
+     "audio": "story3-mantel",
+     "text": "Da liegt der Mantel. Ist die Murmel da?",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk3-mantel",
+       "text": "Nein, nicht da!"
+      }
+     ],
+     "ask": {
+      "word": "mantel",
+      "who": "mia"
+     }
     },
     {
      "img": "img/story3-6.webp",
      "audio": "story3-6",
      "text": "Der Helm ist rot. Max ist schnell! Aber die Murmel ist nicht da.",
-     "kid": {
-      "who": "max",
-      "audio": "sk3-6",
-      "text": "Ich bin schnell!"
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk3-6",
+       "text": "Ich bin schnell!"
+      }
+     ],
+     "ask": {
+      "word": "helm",
+      "who": "max"
      }
     },
     {
      "img": "img/story3-7.webp",
      "audio": "story3-7",
      "text": "Da kommt die Mama. Der Mantel ist warm. Der Mund lacht. „Schaut mal!“, sagt die Mama.",
-     "kid": {
-      "who": "mia",
-      "audio": "sk3-7",
-      "text": "Hallo, Mama!"
-     }
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk3-7",
+       "text": "Hallo, Mama!"
+      }
+     ]
     },
     {
      "img": "img/story3-8.webp",
      "audio": "story3-8",
      "text": "Da ist die Muschel. Und da? Da ist die Murmel! Juhu!",
-     "q": {
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk3-8",
+       "text": "Juhu! Da ist die Murmel!"
+      }
+     ],
+     "find": {
       "text": "Wo ist die Murmel? Zeig mal!",
       "audio": "sq3-murmel",
       "answer": "murmel",
-      "choices": [
-       "murmel",
-       "muschel",
-       "mond"
-      ]
-     },
-     "kid": {
-      "who": "mia",
-      "audio": "sk3-8",
-      "text": "Juhu! Da ist die Murmel!"
+      "x": 55,
+      "y": 78.5,
+      "r": 8
+     }
+    },
+    {
+     "img": "img/story3-picknick.webp",
+     "audio": "story3-picknick",
+     "text": "Picknick! Das Messer ist scharf. Die Milch ist lecker.",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk3-picknick",
+       "text": "Mmh, lecker!"
+      }
+     ],
+     "ask": {
+      "word": "messer",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story3-spiel.webp",
+     "audio": "story3-spiel",
+     "text": "Mia, Mil und Max spielen. Die Murmel rollt.",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk3-spiel",
+       "text": "Ich bin dran!"
+      }
+     ],
+     "ask": {
+      "word": "murmel",
+      "who": "mia"
      }
     },
     {
      "img": "img/story3-9.webp",
      "audio": "story3-9",
      "text": "Die Milch ist warm. Der Mond scheint. Mia ist froh. Gute Nacht!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk3-9",
+       "text": "Gute Nacht, Mila!"
+      }
+     ],
      "q": {
       "text": "Was scheint?",
       "audio": "sq3-scheint",
@@ -122,11 +208,6 @@
        "milch",
        "maus"
       ]
-     },
-     "kid": {
-      "who": "mia",
-      "audio": "sk3-9",
-      "text": "Gute Nacht, Mila!"
      }
     }
    ]

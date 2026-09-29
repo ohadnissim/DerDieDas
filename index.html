@@ -373,8 +373,22 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .kidpop.right{left:auto;right:3vw}
 @keyframes kidpop{0%{transform:translateY(105%)}16%{transform:translateY(0) rotate(-5deg)}28%{transform:translateY(-5%) rotate(4deg)}40%,82%{transform:translateY(0) rotate(0)}100%{transform:translateY(105%)}}
 
-.stext .snarr,.stext .skid{display:block}
-.stext .skid{font-size:.72em;color:var(--grape);margin-top:.25em}
+.stext .snarr,.stext .slines{display:block}
+.stext .slines{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 10px;margin-top:.3em}
+.stext .skid{display:inline-block;font-size:.62em;color:var(--grape);background:var(--surface);border-radius:999px;padding:.12em .6em;box-shadow:var(--lift);transition:transform .2s,box-shadow .2s}
+.stext .skid.on{transform:scale(1.1);box-shadow:0 0 0 3px var(--grape),var(--lift)}
+.stext .skid b{font-weight:800;opacity:.75}
+.spage.finding{cursor:pointer;box-shadow:0 0 0 6px var(--star),var(--lift)}
+.fring{position:absolute;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);border:6px solid var(--star);pointer-events:none;box-shadow:0 0 18px var(--star)}
+.fring.hint{animation:fring 1.1s ease-in-out infinite}
+.fring.got{animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes fring{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.9}50%{transform:translate(-50%,-50%) scale(1.18);opacity:.5}}
+.fmiss{position:absolute;width:44px;height:44px;border-radius:50%;transform:translate(-50%,-50%);border:4px solid rgba(255,255,255,.85);pointer-events:none;animation:fmiss .6s ease-out both}
+@keyframes fmiss{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(-50%,-50%) scale(1.4);opacity:0}}
+.squiz.asking{align-items:center}
+.squiz .askpic{animation:none;margin-right:clamp(6px,2vw,20px)}
+.squiz.asking .choice.orb{flex:none;width:clamp(84px,14vmin,124px)}
+.squiz.asking .askpic{width:clamp(84px,14vmin,124px)}
 
 /* ---------- memory game ---------- */
 .mwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
@@ -894,7 +908,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 11;
+const AUDIO_V = 12;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -904,7 +918,8 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-farben":"Farbenspiel! Hör gut zu!",
   "k-mia-hallo":"Hallo! Ich bin Mia!","k-mia-c1":"Juhu!","k-mia-c2":"Super!","k-mia-c3":"Klasse!",
   "k-mil-hallo":"Hallo! Ich bin Mil!","k-mil-c1":"Juhu, super!","k-mil-c2":"Klasse! Toll gemacht!",
-  "k-max-hallo":"Hallo! Ich bin Max!","k-max-c1":"Juhu, super!","k-max-c2":"Klasse! Toll gemacht!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
+  "k-max-hallo":"Hallo! Ich bin Max!","k-max-c1":"Juhu, super!","k-max-c2":"Klasse! Toll gemacht!",
+  "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
@@ -912,7 +927,7 @@ const C = (key) => ({ key, text: CLIP_TEXT[key] });
 const builtIn = (w) => DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id;
 function registerClips() {
   for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
-  for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); if (pg.kid && pg.kid.audio) CLIPS.add(pg.kid.audio); }
+  for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); for (const l of pg.lines || (pg.kid ? [pg.kid] : [])) if (l.audio) CLIPS.add(l.audio); if (pg.find && pg.find.audio) CLIPS.add(pg.find.audio); }
 }
 const W = (w) => ({ key: builtIn(w) || w.rec ? "w-" + w.id : null, text: w.article + " " + w.noun });
 // The grown-up's answer in "Stimmt das?", said as a question (all three articles recorded the same way,
@@ -1830,69 +1845,174 @@ function colourText(t) {
 function startStory() {
   const st = state.stories[state.stories.length - 1];
   if (!st) return;
-  ST = { st, i: 0, asked: {} };
+  ST = { st, i: 0, done: {}, step: null };
   renderStars(); show("story"); showPage();
 }
+// A page: Mila reads, then the kids say their own lines, then (sometimes) something to do:
+//   find – tap the thing in the picture, ask – a kid asks her "der, die oder das?", q – pick the right picture.
+const pageLines = (pg) => pg.lines || (pg.kid ? [pg.kid] : []);
+const STEPS = ["find", "ask", "q"];
 function showPage() {
   const pg = ST.st.pages[ST.i];
   $("sdots").innerHTML = ST.st.pages.map((_, i) => '<span class="dot' + (i < ST.i ? " ok" : "") + (i === ST.i ? " now" : "") + '"></span>').join("");
   $("spage").innerHTML = '<img src="' + esc(pg.img) + '" alt="">';
   restart($("spage"), "turn-in");
-  // a kid's own line (Mia, Mil or Max) sits under the narration, spoken in their voice after Mila reads
   $("stext").innerHTML = '<span class="snarr">' + colourText(pg.text) + "</span>" +
-    (pg.kid ? '<span class="skid">' + esc(KID_NAMES[pg.kid.who] || "") + ": " + colourText(pg.kid.text) + "</span>" : "");
+    (pageLines(pg).length ? '<span class="slines">' + pageLines(pg).map((l, k) => '<span class="skid" data-k="' + k + '"><b>' + esc(KID_NAMES[l.who] || "") + ":</b> " + colourText(l.text) + "</span>").join("") + "</span>" : "");
   $("sPrev").disabled = ST.i === 0;
+  ST.step = null;
   $("squiz").hidden = true; $("snav").hidden = false;
-  const my = ST, idx = ST.i;
-  readPage().then(() => { if (ST === my && ST.i === idx && pg.q && !(idx in ST.asked)) askStory(pg.q); });
-}
-function readPage() {
-  const pg = ST.st.pages[ST.i], my = ST, idx = ST.i;
-  const words = [...$("stext").querySelectorAll(".snarr .wd")];
-  words.forEach((el, k) => setTimeout(() => { if (ST === my && ST.i === idx) { el.classList.add("hi"); setTimeout(() => el.classList.remove("hi"), 500); } }, 300 + k * 900));
-  return say([{ key: pg.audio, text: pg.text }], 0.8).then(async () => {
-    if (!pg.kid || ST !== my || ST.i !== idx) return;
-    await sleep(250); if (ST !== my || ST.i !== idx) return;
-    kidPop(pg.kid.who);
-    await say([{ key: pg.kid.audio, text: pg.kid.text }]);
+  const my = ST, idx = ST.i, here = () => ST === my && ST.i === idx;
+  readPage().then(async () => {
+    for (const s of STEPS) {
+      if (!here()) return;
+      if (!pg[s] || ST.done[idx + s]) continue;
+      await runStep(s, pg[s]);
+      if (!here()) return;
+      ST.done[idx + s] = true;
+      await sleep(350);
+    }
   });
 }
-// A question after some pages: she taps the right picture and hears it with its article.
+function readPage() {
+  const pg = ST.st.pages[ST.i], my = ST, idx = ST.i, here = () => ST === my && ST.i === idx;
+  const words = [...$("stext").querySelectorAll(".snarr .wd")];
+  words.forEach((el, k) => setTimeout(() => { if (here()) { el.classList.add("hi"); setTimeout(() => el.classList.remove("hi"), 500); } }, 300 + k * 900));
+  return say([{ key: pg.audio, text: pg.text }], 0.8).then(async () => {
+    const lines = pageLines(pg);
+    for (let k = 0; k < lines.length; k++) {
+      await sleep(250); if (!here()) return;
+      const el = $("stext").querySelector('.skid[data-k="' + k + '"]');
+      if (el) el.classList.add("on");
+      kidPop(lines[k].who);
+      await say([{ key: lines[k].audio, text: lines[k].text }]);
+      if (el) el.classList.remove("on");
+      if (!here()) return;
+    }
+  });
+}
+// Each step shows its own controls instead of the arrows and resolves when she is done.
+function runStep(type, data) {
+  return new Promise((resolve) => {
+    ST.step = { type, data, resolve, tries: 0 };
+    $("snav").hidden = true;
+    if (type === "find") startFind(data); else if (type === "ask") startAsk(data); else askStory(data);
+  });
+}
+function endStep(delay = 400) {
+  const my = ST, step = ST && ST.step;
+  if (!step) return;
+  step.type = "";                                   // no more taps count
+  sleep(delay).then(() => {
+    if (ST !== my || ST.step !== step) return;
+    ST.step = null;
+    $("squiz").hidden = true; $("snav").hidden = false; bump($("sNext"));
+    step.resolve();
+  });
+}
+function stepPrompt() {
+  const s = ST && ST.step; if (!s) return;
+  if (s.type === "find") say([{ key: s.data.audio, text: s.data.text }]);
+  else if (s.type === "ask") say([C("f-welche")]);
+  else if (s.type === "q") say([{ key: s.data.audio, text: s.data.text }]);
+}
+
+// find: she taps the thing in the picture itself
+function startFind(f) {
+  $("spage").classList.add("finding");
+  say([{ key: f.audio, text: f.text }]);
+}
+function findTap(e) {
+  const s = ST.step, f = s.data, img = $("spage").querySelector("img");
+  const r = img.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width * 100, y = (e.clientY - r.top) / r.height * 100;
+  const w = findWord(f.answer);
+  const ring = document.createElement("span");
+  ring.className = "fring"; ring.style.left = f.x + "%"; ring.style.top = f.y + "%"; ring.style.width = (f.r * 2) + "%";
+  if (Math.hypot(x - f.x, (y - f.y) * 9 / 16) <= f.r * 1.15) {
+    $("spage").classList.remove("finding");
+    $("spage").querySelectorAll(".fring").forEach(n => n.remove());
+    ring.classList.add("got"); $("spage").appendChild(ring);
+    chime(); sparkle(ring, 14); addStars();
+    if (w) cheer(w.article, ring);
+    s.type = "";
+    say([C(pick(PRAISE)), w && W(w)]).then(() => endStep(300));
+  } else {
+    boop(); s.tries++;
+    const miss = document.createElement("span");
+    miss.className = "fmiss"; miss.style.left = x + "%"; miss.style.top = y + "%";
+    $("spage").appendChild(miss); setTimeout(() => miss.remove(), 700);
+    if (s.tries >= 2 && !$("spage").querySelector(".fring")) { ring.classList.add("hint"); $("spage").appendChild(ring); }
+    if (s.tries === 2) say([C("f-schau")]);
+  }
+}
+
+// ask: Mia, Mil or Max asks for help – which circle does this word live in?
+function startAsk(a) {
+  const w = findWord(a.word);
+  if (!w) { endStep(0); return; }
+  $("squiz").innerHTML = '<div class="sq askpic">' + faceHTML(w) + "</div>" +
+    ARTS.map(x => '<button class="choice orb ' + x + '" data-a="' + x + '"><span class="ow">' + x + "</span></button>").join("");
+  $("squiz").className = "squiz asking small"; $("squiz").hidden = false;
+  kidPop(a.who);
+  say([C("k-" + a.who + "-hilf"), C("f-welche")]);
+}
+function askTap(b) {
+  const s = ST.step, a = s.data, w = findWord(a.word), ok = b.dataset.a === w.article;
+  s.type = "";
+  $("squiz").querySelectorAll(".choice").forEach(x => x.disabled = true);
+  const thanks = () => { kidPop(a.who); return say([C("k-" + a.who + "-danke")]); };
+  if (ok) {
+    chime(); b.classList.add("right"); cheer(w.article, b); sparkle(b, 12); addStars();
+    say([W(w)]).then(() => sleep(200)).then(thanks).then(() => endStep(300));
+  } else {
+    boop(); b.classList.add("wrong");
+    const rb = $("squiz").querySelector('.choice[data-a="' + w.article + '"]'); if (rb) rb.classList.add("hint");
+    say([C("f-schau"), ART(w.article), W(w)]).then(() => sleep(300)).then(thanks).then(() => endStep(300));
+  }
+}
+
+// q: she taps the right picture and hears it with its article
 const findWord = (id) => allWords().find(w => w.id === id) || normalizeWords(SAMPLE).find(w => w.id === id);
 function askStory(q) {
   const choices = shuffle(q.choices.map(findWord).filter(Boolean));
-  if (!choices.length) return;
-  ST.asked[ST.i] = "open";
-  $("snav").hidden = true;
+  if (!choices.length) { endStep(0); return; }
   $("squiz").innerHTML = choices.map(w => '<button class="sq" data-id="' + esc(w.id) + '" aria-label="' + esc(w.noun) + '">' + faceHTML(w) + "</button>").join("");
-  $("squiz").hidden = false;
+  $("squiz").className = "squiz"; $("squiz").hidden = false;
   say([{ key: q.audio, text: q.text }]);
 }
-$("squiz").addEventListener("click", (e) => {
-  const b = e.target.closest(".sq"); if (!b || !ST || ST.asked[ST.i] !== "open") return;
-  const q = ST.st.pages[ST.i].q, right = findWord(q.answer), ok = b.dataset.id === q.answer;
-  ST.asked[ST.i] = ok ? "ok" : "miss";
-  const my = ST, idx = ST.i;
-  const done = () => { if (ST === my && ST.i === idx) { $("squiz").hidden = true; $("snav").hidden = false; bump($("sNext")); } };
-  if (ok) { chime(); b.classList.add("right"); cheer(right.article, b); sparkle(b, 12); addStars(); say([C(pick(PRAISE)), W(right)]).then(() => sleep(300)).then(done); }
+function qTap(b) {
+  const q = ST.step.data, right = findWord(q.answer), ok = b.dataset.id === q.answer;
+  ST.step.type = "";
+  if (ok) { chime(); b.classList.add("right"); cheer(right.article, b); sparkle(b, 12); addStars(); say([C(pick(PRAISE)), W(right)]).then(() => endStep(300)); }
   else {
     boop(); b.classList.add("wrong");
     const rb = $("squiz").querySelector('[data-id="' + q.answer + '"]'); if (rb) rb.classList.add("hint");
-    say([C("f-schau"), W(right)]).then(() => sleep(500)).then(done);
+    say([C("f-schau"), W(right)]).then(() => endStep(500));
   }
+}
+$("squiz").addEventListener("click", (e) => {
+  if (!ST || !ST.step) return;
+  if (ST.step.type === "ask") { const b = e.target.closest(".choice"); if (b) askTap(b); }
+  else if (ST.step.type === "q") { const b = e.target.closest(".sq"); if (b) qTap(b); }
 });
+function leavePage() { if (ST) { ST.step = null; $("spage").classList.remove("finding"); } }
 $("sNext").addEventListener("click", () => {
   if (!ST) return; pop();
-  if (ST.i < ST.st.pages.length - 1) { ST.i++; showPage(); return; }
+  if (ST.i < ST.st.pages.length - 1) { leavePage(); ST.i++; showPage(); return; }
   const st = ST.st; ST = null; lastActivity = "story";
   state.progress.storySeen = st.id;
   addStars(2); logDay("g");
   const grew = markDay(); state.progress.lastPlayed = today(); saveProgress();
   showDone(2, [], [], false, grew);
 });
-$("sPrev").addEventListener("click", () => { if (ST && ST.i > 0) { pop(); ST.i--; showPage(); } });
-$("sListen").addEventListener("click", () => { if (!ST) return; const pg = ST.st.pages[ST.i]; if (ST.asked[ST.i] === "open") say([{ key: pg.q.audio, text: pg.q.text }]); else readPage(); });
-$("spage").addEventListener("click", () => { if (ST && ST.asked[ST.i] !== "open") readPage(); });
+$("sPrev").addEventListener("click", () => { if (ST && ST.i > 0) { pop(); leavePage(); ST.i--; showPage(); } });
+$("sListen").addEventListener("click", () => { if (!ST) return; if (ST.step) stepPrompt(); else readPage(); });
+$("spage").addEventListener("click", (e) => {
+  if (!ST) return;
+  if (ST.step && ST.step.type === "find") findTap(e);
+  else if (!ST.step) readPage();
+});
 
 /* ---------- speak to the app: she says it, gets gentle feedback and hears herself ---------- */
 // Needs the microphone, so it runs in the GitHub version only (the Claude page blocks it).
