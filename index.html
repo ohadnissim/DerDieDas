@@ -1854,7 +1854,11 @@ function listenFor(ms) {                     // resolves to heard phrases, [] wh
     const out = []; let done = false;
     const fin = (v) => { if (done) return; done = true; try { r.stop(); } catch {} resolve(v); };
     r.onresult = (e) => { for (const res of e.results) for (const alt of res) out.push(String(alt.transcript).toLowerCase()); fin(out); };
-    r.onerror = (e) => { if (e.error === "audio-capture") srConflict = true; fin(e.error === "no-speech" ? [] : (e.error === "audio-capture" ? null : out)); };
+    r.onerror = (e) => {
+      const off = ["audio-capture", "not-allowed", "service-not-allowed"].includes(e.error);   // this device won't recognise: stop asking
+      if (off) srConflict = true;
+      fin(e.error === "no-speech" ? [] : (off ? null : out));
+    };
     r.onend = () => fin(out);
     try { r.start(); } catch { fin(null); }
     setTimeout(() => fin(out), ms);
@@ -1873,7 +1877,7 @@ function judgeSpeech(alts, w) {
 }
 // Watches the microphone level while she records: true once she has made a clear sound, null when it can't measure.
 function voiceMeter(stream) {
-  let spoke = false, loud = 0, timer = 0, src = null;
+  let spoke = false, loud = 0, peak = 0, timer = 0, src = null;
   try {
     const ac = ctx(); src = ac.createMediaStreamSource(stream);
     const an = ac.createAnalyser(); an.fftSize = 1024; src.connect(an);
@@ -1881,10 +1885,12 @@ function voiceMeter(stream) {
     timer = setInterval(() => {
       an.getFloatTimeDomainData(buf);
       let s = 0; for (const v of buf) s += v * v;
-      if (Math.sqrt(s / buf.length) > 0.02) { if (++loud >= 3) spoke = true; } else loud = Math.max(0, loud - 1);
+      const rms = Math.sqrt(s / buf.length); peak = Math.max(peak, rms);
+      if (rms > 0.02) { if (++loud >= 3) spoke = true; } else loud = Math.max(0, loud - 1);
     }, 50);
   } catch { return { stop: () => null }; }
-  return { stop: () => { clearInterval(timer); try { src.disconnect(); } catch {} return spoke; } };
+  // a meter that saw pure digital silence isn't hearing the mic at all: report "don't know" instead of "silent"
+  return { stop: () => { clearInterval(timer); try { src.disconnect(); } catch {} return peak === 0 ? null : spoke; } };
 }
 function unlockNext() {
   if (!S || !S.card || !$("nextBtn").disabled) return;
@@ -1898,21 +1904,26 @@ async function recordHer(w) {
   try {
     stopAudio();
     btn.classList.add("rec"); btn.classList.remove("invite"); tone([880], "sine", .08);
-    // record her voice for playback (skipped if this device can't record and recognise at the same time)
+    try { await ctx().resume(); } catch {}
+    // The recording and the voice meter always run for the full time; they decide whether she spoke.
     let recDone = Promise.resolve(null), meter = null;
-    if (!srConflict && typeof MediaRecorder !== "undefined") {
-      try {
-        micStream = micStream || await navigator.mediaDevices.getUserMedia({ audio: true });
-        meter = voiceMeter(micStream);
+    const t0 = Date.now();
+    try {
+      const tr = micStream && micStream.getAudioTracks()[0];
+      if (!tr || tr.readyState === "ended") micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      meter = voiceMeter(micStream);
+      if (typeof MediaRecorder !== "undefined") {
         const chunks = [];
         recorder = new MediaRecorder(micStream);
         recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
         recDone = new Promise(r => recorder.onstop = () => r(chunks));
         recorder.start();
-        setTimeout(stopRecording, 2600);
-      } catch (e) { recDone = Promise.resolve(null); }
-    }
-    const heard = await listenFor(3200);
+      }
+    } catch (e) { recDone = Promise.resolve(null); }
+    // Speech recognition is only a bonus for "Super gesagt!"; on some iPads it fails at once or can't share the mic.
+    const heard = srConflict ? null : await listenFor(3000);
+    const left = 3000 - (Date.now() - t0);
+    if (left > 0) await sleep(left);                // never cut her short, even when recognition gave up early
     stopRecording();
     spoke = meter ? meter.stop() : null;
     const chunks = await Promise.race([recDone, sleep(1500).then(() => null)]);
@@ -1931,7 +1942,7 @@ async function recordHer(w) {
   const p = prog(w.id);
   if (S && S.card) S.card.tries++;
   // she spoke (the recogniser caught the word, or the mic heard her voice): let her go on; after 3 tries, don't keep her stuck
-  const saidIt = verdict === "great" || verdict === "almost" || spoke === true || (spoke === null && verdict === null && her);
+  const saidIt = verdict === "great" || verdict === "almost" || spoke === true || (spoke === null && !!her);
   if (saidIt || (S && S.card && S.card.tries >= 3)) unlockNext();
   if (verdict === "great") {
     chime(); cheer(w.article, btn); sparkle(btn, 14);
