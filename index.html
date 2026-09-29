@@ -885,6 +885,8 @@ function saveWords() {
 }
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
+// Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
+const AUDIO_V = 2;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -916,7 +918,7 @@ const buffers = new Map();
 function loadClip(key) {
   if (buffers.has(key)) return buffers.get(key);
   const c = ctx();
-  const p = !c ? Promise.resolve(null) : fetch("audio/" + key + ".mp3")
+  const p = !c ? Promise.resolve(null) : fetch("audio/" + key + ".mp3?v=" + AUDIO_V)
     .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
     .then(b => new Promise((res, rej) => c.decodeAudioData(b, res, rej)))
     .catch(() => null);
