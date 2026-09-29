@@ -1,0 +1,13 @@
+{
+	"appId": "com.ohadnissim.derdiedas",
+	"appName": "Der Die Das",
+	"webDir": "www",
+	"backgroundColor": "#FCF0F7",
+	"ios": {
+		"contentInset": "never",
+		"backgroundColor": "#FCF0F7",
+		"allowsLinkPreview": false,
+		"scrollEnabled": false
+	},
+	"packageClassList": []
+}
