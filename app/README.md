@@ -27,11 +27,13 @@ Bundle ID: `com.ohadnissim.derdiedas`
 
 ## Building on the Mac instead
 
+No Node or npm needed: the Xcode project has a "Copy website" build step that copies `index.html`, `audio/`, `img/`
+and `data/` from the top of the repo into the app on every build.
+
 ```sh
-cd app
-npm ci
-npm run sync      # copies the site into the app
-npm run open      # opens Xcode
+git clone https://github.com/ohadnissim/DerDieDas.git
+open DerDieDas/app/ios/App/App.xcodeproj
 ```
-In Xcode: App target → Signing & Capabilities → pick your team. Then Product ▸ Archive → Distribute App → TestFlight.
-Raise the build number (General → Build) each time.
+In Xcode: App target → Signing & Capabilities → tick "Automatically manage signing" and pick your team.
+Then set the device to "Any iOS Device (arm64)", Product ▸ Archive → Distribute App → App Store Connect → Upload.
+For later updates: `git pull` in the folder, raise the build number (App target → General → Build), archive again.
