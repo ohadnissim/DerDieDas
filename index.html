@@ -888,7 +888,7 @@ function saveWords() {
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
-  "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das","a-die-slow":"die",
+  "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
   "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
   "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
   "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-farben":"Farbenspiel! Hör gut zu!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
@@ -1246,7 +1246,7 @@ function answer(a, btn) {
     else requeue(w.id);
     saveProgress();
     reveal();
-    say([C(pick(PRAISE)), ...(w.article === "die" ? [ART("die")] : []), W(w)]).then(showRepeat);
+    say([C(pick(PRAISE)), W(w)]).then(showRepeat);
   } else {
     boop();
     btn.classList.add("wrong"); btn.disabled = true;
@@ -1473,8 +1473,7 @@ $("nextSticker").addEventListener("click", () => { pop(); openBook(); });
 $("bookBack").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
 
 /* ---------- colour help: just the circle and its article, no pictures or sentences ---------- */
-// "die" is said slowly (a stretched "diiie") so she hears the long German ee, not the English "die".
-const ART = (a) => C(a === "die" ? "a-die-slow" : "a-" + a);
+const ART = (a) => C("a-" + a);
 // Tap Mila: each circle lights up in turn while she says its article: der (blue), die (red), das (yellow).
 let chantOn = false;
 async function playChant() {
