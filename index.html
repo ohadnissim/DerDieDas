@@ -406,10 +406,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 
 /* ---------- circle games ---------- */
 .candy.sky{background:radial-gradient(circle at 35% 30%,#C9E9FF,#6FB8EE 60%);box-shadow:0 8px 0 #3C85BD,var(--lift)}
-.candy.peach{background:radial-gradient(circle at 35% 30%,#FFD9C2,#FF9E6E 60%);box-shadow:0 8px 0 #D86C3A,var(--lift)}
 .kidgame{overflow:hidden}
 .kidgame img{width:92%;height:92%;object-fit:cover;object-position:50% 4%;border-radius:50%;margin-top:14%}
-.gico{font-size:clamp(28px,5vmin,40px);line-height:1}
 .games{flex-wrap:wrap}
 .gmax{position:absolute;left:10px;bottom:6px;display:flex;align-items:flex-end;gap:4px;pointer-events:none}
 .gmax img{height:clamp(120px,24vh,210px);filter:drop-shadow(0 6px 8px rgba(60,30,60,.3));transform-origin:50% 100%}
@@ -418,14 +416,6 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 @keyframes talk{50%{transform:rotate(-4deg) translateY(-6px)}}
 .gmax .bubble{margin-bottom:clamp(90px,18vh,160px);padding:8px 16px;border-radius:22px 22px 22px 4px;background:var(--surface);box-shadow:var(--lift);font-family:var(--display);font-weight:800;font-size:clamp(22px,4vmin,34px);color:var(--ink);white-space:nowrap}
 .gmax .bubble.der{color:var(--der)} .gmax .bubble.die{color:var(--die)} .gmax .bubble.das{color:var(--das-ink)}
-.gmoves{margin-top:-6px}
-.gmoves span{justify-self:center;font-size:clamp(30px,6vmin,48px);line-height:1}
-.choice.stomp{animation:stomp .55s ease 2}
-.choice.clap{animation:clap .22s ease 5}
-.choice.hop{animation:hop .5s cubic-bezier(.3,1.4,.5,1) 2}
-@keyframes stomp{40%{transform:translateY(10%) scale(1.12,.8)}70%{transform:translateY(-4%) scale(.95,1.05)}}
-@keyframes clap{50%{transform:scale(1.14) rotate(-6deg)}}
-@keyframes hop{45%{transform:translateY(-38%) scale(.94,1.08)}80%{transform:translateY(0) scale(1.08,.92)}}
 
 /* ---------- printable cards ---------- */
 .printsheet{position:fixed;inset:0;z-index:60;overflow:auto;background:#fff;color:#222;padding:16px}
@@ -596,7 +586,6 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <button class="candy sun game" id="storyBtn" aria-label="Geschichte"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 6.5C10.2 5 7.6 4.5 4 4.5v14c3.6 0 6.2.5 8 2 1.8-1.5 4.4-2 8-2v-14c-3.6 0-6.2.5-8 2z"/></svg><span class="due" id="storyDue" hidden>!</span></button>
       <button class="candy mint game" id="gardenBtn" aria-label="Garten"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="3.2"/><circle cx="8.2" cy="6" r="2.6" opacity=".8"/><circle cx="15.8" cy="6" r="2.6" opacity=".8"/><circle cx="12" cy="3.6" r="2.6" opacity=".8"/><path d="M11 11h2v10h-2z"/><path d="M12 17c-2-3-5-3-6-2 1 2 3 3 6 2zm0-2c2-3 5-3 6-2-1 2-3 3-6 2z"/></svg><span class="due" id="gardenDue" hidden>!</span></button>
       <button class="candy sky game kidgame" id="maxBtn" aria-label="Stimmt das, Max?"><img src="img/kid-max.webp" alt="" data-friend="1"></button>
-      <button class="candy peach game" id="moveBtn" aria-label="Bewegungsspiel"><span class="gico" aria-hidden="true">🦶</span></button>
       <button class="candy grape game" id="hearBtn" aria-label="Hörspiel"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7h2a5 5 0 0 1 10 0c0 1.9-.9 2.9-2 4-1.2 1.1-2.5 2.3-2.9 4.6-.2 1.3-1 2.4-2.6 2.4A2.5 2.5 0 0 1 7 19.5H5A4.5 4.5 0 0 0 9.5 24c2.6 0 4.2-1.8 4.6-4.1.3-1.6 1.1-2.4 2.2-3.4C17.6 15.2 19 13.7 19 9a7 7 0 0 0-7-7zm0 4a3 3 0 0 0-3 3h2a1 1 0 0 1 2 0c0 .7-.4 1-1 1.5-.8.6-2 1.5-2 3.5h2c0-1 .5-1.4 1.2-1.9C14 11.5 15 10.6 15 9a3 3 0 0 0-3-3z"/></svg></button>
     </div>
     <button class="nextsticker" id="nextSticker" aria-label="Nächster Sticker"><span id="slots"></span><span class="gift" id="gift">?</span></button>
@@ -743,7 +732,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   </div>
 </section>
 
-<!-- CIRCLE GAMES: Max says it / move with the circles / listen and pick -->
+<!-- CIRCLE GAMES: Max says it / listen and pick -->
 <section class="screen" id="cgame" hidden>
   <div class="bar">
     <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -763,7 +752,6 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
       <button class="choice orb die" data-a="die"><span class="ow">die</span></button>
       <button class="choice orb das" data-a="das"><span class="ow">das</span></button>
     </div>
-    <div class="cols gmoves" id="gMoves" hidden><span>🦶</span><span>👏</span><span>🦘</span></div>
     <div class="thumbs" id="gThumbs" hidden>
       <button class="thumb yes" id="gYes" aria-label="Stimmt">👍</button>
       <button class="thumb no" id="gNo" aria-label="Stimmt nicht">👎</button>
@@ -1022,7 +1010,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 14;
+const AUDIO_V = 15;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -1034,7 +1022,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "k-mil-hallo":"Hallo! Ich bin Mil!","k-mil-c1":"Juhu, super!","k-mil-c2":"Klasse! Toll gemacht!",
   "k-max-hallo":"Hallo! Ich bin Max!","k-max-c1":"Juhu, super!","k-max-c2":"Klasse! Toll gemacht!",
   "f-upsi":"Upsi! Nicht schlimm.","f-hoppla":"Hoppla! Macht nichts.","f-jetztdu":"Jetzt du! Tipp mal!","f-jetztweisst":"Super! Jetzt weißt du es!",
-  "f-stampfen":"Stampfen!","f-klatschen":"Klatschen!","f-springen":"Springen!","f-bewegung":"Bewegungsspiel! Hör gut zu und mach mit!","f-machmit":"Mach mit!","f-maxsagt":"Max sagt ein Wort. Stimmt das?","f-hoerspiel":"Hörspiel! Hör gut zu!",
+  "f-maxsagt":"Max sagt ein Wort. Stimmt das?","f-hoerspiel":"Hörspiel! Hör gut zu!",
   "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
@@ -1284,7 +1272,7 @@ function renderHome() {
   $("quizBtn").disabled = !(ready && state.words.length >= 3);
   $("quizDue").hidden = !quizDue();
   $("memBtn").disabled = $("judgeBtn").disabled = !(ready && state.words.length >= 3);
-  $("moveBtn").disabled = $("hearBtn").disabled = !(ready && state.words.length >= 3);
+  $("hearBtn").disabled = !(ready && state.words.length >= 3);
   $("maxBtn").disabled = gameWords("max").length < 3;
   $("gardenDue").hidden = !(gardenCount() > state.progress.gardenSeen);
   const latest = state.stories[state.stories.length - 1];
@@ -1660,7 +1648,7 @@ $("playBtn").addEventListener("click", () => { pop(); startPractice(); });
 $("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
 $("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
 $("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, judge: startJudge, story: startStory, max: () => startCircleGame("max"), move: () => startCircleGame("move"), hear: () => startCircleGame("hear") })[lastActivity](); });
+$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, judge: startJudge, story: startStory, max: () => startCircleGame("max"), hear: () => startCircleGame("hear") })[lastActivity](); });
 $("doneGarden").addEventListener("click", () => { pop(); openGarden(); });
 $("memBtn").addEventListener("click", () => { pop(); startMemory(); });
 $("judgeBtn").addEventListener("click", () => { pop(); startJudge(); });
@@ -2054,11 +2042,9 @@ function finishJudge() {
   showDone(earned, rows, [], quizDue(), grew);
 }
 
-/* ---------- three circle games ---------- */
+/* ---------- two circle games ---------- */
 // max:  Max says a word with an article – sometimes the wrong one. Thumbs up or down; if he got it wrong she shows him the right circle.
-// move: Mila says only the word. She moves like its circle (der stampfen, die klatschen, das springen) and taps it.
-// hear: Mila says only the word, no picture. She picks the circle, then sees the picture.
-const MOVES = { der: { key: "f-stampfen", fx: "stomp" }, die: { key: "f-klatschen", fx: "clap" }, das: { key: "f-springen", fx: "hop" } };
+// hear: she sees the picture and Mila says only the word (no article). She picks the circle, then hears it with its article.
 const tricky = (w) => { const p = prog(w.id); return (needsPractice(w) ? 5 : 0) + ARTS.reduce((n, a) => n + ((p.mix || {})[a] || 0), 0); };
 function gameWords(mode) {
   let ws = mode === "max" ? allWords().filter(w => MAX_CLAIMS[w.id] && MAX_CLAIMS[w.id][0] === w.article && norm(w.noun) === w.id) : state.words;
@@ -2074,10 +2060,9 @@ function startCircleGame(mode) {
   const words = gameWords(mode);
   if (words.length < 3) return;
   G = { mode, words, i: 0, earned: 0, res: {}, phase: "intro", claim: "" };
-  $("gMoves").hidden = mode !== "move";
   $("gMax").hidden = true; $("gThumbs").hidden = true;
   $("gPic").hidden = true; $("gEmoji").hidden = false; $("gEmoji").className = "emoji";
-  $("gEmoji").textContent = mode === "max" ? "" : mode === "move" ? "🎵" : "👂";
+  $("gEmoji").textContent = mode === "max" ? "" : "👂";
   $("gCaption").className = "caption"; $("gCaption").innerHTML = "";
   $("gcard").className = "card";
   gOrbsReset(true); $("gChoices").hidden = mode === "max";
@@ -2086,14 +2071,7 @@ function startCircleGame(mode) {
   const intro = async () => {
     await sleep(300);
     if (mode === "max") { if (G === my) { $("gMax").hidden = false; restart($("gMax"), "enter"); } return say([C("f-maxsagt")]); }
-    if (mode === "hear") return say([C("f-hoerspiel")]);
-    await say([C("f-bewegung")]);
-    for (const a of ARTS) {                                   // each circle shows its move once
-      if (G !== my) return;
-      const b = gOrb(a); b.classList.add(MOVES[a].fx);
-      await say([ART(a), C(MOVES[a].key)]);
-      b.classList.remove(MOVES[a].fx);
-    }
+    return say([C("f-hoerspiel")]);
   };
   intro().then(() => { if (G === my) nextG(); });
 }
@@ -2101,7 +2079,7 @@ function renderGDots() { $("gdots").innerHTML = G.words.map((w, i) => '<span cla
 function gPrompt() {
   const w = G && G.words[G.i]; if (!w) return;
   if (G.mode === "max") return say([maxSays(w, G.claim), C("f-stimmt")]);
-  return say(G.mode === "move" && G.i < 2 ? [N(w), C("f-machmit")] : [N(w)]);
+  return say([N(w)]);
 }
 function nextG() {
   if (G.i >= G.words.length) return finishG();
@@ -2120,7 +2098,7 @@ function nextG() {
     $("gMax").hidden = false; restart($("gMax"), "talk");
     gPrompt().then(() => { if (G === my && G.words[G.i] === w && G.phase === "listen") { G.phase = "judge"; $("gThumbs").hidden = false; restart($("gThumbs"), "enter"); } });
   } else {
-    $("gPic").hidden = true; $("gEmoji").hidden = false; $("gEmoji").className = "emoji"; $("gEmoji").textContent = G.mode === "move" ? "🎵" : "👂";
+    setPicture($("gPic"), $("gEmoji"), w);
     $("gChoices").hidden = false; restart($("gChoices"), "enter");
     gPrompt().then(() => { if (G === my && G.words[G.i] === w && G.phase === "listen") { G.phase = "pick"; gOrbsReset(false); } });
   }
@@ -2142,14 +2120,12 @@ function gPick(btn) {
   document.querySelectorAll("#gChoices .choice").forEach(b => b.disabled = true);
   if (a === w.article) {
     chime(); btn.classList.add("right"); cheer(a, btn); sparkle(btn, 10); gReveal(w, true);
-    if (G.mode === "move") { restart(btn, MOVES[a].fx); gNext(say([W(w), C(MOVES[a].key)])); }
-    else if (fix) { restart($("gMax"), "talk"); gNext(say([C("k-max-danke"), W(w)])); }
+    if (fix) { restart($("gMax"), "talk"); gNext(say([C("k-max-danke"), W(w)])); }
     else gNext(say([C(pick(PRAISE)), W(w)]));
   } else {
     noteMiss(w, a); gReveal(w, false);
     const rb = gOrb(w.article), fixed = oops(btn, rb, w, { pic: gPicEl() });
-    if (G.mode === "move") gNext(fixed.then(() => { restart(rb, MOVES[w.article].fx); return say([C(MOVES[w.article].key)]); }));
-    else if (fix) gNext(fixed.then(() => { restart($("gMax"), "talk"); return say([C("k-max-danke")]); }));
+    if (fix) gNext(fixed.then(() => { restart($("gMax"), "talk"); return say([C("k-max-danke")]); }));
     else gNext(fixed);
   }
 }
@@ -2187,7 +2163,6 @@ function finishG() {
   showDone(earned, rows, [], quizDue(), grew);
 }
 $("maxBtn").addEventListener("click", () => { pop(); startCircleGame("max"); });
-$("moveBtn").addEventListener("click", () => { pop(); startCircleGame("move"); });
 $("hearBtn").addEventListener("click", () => { pop(); startCircleGame("hear"); });
 
 /* ---------- printable word cards (grown-ups) ---------- */
