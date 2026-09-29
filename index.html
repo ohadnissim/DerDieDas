@@ -894,7 +894,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 8;
+const AUDIO_V = 9;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -922,9 +922,11 @@ const Qs = (w, a) => ({ key: builtIn(w) || w.rec ? "q-" + w.id + "-" + a : null,
 let actx = null;
 function ctx() {
   if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch { actx = null; } }
-  if (actx && actx.state === "suspended") actx.resume();
+  if (actx && actx.state !== "running" && actx.state !== "closed") { try { actx.resume(); } catch {} }   // iPad: "suspended" or "interrupted"
   return actx;
 }
+// iPad: "playback" keeps Mila loud on the main speaker (and not muted by silent mode); "play-and-record" only while recording.
+function audioMode(type) { try { if (navigator.audioSession) navigator.audioSession.type = type; } catch {} }
 const buffers = new Map();
 function loadClip(key) {
   if (buffers.has(key)) return buffers.get(key);
@@ -938,6 +940,7 @@ function loadClip(key) {
 }
 let unlocked = false;
 function unlockAudio() {
+  if (!micStream) audioMode("playback");
   if (unlocked) return;
   const c = ctx(); if (!c) return;
   unlocked = true;
@@ -1881,6 +1884,13 @@ $("spage").addEventListener("click", () => { if (ST && ST.asked[ST.i] !== "open"
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let micStream = null, recorder = null, micBroken = false, srConflict = false, listening = false;
 const micAllowed = () => !micBroken && state.settings.record !== false && !window.claude && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+// Turn the microphone fully off after each recording, otherwise the iPad stays in "call mode" and plays sound very quietly.
+function releaseMic() {
+  try { micStream && micStream.getTracks().forEach(tr => tr.stop()); } catch {}
+  micStream = null; recorder = null;
+  audioMode("playback");
+  try { ctx().resume(); } catch {}
+}
 function stopRecording() { try { recorder && recorder.state === "recording" && recorder.stop(); } catch {} }
 function lev(a, b) {
   const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
@@ -1947,6 +1957,7 @@ async function recordHer(w) {
   try {
     stopAudio();
     btn.classList.add("rec"); btn.classList.remove("invite"); tone([880], "sine", .08);
+    audioMode("play-and-record");
     try { await ctx().resume(); } catch {}
     // The recording and the voice meter always run for the full time; they decide whether she spoke.
     let recDone = Promise.resolve(null), meter = null;
@@ -1970,15 +1981,18 @@ async function recordHer(w) {
     stopRecording();
     spoke = meter ? meter.stop() : null;
     const chunks = await Promise.race([recDone, sleep(1500).then(() => null)]);
+    const mime = (recorder && recorder.mimeType) || "audio/mp4";
+    releaseMic();
     btn.classList.remove("rec");
     if (chunks && chunks.length) {
-      const data = await new Blob(chunks, { type: (recorder && recorder.mimeType) || "audio/mp4" }).arrayBuffer();
+      const data = await new Blob(chunks, { type: mime }).arrayBuffer();
       her = await Promise.race([sleep(2500).then(() => null),
         new Promise((res) => { const pr = ctx().decodeAudioData(data, res, () => res(null)); if (pr && pr.catch) pr.catch(() => res(null)); })]);
     }
     verdict = heard === null ? null : judgeSpeech(heard, w);
   } catch (e) {
     console.warn("mic", e);
+    releaseMic();
     btn.classList.remove("rec");
     if (!her && verdict === null) { micBroken = true; btn.hidden = true; listening = false; unlockNext(); return; }
   }
