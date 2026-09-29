@@ -111,7 +111,7 @@ button:disabled{cursor:default}
 #slots{display:flex;align-items:center;gap:8px}
 .meter{display:block;width:clamp(120px,22vmin,200px);height:22px;border-radius:999px;background:var(--grape-soft);overflow:hidden;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
 .meter .fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--pink),var(--grape));transition:width .8s cubic-bezier(.3,1.4,.5,1)}
-.gift img{width:100%;height:100%;object-fit:contain;filter:brightness(0);opacity:.28}
+.gift img{width:100%;height:100%;object-fit:contain;transition:filter .6s,opacity .6s}
 .nextsticker{flex-direction:row!important;gap:12px!important;padding:8px 10px 8px 18px!important;border-radius:999px!important}
 .ns{font-size:clamp(24px,3.6vmin,32px);color:var(--line);line-height:1;transition:color .3s}
 .ns.on{color:var(--star);animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
@@ -1316,7 +1316,8 @@ function renderHome() {
   const full = state.progress.stickers.length >= STICKERS.length;
   const have = full ? perSticker() : Math.min(perSticker(), state.progress.points - (state.progress.pointsUsed || 0));
   const nextStk = STICKERS.find(x => !state.progress.stickers.includes(x));
-  $("gift").innerHTML = nextStk ? '<img src="img/stk-' + nextStk + '.webp" alt="">' : "★";
+  const pNext = Math.max(0, Math.min(1, have / perSticker()));
+  $("gift").innerHTML = nextStk ? '<img src="img/stk-' + nextStk + '.webp" alt="" style="filter:grayscale(' + (1 - pNext).toFixed(2) + ');opacity:' + (0.45 + 0.55 * pNext).toFixed(2) + '">' : "★";
   $("slots").innerHTML = '<span class="meter"><span class="fill" style="width:' + Math.round(have / perSticker() * 100) + '%"></span></span><span class="ns on">★</span>';
   for (const a of ARTS) {
     const box = $("rooms-" + a);
@@ -1450,9 +1451,10 @@ function logDay(field, n = 1) {
   d[field] = (d[field] || 0) + n;
   const keys = Object.keys(log).sort(); while (keys.length > 60) delete log[keys.shift()];
 }
-function addStars(n = 1) { state.progress.stars += n; logDay("st", n); renderStars(); }
+// Every star, from any game or story, also counts toward the next sticker.
+function addStars(n = 1) { state.progress.stars += n; state.progress.points += n; logDay("st", n); renderStars(); }
 function earnStar(pillId) {
-  addStars(); state.progress.points++;
+  addStars();
   renderStars(); bump($(pillId).parentElement);
 }
 function answer(a, btn) {
@@ -1614,6 +1616,8 @@ function finishQuiz() {
 }
 
 /* ---------- stickers ---------- */
+// For the games and the story: hand out any stickers that are due and save.
+function stickersNow() { const f = awardStickers(); saveProgress(); return f; }
 function awardStickers() {
   // Count only points gathered since the last sticker, so changing the setting never takes one away.
   const due = state.progress.stickers.length + Math.floor((state.progress.points - (state.progress.pointsUsed || 0)) / perSticker());
@@ -1986,7 +1990,7 @@ function finishMemory() {
   const earned = M.earned, grew = markDay(); logDay("g");
   M = null; lastActivity = "memory";
   state.progress.lastPlayed = today(); saveProgress();
-  showDone(earned, rows, [], quizDue(), grew);
+  showDone(earned, rows, stickersNow(), quizDue(), grew);
 }
 
 /* ---------- "Stimmt das?": a grown-up answers (sometimes wrong on purpose), she judges ---------- */
@@ -2073,7 +2077,7 @@ function finishJudge() {
   const earned = J.earned, grew = markDay(); logDay("g");
   J = null; lastActivity = "judge";
   state.progress.lastPlayed = today(); saveProgress();
-  showDone(earned, rows, [], quizDue(), grew);
+  showDone(earned, rows, stickersNow(), quizDue(), grew);
 }
 
 /* ---------- two circle games ---------- */
@@ -2194,7 +2198,7 @@ function finishG() {
   const earned = G.earned, grew = markDay(); logDay("g");
   lastActivity = G.mode; G = null;
   state.progress.lastPlayed = today(); saveProgress();
-  showDone(earned, rows, [], quizDue(), grew);
+  showDone(earned, rows, stickersNow(), quizDue(), grew);
 }
 $("maxBtn").addEventListener("click", () => { pop(); startCircleGame("max"); });
 $("hearBtn").addEventListener("click", () => { pop(); startCircleGame("hear"); });
@@ -2388,7 +2392,7 @@ $("sNext").addEventListener("click", () => {
   state.progress.storySeen = st.id;
   addStars(2); logDay("g");
   const grew = markDay(); state.progress.lastPlayed = today(); saveProgress();
-  showDone(2, [], [], false, grew);
+  showDone(2, [], stickersNow(), false, grew);
 });
 $("sPrev").addEventListener("click", () => { if (ST && ST.i > 0) { pop(); leavePage(); ST.i--; showPage(); } });
 $("sListen").addEventListener("click", () => { if (!ST) return; if (ST.step) stepPrompt(); else readPage(); });
