@@ -2403,6 +2403,8 @@ $("spage").addEventListener("click", (e) => {
 // Speech recognition on children is imperfect, so feedback is always kind: great / almost / didn't hear.
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let micStream = null, recorder = null, micBroken = false, srConflict = false, listening = false;
+// What the last recording did, shown in the grown-ups panel so a problem on one device can be pinned down.
+const micStat = { tries: 0, err: "", last: "" };
 const micAllowed = () => !micBroken && state.settings.record !== false && !window.claude && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 // Turn the microphone fully off after each recording, otherwise the iPad stays in "call mode" and plays sound very quietly.
 function releaseMic() {
@@ -2461,9 +2463,9 @@ function voiceMeter(stream) {
       const rms = Math.sqrt(s / buf.length); peak = Math.max(peak, rms);
       if (rms > 0.02) { if (++loud >= 3) spoke = true; } else loud = Math.max(0, loud - 1);
     }, 50);
-  } catch { return { stop: () => null }; }
+  } catch { return { stop: () => null, peak: () => null }; }
   // a meter that saw pure digital silence isn't hearing the mic at all: report "don't know" instead of "silent"
-  return { stop: () => { clearInterval(timer); try { src.disconnect(); } catch {} return peak === 0 ? null : spoke; } };
+  return { stop: () => { clearInterval(timer); try { src.disconnect(); } catch {} return peak === 0 ? null : spoke; }, peak: () => peak };
 }
 function unlockNext() {
   if (!S || !S.card || !$("nextBtn").disabled) return;
@@ -2493,7 +2495,8 @@ async function recordHer(w) {
         recDone = new Promise(r => recorder.onstop = () => r(chunks));
         recorder.start();
       }
-    } catch (e) { recDone = Promise.resolve(null); }
+    } catch (e) { recDone = Promise.resolve(null); micStat.err = (e && (e.name ? e.name + ": " : "") + (e.message || "")) || String(e); }
+    micStat.tries++;
     // Speech recognition is only a bonus for "Super gesagt!"; on some iPads it fails at once or can't share the mic.
     const heard = srConflict ? null : await listenFor(3000);
     const left = 3000 - (Date.now() - t0);
@@ -2502,16 +2505,18 @@ async function recordHer(w) {
     spoke = meter ? meter.stop() : null;
     const chunks = await Promise.race([recDone, sleep(1500).then(() => null)]);
     const mime = (recorder && recorder.mimeType) || "audio/mp4";
+    micStat.last = "level " + (meter && meter.peak != null ? meter.peak().toFixed(3) : "–") + ", " + (chunks ? chunks.length : 0) + " pieces, " + mime;
     releaseMic();
     btn.classList.remove("rec");
     if (chunks && chunks.length) {
       const data = await new Blob(chunks, { type: mime }).arrayBuffer();
       her = await Promise.race([sleep(2500).then(() => null),
         new Promise((res) => { const pr = ctx().decodeAudioData(data, res, () => res(null)); if (pr && pr.catch) pr.catch(() => res(null)); })]);
+      if (!her) micStat.last += ", couldn't play it back";
     }
     verdict = heard === null ? null : judgeSpeech(heard, w);
   } catch (e) {
-    console.warn("mic", e);
+    console.warn("mic", e); micStat.err = "after recording: " + ((e && e.message) || e);
     releaseMic();
     btn.classList.remove("rec");
     if (!her && verdict === null) { micBroken = true; btn.hidden = true; listening = false; unlockNext(); return; }
@@ -2645,7 +2650,7 @@ function renderGrown() {
       [1, 2, 3, 4].map(n => '<option value="' + n + '"' + ((Number(state.settings.quizEvery) || 2) === n ? " selected" : "") + ">" + n + " round" + (n > 1 ? "s" : "") + "</option>").join("") +
       '</select><label for="stkSel">Sticker every</label><select id="stkSel">' +
       [5, 10, 15, 20].map(n => '<option value="' + n + '"' + (perSticker() === n ? " selected" : "") + ">" + n + " right answers</option>").join("") +
-      '</select><label for="recSel">Speaking</label><select id="recSel"><option value="on"' + (state.settings.record !== false ? " selected" : "") + '>On: she speaks, gets feedback, hears herself (GitHub version)</option><option value="off"' + (state.settings.record === false ? " selected" : "") + '>Off</option>' +
+      '</select><label for="recSel">Speaking</label><select id="recSel"><option value="on"' + (state.settings.record !== false ? " selected" : "") + '>On: she speaks, gets feedback, hears herself</option><option value="off"' + (state.settings.record === false ? " selected" : "") + '>Off</option>' +
       '</select><label for="warmSel">Colour warm-up before practice</label><select id="warmSel"><option value="on"' + (state.settings.warmup !== false ? " selected" : "") + '>Yes (6 quick taps)</option><option value="off"' + (state.settings.warmup === false ? " selected" : "") + '>No</option>' +
       '</select><label for="mustSel">Must speak before next word</label><select id="mustSel"><option value="on"' + (state.settings.mustSpeak !== false ? " selected" : "") + '>Yes</option><option value="off"' + (state.settings.mustSpeak === false ? " selected" : "") + '>No</option>' +
       '</select><label for="firstSel">Say the answer first</label><select id="firstSel">' +
@@ -2677,6 +2682,12 @@ function voiceSection() {
   body += '<p class="small" style="margin-top:8px">Recorded voice check (version ' + AUDIO_V + "): " + clipStat.ok + " clips loaded" +
     (clipStat.el ? ", " + clipStat.el + " played directly" : "") + (clipStat.fail ? ", " + clipStat.fail + " failed" : "") +
     (clipStat.err ? '<br><span style="word-break:break-all">Last problem: ' + esc(clipStat.err) + "</span>" : "") + "</p>";
+  body += '<p class="small" style="margin-top:4px">Microphone check: ' +
+    (navigator.mediaDevices && navigator.mediaDevices.getUserMedia ? "microphone available" : "<b>no microphone access in this app</b>") +
+    ", recorder " + (typeof MediaRecorder !== "undefined" ? "yes" : "no") + ", word check " + (SR ? "yes" : "no") +
+    (micBroken ? ", <b>switched off after an error</b>" : "") + (state.settings.record === false ? ", <b>Speaking is set to Off</b>" : "") +
+    (micStat.tries ? "<br>Last recording: " + esc(micStat.last || "none") : "") +
+    (micStat.err ? '<br><span style="word-break:break-all">Last problem: ' + esc(micStat.err) + "</span>" : "") + "</p>";
   return '<section><h3>Voice</h3>' + body +
     '<div class="settings" style="margin-top:10px"><button class="btn" data-act="testclip">Test recorded voice</button>' +
     (hasTTS ? '<button class="btn" data-act="testvoice">Test iPad voice</button>' : "") + "</div></section>";
