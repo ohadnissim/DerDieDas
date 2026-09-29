@@ -894,7 +894,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 9;
+const AUDIO_V = 10;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -927,16 +927,32 @@ function ctx() {
 }
 // iPad: "playback" keeps Mila loud on the main speaker (and not muted by silent mode); "play-and-record" only while recording.
 function audioMode(type) { try { if (navigator.audioSession) navigator.audioSession.type = type; } catch {} }
-const buffers = new Map();
-function loadClip(key) {
-  if (buffers.has(key)) return buffers.get(key);
+// Clips load a few at a time in the background; the one Mila needs right now jumps the queue.
+// (Safari decodes one clip after another, so loading all ~200 at once made the first words wait and go silent.)
+const buffers = new Map(), waiting = new Map(), loadQueue = [];
+let loadsActive = 0;
+function fetchClip(key) {
   const c = ctx();
-  const p = !c ? Promise.resolve(null) : fetch("audio/" + key + ".mp3?v=" + AUDIO_V)
+  return !c ? Promise.resolve(null) : fetch("audio/" + key + ".mp3?v=" + AUDIO_V)
     .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
-    .then(b => new Promise((res, rej) => c.decodeAudioData(b, res, rej)))
+    .then(b => new Promise((res, rej) => { const pr = c.decodeAudioData(b, res, rej); if (pr && pr.catch) pr.catch(rej); }))
     .catch(() => null);
-  buffers.set(key, p);
-  return p;
+}
+function startLoad(key) {
+  const resolve = waiting.get(key); if (!resolve) return;
+  waiting.delete(key);
+  const i = loadQueue.indexOf(key); if (i >= 0) loadQueue.splice(i, 1);
+  loadsActive++;
+  fetchClip(key).then(buf => { resolve(buf); loadsActive--; pumpLoads(); });
+}
+function pumpLoads() { while (loadsActive < 3 && loadQueue.length) startLoad(loadQueue[0]); }
+function loadClip(key, urgent = false) {
+  if (!buffers.has(key)) {
+    buffers.set(key, new Promise(r => waiting.set(key, r)));
+    loadQueue.push(key);
+  }
+  if (urgent) startLoad(key); else pumpLoads();
+  return buffers.get(key);
 }
 let unlocked = false;
 function unlockAudio() {
@@ -945,9 +961,9 @@ function unlockAudio() {
   const c = ctx(); if (!c) return;
   unlocked = true;
   try { const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, 22050); s.connect(c.destination); s.start(0); } catch {}
-  CLIPS.forEach(loadClip);
+  CLIPS.forEach(k => loadClip(k));
 }
-document.addEventListener("pointerdown", unlockAudio, { capture: true });
+for (const ev of ["pointerdown", "touchend", "click", "keydown"]) document.addEventListener(ev, unlockAudio, { capture: true });
 let current = null;
 function stopAudio() { talkers = 0; document.body.classList.remove("talking"); try { current && current.stop(); } catch {} current = null; try { window.speechSynthesis && speechSynthesis.cancel(); } catch {} }
 let talkers = 0;
@@ -970,7 +986,7 @@ async function say(parts, rate = 0.82) {
     if (my !== sayToken) return;
     const { key, text } = typeof p === "string" ? { key: null, text: p } : p;
     let buf = null;
-    if (key && CLIPS.has(key)) buf = await Promise.race([loadClip(key), sleep(2500).then(() => null)]);
+    if (key && CLIPS.has(key)) buf = await Promise.race([loadClip(key, true), sleep(8000).then(() => null)]);
     if (my !== sayToken) return;
     if (buf) await playBuffer(buf); else if (text) await tts(text, rate, my);
   }
