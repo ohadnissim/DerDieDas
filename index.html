@@ -371,6 +371,10 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .kidpop{position:fixed;left:3vw;bottom:0;height:min(34vh,260px);z-index:34;pointer-events:none;transform-origin:50% 100%;
   filter:drop-shadow(0 8px 10px rgba(60,30,60,.3));animation:kidpop 2.3s cubic-bezier(.3,1.4,.5,1) both}
 .kidpop.right{left:auto;right:3vw}
+.stoast{position:fixed;left:50%;top:14px;z-index:60;display:flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;border-radius:999px;background:var(--surface);box-shadow:0 0 0 4px var(--star),var(--lift);
+  font-family:var(--display);font-weight:800;font-size:clamp(18px,3vmin,24px);color:var(--ink);pointer-events:none;animation:stoast 2.6s cubic-bezier(.3,1.4,.5,1) both}
+.stoast img{width:clamp(48px,8vmin,64px);height:clamp(48px,8vmin,64px);object-fit:contain}
+@keyframes stoast{0%{transform:translate(-50%,-140%)}14%,82%{transform:translate(-50%,0)}100%{transform:translate(-50%,-140%)}}
 @keyframes kidpop{0%{transform:translateY(105%)}16%{transform:translateY(0) rotate(-5deg)}28%{transform:translateY(-5%) rotate(4deg)}40%,82%{transform:translateY(0) rotate(0)}100%{transform:translateY(105%)}}
 
 .stext .snarr,.stext .slines{display:block}
@@ -1503,7 +1507,23 @@ function logDay(field, n = 1) {
   const keys = Object.keys(log).sort(); while (keys.length > 60) delete log[keys.shift()];
 }
 // Every star, from any game or story, also counts toward the next sticker.
-function addStars(n = 1) { state.progress.stars += n; state.progress.points += n; logDay("st", n); renderStars(); }
+function addStars(n = 1) {
+  state.progress.stars += n; state.progress.points += n; logDay("st", n);
+  const f = awardStickers();
+  if (f.length) { roundFresh.push(...f); saveProgress(); stickerToast(f[0]); }
+  renderStars();
+}
+// Stickers won during a round are kept here so the end screen can still reveal them.
+let roundFresh = [];
+function takeFresh() { const f = roundFresh.concat(awardStickers()); roundFresh = []; return f; }
+function stickerToast(id) {
+  document.querySelector(".stoast")?.remove();
+  const t = document.createElement("div");
+  t.className = "stoast"; t.innerHTML = '<img src="img/stk-' + id + '.webp" alt=""><span>Neuer Sticker!</span>';
+  document.body.appendChild(t);
+  chime(); setTimeout(() => sparkle(t, 14), 350);
+  setTimeout(() => t.remove(), 2600);
+}
 function earnStar(pillId) {
   addStars();
   renderStars(); bump($(pillId).parentElement);
@@ -1573,7 +1593,7 @@ function finishSession() {
   state.progress.sessions++; logDay("r");
   state.progress.roundsSinceQuiz++;
   state.progress.lastPlayed = today();
-  const fresh = awardStickers();
+  const fresh = takeFresh();
   const grew = markDay();
   saveProgress();
   const rows = S.words.map(w => ({ w, mark: "" }));
@@ -1657,7 +1677,7 @@ function finishQuiz() {
   state.progress.quizzes++; logDay("q");
   state.progress.roundsSinceQuiz = 0;
   state.progress.lastPlayed = today();
-  const fresh = awardStickers();
+  const fresh = takeFresh();
   const grew = markDay();
   saveProgress();
   const rows = Q.words.map(w => ({ w, mark: Q.res[w.id] ? "ok" : "miss" }));
@@ -1668,7 +1688,7 @@ function finishQuiz() {
 
 /* ---------- stickers ---------- */
 // For the games and the story: hand out any stickers that are due and save.
-function stickersNow() { const f = awardStickers(); saveProgress(); return f; }
+function stickersNow() { const f = takeFresh(); saveProgress(); return f; }
 function awardStickers() {
   // Count only points gathered since the last sticker, so changing the setting never takes one away.
   const due = state.progress.stickers.length + Math.floor((state.progress.points - (state.progress.pointsUsed || 0)) / perSticker());
@@ -1834,7 +1854,7 @@ $("chant").addEventListener("click", () => { stopAudio(); closeChant(); });
 const WARM_TAPS = 6;
 function startPractice() {
   if (!state.words.length) return;
-  if (state.settings.warmup === false) return startSession();
+  if (state.settings.warmup !== true) return startSession();   // off unless a grown-up switches it on
   let seq; do { seq = shuffle([...ARTS, ...ARTS]); } while (seq.some((a, i) => a === seq[i - 1]));   // no colour twice in a row
   WU = { seq: seq.slice(0, WARM_TAPS), i: 0, miss: false, locked: true, marks: [] };
   document.querySelectorAll(".worb").forEach(b => { b.className = "worb"; b.disabled = false; });
@@ -2729,12 +2749,12 @@ function renderGrown() {
       '<button class="btn danger' + (armed === "newlist" ? " armed" : "") + '" data-act="newlist">' + (armed === "newlist" ? "Tap again: replace the whole list" : "Start a new list") + "</button></div>" +
       '<p class="small" style="margin-top:6px">One word per line: article, word and an optional emoji. <b>Start a new list</b> replaces all words with the ones in the box (stars, stickers and progress are kept).</p>' +
       '<p class="msg" id="msg"></p></section>' +
-    '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. Every practice round starts with a short colour warm-up: Mila says der, die or das and she taps the matching circle (switch it off below). Tap Mila on the home screen and the three circles light up while she says der, die, das. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
+    '<section><h3>Hand signs &amp; circle friends</h3><p>The voice is Mila, the teacher from her school book: tap her face to hear a word again. The three circle friends are called DER (blue), DIE (red) and DAS (yellow), the same colours as at school. A practice round can start with a short colour warm-up: Mila says der, die or das and she taps the matching circle (off unless you switch it on below). Tap Mila on the home screen and the three circles light up while she says der, die, das. Show her once: she makes the sign while saying the word out loud. <b>der</b> = fist ✊, <b>die</b> = one finger pointing up ☝️, <b>das</b> = flat hand ✋. The peace sign ✌️ pops up when she gets one right. If her teacher uses different signs, follow the teacher.</p></section>' +
     '<section><h3>Print word cards</h3><p class="small">Cards with the picture, the coloured circle and the word, for Memory or snap at the table. Cut along the dashed lines.</p>' +
       '<div class="settings" style="margin-top:10px"><button class="btn" data-act="print" data-pairs="0">One card per word</button><button class="btn" data-act="print" data-pairs="1">Memory set (pairs)</button></div></section>' +
     voiceSection() +
     '<section><h3>Progress</h3><div class="stats">' +
-      "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div>" +
+      "<div><b>" + state.progress.stars + "</b>stars</div><div><b>" + state.progress.stickers.length + " / " + STICKERS.length + "</b>stickers</div><div><b>" + Math.max(0, state.progress.points - (state.progress.pointsUsed || 0)) + " / " + perSticker() + "</b>stars to next sticker</div>" +
       "<div><b>" + state.progress.sessions + "</b>practice rounds</div><div><b>" + state.progress.quizzes + "</b>quizzes</div>" +
       "<div><b>" + mastered + " / " + state.words.length + "</b>words starred</div><div><b>" + esc(state.progress.lastPlayed || "–") + "</b>last played</div></div>" +
       '<div class="settings" style="margin-top:14px"><label for="lenSel">Words per round</label><select id="lenSel">' +
@@ -2744,7 +2764,7 @@ function renderGrown() {
       '</select><label for="stkSel">Sticker every</label><select id="stkSel">' +
       [5, 10, 15, 20].map(n => '<option value="' + n + '"' + (perSticker() === n ? " selected" : "") + ">" + n + " right answers</option>").join("") +
       '</select><label for="recSel">Speaking</label><select id="recSel"><option value="on"' + (state.settings.record !== false ? " selected" : "") + '>On: she speaks, gets feedback, hears herself</option><option value="off"' + (state.settings.record === false ? " selected" : "") + '>Off</option>' +
-      '</select><label for="warmSel">Colour warm-up before practice</label><select id="warmSel"><option value="on"' + (state.settings.warmup !== false ? " selected" : "") + '>Yes (6 quick taps)</option><option value="off"' + (state.settings.warmup === false ? " selected" : "") + '>No</option>' +
+      '</select><label for="warmSel">Colour warm-up before practice</label><select id="warmSel"><option value="on"' + (state.settings.warmup === true ? " selected" : "") + '>On (6 quick taps on blue/red/yellow)</option><option value="off"' + (state.settings.warmup !== true ? " selected" : "") + '>Off</option>' +
       '</select><label for="mustSel">Must speak before next word</label><select id="mustSel"><option value="on"' + (state.settings.mustSpeak !== false ? " selected" : "") + '>Yes</option><option value="off"' + (state.settings.mustSpeak === false ? " selected" : "") + '>No</option>' +
       '</select><label for="firstSel">Say the answer first</label><select id="firstSel">' +
       '<option value="always"' + (state.settings.sayFirst !== "new" ? " selected" : "") + '>Always</option>' +
