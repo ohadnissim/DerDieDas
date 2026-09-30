@@ -210,6 +210,272 @@
       ]
      }
     }
+   ],
+   "titleAudio": "t-story3"
+  },
+  {
+   "id": "story4",
+   "title": "Die Maus piepst!",
+   "titleAudio": "t-story4",
+   "cover": "img/story4-8.webp",
+   "pages": [
+    {
+     "img": "img/story4-1.webp",
+     "audio": "story4-1",
+     "text": "Hallo, ich bin Mila! Die Sonne scheint. Das Meer wartet!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk4-1a",
+       "text": "Juhu, wir fahren los!"
+      },
+      {
+       "who": "max",
+       "audio": "sk4-1b",
+       "text": "Ich bin fertig!"
+      }
+     ]
+    },
+    {
+     "img": "img/story4-2.webp",
+     "audio": "story4-2",
+     "text": "Die Mama ist fertig. Die Mama ruft: Kommt schnell!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk4-2a",
+       "text": "Wir kommen schon!"
+      },
+      {
+       "who": "mil",
+       "audio": "sk4-2b",
+       "text": "Ich bin schnell!"
+      }
+     ],
+     "ask": {
+      "word": "mama",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story4-3.webp",
+     "audio": "story4-3",
+     "text": "Da ist der Mann! Der Mann ist nett. Der Mann hupt: Tüt, tüt!",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk4-3a",
+       "text": "Super, er fährt!"
+      }
+     ],
+     "ask": {
+      "word": "mann",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story4-4.webp",
+     "audio": "story4-4",
+     "text": "Mia planscht. Oh, da ist die Muschel! Die Muschel ist groß.",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk4-4a",
+       "text": "Hör mal, die Muschel singt!"
+      },
+      {
+       "who": "mil",
+       "audio": "sk4-4b",
+       "text": "Wow, so schön!"
+      }
+     ],
+     "ask": {
+      "word": "muschel",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story4-5.webp",
+     "audio": "story4-5",
+     "text": "Mil und Max graben. Die Sandburg ist groß. Oh, da ist der Wurm!",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk4-5a",
+       "text": "Hihi, er kitzelt mich!"
+      },
+      {
+       "who": "mil",
+       "audio": "sk4-5b",
+       "text": "Er wackelt so!"
+      }
+     ],
+     "ask": {
+      "word": "wurm",
+      "who": "mia"
+     },
+     "find": {
+      "text": "Wo ist der Wurm? Zeig mal!",
+      "audio": "sf4-wurm",
+      "answer": "wurm",
+      "x": 61,
+      "y": 77,
+      "r": 13
+     }
+    },
+    {
+     "img": "img/story4-6.webp",
+     "audio": "story4-6",
+     "text": "Alle sind durstig. Da ist die Milch. Die Milch ist kalt!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk4-6a",
+       "text": "Die Milch ist lecker!"
+      },
+      {
+       "who": "max",
+       "audio": "sk4-6b",
+       "text": "Ich will auch!"
+      }
+     ],
+     "ask": {
+      "word": "milch",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story4-7.webp",
+     "audio": "story4-7",
+     "text": "Max trinkt schnell. Oh, der Mund ist ganz weiß! Alle lachen.",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk4-7a",
+       "text": "Wie sehe ich aus?"
+      },
+      {
+       "who": "mia",
+       "audio": "sk4-7b",
+       "text": "Hihi, so lustig!"
+      }
+     ],
+     "ask": {
+      "word": "mund",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story4-8.webp",
+     "audio": "story4-8",
+     "text": "Da piepst etwas. Da ist die Maus! Die Maus piepst: Passt auf!",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk4-8a",
+       "text": "Was sagt sie?"
+      },
+      {
+       "who": "mia",
+       "audio": "sk4-8b",
+       "text": "Oh, das Wasser kommt!"
+      }
+     ],
+     "ask": {
+      "word": "maus",
+      "who": "mia"
+     },
+     "q": {
+      "text": "Wer piepst da?",
+      "audio": "sq4-piepst",
+      "answer": "maus",
+      "choices": [
+       "mond",
+       "maus",
+       "messer"
+      ]
+     }
+    },
+    {
+     "img": "img/story4-9.webp",
+     "audio": "story4-9",
+     "text": "Da ist die Ameise! Die Ameise krabbelt schnell weg. Die Welle kommt!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk4-9a",
+       "text": "Oh nein, die Sandburg!"
+      },
+      {
+       "who": "mil",
+       "audio": "sk4-9b",
+       "text": "Schnell, wir helfen!"
+      }
+     ],
+     "ask": {
+      "word": "ameise",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story4-10.webp",
+     "audio": "story4-10",
+     "text": "Alle bauen schnell. Da ist die Mauer! Die Mauer ist stark!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk4-10a",
+       "text": "Juhu, die Sandburg steht!"
+      },
+      {
+       "who": "mil",
+       "audio": "sk4-10b",
+       "text": "Hurra, es klappt!"
+      }
+     ],
+     "ask": {
+      "word": "mauer",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story4-11.webp",
+     "audio": "story4-11",
+     "text": "Alle fahren heim. Da ist der Mond! Der Mond kommt mit!",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk4-11a",
+       "text": "Guck mal, er lacht!"
+      },
+      {
+       "who": "max",
+       "audio": "sk4-11b",
+       "text": "Er ist so hell!"
+      }
+     ],
+     "ask": {
+      "word": "mond",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story4-12.webp",
+     "audio": "story4-12",
+     "text": "Die Maus winkt. Mia winkt auch. Tschüss, bis bald!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk4-12a",
+       "text": "Danke, du bist super!"
+      },
+      {
+       "who": "max",
+       "audio": "sk4-12b",
+       "text": "Wir kommen wieder!"
+      }
+     ]
+    }
    ]
   }
  ]
