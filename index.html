@@ -449,6 +449,16 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 @keyframes fixhand{0%,100%{margin-top:0}50%{margin-top:14px}}
 .fixed{box-shadow:0 0 0 7px var(--star),var(--lift)}
 
+/* ---------- story shelf ---------- */
+.shelf{flex:1;min-height:0;overflow-y:auto;display:flex;flex-wrap:wrap;gap:clamp(16px,3vw,32px);justify-content:center;align-content:center;padding:12px 4px 20px}
+.scard{position:relative;width:min(44vw,400px);border-radius:30px;background:var(--surface);box-shadow:var(--lift);overflow:hidden;display:flex;flex-direction:column;text-align:left;animation:pop .45s cubic-bezier(.3,1.6,.5,1) both;transition:transform .15s}
+.scard:nth-child(2){animation-delay:.08s} .scard:nth-child(3){animation-delay:.16s}
+.scard:active{transform:scale(.97)}
+.scard img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.scard .stitle{font-family:var(--display);font-weight:800;font-size:clamp(20px,3.4vmin,30px);line-height:1.15;padding:12px 16px 14px;color:var(--ink)}
+.scard .stitle .der{color:var(--der)} .scard .stitle .die{color:var(--die)} .scard .stitle .das{color:var(--das-ink)}
+.scard .snew{position:absolute;top:12px;right:12px;background:var(--star);color:#5A3A00;border-radius:999px;padding:4px 14px;font-family:var(--display);font-weight:800;font-size:clamp(16px,2.6vmin,22px);box-shadow:var(--lift);animation:pulse 1.4s ease-in-out infinite}
+
 /* ---------- memory game ---------- */
 .mwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
 .mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,2vw,18px);width:min(100%,760px,calc((100vh - 150px) * 1.3))}
@@ -759,6 +769,16 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   </div>
 </section>
 
+<!-- STORY SHELF: pick a story when there is more than one -->
+<section class="screen" id="shelf" hidden>
+  <div class="bar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="bar-mid"></div>
+    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+  </div>
+  <div class="shelf" id="shelfList"></div>
+</section>
+
 <!-- STORY -->
 <section class="screen" id="story" hidden>
   <div class="bar">
@@ -930,6 +950,7 @@ function normalizeProgress(p) {
     for (const k of ["stars", "sessions", "points", "pointsUsed", "roundsSinceQuiz", "quizzes", "gardenSeen"]) out[k] = Number(p[k]) || 0;
     if (Array.isArray(p.days)) out.days = p.days.filter(d => typeof d === "string").slice(-120);
     out.storySeen = typeof p.storySeen === "string" ? p.storySeen : "";
+    out.storiesSeen = Array.isArray(p.storiesSeen) ? p.storiesSeen.filter(x => typeof x === "string") : (out.storySeen ? [out.storySeen] : []);
     if (p.log && typeof p.log === "object") out.log = clone(p.log);
     out.lastPlayed = p.lastPlayed || null;
     if (p.words && typeof p.words === "object") out.words = clone(p.words);
@@ -1021,6 +1042,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "k-mia-hallo":"Hallo! Ich bin Mia!","k-mia-c1":"Juhu!","k-mia-c2":"Super!","k-mia-c3":"Klasse!",
   "k-mil-hallo":"Hallo! Ich bin Mil!","k-mil-c1":"Juhu, super!","k-mil-c2":"Klasse! Toll gemacht!",
   "k-max-hallo":"Hallo! Ich bin Max!","k-max-c1":"Juhu, super!","k-max-c2":"Klasse! Toll gemacht!",
+  "f-welchegeschichte":"Welche Geschichte?",
   "f-upsi":"Upsi! Nicht schlimm.","f-hoppla":"Hoppla! Macht nichts.","f-jetztdu":"Jetzt du! Tipp mal!","f-jetztweisst":"Super! Jetzt weißt du es!",
   "f-maxsagt":"Max sagt ein Wort. Stimmt das?","f-hoerspiel":"Hörspiel! Hör gut zu!",
   "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
@@ -1040,6 +1062,7 @@ function registerClips() {
   for (const id of NOUN_IDS) CLIPS.add("n-" + id);
   for (const id in MAX_CLAIMS) for (const a of MAX_CLAIMS[id]) CLIPS.add("x-max-" + id + "-" + a);
   for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
+  for (const st of state.stories) if (st.titleAudio) CLIPS.add(st.titleAudio);
   for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); for (const l of pg.lines || (pg.kid ? [pg.kid] : [])) if (l.audio) CLIPS.add(l.audio); if (pg.find && pg.find.audio) CLIPS.add(pg.find.audio); }
 }
 const W = (w) => ({ key: builtIn(w) || w.rec ? "w-" + w.id : null, text: w.article + " " + w.noun });
@@ -1312,7 +1335,7 @@ function confetti() {
 }
 
 /* ---------- screens ---------- */
-const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "judge", "cgame", "story", "gardenScreen"];
+const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "judge", "cgame", "shelf", "story", "gardenScreen"];
 function show(name) { clearFix(); for (const s of SCREENS) $(s).hidden = s !== name; }
 let S = null, Q = null, M = null, J = null, ST = null, WU = null, G = null;
 let lastActivity = "practice";
@@ -1334,7 +1357,7 @@ function renderHome() {
   $("maxBtn").disabled = gameWords("max").length < 3;
   $("gardenDue").hidden = !(gardenCount() > state.progress.gardenSeen);
   const latest = state.stories[state.stories.length - 1];
-  $("storyDue").hidden = !latest || state.progress.storySeen === latest.id;
+  $("storyDue").hidden = !latest || state.stories.every(storyDone);
   registerClips();
   $("bookCount").textContent = state.progress.stickers.length;
   const full = state.progress.stickers.length >= STICKERS.length;
@@ -1710,11 +1733,11 @@ $("playBtn").addEventListener("click", () => { pop(); startPractice(); });
 $("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
 $("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
 $("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, judge: startJudge, story: startStory, max: () => startCircleGame("max"), hear: () => startCircleGame("hear") })[lastActivity](); });
+$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, judge: startJudge, story: () => startStory(state.stories.find(x => x.id === lastStoryId)), max: () => startCircleGame("max"), hear: () => startCircleGame("hear") })[lastActivity](); });
 $("doneGarden").addEventListener("click", () => { pop(); openGarden(); });
 $("memBtn").addEventListener("click", () => { pop(); startMemory(); });
 $("judgeBtn").addEventListener("click", () => { pop(); startJudge(); });
-$("storyBtn").addEventListener("click", () => { pop(); startStory(); });
+$("storyBtn").addEventListener("click", () => { pop(); openStories(); });
 $("gardenBtn").addEventListener("click", () => { pop(); openGarden(); });
 $("milaBtn").addEventListener("click", () => { sparkle($("milaBtn"), 10); playChant(); });
 document.querySelectorAll("[data-home]").forEach(b => b.addEventListener("click", quitSession));
@@ -2255,9 +2278,30 @@ $("printSheet").addEventListener("click", (e) => { if (e.target.id === "pClose")
 function colourText(t) {
   return esc(t).split(/(\s+)/).map(tok => { const a = tok.toLowerCase().replace(/[^a-zäöüß]/g, ""); return ARTS.includes(a) ? '<span class="wd ' + a + '">' + tok + "</span>" : tok; }).join("");
 }
-function startStory() {
-  const st = state.stories[state.stories.length - 1];
+// Two or more stories: a shelf with a cover card for each (newest first, "Neu!" until she has finished it).
+const storyDone = (st) => (state.progress.storiesSeen || []).includes(st.id) || state.progress.storySeen === st.id;
+let lastStoryId = "";
+function openStories() {
+  if (state.stories.length <= 1) return startStory(state.stories[0]);
+  $("shelfList").innerHTML = state.stories.slice().reverse().map(st =>
+    '<button class="scard" data-id="' + esc(st.id) + '"><img src="' + esc(st.cover || st.pages[0].img) + '" alt="">' +
+    '<span class="stitle">' + colourText(st.title || "") + "</span>" + (storyDone(st) ? "" : '<span class="snew">Neu!</span>') + "</button>").join("");
+  renderStars(); show("shelf");
+  say([C("f-welchegeschichte")]);
+}
+$("shelfList").addEventListener("click", (e) => {
+  const b = e.target.closest(".scard"); if (!b) return;
+  const st = state.stories.find(x => x.id === b.dataset.id); if (!st) return;
+  pop(); bump(b); sparkle(b, 10);
+  const go = () => { if (!$("shelf").hidden) startStory(st); };
+  if (st.titleAudio) say([{ key: st.titleAudio, text: st.title }]).then(go); else go();
+});
+function startStory(pick) {
+  const st = pick || state.stories[state.stories.length - 1];
   if (!st) return;
+  lastStoryId = st.id;
+  // The "!" on the story button means "a story she hasn't opened yet": opening it is enough, she doesn't have to finish it.
+  if (!storyDone(st)) { (state.progress.storiesSeen || (state.progress.storiesSeen = [])).push(st.id); state.progress.storySeen = st.id; saveProgress(); }
   ST = { st, i: 0, done: {}, step: null };
   renderStars(); show("story"); showPage();
 }
@@ -2414,6 +2458,7 @@ $("sNext").addEventListener("click", () => {
   if (ST.i < ST.st.pages.length - 1) { leavePage(); ST.i++; showPage(); return; }
   const st = ST.st; ST = null; lastActivity = "story";
   state.progress.storySeen = st.id;
+  if (!(state.progress.storiesSeen || (state.progress.storiesSeen = [])).includes(st.id)) state.progress.storiesSeen.push(st.id);
   addStars(2); logDay("g");
   const grew = markDay(); state.progress.lastPlayed = today(); saveProgress();
   showDone(2, [], stickersNow(), false, grew);
