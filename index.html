@@ -1010,7 +1010,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 16;
+const AUDIO_V = 17;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
@@ -1058,7 +1058,7 @@ function audioMode(type) { try { if (navigator.audioSession) navigator.audioSess
 // Clips load a few at a time in the background; the one Mila needs right now jumps the queue.
 // (Safari decodes one clip after another, so loading all ~200 at once made the first words wait and go silent.)
 const buffers = new Map(), waiting = new Map(), loadQueue = [];
-let loadsActive = 0;
+let loadsActive = 0, loadGen = 0;
 // Mila's clips load three ways, so they also play inside the iPad app (Capacitor serves .mp3 files differently from a web server):
 // fetch, then XMLHttpRequest (both decoded for Web Audio), and if both fail say() plays the file with a plain <audio> element.
 const clipURL = (key) => "audio/" + key + ".mp3?v=" + AUDIO_V;
@@ -1102,7 +1102,8 @@ function startLoad(key) {
   waiting.delete(key);
   const i = loadQueue.indexOf(key); if (i >= 0) loadQueue.splice(i, 1);
   loadsActive++;
-  fetchClip(key).then(buf => { resolve(buf); loadsActive--; pumpLoads(); });
+  const gen = loadGen;
+  fetchClip(key).then(buf => { resolve(buf); if (gen === loadGen) { loadsActive--; pumpLoads(); } });
 }
 function pumpLoads() { while (loadsActive < 3 && loadQueue.length) startLoad(loadQueue[0]); }
 function loadClip(key, urgent = false) {
@@ -1114,9 +1115,31 @@ function loadClip(key, urgent = false) {
   return buffers.get(key);
 }
 let unlocked = false;
+// After the iPad was locked, iOS leaves the sound engine "interrupted" and it may never start again by itself.
+// Wake it; if it is still stuck a moment later, start a fresh one (clips are decoded again as they are needed).
+let reviving = null;
+function reviveAudio() {
+  if (!actx || actx.state === "running" || actx.state === "closed") return Promise.resolve();
+  if (reviving) return reviving;
+  const old = actx;
+  try { old.resume(); } catch {}
+  reviving = sleep(300).then(() => {
+    reviving = null;
+    if (actx !== old || old.state === "running") return;
+    try { old.close(); } catch {}
+    actx = null;
+    buffers.clear(); waiting.clear(); loadQueue.length = 0; loadsActive = 0; loadGen++;
+    const c = ctx();
+    try { const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, 22050); s.connect(c.destination); s.start(0); } catch {}
+    CLIPS.forEach(k => loadClip(k));
+  });
+  return reviving;
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { if (!micStream) audioMode("playback"); reviveAudio(); } });
+window.addEventListener("pageshow", () => reviveAudio());
 function unlockAudio() {
   if (!micStream) audioMode("playback");
-  if (unlocked) return;
+  if (unlocked) { reviveAudio(); return; }
   const c = ctx(); if (!c) return;
   unlocked = true;
   try { const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, 22050); s.connect(c.destination); s.start(0); } catch {}
@@ -1141,6 +1164,7 @@ let sayToken = 0;
 async function say(parts, rate = 0.82) {
   const my = ++sayToken;
   stopAudio();
+  if (actx && actx.state !== "running") await reviveAudio();
   for (const p of (Array.isArray(parts) ? parts : [parts]).filter(Boolean)) {
     if (my !== sayToken) return;
     const { key, text } = typeof p === "string" ? { key: null, text: p } : p;

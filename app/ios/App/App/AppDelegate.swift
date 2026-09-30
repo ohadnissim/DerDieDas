@@ -8,10 +8,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Mila must be heard even when the iPad's silent switch is on, and at full speaker volume.
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-        try? AVAudioSession.sharedInstance().setActive(true)
+        activateAudio()
+        // After the iPad was locked (or a call/alarm interrupted), iOS switches the app's audio off.
+        // Switch it back on whenever the app comes back to the front or the interruption ends.
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.activateAudio()
+        }
+        NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] note in
+            guard let raw = note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt,
+                  AVAudioSession.InterruptionType(rawValue: raw) == .ended else { return }
+            self?.activateAudio()
+        }
         return true
+    }
+
+    // Mila must be heard even when the iPad's silent switch is on, and at full speaker volume.
+    private func activateAudio() {
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.playback, mode: .default)
+        try? session.setActive(true)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
