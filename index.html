@@ -388,10 +388,10 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .tsl.circ.empty::before{content:"?"}
 .tsl.circ.now{border-color:var(--star);color:var(--star-deep);animation:pulse 1s ease-in-out infinite;box-shadow:0 0 0 6px rgba(255,159,28,.25)}
 .tsl.circ.filled .orb{animation:pop .5s cubic-bezier(.3,1.6,.5,1) both}
-.tsl.pic{width:clamp(48px,min(18.5vw,16vh),148px);aspect-ratio:1;border-radius:24px;background:var(--paper);overflow:hidden;box-shadow:0 0 0 2px var(--line)}
-.tsl.pic .tile,.tsl.pic .tile img,.tsl.pic img.pic{width:100%;height:100%;object-fit:contain;border-radius:0}
-.tsl.pic .emo{font-size:clamp(48px,9vmin,84px)}
-.tsl.verb{width:clamp(40px,min(15.5vw,13vh),116px);aspect-ratio:1;border-radius:24px;background:var(--paper);overflow:hidden}
+.tsl.tpic{width:clamp(48px,min(18.5vw,16vh),148px);aspect-ratio:1;border-radius:24px;background:var(--paper);overflow:hidden;box-shadow:0 0 0 2px var(--line)}
+.tsl.tpic .tile,.tsl.tpic .tile img,.tsl.tpic img.pic{width:100%;height:100%;object-fit:contain;border-radius:0}
+.tsl.tpic .emo{font-size:clamp(48px,9vmin,84px)}
+.tsl.verb{width:clamp(40px,min(15.5vw,13vh),116px);aspect-ratio:1;border-radius:24px;background:var(--paper);overflow:hidden;isolation:isolate}
 .tsl.verb img{width:100%;height:100%;object-fit:contain}
 .tsl.lit{transform:scale(1.08);box-shadow:0 0 0 6px var(--star),0 0 26px 6px rgba(255,196,60,.55);z-index:2}
 .tsl.circ.lit{border-radius:50%}
@@ -2261,10 +2261,10 @@ function renderSentRow() {
   const t = T.list[T.i], f = T.filled;
   $("trow").innerHTML =
     circleHTML(t.s.art, true, f[0] ? "" : "empty").replace("<div", '<div data-i="0"') +
-    '<div class="tsl pic" data-i="1">' + picHTML(t.s) + "</div>" +
+    '<div class="tsl tpic" data-i="1">' + picHTML(t.s) + "</div>" +
     '<div class="tsl verb" data-i="2"><img src="img/m-malt.webp" alt="malt"></div>' +
     circleHTML(t.o.art, false, f[1] ? "" : "empty").replace("<div", '<div data-i="3"') +
-    '<div class="tsl pic" data-i="4">' + picHTML(t.o) + "</div>" +
+    '<div class="tsl tpic" data-i="4">' + picHTML(t.o) + "</div>" +
     '<span class="tdot">.</span>';
   const now = T.phase === "fill" ? (t.s.art && !f[0] ? 0 : !f[1] ? 3 : -1) : -1;
   if (now >= 0) $("trow").querySelector('[data-i="' + now + '"]').classList.add("now");
