@@ -391,7 +391,6 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .tsl.pic{width:clamp(92px,16vmin,156px);aspect-ratio:1;border-radius:24px;background:var(--paper);overflow:hidden;box-shadow:0 0 0 2px var(--line)}
 .tsl.pic .tile,.tsl.pic .tile img,.tsl.pic img.pic{width:100%;height:100%;object-fit:contain;border-radius:0}
 .tsl.pic .emo{font-size:clamp(48px,9vmin,84px)}
-.tsl.pic img.kid{width:100%;height:100%;object-fit:cover;object-position:50% 6%;transform:scale(1.35);transform-origin:50% 10%}
 .tsl.verb{width:clamp(80px,13vmin,124px);aspect-ratio:1;border-radius:24px;background:var(--paper);overflow:hidden}
 .tsl.verb img{width:100%;height:100%;object-fit:contain}
 .tsl.lit{transform:scale(1.12);box-shadow:0 0 0 6px var(--star),0 0 26px 6px rgba(255,196,60,.55);z-index:2}
@@ -2219,7 +2218,7 @@ function finishJudge() {
 // A row is: [circle] picture  malt  [circle] picture.  Names (Mila, Mil, Mia, Max) have no circle.
 // After "malt" the blue circle says "den" (den Mantel), red and yellow stay die and das – exactly like the sheet.
 const SCHOOL_SENTS = [["mila", "messer"], ["mama", "mauer"], ["ameise", "murmel"], ["mil", "muschel"], ["mia", "milch"], ["mann", "maus"], ["maus", "mantel"]];
-const NAMES = { mila: { name: "Mila", src: "img/mila-face.webp" }, mil: { name: "Mil", src: "img/kid-mil.webp" }, mia: { name: "Mia", src: "img/kid-mia.webp" }, max: { name: "Max", src: "img/kid-max.webp" } };
+const NAMES = { mila: { name: "Mila", src: "img/who-mila.webp" }, mil: { name: "Mil", src: "img/who-mil.webp" }, mia: { name: "Mia", src: "img/who-mia.webp" }, max: { name: "Max", src: "img/who-max.webp" } };
 const DEN_IDS = ["mann", "mond", "wurm", "mantel", "mund", "eimer", "helm"];
 const PAINTERS = ["mila", "mil", "mia", "max", "mama", "mann", "maus", "ameise", "wurm"];
 const sentWord = (id) => { const w = allWords().find(x => x.id === id); return w && NOUN_IDS.has(w.id) && norm(w.noun) === w.id && W(w).key ? w : null; };
@@ -2250,7 +2249,7 @@ function tChunks(t) {  // what Mila says, slot by slot
 }
 function picHTML(p) {
   if (p.w) return faceHTML(p.w);
-  return '<img class="' + (p.id === "mila" ? "pic" : "kid") + '" src="' + p.src + '" alt="" data-friend="1">';
+  return '<img class="pic" src="' + p.src + '" alt="">';
 }
 function circleHTML(art, upper, state_) {
   if (!art) return '<div class="tsl circ none"></div>';
