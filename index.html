@@ -598,6 +598,16 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .sprout{position:absolute;transform:translate(-50%,-100%) translateZ(20px);font-size:clamp(22px,4vmin,38px);line-height:1;animation:wiggle 1.4s ease-in-out infinite}
 .ghouse .orb{width:100%;animation:bounce 2.2s ease-in-out infinite}
 .ghouse .orb::after{display:none}
+.gi,.ghouse,.kid{--sx:1}
+.gi img,.kid img{scale:var(--sx) 1}   /* separate from transform, so the sway and flutter animations keep working */
+.garden.design .island{transform:none!important;transition:none}
+.garden.design .island .floaty{animation:none}
+.garden.design .gi,.garden.design .ghouse,.garden.design .kid{cursor:grab;outline:3px dashed rgba(255,255,255,.75);outline-offset:4px;border-radius:14px;touch-action:none}
+.garden.design .moving{cursor:grabbing;outline-color:var(--star);filter:drop-shadow(0 14px 10px rgba(60,30,40,.35))}
+.garden.design .sprout,.garden.design .mote{display:none}
+.gedit.on{background:var(--star);color:#3B2352}
+.ghint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:var(--surface);color:var(--ink);font-family:var(--display);font-weight:800;font-size:clamp(15px,2.6vmin,20px);padding:8px 18px;border-radius:999px;box-shadow:var(--lift);white-space:nowrap;pointer-events:none}
+#gardenScreen{position:relative}
 .ghouse .gshadow{display:block;width:80%;height:14px;margin:-6px auto 0;border-radius:50%;background:rgba(60,30,60,.25);filter:blur(3px);animation:squash 2.2s ease-in-out infinite}
 .ghouse[data-a="die"] .orb,.ghouse[data-a="die"] .gshadow{animation-delay:-.7s} .ghouse[data-a="das"] .orb,.ghouse[data-a="das"] .gshadow{animation-delay:-1.4s}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-22%)}}
@@ -880,9 +890,10 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   <div class="bar">
     <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <div class="bar-mid"><div class="pill">🌷 <span id="gardenCount">0</span></div></div>
-    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+    <button class="icon-btn gedit" id="gardenEdit" aria-label="Garten gestalten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button>
   </div>
   <div class="garden" id="garden"></div>
+  <div class="ghint" id="gardenHint" hidden>✋ Zieh alles, wohin du willst. Tippen dreht es um.</div>
 </section>
 
 <canvas id="confetti" hidden></canvas>
@@ -1059,6 +1070,7 @@ function normalizeProgress(p) {
     if (Array.isArray(p.stickers)) out.stickers = p.stickers.filter(s => typeof s === "string");
     out.nextStk = typeof p.nextStk === "string" ? p.nextStk : "";
     out.missionSeen = typeof p.missionSeen === "string" ? p.missionSeen : "";
+    if (p.gardenPos && typeof p.gardenPos === "object") out.gardenPos = clone(p.gardenPos);
     if (Array.isArray(p.starred)) out.starred = p.starred.filter(s => typeof s === "string");
   }
   return out;
@@ -1153,6 +1165,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "st-mila":"Mila","st-mil":"Mil","st-mia":"Mia","st-max":"Max",
   "f-mission-meer":"Neue Mission: Unter dem Meer! Sammle alle Meerestiere!","f-mission-wald":"Neue Mission: der Zauberwald! Sammle alle Zaubersticker!",
   "f-mission-hof":"Neue Mission: der Bauernhof! Sammle alle Tiere vom Bauernhof!","f-setdone":"Juhu! Du hast das ganze Set geschafft!",
+  "f-gestalten":"Du bist die Gärtnerin! Zieh alles dahin, wo du es haben willst.","f-wieschoen":"Wie schön! Dein Garten ist toll!",
   "f-upsi":"Upsi! Nicht schlimm.","f-hoppla":"Hoppla! Macht nichts.","f-jetztdu":"Jetzt du! Tipp mal!","f-jetztweisst":"Super! Jetzt weißt du es!",
   "f-maxsagt":"Max sagt ein Wort. Stimmt das?","f-hoerspiel":"Hörspiel! Hör gut zu!",
   "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
@@ -2099,17 +2112,19 @@ function openGarden() {
   const n = gardenCount(), seen = Math.min(state.progress.gardenSeen, n);
   $("gardenCount").textContent = n;
   const z = (y) => Math.round(10 + y * .6);           // things further forward stand out more when the island tilts
-  const gi = (g, i) => '<button class="gi ' + (g.cls || "") + (i >= seen ? " new" : "") + '" data-g="' + g.id + '" style="left:' + g.x + "%;top:" + g.y + "%;width:" + g.w + "%;z-index:" + Math.round(g.y) + ";--z:" + z(g.y) + "px" +
-    (i >= seen ? ";animation-delay:" + (0.5 + (i - seen) * 0.4) + "s" : "") + '"><img src="img/g-' + g.id + '.webp" alt="" data-garden="1"></button>';
+  const P = (id, x, y) => { const q = (state.progress.gardenPos || {})[id]; return q ? { x: q.x, y: q.y, sx: q.f ? -1 : 1 } : { x, y, sx: 1 }; };
+  const gi = (g0, i) => { const q = P("g-" + g0.id, g0.x, g0.y), g = { ...g0, x: q.x, y: q.y }; return '<button class="gi ' + (g.cls || "") + (i >= seen ? " new" : "") + '" data-g="' + g.id + '" data-pos="g-' + g.id + '" style="--sx:' + q.sx + ";left:" + g.x + "%;top:" + g.y + "%;width:" + g.w + "%;z-index:" + Math.round(g.y) + ";--z:" + z(g.y) + "px" +
+    (i >= seen ? ";animation-delay:" + (0.5 + (i - seen) * 0.4) + "s" : "") + '"><img src="img/g-' + g.id + '.webp" alt="" data-garden="1"></button>'; };
   const next = GARDEN[n];
   $("garden").innerHTML = '<div class="island" id="island"><div class="floaty"><img class="base" src="img/island.webp" alt="">' +
-    ARTS.map((a, i) => { const h = HOUSE_SPOTS[a]; return '<button class="ghouse" data-a="' + a + '" style="left:' + h.x + "%;top:" + h.y + "%;width:9%;z-index:" + h.y + ";--z:" + z(h.y) + 'px">' + ORB(a) + '<span class="gshadow"></span></button>'; }).join("") +
+    ARTS.map((a, i) => { const h = P("h-" + a, HOUSE_SPOTS[a].x, HOUSE_SPOTS[a].y); return '<button class="ghouse" data-a="' + a + '" data-pos="h-' + a + '" style="left:' + h.x + "%;top:" + h.y + "%;width:9%;z-index:" + Math.round(h.y) + ";--z:" + z(h.y) + 'px">' + ORB(a) + '<span class="gshadow"></span></button>'; }).join("") +
     GARDEN.slice(0, n).map(gi).join("") +
-    KIDS.map(k => '<button class="kid" data-kid="' + k.id + '" style="left:' + k.x + "%;top:" + k.y + "%;width:" + k.w + "%;z-index:" + k.y + '"><img src="' + k.src + '" alt="" data-garden="1"></button>').join("") +
+    KIDS.map(k => { const q = P("k-" + k.id, k.x, k.y); return '<button class="kid" data-kid="' + k.id + '" data-pos="k-' + k.id + '" style="--sx:' + q.sx + ";left:" + q.x + "%;top:" + q.y + "%;width:" + k.w + "%;z-index:" + Math.round(q.y) + '"><img src="' + k.src + '" alt="" data-garden="1"></button>'; }).join("") +
     (next ? '<div class="sprout" style="left:' + next.x + "%;top:" + Math.max(next.y, 30) + '%;z-index:' + Math.round(next.y) + '">🌱</div>' : "") +
     Array.from({ length: 10 }, (_, i) => '<span class="mote" style="left:' + (20 + Math.random() * 60) + "%;top:" + (40 + Math.random() * 35) + "%;animation-delay:" + (-Math.random() * 7) + 's"></span>').join("") +
     "</div></div>";
   show("gardenScreen");
+  setDesign(false);
   enableTilt();
   if (n > seen) {
     chime();
@@ -2123,7 +2138,7 @@ function setTilt(rx, ry) { const el = $("island"); if (el) { el.style.setPropert
 function enableTilt() {
   if (tiltWired) return; tiltWired = true;
   const g = $("garden"); let start = null;
-  g.addEventListener("pointerdown", (e) => { start = { x: e.clientX, y: e.clientY }; $("island")?.classList.add("drag"); askOrientation(); });
+  g.addEventListener("pointerdown", (e) => { if (designing) return; start = { x: e.clientX, y: e.clientY }; $("island")?.classList.add("drag"); askOrientation(); });
   g.addEventListener("pointermove", (e) => {
     if (!start || RM()) return;
     const dx = (e.clientX - start.x) / g.clientWidth, dy = (e.clientY - start.y) / g.clientHeight;
@@ -2132,7 +2147,7 @@ function enableTilt() {
   const end = () => { start = null; $("island")?.classList.remove("drag"); setTilt(0, 0); };
   g.addEventListener("pointerup", end); g.addEventListener("pointercancel", end); g.addEventListener("pointerleave", end);
   window.addEventListener("deviceorientation", (e) => {
-    if (start || RM() || $("gardenScreen").hidden || e.beta == null) return;
+    if (start || designing || RM() || $("gardenScreen").hidden || e.beta == null) return;
     setTilt(Math.max(-10, Math.min(10, (e.beta - 45) / 4)), Math.max(-16, Math.min(16, (e.gamma || 0) / 2.5)));
   });
 }
@@ -2142,6 +2157,7 @@ function askOrientation() {
   try { if (window.DeviceOrientationEvent && DeviceOrientationEvent.requestPermission) DeviceOrientationEvent.requestPermission().catch(() => {}); } catch {}
 }
 $("garden").addEventListener("click", (e) => {
+  if (designing) return;
   const h = e.target.closest(".ghouse");
   if (h) { say([C("a-" + h.dataset.a)]); jump(h.querySelector(".orb")); sparkle(h, 8); return; }
   const k = e.target.closest(".kid");
@@ -2149,6 +2165,49 @@ $("garden").addEventListener("click", (e) => {
   const g = e.target.closest(".gi");
   if (g) { pop(); jump(g.querySelector("img")); sparkle(g, 8); }
 });
+
+/* ---------- garden design: she drags things where she wants them (saved), a tap turns them around ---------- */
+let designing = false, dragEl = null, dragFrom = null;
+function setDesign(on) {
+  designing = on;
+  $("garden").classList.toggle("design", on); $("gardenEdit").classList.toggle("on", on); $("gardenHint").hidden = !on;
+  if (on) setTilt(0, 0);
+}
+$("gardenEdit").addEventListener("click", () => {
+  pop(); setDesign(!designing);
+  if (designing) say([C("f-gestalten")]); else { sparkle($("island"), 20); chime(); say([C("f-wieschoen")]); }
+});
+function savePos(el) {
+  const pos = state.progress.gardenPos || (state.progress.gardenPos = {});
+  pos[el.dataset.pos] = { x: Math.round(parseFloat(el.style.left) * 10) / 10, y: Math.round(parseFloat(el.style.top) * 10) / 10, f: getComputedStyle(el).getPropertyValue("--sx").trim() === "-1" };
+  saveProgress();
+}
+$("garden").addEventListener("pointerdown", (e) => {
+  if (!designing) return;
+  const el = e.target.closest("[data-pos]"); if (!el) return;
+  e.preventDefault(); dragEl = el; dragFrom = { x: e.clientX, y: e.clientY, moved: false };
+  el.classList.add("moving"); try { el.setPointerCapture(e.pointerId); } catch {}
+});
+$("garden").addEventListener("pointermove", (e) => {
+  if (!dragEl) return;
+  if (Math.abs(e.clientX - dragFrom.x) + Math.abs(e.clientY - dragFrom.y) > 6) dragFrom.moved = true;
+  if (!dragFrom.moved) return;
+  const r = $("island").getBoundingClientRect(), h = dragEl.getBoundingClientRect().height;
+  // the thing hangs from its feet, so follow the finger with its middle and keep it on the island
+  const x = Math.max(6, Math.min(94, (e.clientX - r.left) / r.width * 100));
+  const y = Math.max(18, Math.min(92, (e.clientY - r.top + h / 2) / r.height * 100));
+  dragEl.style.left = x + "%"; dragEl.style.top = y + "%"; dragEl.style.zIndex = Math.round(y);
+});
+const dragEnd = () => {
+  if (!dragEl) return;
+  const el = dragEl; dragEl = null; el.classList.remove("moving");
+  if (!dragFrom.moved) {          // a tap turns it the other way
+    if (!el.classList.contains("ghouse")) el.style.setProperty("--sx", getComputedStyle(el).getPropertyValue("--sx").trim() === "-1" ? "1" : "-1");
+    jump(el.querySelector("img, .orb"));
+  }
+  pop(); sparkle(el, 6); savePos(el);
+};
+$("garden").addEventListener("pointerup", dragEnd); $("garden").addEventListener("pointercancel", dragEnd);
 
 /* ---------- memory: find two pictures that live in the same house ---------- */
 const MEM_PAIRS = 8;
