@@ -477,6 +477,319 @@
      ]
     }
    ]
+  },
+  {
+   "id": "story5",
+   "title": "Das große Malfest!",
+   "titleAudio": "t-story5",
+   "cover": "img/story5-9.webp",
+   "pages": [
+    {
+     "img": "img/story5-1.webp",
+     "audio": "story5-1",
+     "text": "Hallo, ich bin Mila! Heute ist das Malfest. Alle malen mit!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk5-1a",
+       "text": "Juhu, Farbe!"
+      },
+      {
+       "who": "max",
+       "audio": "sk5-1b",
+       "text": "Ich male ganz viel!"
+      }
+     ]
+    },
+    {
+     "img": "img/story5-2.webp",
+     "audio": "story5-2",
+     "text": "Mila malt das Messer. Das Messer glänzt.",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk5-2a",
+       "text": "Wow, so schön!"
+      }
+     ],
+     "satz": {
+      "s": "mila",
+      "o": "messer"
+     }
+    },
+    {
+     "img": "img/story5-3.webp",
+     "audio": "story5-3",
+     "text": "Die Mama malt die Mauer. Die Mauer ist jetzt bunt!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk5-3a",
+       "text": "Ich helfe dir!"
+      }
+     ],
+     "satz": {
+      "s": "mama",
+      "o": "mauer"
+     }
+    },
+    {
+     "img": "img/story5-4.webp",
+     "audio": "story5-4",
+     "text": "Schau mal, da ist die Ameise! Die Ameise malt die Murmel. Die Murmel ist jetzt rot.",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk5-4a",
+       "text": "Wow! So klein und so fleißig!"
+      }
+     ],
+     "satz": {
+      "s": "ameise",
+      "o": "murmel"
+     }
+    },
+    {
+     "img": "img/story5-5.webp",
+     "audio": "story5-5",
+     "text": "Mil malt die Muschel. Die Muschel ist gelb und rosa.",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk5-5a",
+       "text": "Meine Muschel ist fertig!"
+      }
+     ],
+     "satz": {
+      "s": "mil",
+      "o": "muschel"
+     }
+    },
+    {
+     "img": "img/story5-6.webp",
+     "audio": "story5-6",
+     "text": "Mia malt die Milch. Die Milch ist im Glas. Mmh!",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk5-6a",
+       "text": "Ich habe Durst!"
+      }
+     ],
+     "satz": {
+      "s": "mia",
+      "o": "milch"
+     }
+    },
+    {
+     "img": "img/story5-7.webp",
+     "audio": "story5-7",
+     "text": "Da ist der Mann. Der Mann malt die Maus. Die Maus hält ganz still.",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk5-7a",
+       "text": "Hihi, sie lächelt!"
+      }
+     ],
+     "satz": {
+      "s": "mann",
+      "o": "maus"
+     }
+    },
+    {
+     "img": "img/story5-8.webp",
+     "audio": "story5-8",
+     "text": "Oh nein! Die Maus ist weg! Der Mann sucht und sucht.",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk5-8a",
+       "text": "Wo ist sie nur?"
+      }
+     ],
+     "find": {
+      "text": "Wo ist die Maus? Zeig mal!",
+      "audio": "sf5-maus",
+      "answer": "maus",
+      "x": 83.5,
+      "y": 62,
+      "r": 7.5
+     }
+    },
+    {
+     "img": "img/story5-9.webp",
+     "audio": "story5-9",
+     "text": "Da ist sie! Die Maus malt den Mantel! Der Mantel hat jetzt Punkte.",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk5-9a",
+       "text": "Oh je, Mamas Mantel!"
+      }
+     ],
+     "satz": {
+      "s": "maus",
+      "o": "mantel"
+     }
+    },
+    {
+     "img": "img/story5-10.webp",
+     "audio": "story5-10",
+     "text": "Die Mama lacht. Der Mantel ist so schön bunt!",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk5-10a",
+       "text": "Hihi, wie ein Regenbogen!"
+      }
+     ],
+     "q": {
+      "text": "Wer malt den Mantel?",
+      "audio": "sq5-mantel",
+      "answer": "maus",
+      "choices": [
+       "maus",
+       "mann",
+       "mama"
+      ]
+     }
+    },
+    {
+     "img": "img/story5-11.webp",
+     "audio": "story5-11",
+     "text": "Am Abend ist das Malfest fertig. Der Mond scheint. Gute Nacht!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk5-11a",
+       "text": "Das war toll!"
+      },
+      {
+       "who": "mil",
+       "audio": "sk5-11b",
+       "text": "Morgen malen wir wieder!"
+      }
+     ],
+     "ask": {
+      "word": "mond",
+      "who": "mia"
+     }
+    }
+   ],
+   "sprite": {
+    "file": "sp-story5",
+    "map": {
+     "story5-1": [
+      0.35,
+      3.76
+     ],
+     "story5-2": [
+      4.56,
+      2.901
+     ],
+     "story5-3": [
+      7.911,
+      2.94
+     ],
+     "story5-4": [
+      11.301,
+      5.53
+     ],
+     "story5-5": [
+      17.281,
+      3.44
+     ],
+     "story5-6": [
+      21.171,
+      4.17
+     ],
+     "story5-7": [
+      25.791,
+      4.77
+     ],
+     "story5-8": [
+      31.011,
+      3.669
+     ],
+     "story5-9": [
+      35.13,
+      4.13
+     ],
+     "story5-10": [
+      39.71,
+      3.42
+     ],
+     "story5-11": [
+      43.58,
+      4.8
+     ],
+     "sk5-1a": [
+      48.83,
+      1.18
+     ],
+     "sk5-1b": [
+      50.46,
+      1.53
+     ],
+     "sk5-2a": [
+      52.44,
+      1.68
+     ],
+     "sk5-3a": [
+      54.57,
+      0.97
+     ],
+     "sk5-4a": [
+      55.99,
+      4.23
+     ],
+     "sk5-5a": [
+      60.67,
+      2.8
+     ],
+     "sk5-6a": [
+      63.92,
+      2.018
+     ],
+     "sk5-7a": [
+      66.388,
+      1.3
+     ],
+     "sk5-8a": [
+      68.138,
+      1.5
+     ],
+     "sk5-9a": [
+      70.088,
+      1.68
+     ],
+     "sk5-10a": [
+      72.218,
+      2.4
+     ],
+     "sk5-11a": [
+      75.068,
+      0.94
+     ],
+     "sk5-11b": [
+      76.458,
+      1.64
+     ],
+     "t-story5": [
+      78.548,
+      1.76
+     ],
+     "sf5-maus": [
+      80.758,
+      1.811
+     ],
+     "sq5-mantel": [
+      83.019,
+      1.6
+     ]
+    }
+   }
   }
  ]
 }

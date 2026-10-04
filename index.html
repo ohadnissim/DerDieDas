@@ -565,11 +565,37 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .spage.turn-in img{animation:pagein .6s cubic-bezier(.2,1.2,.4,1) both}
 @keyframes pagein{from{transform:translateX(12%) rotate(2deg);opacity:0}to{transform:none;opacity:1}}
 .stext{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.6vmin,46px);text-align:center;line-height:1.2;max-width:900px;text-wrap:balance;min-height:2.4em}
-.stext .der{color:var(--der)} .stext .die{color:var(--die)} .stext .das{color:var(--das-ink)}
+.stext .der,.stext .den{color:var(--der)} .stext .die{color:var(--die)} .stext .das{color:var(--das-ink)}
 .stext .wd{display:inline-block;transition:transform .2s}
 .stext .wd.hi{transform:translateY(-6px) scale(1.08)}
 .snav{display:flex;gap:clamp(18px,4vw,36px);align-items:center;margin-top:8px}
 .squiz{display:flex;gap:clamp(14px,3vw,28px);justify-content:center;margin-top:10px}
+#story.rebus .stext{display:none}
+#story.rebus .spage{width:min(100%,900px,calc((100vh - 360px) * 16 / 9))}
+.squiz.rebus{flex-wrap:wrap;align-items:center;gap:clamp(8px,1.6vh,16px) clamp(16px,3vw,36px);margin-top:0;max-width:100%}
+.squiz.rebus .srow{padding:clamp(8px,1.6vh,16px) clamp(8px,2vw,22px);gap:clamp(4px,1.2vw,16px)}
+.squiz.rebus .tsl.circ{width:clamp(34px,min(10vw,9vh),82px)}
+.squiz.rebus .tsl.circ.none{width:clamp(6px,2vw,24px)}
+.squiz.rebus .tsl.tpic{width:clamp(44px,min(13vw,11.5vh),112px);border-radius:18px}
+.squiz.rebus .tsl.verb{width:clamp(38px,min(11vw,10vh),92px);border-radius:18px}
+.squiz.rebus .tdot{font-size:clamp(22px,min(5vw,5vh),46px)}
+.squiz.rebus .stt{order:3;flex-basis:100%;font-size:clamp(22px,3.6vmin,36px)}
+.squiz.rebus .spick{gap:clamp(12px,2.4vw,28px)}
+.squiz.rebus .spick .choice.orb{width:clamp(64px,11vmin,108px)}
+/* phones on their side: the picture on the left, words and buttons on the right */
+@media (orientation:landscape) and (max-height:520px){
+  .story{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-content:center;align-items:center;justify-items:center;column-gap:clamp(10px,2.5vw,24px);row-gap:8px;padding:0 10px}
+  .story .spage,#story.rebus .spage{grid-column:1;grid-row:1 / span 3;width:min(100%,calc((100vh - 96px) * 16 / 9));border-radius:22px}
+  .story .stext,.story .squiz,.story .snav{grid-column:2}
+  .stext{font-size:clamp(16px,5.4vh,26px);min-height:0}
+  .snav{margin-top:0}
+  .squiz.rebus{gap:8px 12px}
+  .squiz.rebus .tsl.circ{width:clamp(30px,9vh,44px)}
+  .squiz.rebus .tsl.tpic{width:clamp(38px,12vh,56px);border-radius:12px}
+  .squiz.rebus .tsl.verb{width:clamp(34px,10vh,48px);border-radius:12px}
+  .squiz.rebus .stt{font-size:clamp(16px,5vh,22px)}
+  .squiz.rebus .spick .choice.orb{width:clamp(48px,14vh,64px)}
+}
 .sq{width:clamp(96px,15vmin,130px);aspect-ratio:1;border-radius:26px;background:var(--paper);box-shadow:var(--lift);overflow:hidden;animation:pop .45s cubic-bezier(.3,1.6,.5,1) both;transition:transform .15s,opacity .25s}
 .sq:nth-child(2){animation-delay:.08s} .sq:nth-child(3){animation-delay:.16s}
 .sq .tile{width:100%;height:100%;border-radius:0}
@@ -1162,7 +1188,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "k-max-hallo":"Hallo! Ich bin Max!","k-max-c1":"Juhu, super!","k-max-c2":"Klasse! Toll gemacht!",
   "f-welchegeschichte":"Welche Geschichte?",
   "f-saetze":"Wir lesen Sätze! Hör gut zu.","f-welchefarbe":"Welche Farbe kommt hier?","f-liesdu":"Jetzt liest du! Lies den Satz laut.",
-  "f-hoerobs":"Hör mal, ob es stimmt!","f-denregel":"Nach malt wird der zu den!","f-superlesen":"Super gelesen!","st-malt":"malt","a-den":"den",
+  "f-hoerobs":"Hör mal, ob es stimmt!","f-denregel":"Nach malt wird der zu den!","f-superlesen":"Super gelesen!","f-satzmit":"Lies mit! Welche Farbe passt?","st-malt":"malt","a-den":"den",
   "st-mila":"Mila","st-mil":"Mil","st-mia":"Mia","st-max":"Max",
   "f-mission-meer":"Neue Mission: Unter dem Meer! Sammle alle Meerestiere!","f-mission-wald":"Neue Mission: der Zauberwald! Sammle alle Zaubersticker!",
   "f-mission-hof":"Neue Mission: der Bauernhof! Sammle alle Tiere vom Bauernhof!","f-setdone":"Juhu! Du hast das ganze Set geschafft!",
@@ -1173,6 +1199,8 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
+// Newer stories keep all their clips in one file: clip key -> [file, start, length] (seconds).
+const SPRITE = {};
 // The word alone (no article), for the listening and moving games.
 const NOUN_IDS = new Set(["maus", "mann", "mond", "mauer", "wurm", "mama", "messer", "mantel", "murmel", "mund", "milch", "ameise", "muschel", "eimer", "helm", "ampel"]);
 const N = (w) => ({ key: NOUN_IDS.has(w.id) && norm(w.noun) === w.id ? "n-" + w.id : null, text: w.noun });
@@ -1189,8 +1217,10 @@ function registerClips() {
   for (const k in SENT_T) CLIPS.add("ssp-" + k.split("-")[1]);
   for (const t of STICKER_SETS) for (const i of t.items) CLIPS.add("stk-" + t.id + "-" + i[0]);
   for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
-  for (const st of state.stories) if (st.titleAudio) CLIPS.add(st.titleAudio);
-  for (const st of state.stories) for (const pg of st.pages) { if (pg.audio) CLIPS.add(pg.audio); if (pg.q && pg.q.audio) CLIPS.add(pg.q.audio); for (const l of pg.lines || (pg.kid ? [pg.kid] : [])) if (l.audio) CLIPS.add(l.audio); if (pg.find && pg.find.audio) CLIPS.add(pg.find.audio); }
+  for (const st of state.stories) if (st.sprite) { CLIPS.add(st.sprite.file); for (const k in st.sprite.map) SPRITE[k] = [st.sprite.file, ...st.sprite.map[k]]; }
+  const add = (k) => { if (k && !SPRITE[k]) CLIPS.add(k); };
+  for (const st of state.stories) add(st.titleAudio);
+  for (const st of state.stories) for (const pg of st.pages) { add(pg.audio); add(pg.q && pg.q.audio); for (const l of pg.lines || (pg.kid ? [pg.kid] : [])) add(l.audio); add(pg.find && pg.find.audio); }
 }
 const W = (w) => ({ key: builtIn(w) || w.rec ? "w-" + w.id : null, text: w.article + " " + w.noun });
 // The grown-up's answer in "Stimmt das?", said as a question (all three articles recorded the same way,
@@ -1281,7 +1311,7 @@ function reviveAudio() {
     buffers.clear(); waiting.clear(); loadQueue.length = 0; loadsActive = 0; loadGen++;
     const c = ctx();
     try { const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, 22050); s.connect(c.destination); s.start(0); } catch {}
-    CLIPS.forEach(k => { if (!k.startsWith("ssp-")) loadClip(k); });   // sentence files load per round
+    CLIPS.forEach(k => { if (!/^s?sp-/.test(k)) loadClip(k); });   // sentence and story files load when they are needed
   });
   return reviving;
 }
@@ -1293,7 +1323,7 @@ function unlockAudio() {
   const c = ctx(); if (!c) return;
   unlocked = true;
   try { const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, 22050); s.connect(c.destination); s.start(0); } catch {}
-  CLIPS.forEach(k => { if (!k.startsWith("ssp-")) loadClip(k); });   // sentence files load per round
+  CLIPS.forEach(k => { if (!/^s?sp-/.test(k)) loadClip(k); });   // sentence and story files load when they are needed
 }
 for (const ev of ["pointerdown", "touchend", "click", "keydown"]) document.addEventListener(ev, unlockAudio, { capture: true });
 let current = null;
@@ -1318,7 +1348,8 @@ async function say(parts, rate = 0.82) {
   if (actx && actx.state !== "running") await reviveAudio();
   for (const p of (Array.isArray(parts) ? parts : [parts]).filter(Boolean)) {
     if (my !== sayToken) return;
-    const { key, text, from, dur } = typeof p === "string" ? { key: null, text: p } : p;
+    let { key, text, from, dur } = typeof p === "string" ? { key: null, text: p } : p;
+    if (key && SPRITE[key] && from == null) [key, from, dur] = SPRITE[key];
     let buf = null;
     if (key && CLIPS.has(key)) buf = await Promise.race([loadClip(key, true), sleep(8000).then(() => null)]);
     if (my !== sayToken) return;
@@ -2408,50 +2439,47 @@ function circleHTML(art, upper, state_) {
   const a = upper ? cap(art) : art;
   return '<div class="tsl circ filled"><span class="orb ' + art + '"><span class="ow">' + a + "</span></span></div>";
 }
-function renderSentRow() {
-  const t = T.list[T.i], f = T.filled;
-  $("trow").innerHTML =
+function renderSentRow(row = $("trow"), text = $("ttext"), t = T.list[T.i], f = T.filled, fill = T.phase === "fill") {
+  row.innerHTML =
     circleHTML(t.s.art, true, f[0] ? "" : "empty").replace("<div", '<div data-i="0"') +
     '<div class="tsl tpic" data-i="1">' + picHTML(t.s) + "</div>" +
     '<div class="tsl verb" data-i="2"><img src="img/m-malt.webp" alt="malt"></div>' +
     circleHTML(t.o.art, false, f[1] ? "" : "empty").replace("<div", '<div data-i="3"') +
     '<div class="tsl tpic" data-i="4">' + picHTML(t.o) + "</div>" +
     '<span class="tdot">.</span>';
-  const now = T.phase === "fill" ? (t.s.art && !f[0] ? 0 : !f[1] ? 3 : -1) : -1;
-  if (now >= 0) $("trow").querySelector('[data-i="' + now + '"]').classList.add("now");
+  const now = fill ? (t.s.art && !f[0] ? 0 : !f[1] ? 3 : -1) : -1;
+  if (now >= 0) row.querySelector('[data-i="' + now + '"]').classList.add("now");
   // the sentence in words underneath; an article she still has to find is a gap
   const art = (a, up, done) => done ? '<span class="' + a + '">' + (up ? cap(a) : a) + "</span>" : '<span class="gap">' + a + "</span>";
-  $("ttext").innerHTML =
+  text.innerHTML =
     '<span class="w" data-c="0">' + (t.s.art ? art(t.s.art, true, f[0]) + " " : "") + esc(t.s.noun) + "</span> " +
     '<span class="w" data-c="1">malt</span> ' +
     '<span class="w" data-c="2">' + art(t.o.art, false, f[1]) + " " + esc(t.o.noun) + "</span>.";
 }
 function renderTDots() { $("tdots").innerHTML = T.list.map((_, i) => '<span class="dot ' + (i in T.res ? (T.res[i] ? "ok" : "miss") : "") + (i === T.i ? " now" : "") + '"></span>').join(""); }
-function lightChunk(c, on) {
-  for (const i of c.slot) $("trow").querySelector('[data-i="' + i + '"]')?.classList.toggle("lit", on);
-}
-// Mila reads the sentence chunk by chunk while each part lights up (silent = she reads it herself).
-async function readAlong(silent) {
-  const my = T, t = T.list[T.i], chunks = tChunks(t), tm = SENT_T["ss-" + t.s.id + "-" + t.o.id], key = "ssp-" + t.s.id;
-  const light = (n, on) => { lightChunk(chunks[n], on); $("ttext").querySelector('[data-c="' + n + '"]')?.classList.toggle("lit", on); };
+// Mila reads a sentence while each part lights up (silent = she reads it herself, each part lights in turn).
+async function sayLit(t, row, text, alive, silent) {
+  const chunks = tChunks(t), tm = SENT_T["ss-" + t.s.id + "-" + t.o.id], key = "ssp-" + t.s.id;
+  const light = (n, on) => { for (const i of chunks[n].slot) row.querySelector('[data-i="' + i + '"]')?.classList.toggle("lit", on); text.querySelector('[data-c="' + n + '"]')?.classList.toggle("lit", on); };
   if (!silent && tm) {
     // the whole sentence in one flowing recording; each part lights up as she reaches it
-    const buf = await Promise.race([loadClip(key, true), sleep(4000).then(() => null)]); if (T !== my) return;
+    const buf = await Promise.race([loadClip(key, true), sleep(4000).then(() => null)]); if (!alive()) return;
     if (buf) {
-      const timers = [0, tm[2], tm[3]].map((sec, n) => setTimeout(() => { if (T === my) chunks.forEach((_, j) => light(j, j === n)); }, sec * 1000));
+      const timers = [0, tm[2], tm[3]].map((sec, n) => setTimeout(() => { if (alive()) chunks.forEach((_, j) => light(j, j === n)); }, sec * 1000));
       await say([{ key, from: tm[0], dur: tm[1], text: (t.s.art ? cap(t.s.art) + " " : "") + t.s.noun + " malt " + t.o.art + " " + t.o.noun + "." }]);
-      timers.forEach(clearTimeout); if (T === my) chunks.forEach((_, j) => light(j, false));
+      timers.forEach(clearTimeout); if (alive()) chunks.forEach((_, j) => light(j, false));
       return;
     }
   }
   for (let n = 0; n < chunks.length; n++) {
-    if (T !== my) return;
+    if (!alive()) return;
     light(n, true);
     if (silent) await sleep(1100); else await say([chunks[n].say]);
-    if (T !== my) return;
+    if (!alive()) return;
     light(n, false);
   }
 }
+function readAlong(silent) { const my = T; return sayLit(T.list[T.i], $("trow"), $("ttext"), () => T === my, silent); }
 function startSent() {
   if (!state.wordsLoaded) return;
   const list = sentList(); if (!list.length) return;
@@ -2686,7 +2714,7 @@ function colourText(t) {
   const toks = esc(t).split(/(\s+)/), out = [];
   for (let i = 0; i < toks.length; i++) {
     const tok = toks[i], a = tok.toLowerCase().replace(/[^a-zäöüß]/g, "");
-    if (!ARTS.includes(a)) { out.push(tok); continue; }
+    if (!ARTS.includes(a) && a !== "den") { out.push(tok); continue; }
     const art = '<span class="wd ' + a + '">' + tok + "</span>";
     if (i + 2 < toks.length && /^\s+$/.test(toks[i + 1])) { out.push('<span class="nb">' + art + " " + toks[i + 2] + "</span>"); i += 2; }
     else out.push(art);
@@ -2698,6 +2726,7 @@ const storyDone = (st) => (state.progress.storiesSeen || []).includes(st.id) || 
 let lastStoryId = "";
 function openStories() {
   if (state.stories.length <= 1) return startStory(state.stories[0]);
+  for (const st of state.stories) if (st.sprite) loadClip(st.sprite.file, true);
   $("shelfList").innerHTML = state.stories.slice().reverse().map(st =>
     '<button class="scard" data-id="' + esc(st.id) + '"><img src="' + esc(st.cover || st.pages[0].img) + '" alt="">' +
     '<span class="stitle">' + colourText(st.title || "") + "</span>" + (storyDone(st) ? "" : '<span class="snew">Neu!</span>') + "</button>").join("");
@@ -2717,13 +2746,14 @@ function startStory(pick) {
   lastStoryId = st.id;
   // The "!" on the story button means "a story she hasn't opened yet": opening it is enough, she doesn't have to finish it.
   if (!storyDone(st)) { (state.progress.storiesSeen || (state.progress.storiesSeen = [])).push(st.id); state.progress.storySeen = st.id; saveProgress(); }
+  if (st.sprite) loadClip(st.sprite.file, true);
   ST = { st, i: 0, done: {}, step: null };
   renderStars(); show("story"); showPage();
 }
 // A page: Mila reads, then the kids say their own lines, then (sometimes) something to do:
-//   find – tap the thing in the picture, ask – a kid asks her "der, die oder das?", q – pick the right picture.
+//   satz – fill the circles of the page's picture sentence, find – tap the thing in the picture, ask – a kid asks her "der, die oder das?", q – pick the right picture.
 const pageLines = (pg) => pg.lines || (pg.kid ? [pg.kid] : []);
-const STEPS = ["find", "ask", "q"];
+const STEPS = ["satz", "find", "ask", "q"];
 function showPage() {
   const pg = ST.st.pages[ST.i];
   $("sdots").innerHTML = ST.st.pages.map((_, i) => '<span class="dot' + (i < ST.i ? " ok" : "") + (i === ST.i ? " now" : "") + '"></span>').join("");
@@ -2769,7 +2799,7 @@ function runStep(type, data) {
   return new Promise((resolve) => {
     ST.step = { type, data, resolve, tries: 0 };
     $("snav").hidden = true;
-    if (type === "find") startFind(data); else if (type === "ask") startAsk(data); else askStory(data);
+    if (type === "satz") startSatz(data); else if (type === "find") startFind(data); else if (type === "ask") startAsk(data); else askStory(data);
   });
 }
 function endStep(delay = 400) {
@@ -2779,7 +2809,7 @@ function endStep(delay = 400) {
   sleep(delay).then(() => {
     if (ST !== my || ST.step !== step) return;
     ST.step = null;
-    $("squiz").hidden = true; $("snav").hidden = false; bump($("sNext"));
+    $("squiz").hidden = true; $("story").classList.remove("rebus"); $("snav").hidden = false; bump($("sNext"));
     step.resolve();
   });
 }
@@ -2788,6 +2818,59 @@ function stepPrompt() {
   if (s.type === "find") say([{ key: s.data.audio, text: s.data.text }]);
   else if (s.type === "ask") say([C("f-welche")]);
   else if (s.type === "q") say([{ key: s.data.audio, text: s.data.text }]);
+  else if (s.type === "satz") say([(s.f[0] ? s.t.o : s.t.s).say]);
+}
+
+// satz: the page's sentence as a picture row like the school sheet. She fills the empty circles, then Mila reads it all.
+const satzEl = (c) => $("squiz").querySelector(c);
+function startSatz(d) {
+  const t = makeSent(d.s, d.o);
+  if (!t) { endStep(0); return; }
+  const s = ST.step; s.t = t; s.f = [!t.s.art, false]; s.miss = false;
+  if (SENT_T["ss-" + t.s.id + "-" + t.o.id]) loadClip("ssp-" + t.s.id);
+  $("squiz").innerHTML = '<div class="trow srow"></div><div class="ttext stt"></div><div class="tpick spick"></div>';
+  $("squiz").className = "squiz rebus"; $("squiz").hidden = false;
+  $("story").classList.add("rebus");
+  satzShow(); restart(satzEl(".srow"), "enter");
+  const first = !ST.satzSaid; ST.satzSaid = true;
+  say([C(first ? "f-satzmit" : "f-welchefarbe")]);
+}
+function satzShow() {
+  const s = ST.step, obj = s.f[0];
+  renderSentRow(satzEl(".srow"), satzEl(".stt"), s.t, s.f, true);
+  satzEl(".spick").innerHTML = (obj ? ["den", "die", "das"] : ARTS).map(a => '<button class="choice orb ' + a + '" data-a="' + a + '"><span class="ow">' + (obj ? a : cap(a)) + "</span></button>").join("");
+  restart(satzEl(".spick"), "enter");
+}
+async function satzTap(b) {
+  const s = ST.step, my = ST, t = s.t, obj = s.f[0], part = obj ? t.o : t.s, a = b.dataset.a;
+  if (b.disabled) return;
+  if (a !== part.art) {
+    // gentle, like the Sätze game: that circle drops out, the right one glows, Mila says the right words
+    s.miss = true; b.disabled = true; b.classList.add("wrong");
+    if (!obj && part.w) noteMiss(part.w, a);
+    satzEl('.spick [data-a="' + part.art + '"]').classList.add("hint");
+    say([C(pick(["f-upsi", "f-hoppla"])), part.say]);
+    return;
+  }
+  s.type = "busy";
+  chime(); b.classList.add("right"); sparkle(b, 10);
+  if (!s.miss) addStars();
+  s.f[obj ? 1 : 0] = true; s.miss = false;
+  renderSentRow(satzEl(".srow"), satzEl(".stt"), t, s.f, false);
+  satzEl(".spick").querySelectorAll(".choice").forEach(x => x.disabled = true);
+  sparkle(satzEl('.srow [data-i="' + (obj ? 3 : 0) + '"]'), 12);
+  const alive = () => ST === my && ST.step === s;
+  const extra = part.art === "den" && !ST.denSaid ? [C("f-denregel")] : [];
+  if (extra.length) ST.denSaid = true;
+  await say([part.say, ...extra]); if (!alive()) return;
+  if (!s.f[1]) { s.type = "satz"; satzShow(); return; }
+  // both circles are full: Mila reads the whole sentence while each part lights up
+  satzEl(".spick").innerHTML = "";
+  await sleep(250); if (!alive()) return;
+  await sayLit(t, satzEl(".srow"), satzEl(".stt"), alive, false); if (!alive()) return;
+  sparkle(satzEl(".srow"), 20);
+  await say([C(pick(PRAISE))]); if (!alive()) return;
+  endStep(300);
 }
 
 // find: she taps the thing in the picture itself
@@ -2870,8 +2953,9 @@ $("squiz").addEventListener("click", (e) => {
   if (!ST || !ST.step) return;
   if (ST.step.type === "ask") { const b = e.target.closest(".choice"); if (b) askTap(b); }
   else if (ST.step.type === "q") { const b = e.target.closest(".sq"); if (b) qTap(b); }
+  else if (ST.step.type === "satz") { const b = e.target.closest(".spick .choice"); if (b) satzTap(b); }
 });
-function leavePage() { if (ST) { ST.step = null; $("spage").classList.remove("finding"); $("stext").classList.remove("finding"); } }
+function leavePage() { if (ST) { ST.step = null; $("spage").classList.remove("finding"); $("stext").classList.remove("finding"); $("story").classList.remove("rebus"); } }
 $("sNext").addEventListener("click", () => {
   if (!ST) return; pop();
   if (ST.i < ST.st.pages.length - 1) { leavePage(); ST.i++; showPage(); return; }
