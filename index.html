@@ -262,6 +262,7 @@ body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
 .btab{display:flex;align-items:center;gap:6px;padding:4px 12px 4px 4px;border-radius:999px;background:var(--surface);box-shadow:var(--lift);font-family:var(--display);font-weight:800;font-size:15px;color:var(--ink)}
 .btab img{width:36px;height:36px;border-radius:50%;object-fit:cover;background:var(--paper)}
 .btab.on{box-shadow:0 0 0 4px var(--sc),var(--lift)}
+.btab.complete{background:linear-gradient(135deg,#FFF6D6,var(--surface))}
 .bhead{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 6px 0;font-family:var(--display);font-weight:800;font-size:clamp(22px,4vmin,32px);color:var(--sc)}
 .bh-done{font-size:.7em;color:var(--star-deep);background:var(--surface);border-radius:999px;padding:2px 12px;box-shadow:var(--lift)}
 #confetti{position:fixed;inset:0;pointer-events:none;width:100%;height:100%;z-index:40}
@@ -786,7 +787,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 <section class="screen" id="bookScreen" hidden>
   <div class="bar">
     <button class="icon-btn" id="bookBack" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <div class="bar-mid"><div class="pill"><img src="img/stk-dollhouse.webp" alt=""><span id="bookTotal">0 / 24</span></div></div>
+    <div class="bar-mid"><div class="pill"><img id="bookIcon" src="img/stk-dollhouse.webp" alt=""><span id="bookTotal">0 / 24</span></div></div>
     <div class="pill"><span class="s">★</span><span id="starsBook">0</span></div>
   </div>
   <div class="book"><div class="btabs" id="bookTabs" hidden></div><div class="bhead" id="bookHead"></div><div class="book-grid" id="bookGrid"></div></div>
@@ -940,9 +941,9 @@ const STICKERS = ["dollhouse","firetruck","tiara","train","flamingo","palette","
 // Themed sets: each is a mission to complete. Every sticker is a word with its article (picture img/stk-<set>-<id>.webp,
 // Mila says it from audio stk-<set>-<id>). A set is only used once all its pictures exist ("ready").
 const STICKER_SETS = [
-  { id: "meer", name: "Unter dem Meer", color: "#3FA7D6", ready: false, items: [["wal", "der", "Wal"], ["delfin", "der", "Delfin"], ["seestern", "der", "Seestern"], ["fisch", "der", "Fisch"], ["schildkroete", "die", "Schildkröte"], ["qualle", "die", "Qualle"], ["krabbe", "die", "Krabbe"], ["moewe", "die", "Möwe"], ["robbe", "die", "Robbe"], ["seepferdchen", "das", "Seepferdchen"], ["schiff", "das", "Schiff"], ["walross", "das", "Walross"]] },
-  { id: "wald", name: "Zauberwald", color: "#8E6CC8", ready: false, items: [["drache", "der", "Drache"], ["zauberstab", "der", "Zauberstab"], ["pilz", "der", "Pilz"], ["fuchs", "der", "Fuchs"], ["fee", "die", "Fee"], ["eule", "die", "Eule"], ["prinzessin", "die", "Prinzessin"], ["kutsche", "die", "Kutsche"], ["einhorn", "das", "Einhorn"], ["schloss", "das", "Schloss"], ["gluehwuermchen", "das", "Glühwürmchen"], ["zauberbuch", "das", "Zauberbuch"]] },
-  { id: "hof", name: "Bauernhof", color: "#E8A03A", ready: false, items: [["traktor", "der", "Traktor"], ["hahn", "der", "Hahn"], ["esel", "der", "Esel"], ["kuh", "die", "Kuh"], ["ente", "die", "Ente"], ["ziege", "die", "Ziege"], ["scheune", "die", "Scheune"], ["schwein", "das", "Schwein"], ["pferd", "das", "Pferd"], ["schaf", "das", "Schaf"], ["kueken", "das", "Küken"], ["huhn", "das", "Huhn"]] }
+  { id: "meer", name: "Unter dem Meer", color: "#3FA7D6", ready: true, items: [["wal", "der", "Wal"], ["delfin", "der", "Delfin"], ["seestern", "der", "Seestern"], ["fisch", "der", "Fisch"], ["schildkroete", "die", "Schildkröte"], ["qualle", "die", "Qualle"], ["krabbe", "die", "Krabbe"], ["moewe", "die", "Möwe"], ["robbe", "die", "Robbe"], ["seepferdchen", "das", "Seepferdchen"], ["schiff", "das", "Schiff"], ["walross", "das", "Walross"]] },
+  { id: "wald", name: "Zauberwald", color: "#8E6CC8", ready: true, items: [["drache", "der", "Drache"], ["zauberstab", "der", "Zauberstab"], ["pilz", "der", "Pilz"], ["fuchs", "der", "Fuchs"], ["fee", "die", "Fee"], ["eule", "die", "Eule"], ["prinzessin", "die", "Prinzessin"], ["kutsche", "die", "Kutsche"], ["einhorn", "das", "Einhorn"], ["schloss", "das", "Schloss"], ["gluehwuermchen", "das", "Glühwürmchen"], ["zauberbuch", "das", "Zauberbuch"]] },
+  { id: "hof", name: "Bauernhof", color: "#E8A03A", ready: true, items: [["traktor", "der", "Traktor"], ["hahn", "der", "Hahn"], ["esel", "der", "Esel"], ["kuh", "die", "Kuh"], ["ente", "die", "Ente"], ["ziege", "die", "Ziege"], ["scheune", "die", "Scheune"], ["schwein", "das", "Schwein"], ["pferd", "das", "Pferd"], ["schaf", "das", "Schaf"], ["kueken", "das", "Küken"], ["huhn", "das", "Huhn"]] }
 ];
 const themedSets = () => STICKER_SETS.filter(t => t.ready).map(t => ({ ...t, ids: t.items.map(i => t.id + "-" + i[0]) }));
 const firstSet = () => ({ id: "erste", name: "Meine ersten Sticker", color: "#E2559A", ids: STICKERS });
@@ -1151,10 +1152,10 @@ function saveWords() {
 const AUDIO_V = 22;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
-  "f-nochmal":"Hmm, nochmal!","f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-sagmal":"Sag mal:","f-supergemacht":"Super gemacht!",
-  "f-welche":"Der, die oder das?","f-oh":"Oh!","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
+  "f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-supergemacht":"Super gemacht!",
+  "f-welche":"Der, die oder das?","f-ja":"Ja!","f-quizzeit":"Quiz-Zeit!","a-der":"der","a-die":"die","a-das":"das",
   "f-stimmt":"Stimmt das?","f-nein":"Nein!","f-jastimmt":"Ja, das stimmt!","f-paare":"Finde die Paare!","f-garten":"Dein Garten wächst!",
-  "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!","f-dudran":"Du bist dran!",
+  "f-hoer":"Hör mal!","f-grosse":"Jetzt Mama oder Papa!",
   "f-hallo":"Hallo! Ich bin Mila. Los geht's!","f-farben":"Farbenspiel! Hör gut zu!",
   "k-mia-hallo":"Hallo! Ich bin Mia!","k-mia-c1":"Juhu!","k-mia-c2":"Super!","k-mia-c3":"Klasse!",
   "k-mil-hallo":"Hallo! Ich bin Mil!","k-mil-c1":"Juhu, super!","k-mil-c2":"Klasse! Toll gemacht!",
@@ -1833,10 +1834,11 @@ function renderBook() {
   bookSet = t.id;
   const have = t.ids.filter(id => got.includes(id)).length;
   $("bookTotal").textContent = have + " / " + t.ids.length;
+  $("bookIcon").src = "img/stk-" + (t.ids.find(id => got.includes(id)) || t.ids[0]) + ".webp";
   $("bookTabs").hidden = sets.length < 2;
   $("bookTabs").innerHTML = sets.map(x => {
     const n = x.ids.filter(id => got.includes(id)).length, done = n === x.ids.length;
-    return '<button class="btab' + (x.id === t.id ? " on" : "") + (done ? " done" : "") + '" data-set="' + x.id + '" style="--sc:' + x.color + '">' +
+    return '<button class="btab' + (x.id === t.id ? " on" : "") + (done ? " complete" : "") + '" data-set="' + x.id + '" style="--sc:' + x.color + '">' +
       '<img src="img/stk-' + (x.ids.find(id => got.includes(id)) || x.ids[0]) + '.webp" alt="">' + '<span>' + (done ? "🏆" : n + "/" + x.ids.length) + "</span></button>";
   }).join("");
   $("bookHead").innerHTML = '<span class="bh-name"></span>' + (have === t.ids.length ? '<span class="bh-done">🏆 Geschafft!</span>' : "");
