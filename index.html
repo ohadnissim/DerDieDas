@@ -1102,6 +1102,8 @@ function normalizeProgress(p) {
   }
   return out;
 }
+// A word the school accepts with two articles (der/das Iglu) lists the second one in alt: both count as right.
+const artOK = (w, a) => a === w.article || (w.alt || []).includes(a);
 function normalizeWords(list) {
   const seen = new Set(), out = [];
   for (const w of Array.isArray(list) ? list : []) {
@@ -1109,13 +1111,13 @@ function normalizeWords(list) {
     const noun = capNoun(w.noun), id = w.id ? String(w.id) : norm(noun);
     if (!id || seen.has(id)) continue;
     seen.add(id);
-    out.push({ id, noun, article: String(w.article).toLowerCase(), emoji: String(w.emoji || ""), ...(w.pic ? { pic: String(w.pic) } : {}), ...(w.s ? { s: String(w.s) } : {}), ...(w.rec ? { rec: true } : {}) });
+    out.push({ id, noun, article: String(w.article).toLowerCase(), emoji: String(w.emoji || ""), ...(w.pic ? { pic: String(w.pic) } : {}), ...(w.s ? { s: String(w.s) } : {}), ...(w.rec ? { rec: true } : {}), ...(Array.isArray(w.alt) && w.alt.length ? { alt: w.alt.filter(a => ARTS.includes(a)) } : {}) });
   }
   return out;
 }
 // Which wrong circle she tapped for a word, so the grown-ups can see what gets mixed up.
 function noteMiss(w, picked) {
-  if (!w || !ARTS.includes(picked) || picked === w.article) return;
+  if (!w || !ARTS.includes(picked) || artOK(w, picked)) return;
   const mix = { ...(prog(w.id).mix || {}) };
   mix[picked] = (mix[picked] || 0) + 1;
   setProg(w.id, { mix, missed: today() });
@@ -1175,7 +1177,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 25;
+const AUDIO_V = 26;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-supergemacht":"Super gemacht!",
@@ -1201,12 +1203,19 @@ const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).fl
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
 // Newer stories keep all their clips in one file: clip key -> [file, start, length] (seconds).
 const SPRITE = {};
+// Groups of short clips packed into one file each, so the page stays under its file limit: file -> { clip key: [start, length] }.
+const PACKS = /*PACKS*/{"pk-stk":{"stk-hof-ente":[0.3,1.01],"stk-hof-esel":[1.61,1.07],"stk-hof-hahn":[2.98,0.94],"stk-hof-huhn":[4.22,0.98],"stk-hof-kueken":[5.5,1.009],"stk-hof-kuh":[6.809,0.86],"stk-hof-pferd":[7.969,1.1],"stk-hof-schaf":[9.369,1.03],"stk-hof-scheune":[10.699,0.97],"stk-hof-schwein":[11.969,1.19],"stk-hof-traktor":[13.459,1.17],"stk-hof-ziege":[14.929,1.07],"stk-meer-delfin":[16.299,1.05],"stk-meer-fisch":[17.649,0.99],"stk-meer-krabbe":[18.939,0.87],"stk-meer-moewe":[20.109,0.99],"stk-meer-qualle":[21.399,1.03],"stk-meer-robbe":[22.729,0.93],"stk-meer-schiff":[23.959,1.05],"stk-meer-schildkroete":[25.309,1.32],"stk-meer-seepferdchen":[26.929,1.42],"stk-meer-seestern":[28.649,1.2],"stk-meer-wal":[30.149,1.0],"stk-meer-walross":[31.449,1.221],"stk-wald-drache":[32.97,0.95],"stk-wald-einhorn":[34.22,1.14],"stk-wald-eule":[35.66,0.91],"stk-wald-fee":[36.87,0.8],"stk-wald-fuchs":[37.97,1.03],"stk-wald-gluehwuermchen":[39.3,1.35],"stk-wald-kutsche":[40.95,0.95],"stk-wald-pilz":[42.2,1.02],"stk-wald-prinzessin":[43.52,1.18],"stk-wald-schloss":[45.0,1.11],"stk-wald-zauberbuch":[46.41,1.4],"stk-wald-zauberstab":[48.11,1.314]},"pw-igel":{"w-igel":[0.3,1.11],"n-igel":[1.71,0.77],"q-igel-der":[2.78,1.11],"q-igel-die":[4.19,1.13],"q-igel-das":[5.62,1.03],"x-max-igel-der":[6.95,1.0],"x-max-igel-die":[8.25,1.04]},"pw-taxi":{"w-taxi":[0.3,1.08],"n-taxi":[1.68,0.86],"q-taxi-der":[2.84,1.15],"q-taxi-die":[4.29,1.04],"q-taxi-das":[5.63,1.11],"x-max-taxi-das":[7.04,1.05],"x-max-taxi-der":[8.39,1.25]},"pw-insel":{"w-insel":[0.3,0.97],"n-insel":[1.57,0.83],"q-insel-der":[2.7,1.01],"q-insel-die":[4.01,1.05],"q-insel-das":[5.36,1.04],"x-max-insel-die":[6.7,1.19],"x-max-insel-das":[8.19,1.1]},"pw-indianer":{"w-indianer":[0.3,1.24],"n-indianer":[1.84,1.01],"q-indianer-der":[3.15,1.18],"q-indianer-die":[4.63,1.08],"q-indianer-das":[6.01,1.17],"x-max-indianer-der":[7.48,1.36],"x-max-indianer-die":[9.14,1.51]},"pw-kiste":{"w-kiste":[0.3,1.03],"n-kiste":[1.63,0.89],"q-kiste-der":[2.82,1.03],"q-kiste-die":[4.15,1.0],"q-kiste-das":[5.45,1.12],"x-max-kiste-die":[6.87,1.09],"x-max-kiste-der":[8.26,1.1]},"pw-birne":{"w-birne":[0.3,1.03],"n-birne":[1.63,0.84],"q-birne-der":[2.77,0.89],"q-birne-die":[3.96,1.03],"q-birne-das":[5.29,1.03],"x-max-birne-die":[6.62,1.53],"x-max-birne-das":[8.45,1.07]},"pw-brille":{"w-brille":[0.3,0.97],"n-brille":[1.57,0.73],"q-brille-der":[2.6,0.91],"q-brille-die":[3.81,0.88],"q-brille-das":[4.99,1.11],"x-max-brille-die":[6.4,1.0],"x-max-brille-der":[7.7,1.03]},"pw-radio":{"w-radio":[0.3,1.12],"n-radio":[1.72,0.92],"q-radio-der":[2.94,1.12],"q-radio-die":[4.36,1.17],"q-radio-das":[5.83,1.12],"x-max-radio-das":[7.25,1.17],"x-max-radio-die":[8.72,1.02]},"pw-teppich":{"w-teppich":[0.3,1.12],"n-teppich":[1.72,0.896],"q-teppich-der":[2.916,1.14],"q-teppich-die":[4.356,0.952],"q-teppich-das":[5.608,1.1],"x-max-teppich-der":[7.008,1.12],"x-max-teppich-das":[8.428,1.33]},"pw-pinsel":{"w-pinsel":[0.3,0.98],"n-pinsel":[1.58,0.87],"q-pinsel-der":[2.75,1.06],"q-pinsel-die":[4.11,1.06],"q-pinsel-das":[5.47,1.1],"x-max-pinsel-der":[6.87,1.09],"x-max-pinsel-die":[8.26,1.09]},"pw-lineal":{"w-lineal":[0.3,1.241],"n-lineal":[1.841,1.04],"q-lineal-der":[3.181,1.17],"q-lineal-die":[4.651,1.23],"q-lineal-das":[6.181,1.19],"x-max-lineal-das":[7.671,1.56],"x-max-lineal-der":[9.531,1.12]},"pw-polizist":{"w-polizist":[0.3,1.221],"n-polizist":[1.821,1.05],"q-polizist-der":[3.171,1.2],"q-polizist-die":[4.671,1.29],"q-polizist-das":[6.261,1.36],"x-max-polizist-der":[7.921,1.28],"x-max-polizist-das":[9.501,1.09]},"pw-iglu":{"w-iglu":[0.3,1.06],"n-iglu":[1.66,0.84],"q-iglu-der":[2.8,1.1],"q-iglu-die":[4.2,1.03],"q-iglu-das":[5.53,0.98],"x-max-iglu-das":[6.81,1.174],"x-max-iglu-die":[8.284,1.36]}}/*END*/;
+for (const f in PACKS) for (const k in PACKS[f]) SPRITE[k] = [f, ...PACKS[f][k]];
+for (const k in SPRITE) CLIPS.delete(k);
 // The word alone (no article), for the listening and moving games.
-const NOUN_IDS = new Set(["maus", "mann", "mond", "mauer", "wurm", "mama", "messer", "mantel", "murmel", "mund", "milch", "ameise", "muschel", "eimer", "helm", "ampel"]);
+const NOUN_IDS = new Set(["maus", "mann", "mond", "mauer", "wurm", "mama", "messer", "mantel", "murmel", "mund", "milch", "ameise", "muschel", "eimer", "helm", "ampel",
+  "igel", "taxi", "insel", "indianer", "kiste", "birne", "brille", "radio", "teppich", "pinsel", "lineal", "polizist", "iglu"]);
 const N = (w) => ({ key: NOUN_IDS.has(w.id) && norm(w.noun) === w.id ? "n-" + w.id : null, text: w.noun });
 // Max says each of these words twice over: [the right article, his favourite mistake].
 const MAX_CLAIMS = { maus: ["die", "der"], mann: ["der", "die"], mond: ["der", "das"], mauer: ["die", "der"], wurm: ["der", "die"], mama: ["die", "der"], messer: ["das", "der"], mantel: ["der", "die"],
-  murmel: ["die", "der"], mund: ["der", "die"], milch: ["die", "das"], ameise: ["die", "der"], muschel: ["die", "das"], eimer: ["der", "die"], helm: ["der", "das"], ampel: ["die", "der"] };
+  murmel: ["die", "der"], mund: ["der", "die"], milch: ["die", "das"], ameise: ["die", "der"], muschel: ["die", "das"], eimer: ["der", "die"], helm: ["der", "das"], ampel: ["die", "der"],
+  igel: ["der", "die"], taxi: ["das", "der"], insel: ["die", "das"], indianer: ["der", "die"], kiste: ["die", "der"], birne: ["die", "das"], brille: ["die", "der"],
+  radio: ["das", "die"], teppich: ["der", "das"], pinsel: ["der", "die"], lineal: ["das", "der"], polizist: ["der", "das"], iglu: ["das", "die"] };
 const maxSays = (w, a) => ({ key: "x-max-" + w.id + "-" + a, text: a + " " + w.noun });
 // Words recorded later carry rec: true (their w-/s- clips ship in audio/).
 const builtIn = (w) => DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id;
@@ -1216,8 +1225,10 @@ function registerClips() {
   for (const id of DEN_IDS) CLIPS.add("st-den-" + id);
   for (const k in SENT_T) CLIPS.add("ssp-" + k.split("-")[1]);
   for (const t of STICKER_SETS) for (const i of t.items) CLIPS.add("stk-" + t.id + "-" + i[0]);
-  for (const w of state.words) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
+  for (const w of [...state.words, ...state.bank]) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
   for (const st of state.stories) if (st.sprite) { CLIPS.add(st.sprite.file); for (const k in st.sprite.map) SPRITE[k] = [st.sprite.file, ...st.sprite.map[k]]; }
+  for (const f in PACKS) CLIPS.add(f);
+  for (const k in SPRITE) CLIPS.delete(k);   // packed clips play as slices of their file
   const add = (k) => { if (k && !SPRITE[k]) CLIPS.add(k); };
   for (const st of state.stories) add(st.titleAudio);
   for (const st of state.stories) for (const pg of st.pages) { add(pg.audio); add(pg.q && pg.q.audio); for (const l of pg.lines || (pg.kid ? [pg.kid] : [])) add(l.audio); add(pg.find && pg.find.audio); }
@@ -1684,7 +1695,7 @@ function answer(a, btn) {
   if (!c || c.locked || c.listening) return;
   c.attempts++;
   const w = c.w;
-  if (a === w.article) {
+  if (artOK(w, a)) {
     c.locked = true;
     chime();
     btn.classList.add("right");
@@ -1798,7 +1809,7 @@ function nextQ() {
 function quizAnswer(a, btn) {
   if (!Q || Q.locked) return;
   Q.locked = true;
-  const w = Q.words[Q.i], ok = a === w.article, p = prog(w.id), q = p.q || { r: 0, w: 0 };
+  const w = Q.words[Q.i], ok = artOK(w, a), p = prog(w.id), q = p.q || { r: 0, w: 0 };
   Q.res[w.id] = ok;
   const patch = { q: { r: q.r + (ok ? 1 : 0), w: q.w + (ok ? 0 : 1), last: today(), ok } };
   if (!ok) { patch.box = 0; patch.due = today(); }          // back into practice soon
@@ -2354,14 +2365,14 @@ document.querySelectorAll("#jChoices .choice").forEach(btn => btn.addEventListen
   } else if (J.phase === "fix") {
     J.phase = "";
     document.querySelectorAll("#jChoices .choice").forEach(b => b.disabled = true);
-    const ok = a === w.article;
+    const ok = artOK(w, a);
     if (ok) { chime(); btn.classList.add("right"); cheer(a, btn); jReveal(w, true); jNext(say([C(pick(PRAISE)), W(w)])); }
     else { noteMiss(w, a); jReveal(w, false); jNext(oops(btn, document.querySelector('#jChoices .choice[data-a="' + w.article + '"]'), w, { pic: jPicEl() })); }
   }
 }));
 function judge(saysRight) {
   if (!J || J.phase !== "kid") return;
-  const w = J.words[J.i], claimRight = J.claim === w.article;
+  const w = J.words[J.i], claimRight = artOK(w, J.claim);
   $("jThumbs").hidden = true;
   if (saysRight && claimRight) { J.phase = ""; chime(); cheer(w.article, $("jcard")); jReveal(w, true); jNext(say([C("f-jastimmt"), W(w)])); }
   else if (!saysRight && !claimRight) {
@@ -2637,7 +2648,7 @@ function gPick(btn) {
   const w = G.words[G.i], a = btn.dataset.a, fix = G.phase === "fix";
   G.phase = "";
   document.querySelectorAll("#gChoices .choice").forEach(b => b.disabled = true);
-  if (a === w.article) {
+  if (artOK(w, a)) {
     chime(); btn.classList.add("right"); cheer(a, btn); sparkle(btn, 10); gReveal(w, true);
     if (fix) { restart($("gMax"), "talk"); gNext(say([C("k-max-danke"), W(w)])); }
     else gNext(say([C(pick(PRAISE)), W(w)]));
@@ -2650,7 +2661,7 @@ function gPick(btn) {
 }
 function gJudge(yes) {
   if (!G || G.phase !== "judge") return;
-  const w = G.words[G.i], right = G.claim === w.article;
+  const w = G.words[G.i], right = artOK(w, G.claim);
   $("gThumbs").hidden = true;
   if (yes && right) { G.phase = ""; chime(); cheer(w.article, $("gcard")); gReveal(w, true); gNext(say([C("k-max-c1"), W(w)])); }
   else if (!yes && !right) {
@@ -2917,7 +2928,7 @@ function startAsk(a) {
   say([C("k-" + a.who + "-hilf"), C("f-welche")]);
 }
 function askTap(b) {
-  const s = ST.step, a = s.data, w = findWord(a.word), ok = b.dataset.a === w.article;
+  const s = ST.step, a = s.data, w = findWord(a.word), ok = artOK(w, b.dataset.a);
   s.type = "";
   $("squiz").querySelectorAll(".choice").forEach(x => x.disabled = true);
   const thanks = () => { kidPop(a.who); return say([C("k-" + a.who + "-danke")]); };
@@ -3021,7 +3032,7 @@ function judgeSpeech(alts, w) {
   for (const t of alts) {
     const toks = t.split(/[^a-zäöüß]+/).filter(Boolean).map(norm);
     toks.forEach((x, i) => {
-      if (x === noun || lev(x, noun) <= (noun.length > 4 ? 2 : 1)) { heardNoun = true; if (toks[i - 1] === w.article) heardArt = true; }
+      if (x === noun || lev(x, noun) <= (noun.length > 4 ? 2 : 1)) { heardNoun = true; if (artOK(w, toks[i - 1])) heardArt = true; }
     });
   }
   return heardArt ? "great" : heardNoun ? "almost" : "none";

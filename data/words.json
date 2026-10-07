@@ -1,135 +1,113 @@
 {
- "version": 4,
- "week": "Wortschatz M,m",
+ "version": 5,
+ "week": "Wortschatz I,i",
  "words": [
   {
-   "id": "maus",
-   "noun": "Maus",
-   "article": "die",
-   "emoji": "🐭",
-   "rec": true,
-   "pic": "img/m-maus.webp"
-  },
-  {
-   "id": "mann",
-   "noun": "Mann",
+   "id": "igel",
+   "noun": "Igel",
    "article": "der",
-   "emoji": "👨",
+   "emoji": "🦔",
    "rec": true,
-   "pic": "img/m-mann.webp"
+   "pic": "img/i-igel.webp"
   },
   {
-   "id": "mond",
-   "noun": "Mond",
-   "article": "der",
-   "emoji": "🌙",
-   "pic": "img/m-mond.webp",
-   "rec": true
-  },
-  {
-   "id": "mauer",
-   "noun": "Mauer",
-   "article": "die",
-   "emoji": "🧱",
-   "rec": true,
-   "pic": "img/m-mauer.webp"
-  },
-  {
-   "id": "wurm",
-   "noun": "Wurm",
-   "article": "der",
-   "emoji": "🪱",
-   "rec": true,
-   "pic": "img/m-wurm.webp"
-  },
-  {
-   "id": "mama",
-   "noun": "Mama",
-   "article": "die",
-   "emoji": "👩",
-   "rec": true,
-   "pic": "img/m-mama.webp"
-  },
-  {
-   "id": "messer",
-   "noun": "Messer",
+   "id": "taxi",
+   "noun": "Taxi",
    "article": "das",
-   "emoji": "🔪",
+   "emoji": "🚕",
    "rec": true,
-   "pic": "img/m-messer.webp"
+   "pic": "img/i-taxi.webp"
   },
   {
-   "id": "mantel",
-   "noun": "Mantel",
+   "id": "insel",
+   "noun": "Insel",
+   "article": "die",
+   "emoji": "🏝️",
+   "rec": true,
+   "pic": "img/i-insel.webp"
+  },
+  {
+   "id": "indianer",
+   "noun": "Indianer",
    "article": "der",
-   "emoji": "🧥",
+   "emoji": "🪶",
    "rec": true,
-   "pic": "img/m-mantel.webp"
+   "pic": "img/i-indianer.webp"
   },
   {
-   "id": "murmel",
-   "noun": "Murmel",
+   "id": "kiste",
+   "noun": "Kiste",
    "article": "die",
-   "emoji": "🔮",
+   "emoji": "📦",
    "rec": true,
-   "pic": "img/m-murmel.webp"
+   "pic": "img/i-kiste.webp"
   },
   {
-   "id": "mund",
-   "noun": "Mund",
+   "id": "birne",
+   "noun": "Birne",
+   "article": "die",
+   "emoji": "🍐",
+   "rec": true,
+   "pic": "img/i-birne.webp"
+  },
+  {
+   "id": "brille",
+   "noun": "Brille",
+   "article": "die",
+   "emoji": "👓",
+   "rec": true,
+   "pic": "img/i-brille.webp"
+  },
+  {
+   "id": "radio",
+   "noun": "Radio",
+   "article": "das",
+   "emoji": "📻",
+   "rec": true,
+   "pic": "img/i-radio.webp"
+  },
+  {
+   "id": "teppich",
+   "noun": "Teppich",
    "article": "der",
-   "emoji": "👄",
+   "emoji": "🧶",
    "rec": true,
-   "pic": "img/m-mund.webp"
+   "pic": "img/i-teppich.webp"
   },
   {
-   "id": "milch",
-   "noun": "Milch",
-   "article": "die",
-   "emoji": "🥛",
-   "rec": true,
-   "pic": "img/m-milch.webp"
-  },
-  {
-   "id": "ameise",
-   "noun": "Ameise",
-   "article": "die",
-   "emoji": "🐜",
-   "rec": true,
-   "pic": "img/m-ameise.webp"
-  },
-  {
-   "id": "muschel",
-   "noun": "Muschel",
-   "article": "die",
-   "emoji": "🐚",
-   "rec": true,
-   "pic": "img/m-muschel.webp"
-  },
-  {
-   "id": "eimer",
-   "noun": "Eimer",
+   "id": "pinsel",
+   "noun": "Pinsel",
    "article": "der",
-   "emoji": "🪣",
+   "emoji": "🖌️",
    "rec": true,
-   "pic": "img/m-eimer.webp"
+   "pic": "img/i-pinsel.webp"
   },
   {
-   "id": "helm",
-   "noun": "Helm",
+   "id": "lineal",
+   "noun": "Lineal",
+   "article": "das",
+   "emoji": "📏",
+   "rec": true,
+   "pic": "img/i-lineal.webp"
+  },
+  {
+   "id": "polizist",
+   "noun": "Polizist",
    "article": "der",
-   "emoji": "⛑️",
+   "emoji": "👮",
    "rec": true,
-   "pic": "img/m-helm.webp"
+   "pic": "img/i-polizist.webp"
   },
   {
-   "id": "ampel",
-   "noun": "Ampel",
-   "article": "die",
-   "emoji": "🚦",
+   "id": "iglu",
+   "noun": "Iglu",
+   "article": "das",
+   "emoji": "🧊",
    "rec": true,
-   "pic": "img/m-ampel.webp"
+   "pic": "img/i-iglu.webp",
+   "alt": [
+    "der"
+   ]
   }
- ],
- "replace": true
+ ]
 }
