@@ -790,6 +790,374 @@
      ]
     }
    }
+  },
+  {
+   "id": "story6",
+   "title": "Der fliegende Teppich!",
+   "titleAudio": "t-story6",
+   "cover": "img/story6-3.webp",
+   "sprite": {
+    "file": "sp-story6",
+    "map": {
+     "story6-1": [
+      0.3,
+      4.57
+     ],
+     "sk6-1a": [
+      5.17,
+      1.61
+     ],
+     "sk6-1b": [
+      7.08,
+      1.02
+     ],
+     "story6-2": [
+      8.4,
+      5.49
+     ],
+     "sk6-2a": [
+      14.19,
+      2.19
+     ],
+     "sq6-fliegt": [
+      16.68,
+      1.178
+     ],
+     "story6-3": [
+      18.158,
+      4.19
+     ],
+     "sk6-3a": [
+      22.648,
+      1.642
+     ],
+     "sk6-3b": [
+      24.59,
+      1.31
+     ],
+     "sf6-igel": [
+      26.2,
+      2.21
+     ],
+     "story6-4": [
+      28.71,
+      4.16
+     ],
+     "sk6-4a": [
+      33.17,
+      1.99
+     ],
+     "story6-5": [
+      35.46,
+      3.96
+     ],
+     "sk6-5a": [
+      39.72,
+      1.08
+     ],
+     "story6-6": [
+      41.1,
+      3.44
+     ],
+     "sk6-6a": [
+      44.84,
+      1.29
+     ],
+     "story6-7": [
+      46.43,
+      3.61
+     ],
+     "sk6-7a": [
+      50.34,
+      0.95
+     ],
+     "story6-8": [
+      51.59,
+      6.12
+     ],
+     "sk6-8a": [
+      58.01,
+      1.17
+     ],
+     "sf6-brille": [
+      59.48,
+      1.99
+     ],
+     "story6-9": [
+      61.77,
+      3.74
+     ],
+     "sk6-9a": [
+      65.81,
+      2.492
+     ],
+     "story6-10": [
+      68.602,
+      4.24
+     ],
+     "sk6-10a": [
+      73.142,
+      0.82
+     ],
+     "sq6-isst": [
+      74.262,
+      1.35
+     ],
+     "story6-11": [
+      75.912,
+      2.91
+     ],
+     "sk6-11a": [
+      79.122,
+      1.23
+     ],
+     "story6-12": [
+      80.652,
+      4.05
+     ],
+     "sk6-12a": [
+      85.002,
+      1.13
+     ],
+     "sk6-12b": [
+      86.432,
+      1.118
+     ],
+     "t-story6": [
+      87.85,
+      1.64
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story6-1.webp",
+     "audio": "story6-1",
+     "text": "Hallo, ich bin Mila! Da ist der Igel. Der Igel ist klein und rund.",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk6-1a",
+       "text": "Hallo, kleiner Igel!"
+      },
+      {
+       "who": "max",
+       "audio": "sk6-1b",
+       "text": "So süß!"
+      }
+     ],
+     "ask": {
+      "word": "igel",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story6-2.webp",
+     "audio": "story6-2",
+     "text": "Oh, da ist der Teppich! Der Teppich ist rot und grün. Der Teppich fliegt!",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk6-2a",
+       "text": "Wow, er fliegt!"
+      }
+     ],
+     "q": {
+      "text": "Was fliegt?",
+      "audio": "sq6-fliegt",
+      "answer": "teppich",
+      "choices": [
+       "teppich",
+       "taxi",
+       "kiste"
+      ]
+     }
+    },
+    {
+     "img": "img/story6-3.webp",
+     "audio": "story6-3",
+     "text": "Alle steigen auf. Der Teppich fliegt hoch, hoch, hoch!",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk6-3a",
+       "text": "Juhu!"
+      },
+      {
+       "who": "mia",
+       "audio": "sk6-3b",
+       "text": "Halt dich fest!"
+      }
+     ],
+     "find": {
+      "text": "Wo ist der Igel? Zeig mal!",
+      "audio": "sf6-igel",
+      "answer": "igel",
+      "x": 72.3,
+      "y": 55,
+      "r": 8
+     }
+    },
+    {
+     "img": "img/story6-4.webp",
+     "audio": "story6-4",
+     "text": "Unten fährt das Taxi. Das Taxi ist gelb. Tüt, tüt!",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk6-4a",
+       "text": "So klein von hier oben!"
+      }
+     ],
+     "ask": {
+      "word": "taxi",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story6-5.webp",
+     "audio": "story6-5",
+     "text": "Da ist der Polizist. Der Polizist winkt. Hallo!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk6-5a",
+       "text": "Hallo, hallo!"
+      }
+     ],
+     "ask": {
+      "word": "polizist",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story6-6.webp",
+     "audio": "story6-6",
+     "text": "Da ist die Insel! Die Insel ist klein. Der Teppich landet.",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk6-6a",
+       "text": "Wir sind da!"
+      }
+     ],
+     "ask": {
+      "word": "insel",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story6-7.webp",
+     "audio": "story6-7",
+     "text": "Da ist die Kiste. Die Kiste ist alt. Was ist drin?",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk6-7a",
+       "text": "Mach auf!"
+      }
+     ],
+     "ask": {
+      "word": "kiste",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story6-8.webp",
+     "audio": "story6-8",
+     "text": "Oh! Da ist das Radio. Da ist die Brille. Und da ist das Lineal!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk6-8a",
+       "text": "Ein Schatz!"
+      }
+     ],
+     "find": {
+      "text": "Wo ist die Brille? Zeig mal!",
+      "audio": "sf6-brille",
+      "answer": "brille",
+      "x": 29.5,
+      "y": 88,
+      "r": 7
+     }
+    },
+    {
+     "img": "img/story6-9.webp",
+     "audio": "story6-9",
+     "text": "Das Radio spielt Musik. Alle tanzen. Der Igel tanzt auch!",
+     "lines": [
+      {
+       "who": "max",
+       "audio": "sk6-9a",
+       "text": "Hihi, er tanzt!"
+      }
+     ],
+     "ask": {
+      "word": "radio",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story6-10.webp",
+     "audio": "story6-10",
+     "text": "Der Igel hat Hunger. Da ist die Birne. Die Birne ist süß.",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk6-10a",
+       "text": "Lecker!"
+      }
+     ],
+     "q": {
+      "text": "Was isst der Igel?",
+      "audio": "sq6-isst",
+      "answer": "birne",
+      "choices": [
+       "birne",
+       "brille",
+       "kiste"
+      ]
+     }
+    },
+    {
+     "img": "img/story6-11.webp",
+     "audio": "story6-11",
+     "text": "Da ist der Pinsel. Der Igel malt die Insel.",
+     "lines": [
+      {
+       "who": "mil",
+       "audio": "sk6-11a",
+       "text": "So schön!"
+      }
+     ],
+     "satz": {
+      "s": "igel",
+      "o": "insel"
+     }
+    },
+    {
+     "img": "img/story6-12.webp",
+     "audio": "story6-12",
+     "text": "Der Mond scheint. Max malt den Mond. Gute Nacht, Igel!",
+     "lines": [
+      {
+       "who": "mia",
+       "audio": "sk6-12a",
+       "text": "Das war toll!"
+      },
+      {
+       "who": "mil",
+       "audio": "sk6-12b",
+       "text": "Gute Nacht!"
+      }
+     ],
+     "satz": {
+      "s": "max",
+      "o": "mond"
+     }
+    }
+   ]
   }
  ]
 }
