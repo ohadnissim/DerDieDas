@@ -1257,7 +1257,8 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "f-gestalten":"Du bist die Gärtnerin! Zieh alles dahin, wo du es haben willst.","f-wieschoen":"Wie schön! Dein Garten ist toll!",
   "f-upsi":"Upsi! Nicht schlimm.","f-hoppla":"Hoppla! Macht nichts.","f-jetztdu":"Jetzt du! Tipp mal!","f-jetztweisst":"Super! Jetzt weißt du es!",
   "f-maxsagt":"Max sagt ein Wort. Stimmt das?","f-hoerspiel":"Hörspiel! Hör gut zu!",
-  "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!"};
+  "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!",
+  "wr-welcher":"Welchen Buchstaben schreibst du?","wr-gross-m":"Das ist das große M. M wie Maus!","wr-klein-m":"Und das ist das kleine m.","wr-gross-i":"Das ist das große I. I wie Igel!","wr-klein-i":"Und das ist das kleine i. Es hat einen Punkt!","wr-jetztdu":"Jetzt du! Fahr mit dem Finger nach.","wr-punkte":"Jetzt mit Pünktchen!","wr-allein":"Und jetzt ganz allein!","wr-gruen":"Fang beim grünen Punkt an!","wr-punkt":"Und jetzt der Punkt!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
@@ -2651,17 +2652,6 @@ const LETTERS = [
   { id: "m", up: "M", low: "m", word: "maus" },
   { id: "i", up: "I", low: "i", word: "igel" },
 ];
-// Mila's lines for this game. Only her own recorded voice is used: a line plays once its recording is in
-// audio/ and its text is in CLIP_TEXT; until then it stays silent and the arrows and the demo show the way.
-const WRITE_LINES = {
-  "wr-welcher": "Welchen Buchstaben schreibst du?",
-  "wr-gross-m": "Das ist das große M. M wie Maus!", "wr-klein-m": "Und das ist das kleine m.",
-  "wr-gross-i": "Das ist das große I. I wie Igel!", "wr-klein-i": "Und das ist das kleine i. Es hat einen Punkt!",
-  "wr-jetztdu": "Jetzt du! Fahr mit dem Finger nach.", "wr-punkte": "Jetzt mit Pünktchen!", "wr-allein": "Und jetzt ganz allein!",
-  "wr-gruen": "Fang beim grünen Punkt an!", "wr-punkt": "Und jetzt der Punkt!",
-};
-const WC = (k) => CLIP_TEXT[k] ? C(k) : null;
-const sayIf = (...parts) => { parts = parts.filter(Boolean); return parts.length ? say(parts) : Promise.resolve(); };
 const W_R = 16, W_OFF = 34, W_START = 24, W_END = 12;   // units: on the line, too far off, near the start dot, near the end
 function wPath(pts) {   // a point every 2 units, with the length so far
   const out = [{ x: pts[0][0], y: pts[0][1], s: 0 }];
@@ -2687,7 +2677,7 @@ function startWrite(id) {
     return '<button class="wtile" data-id="' + l.id + '" aria-label="' + l.up + " " + l.low + '"><span class="pair">' + l.up + " " + l.low + "</span>" +
       (w ? faceHTML(w) : "") + ((done[l.id] || {}).n ? '<span class="mark">✓</span>' : "") + "</button>";
   }).join("");
-  sayIf(WC("wr-welcher"));
+  say([C("wr-welcher")]);
 }
 function pickLetter(id) {
   const l = LETTERS.find(x => x.id === id); lastLetter = id;
@@ -2706,10 +2696,10 @@ async function nextWrite() {
   $("wcard").classList.remove("yay");
   wLayout(); renderWDots();
   if (st.mode === "full") {
-    await sayIf(WC((st.g === L.l.up ? "wr-gross-" : "wr-klein-") + L.l.id)); if (L !== my) return;
+    await say([C((st.g === L.l.up ? "wr-gross-" : "wr-klein-") + L.l.id)]); if (L !== my) return;
     await wDemo(); if (L !== my) return;
-    sayIf(WC("wr-jetztdu"));
-  } else sayIf(WC(st.mode === "dots" ? "wr-punkte" : "wr-allein"));
+    say([C("wr-jetztdu")]);
+  } else say([C(st.mode === "dots" ? "wr-punkte" : "wr-allein")]);
   L.phase = "trace"; wMarks();
 }
 // The paper fills the card; the letter sits in the middle of the lines.
@@ -2745,7 +2735,7 @@ function wMarks() {
 async function wDemo() {
   const my = L, alive = () => L === my, pen = $("wPen");
   L.phase = "demo"; L.k = 0; L.ink = []; wInkRender(); wMarks();
-  await sayIf(C("f-schau")); if (!alive()) return;
+  await say([C("f-schau")]); if (!alive()) return;
   pen.removeAttribute("hidden");
   const drawn = [];
   for (const s of L.strokes) {
@@ -2779,7 +2769,7 @@ function wCallStart() {
   const g = $("wStart");
   if (g) { g.classList.remove("call"); void g.getBoundingClientRect(); g.classList.add("call"); setTimeout(() => g.classList.remove("call"), 1600); }
   const now = Date.now();
-  if (!L.saidStart || now - L.saidStart > 5000) { L.saidStart = now; sayIf(WC("wr-gruen")); }
+  if (!L.saidStart || now - L.saidStart > 5000) { L.saidStart = now; say([C("wr-gruen")]); }
 }
 // Follow the finger along the stroke: it moves ahead only while it stays on the line; far off for a moment, the stroke starts again.
 function wFollow(t, p) {
@@ -2807,7 +2797,7 @@ function wSlip(t) {
 async function wStrokeDone(s) {
   L.ink.push(s); L.k++; wTouch = null;
   wInkRender(); pop();
-  if (L.k < L.strokes.length) { wMarks(); if (L.strokes[L.k].dot) sayIf(WC("wr-punkt")); return; }
+  if (L.k < L.strokes.length) { wMarks(); if (L.strokes[L.k].dot) say([C("wr-punkt")]); return; }
   // the whole letter is written
   const my = L; L.phase = "busy"; wMarks();
   L.res[L.i] = !L.miss; L.kept.push({ g: L.steps[L.i].g, ink: L.ink.slice(), ok: !L.miss });
