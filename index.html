@@ -2751,7 +2751,7 @@ function wMarks() {
     const last = s.pts.length - 1, turn = s.corners.find(c => c > L.at) ?? last;
     const j = Math.max(1, turn - L.at <= 4 && turn < last ? Math.min(turn + 7, last) : Math.min(L.at + 9, turn));
     const a = s.pts[j - 1], b = s.pts[j], ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
-    html += '<path class="arrow" d="M-6 -7 L7 0 L-6 7 Z" transform="translate(' + b.x.toFixed(1) + " " + b.y.toFixed(1) + ") rotate(" + ang.toFixed(0) + ')"/>';
+    html += '<path class="arrow" d="M-11 -2.5 L1 -2.5 L1 -7.5 L11 0 L1 7.5 L1 2.5 L-11 2.5 Z" transform="translate(' + b.x.toFixed(1) + " " + b.y.toFixed(1) + ") rotate(" + ang.toFixed(0) + ')"/>';
   }
   m.innerHTML = html;
 }
