@@ -1175,7 +1175,8 @@
       },
       {
        "who": "max",
-       "text": "Ist er lieb?"
+       "text": "Ist er lieb?",
+       "audio": "sk7-1b"
       }
      ],
      "ask": {
@@ -1190,7 +1191,8 @@
      "lines": [
       {
        "who": "mil",
-       "text": "Er lacht ja!"
+       "text": "Er lacht ja!",
+       "audio": "sk7-2a"
       }
      ],
      "q": {
@@ -1227,7 +1229,8 @@
      "lines": [
       {
        "who": "max",
-       "text": "Einkaufen, juhu!"
+       "text": "Einkaufen, juhu!",
+       "audio": "sk7-4a"
       }
      ],
      "ask": {
@@ -1242,7 +1245,8 @@
      "lines": [
       {
        "who": "mil",
-       "text": "Lecker!"
+       "text": "Lecker!",
+       "audio": "sk7-5a"
       }
      ],
      "ask": {
@@ -1279,15 +1283,16 @@
      "lines": [
       {
        "who": "max",
-       "text": "Jetzt ist es hell!"
+       "text": "Jetzt ist es hell!",
+       "audio": "sk7-7a"
       }
      ],
      "find": {
       "text": "Wo ist die Lampe? Zeig mal!",
       "answer": "lampe",
-      "x": 19.5,
-      "y": 43,
-      "r": 9,
+      "x": 16,
+      "y": 45,
+      "r": 10,
       "audio": "sf7-lampe"
      },
      "audio": "story7-7"
@@ -1298,7 +1303,8 @@
      "lines": [
       {
        "who": "mil",
-       "text": "Danke, Löwe!"
+       "text": "Danke, Löwe!",
+       "audio": "sk7-8a"
       }
      ],
      "ask": {
@@ -1318,7 +1324,8 @@
       },
       {
        "who": "max",
-       "text": "Schlaf gut!"
+       "text": "Schlaf gut!",
+       "audio": "sk7-9b"
       }
      ],
      "audio": "story7-9"
@@ -1426,7 +1433,8 @@
      "lines": [
       {
        "who": "max",
-       "text": "Wow, riesig!"
+       "text": "Wow, riesig!",
+       "audio": "sk8-2a"
       }
      ],
      "ask": {
@@ -1441,7 +1449,8 @@
      "lines": [
       {
        "who": "mil",
-       "text": "So schön!"
+       "text": "So schön!",
+       "audio": "sk8-3a"
       }
      ],
      "satz": {
@@ -1456,7 +1465,8 @@
      "lines": [
       {
        "who": "max",
-       "text": "Ganz gerade!"
+       "text": "Ganz gerade!",
+       "audio": "sk8-4a"
       }
      ],
      "satz": {
@@ -1487,7 +1497,8 @@
      "lines": [
       {
        "who": "max",
-       "text": "Ich kann das!"
+       "text": "Ich kann das!",
+       "audio": "sk8-6a"
       }
      ],
      "ask": {
@@ -1502,14 +1513,15 @@
      "lines": [
       {
        "who": "mil",
-       "text": "Oh je!"
+       "text": "Oh je!",
+       "audio": "sk8-7a"
       }
      ],
      "find": {
       "text": "Wo ist der Ball? Zeig mal!",
       "answer": "ball",
-      "x": 55.5,
-      "y": 25,
+      "x": 66.5,
+      "y": 17,
       "r": 6,
       "audio": "sf8-ball"
      },
@@ -1547,11 +1559,13 @@
      "lines": [
       {
        "who": "mil",
-       "text": "Tschüss!"
+       "text": "Tschüss!",
+       "audio": "sk8-9a"
       },
       {
        "who": "max",
-       "text": "Bis morgen!"
+       "text": "Bis morgen!",
+       "audio": "sk8-9b"
       }
      ],
      "audio": "story8-9"
