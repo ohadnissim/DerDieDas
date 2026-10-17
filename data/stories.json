@@ -1158,6 +1158,301 @@
      }
     }
    ]
+  },
+  {
+   "id": "story7",
+   "title": "Der Löwe lacht!",
+   "cover": "img/story7-2.webp",
+   "pages": [
+    {
+     "img": "img/story7-1.webp",
+     "text": "Hallo, ich bin Mila! Da ist der Löwe. Der Löwe ist groß und gelb.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Hallo, Löwe!"
+      },
+      {
+       "who": "max",
+       "text": "Ist er lieb?"
+      }
+     ],
+     "ask": {
+      "word": "loewe",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story7-2.webp",
+     "text": "Der Löwe lacht: Ha, ha, ha! Der Löwe ist lieb.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Er lacht ja!"
+      }
+     ],
+     "q": {
+      "text": "Wer lacht?",
+      "answer": "loewe",
+      "choices": [
+       "loewe",
+       "lama",
+       "lampe"
+      ]
+     }
+    },
+    {
+     "img": "img/story7-3.webp",
+     "text": "Da ist das Lama. Das Lama ist weiß und weich. Das Lama ist sein Freund.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "So flauschig!"
+      }
+     ],
+     "ask": {
+      "word": "lama",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story7-4.webp",
+     "text": "Der Löwe und das Lama gehen einkaufen. Da ist der Laden. Der Laden ist rot.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Einkaufen, juhu!"
+      }
+     ],
+     "ask": {
+      "word": "laden",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story7-5.webp",
+     "text": "Im Laden ist die Limonade. Die Limonade ist grün. Und da ist die Salami.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Lecker!"
+      }
+     ],
+     "ask": {
+      "word": "limonade",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story7-6.webp",
+     "text": "Der Löwe kauft die Salami. Das Lama kauft die Limonade.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Mmm, Salami!"
+      }
+     ],
+     "q": {
+      "text": "Was kauft der Löwe?",
+      "answer": "salami",
+      "choices": [
+       "salami",
+       "limonade",
+       "lupe"
+      ]
+     }
+    },
+    {
+     "img": "img/story7-7.webp",
+     "text": "Zu Hause ist es dunkel. Da ist die Lampe. Die Lampe macht Licht.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Jetzt ist es hell!"
+      }
+     ],
+     "find": {
+      "text": "Wo ist die Lampe? Zeig mal!",
+      "answer": "lampe",
+      "x": 19.5,
+      "y": 43,
+      "r": 9
+     }
+    },
+    {
+     "img": "img/story7-8.webp",
+     "text": "Da ist der Löffel. Der Löwe legt den Löffel auf den Tisch.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Danke, Löwe!"
+      }
+     ],
+     "ask": {
+      "word": "loeffel",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story7-9.webp",
+     "text": "Der Löwe ist müde. Er liegt auf dem Sofa. Das Lama lacht leise. Gute Nacht, Löwe!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Gute Nacht!"
+      },
+      {
+       "who": "max",
+       "text": "Schlaf gut!"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "story8",
+   "title": "Die Lupe!",
+   "cover": "img/story8-2.webp",
+   "pages": [
+    {
+     "img": "img/story8-1.webp",
+     "text": "Hallo, ich bin Mila! Heute ist Schule. Da ist die Lehrerin.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Guten Morgen!"
+      }
+     ],
+     "ask": {
+      "word": "lehrerin",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story8-2.webp",
+     "text": "Die Lehrerin hat die Lupe. Schau durch die Lupe: Alles ist groß!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Wow, riesig!"
+      }
+     ],
+     "ask": {
+      "word": "lupe",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story8-3.webp",
+     "text": "Da ist die Blume. Die Blume ist weiß und gelb. Mia malt die Blume.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "So schön!"
+      }
+     ],
+     "satz": {
+      "s": "mia",
+      "o": "blume"
+     }
+    },
+    {
+     "img": "img/story8-4.webp",
+     "text": "Da ist der Bleistift. Da ist das Lineal. Mil malt den Bleistift.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Ganz gerade!"
+      }
+     ],
+     "satz": {
+      "s": "mil",
+      "o": "bleistift"
+     }
+    },
+    {
+     "img": "img/story8-5.webp",
+     "text": "Pause! Alle gehen raus. Da ist die Schaukel. Mia schaukelt hoch, hoch, hoch!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Juhu!"
+      }
+     ],
+     "ask": {
+      "word": "schaukel",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story8-6.webp",
+     "text": "Da ist das Seil. Max springt Seil. Hopp, hopp, hopp!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Ich kann das!"
+      }
+     ],
+     "ask": {
+      "word": "seil",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story8-7.webp",
+     "text": "Mil wirft den Ball. Oh nein! Der Ball liegt oben auf dem Dach.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Oh je!"
+      }
+     ],
+     "find": {
+      "text": "Wo ist der Ball? Zeig mal!",
+      "answer": "ball",
+      "x": 55.5,
+      "y": 25,
+      "r": 6
+     }
+    },
+    {
+     "img": "img/story8-8.webp",
+     "text": "Da ist die Leiter. Die Lehrerin holt den Ball.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Danke!"
+      }
+     ],
+     "q": {
+      "text": "Was holt die Lehrerin?",
+      "answer": "ball",
+      "choices": [
+       "ball",
+       "seil",
+       "blume"
+      ]
+     },
+     "ask": {
+      "word": "leiter",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story8-9.webp",
+     "text": "Alle sind im Gras. Sie lachen und lachen. Das war ein schöner Tag!",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Tschüss!"
+      },
+      {
+       "who": "max",
+       "text": "Bis morgen!"
+      }
+     ]
+    }
+   ]
   }
  ]
 }

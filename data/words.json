@@ -1,87 +1,7 @@
 {
- "version": 5,
- "week": "Wortschatz I,i",
+ "version": 6,
+ "week": "Wortschatz L,l",
  "words": [
-  {
-   "id": "igel",
-   "noun": "Igel",
-   "article": "der",
-   "emoji": "🦔",
-   "rec": true,
-   "pic": "img/i-igel.webp"
-  },
-  {
-   "id": "taxi",
-   "noun": "Taxi",
-   "article": "das",
-   "emoji": "🚕",
-   "rec": true,
-   "pic": "img/i-taxi.webp"
-  },
-  {
-   "id": "insel",
-   "noun": "Insel",
-   "article": "die",
-   "emoji": "🏝️",
-   "rec": true,
-   "pic": "img/i-insel.webp"
-  },
-  {
-   "id": "indianer",
-   "noun": "Indianer",
-   "article": "der",
-   "emoji": "🪶",
-   "rec": true,
-   "pic": "img/i-indianer.webp"
-  },
-  {
-   "id": "kiste",
-   "noun": "Kiste",
-   "article": "die",
-   "emoji": "📦",
-   "rec": true,
-   "pic": "img/i-kiste.webp"
-  },
-  {
-   "id": "birne",
-   "noun": "Birne",
-   "article": "die",
-   "emoji": "🍐",
-   "rec": true,
-   "pic": "img/i-birne.webp"
-  },
-  {
-   "id": "brille",
-   "noun": "Brille",
-   "article": "die",
-   "emoji": "👓",
-   "rec": true,
-   "pic": "img/i-brille.webp"
-  },
-  {
-   "id": "radio",
-   "noun": "Radio",
-   "article": "das",
-   "emoji": "📻",
-   "rec": true,
-   "pic": "img/i-radio.webp"
-  },
-  {
-   "id": "teppich",
-   "noun": "Teppich",
-   "article": "der",
-   "emoji": "🧶",
-   "rec": true,
-   "pic": "img/i-teppich.webp"
-  },
-  {
-   "id": "pinsel",
-   "noun": "Pinsel",
-   "article": "der",
-   "emoji": "🖌️",
-   "rec": true,
-   "pic": "img/i-pinsel.webp"
-  },
   {
    "id": "lineal",
    "noun": "Lineal",
@@ -91,23 +11,111 @@
    "pic": "img/i-lineal.webp"
   },
   {
-   "id": "polizist",
-   "noun": "Polizist",
+   "id": "laden",
+   "noun": "Laden",
    "article": "der",
-   "emoji": "👮",
-   "rec": true,
-   "pic": "img/i-polizist.webp"
+   "emoji": "🏪",
+   "pic": "img/l-laden.webp"
   },
   {
-   "id": "iglu",
-   "noun": "Iglu",
+   "id": "limonade",
+   "noun": "Limonade",
+   "article": "die",
+   "emoji": "🍋",
+   "pic": "img/l-limonade.webp"
+  },
+  {
+   "id": "lupe",
+   "noun": "Lupe",
+   "article": "die",
+   "emoji": "🔍",
+   "pic": "img/l-lupe.webp"
+  },
+  {
+   "id": "lehrerin",
+   "noun": "Lehrerin",
+   "article": "die",
+   "emoji": "👩‍🏫",
+   "pic": "img/l-lehrerin.webp"
+  },
+  {
+   "id": "loewe",
+   "noun": "Löwe",
+   "article": "der",
+   "emoji": "🦁",
+   "pic": "img/l-loewe.webp"
+  },
+  {
+   "id": "lama",
+   "noun": "Lama",
    "article": "das",
-   "emoji": "🧊",
+   "emoji": "🦙",
+   "pic": "img/l-lama.webp"
+  },
+  {
+   "id": "leiter",
+   "noun": "Leiter",
+   "article": "die",
+   "emoji": "🪜",
+   "pic": "img/l-leiter.webp"
+  },
+  {
+   "id": "lampe",
+   "noun": "Lampe",
+   "article": "die",
+   "emoji": "💡",
+   "pic": "img/l-lampe.webp"
+  },
+  {
+   "id": "loeffel",
+   "noun": "Löffel",
+   "article": "der",
+   "emoji": "🥄",
+   "pic": "img/l-loeffel.webp"
+  },
+  {
+   "id": "ball",
+   "noun": "Ball",
+   "article": "der",
+   "emoji": "🏐",
    "rec": true,
-   "pic": "img/i-iglu.webp",
-   "alt": [
-    "der"
-   ]
+   "pic": "img/l-ball.webp"
+  },
+  {
+   "id": "seil",
+   "noun": "Seil",
+   "article": "das",
+   "emoji": "🪢",
+   "pic": "img/l-seil.webp"
+  },
+  {
+   "id": "blume",
+   "noun": "Blume",
+   "article": "die",
+   "emoji": "🌼",
+   "rec": true,
+   "pic": "img/l-blume.webp"
+  },
+  {
+   "id": "salami",
+   "noun": "Salami",
+   "article": "die",
+   "emoji": "🍖",
+   "pic": "img/l-salami.webp"
+  },
+  {
+   "id": "bleistift",
+   "noun": "Bleistift",
+   "article": "der",
+   "emoji": "✏️",
+   "pic": "img/l-bleistift.webp"
+  },
+  {
+   "id": "schaukel",
+   "noun": "Schaukel",
+   "article": "die",
+   "emoji": "🛝",
+   "pic": "img/l-schaukel.webp"
   }
  ]
 }
