@@ -3839,14 +3839,15 @@ function finishSent() {
 
 /* ---------- Schreiben: trace capital and small letters on the school's writing lines ---------- */
 // Each letter three times: on a grey track, on a dotted line, then with only the green start dot.
-// Every letter is written the way it is written by hand, in one flowing movement: M goes up, down, up and down
-// without lifting; m goes down, back up the same line and over each arch. Only the i's dot is a separate tap.
+// Every letter is written the way it is written by hand at school: M goes up, down, up and down without lifting;
+// m goes down, back up the same line and over each arch. The capital I is three lines: down, then the short bar on top
+// and the one at the bottom, each from left to right. The i's dot is a separate tap.
 // Units: the top line is y=0, the middle line y=50, the base line y=100, the bottom line y=150.
 const arcPts = (cx, cy, rx, ry, a0, a1, n = 14) => Array.from({ length: n + 1 }, (_, i) => { const t = a0 + (a1 - a0) * i / n; return [cx + rx * Math.cos(t), cy - ry * Math.sin(t)]; });
 const GLYPHS = {
   M: { w: 72, strokes: [[[0, 100], [0, 0], [36, 62], [72, 0], [72, 100]]] },
   m: { w: 56, strokes: [[[0, 50], [0, 100], ...arcPts(14, 64, 14, 14, Math.PI, 0), [28, 100], ...arcPts(42, 64, 14, 14, Math.PI, 0), [56, 100]]] },
-  I: { w: 0, strokes: [[[0, 0], [0, 100]]] },
+  I: { w: 40, strokes: [[[20, 0], [20, 100]], [[0, 0], [40, 0]], [[0, 100], [40, 100]]] },   // like at school: down, then the bar on top, then the bar at the bottom
   i: { w: 0, strokes: [[[0, 50], [0, 100]], { dot: [0, 27] }] },
   L: { w: 50, strokes: [[[0, 0], [0, 100], [50, 100]]] },   // down, then along the line without lifting
   l: { w: 0, strokes: [[[0, 0], [0, 100]]] },
