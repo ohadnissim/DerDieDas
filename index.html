@@ -679,6 +679,116 @@ circle.inked{fill:#8E3FC7;stroke:none}
 .mote{position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;opacity:.7;pointer-events:none;animation:mote 7s linear infinite}
 @keyframes mote{from{transform:translateY(0);opacity:0}20%{opacity:.8}to{transform:translateY(-160px);opacity:0}}
 
+/* ---------- the world: her garden and the sticker islands, full screen on the iPad ---------- */
+#gardenScreen{position:fixed;inset:0;z-index:2;max-width:none;margin:0;padding:0;gap:0;overflow:hidden}
+#gardenScreen .garden{position:absolute;inset:0;border-radius:0;box-shadow:none;transition:background .8s}
+#gardenScreen .garden{display:flex;align-items:center;justify-content:center}
+#gardenScreen .island{flex:none;width:min(116vw,calc(100dvh * 1.5));margin-top:3dvh}
+@media (orientation:portrait){#gardenScreen .island{width:min(128vw,calc(100dvh * 1.5));margin-top:0}}
+/* full screen, the picture's own edges fade into the sky behind it */
+#gardenScreen .island .base{-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(180deg,transparent,#000 6%,#000 92%,transparent);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(180deg,transparent,#000 6%,#000 92%,transparent);mask-composite:intersect}
+#gardenScreen .island.arrive{animation:arrive .7s cubic-bezier(.25,1.3,.45,1) both}
+@keyframes arrive{from{opacity:0;translate:0 -6%;scale:.86}to{opacity:1;translate:0 0;scale:1}}
+#gardenScreen img{-webkit-touch-callout:none;-webkit-user-drag:none}
+.wbar{position:absolute;z-index:6;top:max(14px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;pointer-events:none}
+.wbar>*{pointer-events:auto}
+.wbar .bar-mid{pointer-events:none}
+.wbar .pill{pointer-events:auto;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(12px) saturate(1.4);backdrop-filter:blur(12px) saturate(1.4);color:#3B2352}
+.wbar .pill img{width:38px;height:38px;border-radius:0;object-fit:contain}
+.wbar .icon-btn{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#86709C}
+.wend{display:flex;gap:12px}
+#nightBtn.on{background:#2B2560;color:#FFE27A}
+/* islands to fly to */
+.islands{position:absolute;z-index:6;left:max(14px,env(safe-area-inset-left));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px}
+.inav{position:relative;width:clamp(58px,8.5vmin,76px);aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  box-shadow:var(--lift);display:grid;place-items:center;transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
+.inav img{width:76%;height:76%;object-fit:contain;pointer-events:none}
+.inav.on{box-shadow:0 0 0 5px var(--star),var(--lift);transform:scale(1.08)}
+.inav:active{transform:scale(.92)}
+.inav.locked img{filter:grayscale(1) brightness(1.15);opacity:.45}
+.inav .lock{position:absolute;right:-4px;bottom:-4px;font-size:22px;line-height:1}
+.inav .due{position:absolute;top:-6px;right:-6px;min-width:26px;height:26px;border-radius:13px;background:var(--pink);color:#fff;font-family:var(--display);font-weight:800;
+  font-size:17px;display:grid;place-items:center;box-shadow:0 0 0 3px #fff;animation:pulse 1.2s ease-in-out infinite}
+.inav .need{position:absolute;left:calc(100% + 10px);top:50%;translate:0 -50%;white-space:nowrap;background:#fff;color:#3B2352;border-radius:999px;padding:6px 14px 6px 8px;
+  font-family:var(--display);font-weight:800;font-size:20px;display:flex;align-items:center;gap:6px;box-shadow:var(--lift);animation:pop .3s both;pointer-events:none}
+.inav .need img{width:34px;height:34px}
+.inav.shake{animation:shake .45s}
+/* her stickers on an island: puffy die-cut stickers that stand in the 3D world */
+.stk{position:absolute;width:12.5%;padding:0;background:none;transform-origin:50% 100%;touch-action:none;
+  transform:translate(-50%,-100%) translateZ(var(--z,24px)) scale(var(--d,1));transform-style:preserve-3d}
+.stk .in{display:block;transform-origin:50% 100%;transition:transform .18s cubic-bezier(.3,1.5,.5,1)}
+.stk img{display:block;width:100%;height:auto;pointer-events:none;filter:drop-shadow(0 7px 5px rgba(60,30,40,.28))}
+.stk::after{content:"";position:absolute;left:18%;right:18%;bottom:-3%;height:9%;border-radius:50%;background:radial-gradient(closest-side,rgba(50,25,60,.32),transparent);transform:translateZ(-1px);pointer-events:none}
+.stk.flies::after{opacity:.45;bottom:-14%;left:28%;right:28%}
+.stk.lift{z-index:999!important}
+.stk.lift .in{transform:scale(1.16) rotate(-5deg) translateY(-6%)}
+.stk.lift img{filter:drop-shadow(0 22px 14px rgba(60,30,40,.3))}
+.stk.gone{transition:transform .3s,opacity .3s;opacity:0;transform:translate(-50%,-100%) scale(.3)}
+.mv-breathe{animation:breathe 3.2s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.025,.975)}}
+.mv-swim{animation:swim 4.4s ease-in-out infinite}
+@keyframes swim{0%,100%{transform:translate(0,0) rotate(-2deg)}25%{transform:translate(4%,-4%) rotate(1deg)}50%{transform:translate(8%,0) rotate(3deg)}75%{transform:translate(4%,3%) rotate(0)}}
+.mv-fly{animation:fly 3.6s ease-in-out infinite}
+@keyframes fly{0%,100%{transform:translate(0,0) rotate(-4deg)}50%{transform:translate(6%,-14%) rotate(5deg)}}
+.mv-rock{animation:rock 2.6s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes rock{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+.mv-still{animation:none}
+.wchip{position:absolute;left:50%;bottom:104%;translate:-50% 0;white-space:nowrap;background:#fff;color:#3B2352;border-radius:999px;padding:4px 14px;
+  font-family:var(--display);font-weight:800;font-size:clamp(18px,2.8vmin,26px);box-shadow:0 8px 18px rgba(92,38,130,.22);pointer-events:none;
+  animation:chip 2.2s cubic-bezier(.3,1.5,.5,1) both;transform:translateZ(40px)}
+.wchip b.der{color:var(--der)} .wchip b.die{color:var(--die)} .wchip b.das{color:#C2A300}
+@keyframes chip{0%{opacity:0;scale:.4}12%{opacity:1;scale:1}85%{opacity:1;scale:1}100%{opacity:0;scale:.9}}
+.ghouse.wdrag{touch-action:none}
+.ghouse.happy .orb{animation:happy .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes happy{0%{transform:scale(1)}40%{transform:scale(1.3) translateY(-20%)}100%{transform:scale(1)}}
+.ghouse.nope .orb{animation:nope .5s}
+@keyframes nope{0%,100%{rotate:0deg}20%{rotate:-14deg}40%{rotate:12deg}60%{rotate:-8deg}80%{rotate:5deg}}
+.ghouse.target .orb{box-shadow:0 0 0 6px rgba(255,255,255,.9),0 0 28px 10px rgba(255,255,255,.7)}
+/* the sticker she is pulling out of the tray */
+.ghost{position:fixed;z-index:50;left:0;top:0;pointer-events:none;transform-origin:50% 100%;will-change:transform}
+.ghost img{display:block;width:100%;height:auto;filter:drop-shadow(0 24px 16px rgba(60,30,40,.32));animation:peel .25s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes peel{from{transform:scale(.7) rotate(8deg)}to{transform:scale(1.1) rotate(-5deg)}}
+/* the tray with the stickers she hasn't placed yet */
+.tray{position:absolute;z-index:6;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));
+  height:clamp(96px,14vmin,124px);border-radius:34px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);
+  box-shadow:0 14px 30px rgba(92,38,130,.18),inset 0 0 0 2px rgba(255,255,255,.7)}
+.tray.drop{box-shadow:0 0 0 5px var(--pink),0 14px 30px rgba(92,38,130,.18)}
+.tray-in{display:flex;align-items:center;gap:6px;height:100%;padding:0 18px;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;overscroll-behavior:contain;scrollbar-width:none}
+.tray-in::-webkit-scrollbar{display:none}
+.titem{position:relative;flex:0 0 auto;height:84%;aspect-ratio:1;padding:4px;touch-action:none;animation:pop .35s cubic-bezier(.3,1.6,.5,1) both;transition:opacity .2s,scale .2s}
+.titem img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 4px 3px rgba(60,30,40,.22))}
+.titem.taken{opacity:.25;scale:.8}
+.titem.fresh::after{content:"neu";position:absolute;top:0;right:0;background:var(--pink);color:#fff;border-radius:999px;padding:0 8px;font-family:var(--display);font-weight:800;font-size:14px;line-height:22px;box-shadow:0 0 0 2px #fff}
+.titem.fresh img{animation:wiggle 1.6s ease-in-out infinite}
+.tray-empty{margin:auto;font-family:var(--display);font-weight:800;font-size:clamp(18px,2.8vmin,24px);color:#6C4A86}
+.hand{position:absolute;z-index:7;font-size:54px;line-height:1;pointer-events:none;animation:handgo 2.4s ease-in-out infinite}
+@keyframes handgo{0%{transform:translate(0,0);opacity:0}15%{opacity:1}65%{transform:translate(0,-34vh);opacity:1}85%,100%{transform:translate(0,-34vh);opacity:0}}
+/* life on the islands */
+.fx{position:absolute;pointer-events:none;transform:translateZ(60px)}
+.fx.bub{width:calc(14px * var(--s,1));aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,rgba(255,255,255,.35) 45%,rgba(160,220,255,.15) 70%);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.75);animation:bub 6s ease-in infinite}
+@keyframes bub{0%{translate:0 0;opacity:0;scale:.4}15%{opacity:.95}100%{translate:12px -150px;opacity:0;scale:1.1}}
+.fx.ffly{width:9px;height:9px;border-radius:50%;background:#FFF6A8;box-shadow:0 0 10px 4px rgba(255,236,120,.85);animation:ffly 7s ease-in-out infinite,blink 1.8s ease-in-out infinite}
+@keyframes ffly{0%,100%{translate:0 0}25%{translate:30px -24px}50%{translate:-12px -48px}75%{translate:-34px -16px}}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+.fx.petal{width:11px;height:8px;border-radius:60% 0;background:var(--c,#FFB3D6);animation:petal 9s linear infinite}
+@keyframes petal{0%{translate:0 0;rotate:0deg;opacity:0}10%{opacity:.9}100%{translate:120px 90px;rotate:300deg;opacity:0}}
+/* day and night */
+#gardenScreen .garden.night{background:linear-gradient(180deg,#141238,#2A1F5E 45%,#5A3A78)!important}
+.garden .base{transition:filter .9s}
+.garden.night .base{filter:brightness(.8) saturate(.9)}
+.veil{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .9s;mix-blend-mode:multiply;
+  background:radial-gradient(ellipse 60% 50% at 50% 55%,rgba(70,80,170,.55),rgba(25,25,90,.8))}
+#gardenScreen .veil{-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(180deg,transparent,#000 6%,#000 92%,transparent);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(180deg,transparent,#000 6%,#000 92%,transparent);mask-composite:intersect}
+.garden.night .veil{opacity:1}
+.garden.night .stk img,.garden.night .gi img,.garden.night .kid img{filter:brightness(.78) drop-shadow(0 7px 5px rgba(0,0,0,.35))}
+.garden.night .fx.ffly{box-shadow:0 0 16px 7px rgba(255,236,120,.95)}
+.nstar{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 6px 2px rgba(255,255,255,.8);opacity:0;pointer-events:none;transition:opacity 1s}
+.garden.night .nstar{opacity:1;animation:blink 2.6s ease-in-out infinite}
+
 @media (max-width:560px){
   .row{grid-template-columns:36px 48px minmax(0,1fr) 40px 40px}
   .row .stat{display:none}
@@ -971,12 +1081,17 @@ circle.inked{fill:#8E3FC7;stroke:none}
 
 <!-- GARDEN -->
 <section class="screen" id="gardenScreen" hidden>
-  <div class="bar">
-    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <div class="bar-mid"><div class="pill">🌷 <span id="gardenCount">0</span></div></div>
-    <button class="icon-btn gedit" id="gardenEdit" aria-label="Garten gestalten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button>
-  </div>
   <div class="garden" id="garden"></div>
+  <div class="wbar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="bar-mid"><div class="pill"><img id="worldIcon" src="img/g-tulips.webp" alt=""> <span id="gardenCount">0</span></div></div>
+    <div class="wend">
+      <button class="icon-btn" id="nightBtn" aria-label="Tag oder Nacht"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg></button>
+      <button class="icon-btn gedit" id="gardenEdit" aria-label="Garten gestalten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button>
+    </div>
+  </div>
+  <nav class="islands" id="islandNav"></nav>
+  <div class="tray" id="tray" hidden><div class="tray-in" id="trayIn"></div></div>
   <div class="ghint" id="gardenHint" hidden>✋ Zieh alles, wohin du willst. Tippen dreht es um.</div>
 </section>
 
@@ -1037,7 +1152,17 @@ const themedSets = () => STICKER_SETS.filter(t => t.ready).map(t => ({ ...t, ids
 const firstSet = () => ({ id: "erste", name: "Meine ersten Sticker", color: "#E2559A", ids: STICKERS });
 const allSets = () => [...themedSets(), firstSet()];
 const ALL_STICKERS = () => allSets().flatMap(t => t.ids);
-const stickerInfo = (id) => { for (const t of STICKER_SETS) for (const i of t.items) if (t.id + "-" + i[0] === id) return { set: t, art: i[1], noun: i[2] }; return null; };
+// Her first stickers are words too: article, word, and an existing recording of the same word where there is one.
+const FIRST_WORDS = {dollhouse:["das","Puppenhaus"], firetruck:["das","Feuerwehrauto"], tiara:["die","Krone"], train:["der","Zug"], flamingo:["der","Flamingo"],
+  palette:["die","Farbpalette"], puppy:["der","Hund","w-hund"], plane:["das","Flugzeug"], doll:["die","Puppe"], dumptruck:["der","Lastwagen"],
+  wings:["der","Schmetterling"], lolly:["das","Eis"], helmet:["der","Helm","w-helm"], unicorn:["das","Einhorn","stk-wald-einhorn"], suitcase:["der","Koffer"],
+  craft:["die","Schere"], kitten:["die","Katze","w-katze"], balloon:["der","Ballon"], costume:["das","Kleid"], goggles:["die","Schwimmbrille"],
+  bracelet:["das","Armband"], camera:["die","Kamera"], rainbow:["der","Regenbogen"], cupcake:["der","Muffin"]};
+const stickerInfo = (id) => {
+  for (const t of STICKER_SETS) for (const i of t.items) if (t.id + "-" + i[0] === id) return { set: t, art: i[1], noun: i[2] };
+  const f = FIRST_WORDS[id];
+  return f ? { set: null, art: f[0], noun: f[1], clip: f[2] } : null;
+};
 // The set she is working on: the first themed set that isn't complete, then the first stickers.
 function activeSet() {
   const got = state.progress.stickers;
@@ -1161,6 +1286,10 @@ function normalizeProgress(p) {
     out.nextStk = typeof p.nextStk === "string" ? p.nextStk : "";
     out.missionSeen = typeof p.missionSeen === "string" ? p.missionSeen : "";
     if (p.gardenPos && typeof p.gardenPos === "object") out.gardenPos = clone(p.gardenPos);
+    if (p.world && typeof p.world === "object") out.world = clone(p.world);
+    if (Array.isArray(p.trayed)) out.trayed = p.trayed.filter(x => typeof x === "string");
+    if (Array.isArray(p.islandsSeen)) out.islandsSeen = p.islandsSeen.filter(x => typeof x === "string");
+    out.lastIsland = typeof p.lastIsland === "string" ? p.lastIsland : "";
     if (Array.isArray(p.starred)) out.starred = p.starred.filter(s => typeof s === "string");
   }
   return out;
@@ -1285,7 +1414,8 @@ const MAX_CLAIMS = { maus: ["die", "der"], mann: ["der", "die"], mond: ["der", "
   lampe: ["die", "das"], loeffel: ["der", "die"], ball: ["der", "das"], seil: ["das", "der"], blume: ["die", "der"], salami: ["die", "das"], bleistift: ["der", "die"], schaukel: ["die", "der"] };
 // Lines written but not recorded yet: they are said by the device's German voice until their recordings are added
 // (then the key comes out of this list). Keeps the app from asking for files that are not there.
-const PENDING = new Set([]);
+// Her first stickers' words (sticker islands) wait for Mila's recordings; until then the iPad voice says them.
+const PENDING = new Set(["stk-dollhouse", "stk-firetruck", "stk-tiara", "stk-train", "stk-flamingo", "stk-palette", "stk-plane", "stk-doll", "stk-dumptruck", "stk-wings", "stk-lolly", "stk-suitcase", "stk-craft", "stk-balloon", "stk-costume", "stk-goggles", "stk-bracelet", "stk-camera", "stk-rainbow", "stk-cupcake"]);
 const maxSays = (w, a) => ({ key: "x-max-" + w.id + "-" + a, text: a + " " + w.noun });
 // Words recorded later carry rec: true (their w-/s- clips ship in audio/).
 const builtIn = (w) => DEFAULT_ART[w.id] === w.article && norm(w.noun) === w.id;
@@ -1597,7 +1727,7 @@ function renderHome() {
   $("sentBtn").disabled = !state.wordsLoaded;
   $("hearBtn").disabled = !(ready && state.words.length >= 3);
   $("maxBtn").disabled = gameWords("max").length < 3;
-  $("gardenDue").hidden = !(gardenCount() > state.progress.gardenSeen);
+  $("gardenDue").hidden = !(gardenCount() > state.progress.gardenSeen || unseenStickers().length);
   const latest = state.stories[state.stories.length - 1];
   $("storyDue").hidden = !latest || state.stories.every(storyDone);
   registerClips();
@@ -1935,7 +2065,7 @@ function awardStickers() {
   return fresh;
 }
 const stickerImg = (id) => '<img class="pic" src="img/stk-' + id + '.webp" alt="" data-sticker="1">';
-const stickerSay = (id) => { const i = stickerInfo(id); return i ? { key: "stk-" + id, text: i.art + " " + i.noun } : null; };
+const stickerSay = (id) => { const i = stickerInfo(id); return i ? { key: i.clip || "stk-" + id, text: i.art + " " + i.noun } : null; };
 // A themed set that this batch of fresh stickers just completed (for the big celebration).
 const setJustDone = (fresh) => themedSets().find(t => fresh.some(id => t.ids.includes(id)) && t.ids.every(id => state.progress.stickers.includes(id))) || null;
 let lastFresh = [];
@@ -1981,7 +2111,7 @@ function openBook() {
 
 /* ---------- round finished ---------- */
 function showDone(earned, rows, fresh, offerQuiz, grew) {
-  $("doneGarden").hidden = !grew;
+  $("doneGarden").hidden = !(grew || fresh.length);   // a new sticker can go straight onto an island
   $("earned").textContent = earned;
   $("practised").innerHTML = rows.map((r, i) => '<span class="item" style="animation-delay:' + (0.3 + i * 0.06) + 's">' + (r.html || faceHTML(r.w)) +
     (r.mark ? '<span class="mark ' + r.mark + '">' + (r.mark === "ok" ? "✓" : "↻") + "</span>" : "") + "</span>").join("");
@@ -2010,7 +2140,7 @@ function showDone(earned, rows, fresh, offerQuiz, grew) {
         if (next && next.id !== "erste") { parts.push(C("f-mission-" + next.id)); state.progress.missionSeen = next.id; saveProgress(); }
         return say(parts);
       });
-  }).then(() => { if (grew) { sparkle($("doneGarden"), 12); return say([C("f-garten")]); } });
+  }).then(() => { if (grew) { sparkle($("doneGarden"), 12); return say([C("f-garten")]); } if (fresh.length) sparkle($("doneGarden"), 12); });
 }
 $("reveal").addEventListener("click", () => { if (!$("reveal").classList.contains("open")) { $("reveal").classList.add("open"); chime(); sparkle($("reveal"), 18); } else openBook(); });
 
@@ -2223,7 +2353,7 @@ function markDay() {
   if (state.progress.days.length > 120) state.progress.days.shift();
   return state.progress.days.length <= GARDEN.length;
 }
-function openGarden() {
+function renderGarden() {
   renderStars();
   const n = gardenCount(), seen = Math.min(state.progress.gardenSeen, n);
   $("gardenCount").textContent = n;
@@ -2239,9 +2369,6 @@ function openGarden() {
     (next ? '<div class="sprout" style="left:' + next.x + "%;top:" + Math.max(next.y, 30) + '%;z-index:' + Math.round(next.y) + '">🌱</div>' : "") +
     Array.from({ length: 10 }, (_, i) => '<span class="mote" style="left:' + (20 + Math.random() * 60) + "%;top:" + (40 + Math.random() * 35) + "%;animation-delay:" + (-Math.random() * 7) + 's"></span>').join("") +
     "</div></div>";
-  show("gardenScreen");
-  setDesign(false);
-  enableTilt();
   if (n > seen) {
     chime();
     setTimeout(() => { document.querySelectorAll(".gi.new").forEach(el => sparkle(el, 12)); say([C("f-garten")]); }, 1100);
@@ -2254,7 +2381,7 @@ function setTilt(rx, ry) { const el = $("island"); if (el) { el.style.setPropert
 function enableTilt() {
   if (tiltWired) return; tiltWired = true;
   const g = $("garden"); let start = null;
-  g.addEventListener("pointerdown", (e) => { if (designing) return; start = { x: e.clientX, y: e.clientY }; $("island")?.classList.add("drag"); askOrientation(); });
+  g.addEventListener("pointerdown", (e) => { if (designing || wd || e.target.closest(".wdrag")) return; start = { x: e.clientX, y: e.clientY }; $("island")?.classList.add("drag"); askOrientation(); });
   g.addEventListener("pointermove", (e) => {
     if (!start || RM()) return;
     const dx = (e.clientX - start.x) / g.clientWidth, dy = (e.clientY - start.y) / g.clientHeight;
@@ -2263,7 +2390,7 @@ function enableTilt() {
   const end = () => { start = null; $("island")?.classList.remove("drag"); setTilt(0, 0); };
   g.addEventListener("pointerup", end); g.addEventListener("pointercancel", end); g.addEventListener("pointerleave", end);
   window.addEventListener("deviceorientation", (e) => {
-    if (start || designing || RM() || $("gardenScreen").hidden || e.beta == null) return;
+    if (start || designing || wd || RM() || $("gardenScreen").hidden || e.beta == null) return;
     setTilt(Math.max(-10, Math.min(10, (e.beta - 45) / 4)), Math.max(-16, Math.min(16, (e.gamma || 0) / 2.5)));
   });
 }
@@ -2273,7 +2400,7 @@ function askOrientation() {
   try { if (window.DeviceOrientationEvent && DeviceOrientationEvent.requestPermission) DeviceOrientationEvent.requestPermission().catch(() => {}); } catch {}
 }
 $("garden").addEventListener("click", (e) => {
-  if (designing) return;
+  if (designing || curIsland !== "garten") return;
   const h = e.target.closest(".ghouse");
   if (h) { say([C("a-" + h.dataset.a)]); jump(h.querySelector(".orb")); sparkle(h, 8); return; }
   const k = e.target.closest(".kid");
@@ -2324,6 +2451,348 @@ const dragEnd = () => {
   pop(); sparkle(el, 6); savePos(el);
 };
 $("garden").addEventListener("pointerup", dragEnd); $("garden").addEventListener("pointercancel", dragEnd);
+
+/* ---------- the world: her garden and the sticker islands ---------- */
+// The garden is the first island. Each themed sticker mission has its own island: the first is open from the start, the next opens
+// when the mission before it is complete (or once she has one of its stickers). She places any sticker she has won on any open island.
+// Mila says its word when it lands or is tapped; dropped on the right der/die/das friend, the friend jumps for joy.
+const ISLANDS = [
+  { id: "garten", name: "Mein Garten", icon: "img/g-tulips.webp", img: "img/island.webp", sky: "linear-gradient(180deg,#BCBDE3,#CCC6E1 25%,#E7C4D5 50%,#F3CCCE 75%,#F2CECC)" },
+  { id: "meer", set: "meer", name: "Unter dem Meer", icon: "img/cut-meer-wal.webp", img: "img/island-meer.webp", fx: "bub",
+    houses: { der: [33, 33], die: [50, 30], das: [67, 33] }, sky: "linear-gradient(180deg,#BEBDE4,#CEC6E1 25%,#EAC1D6 50%,#F4CBCD 75%,#F3CDCB)" },
+  { id: "wald", set: "wald", name: "Zauberwald", icon: "img/cut-wald-einhorn.webp", img: "img/island-wald.webp", fx: "ffly",
+    houses: { der: [34, 47], die: [50, 44], das: [66, 47] }, sky: "linear-gradient(180deg,#BDBCE4,#CFC5E1 25%,#EBC2D5 50%,#F6CBCD 75%,#F3CECB)" },
+  { id: "hof", set: "hof", name: "Bauernhof", icon: "img/cut-hof-kuh.webp", img: "img/island-hof.webp", fx: "petal",
+    houses: { der: [38, 44], die: [52, 41], das: [66, 44] }, sky: "linear-gradient(180deg,#BDDBE2,#CCDEDC 25%,#E0DED4 50%,#F1D9C1 75%,#F4D6B8)" }
+];
+// How a sticker moves when it stands on an island (all others breathe).
+const STK_MOVE = {
+  swim: ["meer-wal", "meer-delfin", "meer-fisch", "meer-qualle", "meer-seepferdchen", "meer-schildkroete", "meer-robbe", "meer-walross", "meer-krabbe", "flamingo"],
+  fly: ["meer-moewe", "wald-fee", "wald-eule", "wald-gluehwuermchen", "wald-drache", "wald-zauberstab", "wings", "balloon", "plane"],
+  rock: ["meer-schiff", "hof-traktor", "wald-kutsche", "firetruck", "dumptruck", "train"],
+  still: ["wald-schloss", "hof-scheune", "dollhouse", "rainbow"] };
+const moveOf = (id) => Object.keys(STK_MOVE).find(k => STK_MOVE[k].includes(id)) || "breathe";
+let curIsland = "garten", night = false, wd = null, paradeToken = 0;
+const islandById = (id) => ISLANDS.find(i => i.id === id) || ISLANDS[0];
+function islandOpen(isl) {
+  if (!isl.set) return true;
+  const sets = themedSets(), i = sets.findIndex(t => t.id === isl.set), got = state.progress.stickers;
+  if (i < 0) return false;
+  return i === 0 || sets[i].ids.some(id => got.includes(id)) || sets[i - 1].ids.every(id => got.includes(id));
+}
+const islandData = (id) => { const w = state.progress.world || (state.progress.world = {}); return w[id] || (w[id] = { s: {}, h: {} }); };
+function placedIds() { const out = new Set(), w = state.progress.world || {}; for (const k in w) for (const id in (w[k].s || {})) out.add(id); return out; }
+const knownSticker = (id) => ALL_STICKERS().includes(id);
+const trayIds = () => { const pl = placedIds(); return state.progress.stickers.filter(id => knownSticker(id) && !pl.has(id)); };
+const unseenStickers = () => { const seen = new Set(state.progress.trayed || []); return trayIds().filter(id => !seen.has(id)); };
+// Where new stickers go first: the island of the newest one she hasn't placed (if it is open), else the sea.
+function newStickerIsland() {
+  const u = unseenStickers(), last = u[u.length - 1] || "";
+  return (ISLANDS.find(i => i.set && last.startsWith(i.set + "-") && islandOpen(i)) || ISLANDS[1]).id;
+}
+const retrigger = (el, cls, ms = 700) => { if (!el) return; el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); setTimeout(() => el.classList.remove(cls), ms); };
+
+// Open the world: a garden that grew comes first, then an island with new stickers to place, else where she was last.
+function openGarden(pref) {
+  let id = typeof pref === "string" ? pref : gardenCount() > state.progress.gardenSeen ? "garten" : unseenStickers().length ? newStickerIsland() : state.progress.lastIsland || "garten";
+  if (!islandOpen(islandById(id))) id = "garten";
+  show("gardenScreen");
+  goIsland(id);
+}
+function goIsland(id) {
+  const isl = islandById(id);
+  paradeToken++; wd = null; document.querySelector(".ghost")?.remove();
+  curIsland = isl.id; state.progress.lastIsland = isl.id;
+  const g = $("garden");
+  g.style.background = isl.sky; g.classList.toggle("night", night); $("nightBtn").classList.toggle("on", night);
+  $("gardenEdit").hidden = !!isl.set;
+  setDesign(false);
+  if (isl.set) renderIsland(isl); else renderGarden();
+  $("island")?.classList.add("arrive");
+  nightStars();
+  renderTray();
+  renderWorldBar(isl);
+  enableTilt();
+  // the first visit to a newly opened island: a little party, and Mila names its mission
+  const seen = state.progress.islandsSeen || (state.progress.islandsSeen = []);
+  if (isl.set && !seen.includes(isl.id)) {
+    seen.push(isl.id);
+    // (a mission she already finished gets a cheer instead of "new mission")
+    const t = themedSets().find(x => x.id === isl.set), done = t && t.ids.every(id => state.progress.stickers.includes(id));
+    setTimeout(() => { if (curIsland !== isl.id || $("gardenScreen").hidden) return; confetti(); fanfare(); say([C(done ? "p-toll" : "f-mission-" + isl.set)]); }, 600);
+  }
+  saveProgress();
+}
+function renderWorldBar(isl) {
+  $("worldIcon").src = isl.icon;
+  const t = isl.set && themedSets().find(x => x.id === isl.set);
+  $("gardenCount").textContent = t ? t.ids.filter(id => state.progress.stickers.includes(id)).length + " / " + t.ids.length : gardenCount();
+  const target = unseenStickers().length ? newStickerIsland() : "";
+  $("islandNav").innerHTML = ISLANDS.map(i => {
+    const open = islandOpen(i), fresh = open && i.set && !(state.progress.islandsSeen || []).includes(i.id);
+    const due = i.id !== curIsland && (fresh || (i.id === "garten" ? gardenCount() > state.progress.gardenSeen : i.id === target));
+    return '<button class="inav' + (i.id === curIsland ? " on" : "") + (open ? "" : " locked") + '" data-isl="' + i.id + '" aria-label="' + esc(i.name) + '">' +
+      '<img src="' + i.icon + '" alt="" draggable="false">' + (open ? "" : '<span class="lock">🔒</span>') + (due ? '<span class="due">!</span>' : "") + "</button>";
+  }).join("");
+}
+$("islandNav").addEventListener("click", (e) => {
+  const b = e.target.closest(".inav"); if (!b) return;
+  const isl = islandById(b.dataset.isl);
+  if (!islandOpen(isl)) {
+    // still locked: it shakes, shows how far the mission she is on has come, and Mila says the mission
+    retrigger(b, "shake", 500);
+    const t = activeSet();
+    b.querySelector(".need")?.remove();
+    if (t && t.id !== "erste") {
+      const n = t.ids.filter(id => state.progress.stickers.includes(id)).length;
+      b.insertAdjacentHTML("beforeend", '<span class="need"><img src="img/cut-' + t.ids[0] + '.webp" alt="">' + n + " / " + t.ids.length + "</span>");
+      setTimeout(() => b.querySelector(".need")?.remove(), 2600);
+      say([C("f-mission-" + t.id)]);
+    }
+    return;
+  }
+  if (isl.id === curIsland) return;
+  pop(); goIsland(isl.id);
+});
+
+function renderIsland(isl) {
+  const my = islandData(isl.id), z = (y) => Math.round(10 + y * .6);
+  const houses = ARTS.map(a => {
+    const q = my.h[a] || { x: isl.houses[a][0], y: isl.houses[a][1] };
+    return '<button class="ghouse wdrag" data-a="' + a + '" style="left:' + q.x + "%;top:" + q.y + "%;width:8%;z-index:" + Math.round(q.y) + ";--z:" + z(q.y) + 'px">' + ORB(a) + '<span class="gshadow"></span></button>';
+  }).join("");
+  const stks = Object.keys(my.s).filter(knownSticker).map(id => stkHTML(id, my.s[id])).join("");
+  $("garden").innerHTML = '<div class="island" id="island"><div class="floaty"><img class="base" src="' + isl.img + '" alt="" draggable="false">' + houses + stks + fxHTML(isl) + "</div></div>";
+}
+// Stickers further back stand a little smaller and sit deeper in the 3D island.
+const stkStyle = (q) => "left:" + q.x + "%;top:" + q.y + "%;z-index:" + Math.round(q.y) + ";--z:" + Math.round(10 + q.y * .6) + "px;--d:" + (0.7 + 0.5 * q.y / 100).toFixed(3);
+function stkHTML(id, q) {
+  const mv = moveOf(id);
+  return '<button class="stk wdrag' + (mv === "fly" ? " flies" : "") + '" data-id="' + id + '" aria-label="' + esc((stickerSay(id) || {}).text || "") + '" style="' + stkStyle(q) + '">' +
+    '<span class="in"><img class="mv-' + mv + '" src="img/cut-' + id + '.webp" alt="" draggable="false" style="animation-delay:' + (-Math.random() * 4).toFixed(2) + 's"></span></button>';
+}
+function fxHTML(isl) {
+  const r = Math.random, n = (k, f) => Array.from({ length: k }, f).join("");
+  if (isl.fx === "bub") return n(12, () => '<span class="fx bub" style="left:' + (28 + r() * 44).toFixed(1) + "%;top:" + (42 + r() * 20).toFixed(1) + "%;--s:" + (0.6 + r() * 0.9).toFixed(2) + ";animation-delay:" + (-r() * 6).toFixed(2) + 's"></span>');
+  if (isl.fx === "ffly") return n(14, () => '<span class="fx ffly" style="left:' + (14 + r() * 72).toFixed(1) + "%;top:" + (18 + r() * 48).toFixed(1) + "%;animation-delay:" + (-r() * 7).toFixed(2) + "s," + (-r() * 2).toFixed(2) + 's"></span>');
+  if (isl.fx === "petal") return n(10, () => '<span class="fx petal" style="left:' + (8 + r() * 60).toFixed(1) + "%;top:" + (8 + r() * 40).toFixed(1) + "%;--c:" + pick(["#FFB3D6", "#FFE27A", "#FFFFFF", "#C9A7F5"]) + ";animation-delay:" + (-r() * 9).toFixed(2) + 's"></span>');
+  return "";
+}
+function nightStars() {
+  const r = Math.random;
+  const stars = (n, top) => Array.from({ length: n }, () => '<span class="nstar" style="left:' + (r() * 100).toFixed(1) + "%;top:" + (r() * top).toFixed(1) +
+    "%;scale:" + (0.5 + r()).toFixed(2) + ";animation-delay:" + (-r() * 2.6).toFixed(2) + 's"></span>').join("");
+  $("garden").insertAdjacentHTML("afterbegin", stars(30, 60));
+  $("island")?.querySelector(".base")?.insertAdjacentHTML("afterend", '<span class="veil"></span>' + stars(22, 30));
+}
+$("nightBtn").addEventListener("click", () => {
+  night = !night;
+  $("garden").classList.toggle("night", night); $("nightBtn").classList.toggle("on", night);
+  if (night) tone([784, 659, 523, 392], "sine", 0.3, 0.12, 0.12); else chime();
+});
+
+// The tray: every sticker she has won and not placed yet. This island's own stickers come first, then new ones, newest first.
+function renderTray() {
+  const isl = islandById(curIsland);
+  document.querySelector("#gardenScreen .hand")?.remove();
+  $("tray").hidden = !isl.set;
+  if (!isl.set) return;
+  const seen = new Set(state.progress.trayed || []), ids = trayIds();
+  const mine = (id) => id.startsWith(isl.set + "-") ? 1 : 0;
+  const order = ids.map((id, i) => [id, i]).sort((a, b) => (mine(b[0]) - mine(a[0])) || (seen.has(a[0]) - seen.has(b[0])) || (b[1] - a[1])).map(x => x[0]);
+  $("trayIn").scrollLeft = 0;
+  $("trayIn").innerHTML = order.length
+    ? order.map((id, i) => '<button class="titem' + (seen.has(id) ? "" : " fresh") + '" data-id="' + id + '" aria-label="' + esc((stickerSay(id) || {}).text || "") +
+        '" style="animation-delay:' + Math.min(i * .03, .6).toFixed(2) + 's"><img src="img/cut-' + id + '.webp" alt="" draggable="false"></button>').join("")
+    : '<div class="tray-empty">⭐ ' + (state.progress.stickers.length ? "Alle Sticker sind auf den Inseln!" : "Spiel und sammle Sticker!") + "</div>";
+  const t = state.progress.trayed || (state.progress.trayed = []);
+  for (const id of ids) if (!t.includes(id)) t.push(id);
+  // an empty island: a hand shows that a sticker goes from the tray up onto it
+  const first = $("trayIn").querySelector(".titem");
+  if (first && !Object.keys(islandData(isl.id).s).length) {
+    const r = first.getBoundingClientRect(), sr = $("gardenScreen").getBoundingClientRect();
+    $("gardenScreen").insertAdjacentHTML("beforeend", '<div class="hand" style="left:' + Math.round(r.left - sr.left + r.width / 2 - 16) + "px;top:" + Math.round(r.top - sr.top + r.height * .4) + 'px">👆</div>');
+  }
+}
+
+/* moving stickers: pull one up out of the tray, move it around, or drop it back into the tray */
+const islandRect = () => $("island").getBoundingClientRect();
+const overTray = (y) => !$("tray").hidden && y > $("tray").getBoundingClientRect().top - 6;
+const depth = (y) => 0.7 + 0.5 * Math.max(10, Math.min(99, y)) / 100;
+// lowest spot a sticker can stand on: just above the tray, so none hides behind it
+const yMax = (r) => $("tray").hidden ? 99 : Math.max(40, Math.min(99, ($("tray").getBoundingClientRect().top - 4 - r.top) / r.height * 100));
+function houseAt(e) {
+  for (const h of $("island").querySelectorAll(".ghouse")) {
+    const r = h.getBoundingClientRect(), m = r.width * .3;
+    if (e.clientX > r.left - m && e.clientX < r.right + m && e.clientY > r.top - m && e.clientY < r.bottom + m) return h;
+  }
+  return null;
+}
+function wordChip(el, id) {
+  const i = stickerInfo(id); if (!i || !el) return;
+  el.querySelector(".wchip")?.remove();
+  const c = document.createElement("span"); c.className = "wchip";
+  c.innerHTML = '<b class="' + i.art + '">' + i.art + "</b> " + esc(i.noun);
+  el.appendChild(c); setTimeout(() => c.remove(), 2300);
+}
+const REACT = [
+  [{ transform: "none" }, { transform: "translateY(-40%) scale(1.08)" }, { transform: "translateY(0) scale(1.12,.88)" }, { transform: "none" }],
+  [{ transform: "rotateY(0deg)" }, { transform: "rotateY(360deg)" }],
+  [{ transform: "none" }, { transform: "rotate(-14deg)" }, { transform: "rotate(12deg)" }, { transform: "rotate(-6deg)" }, { transform: "none" }],
+  [{ transform: "none" }, { transform: "scale(1.3)" }, { transform: "scale(.92)" }, { transform: "none" }]];
+function react(el, k) {
+  const inn = el && el.querySelector(".in"); if (!inn || !inn.animate || RM()) return;
+  inn.animate(REACT[k == null ? Math.floor(Math.random() * REACT.length) : k], { duration: 650, easing: "cubic-bezier(.3,1.3,.5,1)" });
+}
+// It lands with a squish and Mila says its word. On the right friend, the friend jumps for joy; on the wrong one, it shakes its head.
+function landed(el, id, house) {
+  const inn = el.querySelector(".in"), info = stickerInfo(id), w = stickerSay(id);
+  if (inn.animate && !RM()) inn.animate([{ transform: "translateY(-24%) scale(1.1,.9)" }, { transform: "translateY(0) scale(1.16,.8)" }, { transform: "scale(.95,1.07)" }, { transform: "none" }], { duration: 520, easing: "cubic-bezier(.3,1.3,.5,1)" });
+  sparkle(el, 8); pop(); wordChip(el, id);
+  if (house && info && house.dataset.a === info.art) { retrigger(house, "happy"); sparkle(house, 16); chime(); say([C("f-ja"), w]); return; }
+  if (house) retrigger(house, "nope", 550);
+  if (w) say([w]);
+}
+// A sticker dropped on a friend stands right in front of it if it lives there, and bounces a bit away if not.
+function besideHouse(h, right) {
+  const hx = parseFloat(h.style.left), hy = parseFloat(h.style.top), s = Math.random() < .5 ? -1 : 1;
+  return right ? { x: Math.max(3, Math.min(97, hx + s * 7)), y: Math.min(99, hy + 9) } : { x: Math.max(3, Math.min(97, hx + s * 17)), y: Math.min(99, hy + 18) };
+}
+const round1 = (q) => ({ x: Math.round(q.x * 10) / 10, y: Math.round(q.y * 10) / 10 });
+function placeSticker(id, q, house) {
+  const info = stickerInfo(id);
+  if (house) q = besideHouse(house, info && house.dataset.a === info.art);
+  q = round1(q);
+  islandData(curIsland).s[id] = q;
+  $("island").querySelector(".floaty").insertAdjacentHTML("beforeend", stkHTML(id, q));
+  landed($("island").querySelector('.stk[data-id="' + id + '"]'), id, house);
+  $("trayIn").querySelector('.titem[data-id="' + id + '"]')?.remove();
+  if (!$("trayIn").querySelector(".titem")) renderTray();
+  saveProgress();
+}
+// She tapped a friend: it calls its stickers, and each one hops while Mila says it.
+async function parade(h) {
+  const a = h.dataset.a, my = ++paradeToken;
+  retrigger(h, "happy"); sparkle(h, 10);
+  const els = [...$("island").querySelectorAll(".stk")].filter(el => (stickerInfo(el.dataset.id) || {}).art === a)
+    .sort((p, q) => parseFloat(p.style.left) - parseFloat(q.style.left));
+  await say([C("a-" + a)]);
+  for (const el of els) {
+    if (my !== paradeToken || !el.isConnected || $("gardenScreen").hidden) return;
+    react(el, 0); wordChip(el, el.dataset.id); sparkle(el, 6);
+    await say([stickerSay(el.dataset.id)]);
+    await sleep(120);
+  }
+  if (my === paradeToken && els.length) chime();
+}
+$("gardenScreen").addEventListener("pointerdown", (e) => {
+  if (curIsland === "garten" || wd) return;
+  const t = e.target.closest(".titem");
+  if (t) { wd = { kind: "tray", src: t, id: t.dataset.id, x0: e.clientX, y0: e.clientY, pid: e.pointerId, moved: false }; return; }
+  const el = e.target.closest(".wdrag");
+  if (!el || !$("island") || !$("island").contains(el)) return;
+  e.preventDefault();
+  wd = { kind: el.classList.contains("stk") ? "stk" : "house", el, id: el.dataset.id, x0: e.clientX, y0: e.clientY, pid: e.pointerId, moved: false };
+  try { el.setPointerCapture(e.pointerId); } catch {}
+});
+$("gardenScreen").addEventListener("pointermove", (e) => {
+  if (!wd || e.pointerId !== wd.pid) return;
+  const dx = e.clientX - wd.x0, dy = e.clientY - wd.y0;
+  if (wd.scroll != null) { $("trayIn").scrollLeft = wd.scroll - dx; wd.vx = e.clientX - wd.lx; wd.lx = e.clientX; return; }
+  if (!wd.moved) {
+    if (wd.kind === "tray" && wd.scroll == null) {
+      if (Math.abs(dx) + Math.abs(dy) < 10) return;
+      try { wd.src.setPointerCapture(wd.pid); } catch {}
+      // upwards (even a bit slanted) pulls the sticker out; sideways scrolls the tray
+      if (!(-dy > Math.abs(dx) * 0.35)) { wd.scroll = $("trayIn").scrollLeft; wd.vx = 0; wd.lx = e.clientX; return; }
+    }
+    if (wd.kind === "tray") {
+      document.querySelector("#gardenScreen .hand")?.remove();
+      wd.src.classList.add("taken");
+      const g = document.createElement("div"); g.className = "ghost"; g.innerHTML = '<img src="img/cut-' + wd.id + '.webp" alt="">';
+      document.body.appendChild(g); wd.ghost = g; pop();
+    } else {
+      if (Math.abs(dx) + Math.abs(dy) < 8) return;
+      wd.el.classList.add("lift"); wd.half = wd.el.getBoundingClientRect().height / 2;
+    }
+    wd.moved = true; paradeToken++; setTilt(0, 0);
+  }
+  e.preventDefault();
+  const r = islandRect();
+  if (wd.kind === "tray") {
+    // the sticker grows or shrinks with where it would stand, so it already fits the island
+    const img = wd.ghost.firstChild, ar = img.naturalWidth ? img.naturalHeight / img.naturalWidth : 1;
+    const w = r.width * 0.125 * depth((e.clientY - r.top) / r.height * 100) * 1.12, h = w * ar;
+    wd.half = h / 2;
+    wd.ghost.style.width = w + "px";
+    wd.ghost.style.transform = "translate(" + (e.clientX - w / 2) + "px," + (e.clientY - h / 2) + "px)";
+  } else {
+    const el = wd.el, x = Math.max(3, Math.min(97, (e.clientX - r.left) / r.width * 100)), y = Math.max(10, Math.min(yMax(r), (e.clientY - r.top + wd.half) / r.height * 100));
+    el.style.left = x + "%"; el.style.top = y + "%";
+    if (wd.kind === "stk") { el.style.setProperty("--d", depth(y).toFixed(3)); $("tray").classList.toggle("drop", overTray(e.clientY)); }
+  }
+  if (wd.kind !== "house") { const h = houseAt(e); $("island").querySelectorAll(".ghouse").forEach(x => x.classList.toggle("target", x === h)); }
+});
+function endWorldDrag(e, cancel) {
+  if (!wd || e.pointerId !== wd.pid) return;
+  const d = wd; wd = null;
+  $("tray").classList.remove("drop");
+  const isl = $("island");
+  if (isl) isl.querySelectorAll(".ghouse.target").forEach(x => x.classList.remove("target"));
+  if (d.kind === "tray") {
+    if (d.scroll != null) { glide(d.vx); return; }
+    if (!d.moved) {      // a tap in the tray: it wiggles and Mila says it
+      if (cancel) return;
+      if (d.src.animate && !RM()) d.src.animate([{ transform: "none" }, { transform: "rotate(-10deg) scale(1.12)" }, { transform: "rotate(8deg) scale(1.12)" }, { transform: "none" }], { duration: 450 });
+      const w = stickerSay(d.id); if (w) say([w]);
+      return;
+    }
+    d.ghost.remove();
+    if (cancel || overTray(e.clientY) || !isl) { d.src.classList.remove("taken"); pop(); return; }
+    const r = islandRect();
+    placeSticker(d.id, { x: Math.max(3, Math.min(97, (e.clientX - r.left) / r.width * 100)), y: Math.max(10, Math.min(yMax(r), (e.clientY - r.top + d.half) / r.height * 100)) }, houseAt(e));
+    return;
+  }
+  const el = d.el;
+  if (d.kind === "stk") {
+    el.classList.remove("lift");
+    if (!d.moved) {      // a tap: it does a little trick and Mila says its word
+      if (cancel) return;
+      paradeToken++; react(el); wordChip(el, d.id); sparkle(el, 8); pop();
+      const w = stickerSay(d.id); if (w) say([w]);
+      return;
+    }
+    if (!cancel && overTray(e.clientY)) {      // back into the tray
+      delete islandData(curIsland).s[d.id];
+      el.classList.add("gone"); setTimeout(() => el.remove(), 300);
+      pop(); saveProgress(); renderTray();
+      return;
+    }
+    const house = cancel ? null : houseAt(e), info = stickerInfo(d.id);
+    let q = { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
+    if (house) q = besideHouse(house, info && house.dataset.a === info.art);
+    q = round1(q);
+    islandData(curIsland).s[d.id] = q;
+    el.setAttribute("style", stkStyle(q));
+    saveProgress();
+    landed(el, d.id, house);
+    return;
+  }
+  // a der/die/das friend
+  if (!d.moved) { if (!cancel) parade(el); return; }
+  const q = round1({ x: parseFloat(el.style.left), y: parseFloat(el.style.top) });
+  islandData(curIsland).h[el.dataset.a] = q;
+  el.style.zIndex = Math.round(q.y); el.style.setProperty("--z", Math.round(10 + q.y * .6) + "px");
+  saveProgress(); pop(); sparkle(el, 6);
+}
+// the tray keeps sliding a little after a swipe, like a native list
+function glide(v) {
+  const t = $("trayIn");
+  const step = () => { if (Math.abs(v) < 0.4 || wd) return; t.scrollLeft -= v; v *= 0.93; requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+$("gardenScreen").addEventListener("pointerup", (e) => endWorldDrag(e, false));
+$("gardenScreen").addEventListener("pointercancel", (e) => endWorldDrag(e, true));
 
 /* ---------- memory: find two pictures that live in the same house ---------- */
 const MEM_PAIRS = 8;

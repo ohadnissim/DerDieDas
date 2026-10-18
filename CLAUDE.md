@@ -37,6 +37,13 @@ PR as a draft until the assets are made the usual way.
   Make two takes per page and keep the better one; resize 1376×768 to 1290×720, centre-crop to 1280×720, WebP q80.
   If a page has a "find" spot, set its `x`/`y`/`r` in `data/stories.json` to where the object landed.
 - **Stickers and garden pictures**: clay die-cut style, matching the existing ones.
+- **Sticker islands** (the world next to the garden): each themed sticker set has an island, `img/island-<set>.webp`
+  (2400×1792, WebP q80), made with Higgsfield `nano_banana_flash`, `--aspect_ratio 4:3 --resolution 2k`, with the garden
+  island `img/island.webp` (uploaded as PNG) as the only reference: "Same floating clay island as the reference image … But
+  this one is <the island>. The top surface stays big, flat and mostly empty …". Two takes, keep the better one. Every
+  sticker also has a cut-out, `img/cut-<id>.webp`: the sticker picture through Higgsfield `image_background_remover`
+  (keeps the white die-cut edge), alpha under 10 dropped, trimmed with a 6 px margin, WebP q82. A new sticker set needs
+  its island, its cut-outs and an entry in `ISLANDS` in `index.html`.
 
 ## Voices
 - **Mila** (teacher, narrator, every word): ElevenLabs voice "German Girl - Mila".
@@ -61,6 +68,8 @@ PR as a draft until the assets are made the usual way.
 - Mil's and Max's story lines and Max's claims for a new list go in their own packs in `PACKS` (for the L list:
   `pk-sk7`, `pk-sk8`, `pk-xmax-l`), so the files that already exist are not re-encoded. Bump `AUDIO_V`.
 - Lines written but not recorded yet go in `PENDING` in `index.html`, so the app uses the device voice until they exist.
+- Every sticker says its word (Mila): themed ones are `stk-<set>-<id>` in `pk-stk`; the first stickers' words are in
+  `FIRST_WORDS` (`stk-<id>`, or an existing clip of the same word).
 
 ## Weekly list
 `data/words.json` (bump `version`) and `data/stories.json`. When the list changes, the previous week's words move to
