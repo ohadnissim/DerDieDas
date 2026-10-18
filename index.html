@@ -212,6 +212,31 @@ body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
 .qhouse.wrong{animation:shake .45s;opacity:.4}
 .qhouses.wait .qhouse{opacity:.55}
 .flyer{position:fixed;z-index:30;pointer-events:none;border-radius:24px;overflow:hidden;background:var(--paper)}
+/* ---------- feeding the circle friends: she can drag the picture into der, die or das ---------- */
+#choices .choice.orb .eyes{top:17%;width:40%;height:17%}
+#choices .choice.orb .cheeks{top:37%;width:80%}
+#choices .choice.orb .ow{translate:0 14%}
+.orb .eyes{transition:scale .18s}
+.orb .eyes i{translate:var(--lx,0) var(--ly,0);transition:translate .16s ease-out}
+.orb .mouth-o{position:absolute;left:50%;top:79%;width:19%;height:15%;translate:-50% 0;border-radius:50%;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 100%,#F07A93 0 42%,#2A1838 44%);scale:0;transition:scale .18s cubic-bezier(.3,1.6,.5,1)}
+.qorb .mouth-o{top:55%;width:20%;height:17%}
+#choices .choice.orb{transition:transform .12s,opacity .25s,box-shadow .12s,scale .2s cubic-bezier(.3,1.6,.5,1)}
+.qhouse .orb,.qhouse .smile{transition:scale .2s cubic-bezier(.3,1.6,.5,1),opacity .15s}
+.hungry.choice,.hungry .orb{scale:1.14}
+.hungry .eyes{scale:1.2}
+.hungry .mouth-o{scale:1}
+.hungry .smile{opacity:0}
+.munch.choice,.munch .orb{animation:munch .8s ease both}
+.munch .eyes i{animation:none;transform:scaleY(.22)}
+@keyframes munch{0%{transform:none}15%{transform:scale(1.22,.82)}32%{transform:scale(.9,1.1)}50%{transform:scale(1.12,.9)}68%{transform:scale(.96,1.05)}84%{transform:scale(1.04,.97)}100%{transform:none}}
+.feeding{position:fixed;z-index:40;margin:0;pointer-events:none;max-height:none;border-radius:24px;overflow:hidden;background:var(--paper);
+  box-shadow:0 18px 30px -8px rgba(60,30,80,.45);transition:scale .16s cubic-bezier(.3,1.5,.5,1),rotate .16s}
+.feeding,.feeding *{animation:none!important}
+.held{visibility:hidden}
+.card-pic,#emoji,#qEmoji{touch-action:none}
+.card-pic img{-webkit-touch-callout:none;-webkit-user-drag:none}
+.feedhand{position:fixed;z-index:45;font-size:clamp(46px,8vmin,70px);line-height:1;pointer-events:none;filter:drop-shadow(0 4px 6px rgba(60,30,60,.35))}
 .spark{position:fixed;z-index:31;pointer-events:none;font-size:22px;line-height:1;margin:-11px 0 0 -11px}
 
 /* ---------- done / quiz result ---------- */
@@ -866,9 +891,9 @@ circle.inked{fill:#8E3FC7;stroke:none}
       <div class="caption" id="caption"></div>
     </div>
     <div class="cols choices" id="choices">
-      <button class="choice orb der" data-a="der"><span class="ow">der</span></button>
-      <button class="choice orb die" data-a="die"><span class="ow">die</span></button>
-      <button class="choice orb das" data-a="das"><span class="ow">das</span></button>
+      <button class="choice orb der" data-a="der"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="ow">der</span><span class="mouth-o"></span></button>
+      <button class="choice orb die" data-a="die"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="ow">die</span><span class="mouth-o"></span></button>
+      <button class="choice orb das" data-a="das"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="ow">das</span><span class="mouth-o"></span></button>
     </div>
     <div class="repeat" id="repeat" hidden>
       <button class="round" id="againBtn" aria-label="Nochmal hören"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
@@ -911,9 +936,9 @@ circle.inked{fill:#8E3FC7;stroke:none}
       <div class="caption" id="qCaption"></div>
     </div>
     <div class="cols qhouses" id="qhouses">
-      <button class="qhouse" data-a="der" aria-label="der"><span class="orb der qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button>
-      <button class="qhouse" data-a="die" aria-label="die"><span class="orb die qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>die</span></button>
-      <button class="qhouse" data-a="das" aria-label="das"><span class="orb das qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>das</span></button>
+      <button class="qhouse" data-a="der" aria-label="der"><span class="orb der qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span><span class="mouth-o"></span></span><span class="label der"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>der</span></button>
+      <button class="qhouse" data-a="die" aria-label="die"><span class="orb die qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span><span class="mouth-o"></span></span><span class="label die"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>die</span></button>
+      <button class="qhouse" data-a="das" aria-label="das"><span class="orb das qorb"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span><span class="mouth-o"></span></span><span class="label das"><svg class="sym" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="currentColor"/></svg>das</span></button>
     </div>
   </div>
 </section>
@@ -1274,7 +1299,7 @@ function blankProgress() { return { words: {}, stars: 0, sessions: 0, lastPlayed
 function normalizeProgress(p) {
   const out = blankProgress();
   if (p && typeof p === "object") {
-    for (const k of ["stars", "sessions", "points", "pointsUsed", "roundsSinceQuiz", "quizzes", "gardenSeen", "sentNext"]) out[k] = Number(p[k]) || 0;
+    for (const k of ["stars", "sessions", "points", "pointsUsed", "roundsSinceQuiz", "quizzes", "gardenSeen", "sentNext", "fed"]) out[k] = Number(p[k]) || 0;
     if (Array.isArray(p.days)) out.days = p.days.filter(d => typeof d === "string").slice(-120);
     out.storySeen = typeof p.storySeen === "string" ? p.storySeen : "";
     out.storiesSeen = Array.isArray(p.storiesSeen) ? p.storiesSeen.filter(x => typeof x === "string") : (out.storySeen ? [out.storySeen] : []);
@@ -1639,6 +1664,20 @@ const chime = () => tone([660, 880, 1320], "triangle", 0.22, 0.09);
 const boop  = () => tone([220, 180], "sine", 0.18, 0.12, 0.14);
 const pop   = () => tone([520, 780], "triangle", 0.1, 0.06, 0.12);
 const fanfare = () => tone([523, 659, 784, 1047, 1319], "triangle", 0.24, 0.1, 0.16);
+// A sliding blip: "nom nom" when a friend eats the picture (down), "ptui" when it spits one back (up).
+function slide(from, to, len, delays, type = "sine", vol = 0.18) {
+  const c = ctx(); if (!c) return;
+  try {
+    delays.forEach((d) => {
+      const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + d;
+      o.type = type; o.frequency.setValueAtTime(from, t); o.frequency.exponentialRampToValueAtTime(to, t + len);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.015); g.gain.exponentialRampToValueAtTime(0.0001, t + len + 0.02);
+      o.connect(g).connect(c.destination); o.start(t); o.stop(t + len + 0.04);
+    });
+  } catch {}
+}
+const nom = () => slide(520, 230, 0.11, [0, 0.19]);
+const ptui = () => slide(240, 900, 0.09, [0], "triangle", 0.14);
 
 /* ---------- motion helpers ---------- */
 function bump(el) { if (!el || RM()) return; el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
@@ -1844,7 +1883,7 @@ function nextCard() {
   $("choices").classList.add("wait");
   const card = S.card;
   sleep(350).then(() => say(hinted ? [W(w)] : [C("f-wieheisst")], 0.75)).then(() => {
-    if (S && S.card === card) { card.listening = false; $("choices").classList.remove("wait"); }
+    if (S && S.card === card) { card.listening = false; $("choices").classList.remove("wait"); feedReady("play"); }
   });
 }
 function requeue(id) {
@@ -1890,7 +1929,7 @@ function earnStar(pillId) {
   addStars();
   renderStars(); bump($(pillId).parentElement);
 }
-function answer(a, btn) {
+function answer(a, btn, fed) {
   const c = S && S.card;
   if (!c || c.locked || c.listening) return;
   c.attempts++;
@@ -1899,7 +1938,8 @@ function answer(a, btn) {
     c.locked = true;
     chime();
     btn.classList.add("right");
-    flyTo($("cardPic").hidden ? $("emoji") : $("cardPic"), btn);
+    if (!fed) flyTo($("cardPic").hidden ? $("emoji") : $("cardPic"), btn);
+    munch(btn, fed ? 150 : 760);
     cheer(w.article, btn);
     const y = $("yay"); y.hidden = false; restart(y, "show");
     const clean = c.attempts === 1;
@@ -2004,9 +2044,9 @@ function nextQ() {
   Q.locked = true;
   renderQDots();
   const my = Q;
-  sleep(300).then(() => say([C("f-welche")])).then(() => { if (Q === my) { Q.locked = false; $("qhouses").classList.remove("wait"); } });
+  sleep(300).then(() => say([C("f-welche")])).then(() => { if (Q === my) { Q.locked = false; $("qhouses").classList.remove("wait"); feedReady("quiz"); } });
 }
-function quizAnswer(a, btn) {
+function quizAnswer(a, btn, fed) {
   if (!Q || Q.locked) return;
   Q.locked = true;
   const w = Q.words[Q.i], ok = artOK(w, a), p = prog(w.id), q = p.q || { r: 0, w: 0 };
@@ -2023,7 +2063,8 @@ function quizAnswer(a, btn) {
   let spoken;
   if (ok) {
     chime(); btn.classList.add("right");
-    flyTo($("qPic").hidden ? $("qEmoji") : $("qPic"), btn);
+    if (!fed) flyTo($("qPic").hidden ? $("qEmoji") : $("qPic"), btn);
+    munch(btn, fed ? 150 : 760);
     cheer(w.article, btn);
     Q.earned++; earnStar("starsQuiz");
     spoken = say([C("f-ja"), W(w)]);
@@ -2218,6 +2259,7 @@ function fixDone() {
   b.classList.remove("callme"); b.classList.add("right", "fixed");
   chime(); sparkle(b, 14); cheer(a, b);
   if (f.opts.pic) flyTo(f.opts.pic, b);
+  if (f.opts.pic || f.fed) munch(b, f.fed ? 150 : 760);     // a friend that gets the picture eats it
   setTimeout(() => document.querySelectorAll(".oopsbadge").forEach(n => n.remove()), 1200);
   (f.w ? say([W(f.w), C("f-jetztweisst")]) : say([ART(a)])).then(f.resolve);
 }
@@ -2231,6 +2273,144 @@ document.addEventListener("click", (e) => {
   else if (b.classList.contains("mila-btn")) FIX.prompt();
   else { restart(FIX.right, "callme"); FIX.place(); }
 }, true);
+
+/* ---------- feeding the circle friends ----------
+   In practice and the test she can drag the picture into the der, die or das friend instead of tapping it.
+   The friends watch the picture, open their mouths when it comes close, munch the right word and spit a wrong one back. */
+const FEED = {
+  play: { pic: () => $("cardPic").hidden ? $("emoji") : $("cardPic"), orbs: () => [...document.querySelectorAll("#choices .choice")] },
+  quiz: { pic: () => $("qPic").hidden ? $("qEmoji") : $("qPic"), orbs: () => [...document.querySelectorAll("#qhouses .qhouse")] } };
+let fd = null, feedHintT = 0;
+const feedScreen = () => !$("play").hidden && !$("choices").hidden ? "play" : !$("quiz").hidden ? "quiz" : null;
+const orbIn = (b) => b.classList.contains("orb") ? b : b.querySelector(".orb");
+// Who may eat now: while she puts a mistake right only the glowing friend, otherwise all three once she has heard the word.
+function feedTargets(scr) {
+  if (FIX) return FEED[scr].orbs().includes(FIX.right) ? [FIX.right] : [];
+  if (scr === "play") { const c = S && S.card; return c && !c.locked && !c.listening ? FEED.play.orbs() : []; }
+  return Q && !Q.locked ? FEED.quiz.orbs() : [];
+}
+// Their eyes follow the picture or her finger; between turns they look at the card.
+function lookAt(scr, x, y) {
+  for (const b of FEED[scr].orbs()) {
+    const o = orbIn(b), r = o && o.getBoundingClientRect(); if (!r || !r.width) continue;
+    const dx = x - (r.left + r.width / 2), dy = y - (r.top + r.height * .35), d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 90) * 3;
+    o.style.setProperty("--lx", (dx / d * k).toFixed(2) + "cqw"); o.style.setProperty("--ly", (dy / d * k).toFixed(2) + "cqw");
+  }
+}
+function lookAtPic(scr) {
+  const pic = FEED[scr].pic(), r = pic && pic.getBoundingClientRect();
+  if (r && r.width) lookAt(scr, r.left + r.width / 2, r.top + r.height / 2);
+}
+// Called once she has heard the word: the friends look at the picture, and until she has fed them twice a hand shows how.
+function feedReady(scr) {
+  lookAtPic(scr);
+  clearTimeout(feedHintT);
+  if ((state.progress.fed || 0) >= 2 || RM()) return;
+  const pic = FEED[scr].pic();
+  feedHintT = setTimeout(() => {
+    if (feedScreen() !== scr || fd || FIX || !feedTargets(scr).length || FEED[scr].pic() !== pic) return;
+    const a = pic.getBoundingClientRect(), o = orbIn(FEED[scr].orbs()[1]).getBoundingClientRect();
+    if (!a.width || !o.width) return;
+    const x = a.left + a.width / 2, y = a.top + a.height * .55, ty = Math.max(40, o.top - y - 10);
+    const h = document.createElement("span"); h.className = "feedhand"; h.textContent = "👆"; h.setAttribute("aria-hidden", "true");
+    Object.assign(h.style, { left: x + "px", top: y + "px" });
+    document.body.appendChild(h);
+    h.animate([{ opacity: 0, transform: "translate(-30%,0) scale(1.2)" }, { opacity: 1, transform: "translate(-30%,0) scale(1)", offset: .2 },
+      { opacity: 1, transform: "translate(-30%," + ty * .8 + "px)", offset: .75 }, { opacity: 0, transform: "translate(-30%," + ty + "px)" }],
+      { duration: 1900, easing: "ease-in-out" }).onfinish = () => h.remove();
+    pic.animate([{ translate: "0 0" }, { translate: "0 0", offset: .2 }, { translate: "0 " + Math.min(36, ty * .15) + "px", offset: .6 }, { translate: "0 0" }],
+      { duration: 1900, easing: "ease-in-out" });
+  }, 2600);
+}
+// The friend that gets the picture eats it: nom nom, and a happy chew.
+function munch(b, delay) { if (b) setTimeout(() => { nom(); if (!RM()) retrigger(b, "munch", 900); }, delay); }
+function feedTarget(scr, x, y) {
+  let best = null, bd = Infinity;
+  for (const b of feedTargets(scr)) {
+    const r = orbIn(b).getBoundingClientRect(), dist = Math.hypot(x - (r.left + r.width / 2), y - (r.top + r.height / 2));
+    if (dist < r.width * .95 && dist < bd) { best = b; bd = dist; }
+  }
+  return best;
+}
+// The picture she carries hangs just above her finger, so she can still see the friends' faces.
+const carryAt = (d, x, y) => (x - d.ox) + "px " + (y - d.oy) + "px";
+function liftPic(d, x, y) {
+  const r = d.r, g = d.pic.cloneNode(true);
+  d.ox = r.left + r.width / 2; d.oy = r.top + r.height * .92;
+  g.removeAttribute("id"); g.hidden = false; g.classList.add("feeding");
+  Object.assign(g.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px", translate: "0px 0px", transformOrigin: "50% 92%",
+    transition: "translate .16s ease-out,scale .16s cubic-bezier(.3,1.5,.5,1),rotate .16s" });
+  document.body.appendChild(g);
+  d.pic.classList.add("held"); d.ghost = g;
+  requestAnimationFrame(() => { g.style.scale = ".46"; g.style.rotate = "-6deg"; g.style.translate = carryAt(d, x, y); setTimeout(() => { if (g.isConnected) g.style.transition = ""; }, 180); });
+  pop();
+}
+// Dropped nowhere: the picture springs back onto the card.
+function flyBack(d) {
+  const g = d.ghost, from = { translate: g.style.translate, scale: g.style.scale || "1", rotate: g.style.rotate || "0deg" };
+  Object.assign(g.style, { transition: "none", translate: "0px 0px", scale: "1", rotate: "0deg" });
+  g.animate([from, { translate: "0px 0px", scale: "1", rotate: "0deg" }], { duration: 380, easing: "cubic-bezier(.3,1.35,.5,1)" })
+    .onfinish = () => { g.remove(); d.pic.classList.remove("held"); };
+}
+// Dropped on a friend: it goes into the mouth. The right friend munches it; a wrong one spits it back onto the card.
+function dropPic(d, b) {
+  const g = d.ghost, m = orbIn(b).querySelector(".mouth-o").getBoundingClientRect();
+  const to = carryAt(d, m.left + m.width / 2, m.top + m.height / 2);
+  const right = FIX ? b === FIX.right : artOK(d.scr === "play" ? S.card.w : Q.words[Q.i], b.dataset.a);
+  state.progress.fed = (state.progress.fed || 0) + 1;
+  g.style.transition = "none";
+  g.animate([{ translate: g.style.translate, scale: g.style.scale || "1", rotate: g.style.rotate || "0deg" }, { translate: to, scale: ".04", rotate: "0deg" }],
+    { duration: 230, easing: "cubic-bezier(.5,0,.8,.6)", fill: "forwards" }).onfinish = () => {
+    if (right) {
+      g.remove(); d.pic.classList.remove("held");
+      if (!RM()) d.pic.animate([{ scale: ".5", opacity: 0 }, { scale: "1", opacity: 1 }], { duration: 320, delay: 450, easing: "cubic-bezier(.3,1.5,.5,1)", fill: "backwards" });
+      return;
+    }
+    ptui();
+    const mid = ((m.left + m.width / 2 - d.ox) / 2) + "px " + ((m.top + m.height / 2 - d.oy) / 2 - 140) + "px";
+    g.animate([{ translate: to, scale: ".04", rotate: "0deg" }, { translate: mid, scale: ".6", rotate: "200deg", offset: .5 },
+      { translate: "0px 0px", scale: "1", rotate: "360deg" }], { duration: 650, easing: "cubic-bezier(.3,.7,.4,1)", fill: "forwards" })
+      .onfinish = () => { g.remove(); d.pic.classList.remove("held"); };
+  };
+  if (FIX) { FIX.fed = true; FIX.opts.pic = null; fixDone(); }
+  else if (d.scr === "play") answer(b.dataset.a, b, true);
+  else quizAnswer(b.dataset.a, b, true);
+}
+document.addEventListener("pointerdown", (e) => {
+  clearTimeout(feedHintT); document.querySelector(".feedhand")?.remove();
+  const scr = feedScreen(); if (!scr || fd || e.button > 0) return;
+  const pic = FEED[scr].pic();
+  if (!pic || pic.hidden || !pic.contains(e.target) || e.target.closest("button") || !feedTargets(scr).length) return;
+  e.preventDefault();
+  fd = { scr, pid: e.pointerId, pic, x0: e.clientX, y0: e.clientY, r: pic.getBoundingClientRect(), moved: false, ghost: null, over: null };
+  try { pic.setPointerCapture(e.pointerId); } catch {}
+});
+document.addEventListener("pointermove", (e) => {
+  const scr = feedScreen(); if (!scr) return;
+  if (!fd || e.pointerId !== fd.pid) { if (e.pointerType === "mouse" || e.buttons) lookAt(scr, e.clientX, e.clientY); return; }
+  const dx = e.clientX - fd.x0, dy = e.clientY - fd.y0;
+  if (!fd.moved) { if (Math.hypot(dx, dy) < 8) return; fd.moved = true; return liftPic(fd, e.clientX, e.clientY); }
+  const t = feedTarget(fd.scr, e.clientX, e.clientY), g = fd.ghost;
+  if (t !== fd.over) { fd.over?.classList.remove("hungry"); t?.classList.add("hungry"); g.style.scale = t ? ".36" : ".46"; fd.over = t;
+    g.style.transition = t ? "translate .14s ease-out,scale .16s cubic-bezier(.3,1.5,.5,1),rotate .16s" : ""; }
+  // Near a friend it snaps right above its open mouth, so she sees the whole face; elsewhere it follows her finger.
+  const o = t && orbIn(t).getBoundingClientRect();
+  g.style.translate = o ? carryAt(fd, o.left + o.width / 2, o.top + o.height * .12) : carryAt(fd, e.clientX, e.clientY);
+  lookAt(fd.scr, o ? o.left + o.width / 2 : e.clientX, o ? o.top : e.clientY);
+});
+function feedEnd(e, cancel) {
+  if (!fd || e.pointerId !== fd.pid) return;
+  const d = fd; fd = null;
+  d.over?.classList.remove("hungry");
+  setTimeout(() => { if (feedScreen() === d.scr && !fd) lookAtPic(d.scr); }, 900);
+  if (!d.moved) return;
+  const b = !cancel && feedScreen() === d.scr ? feedTarget(d.scr, e.clientX, e.clientY) : null;
+  if (b) return dropPic(d, b);
+  if (FIX && !cancel) { restart(FIX.right, "callme"); FIX.place(); }
+  flyBack(d);
+}
+document.addEventListener("pointerup", (e) => feedEnd(e, false));
+document.addEventListener("pointercancel", (e) => feedEnd(e, true));
 
 /* ---------- colour help: just the circle and its article, no pictures or sentences ---------- */
 const ART = (a) => C("a-" + a);
@@ -3387,12 +3567,18 @@ function lettersReport() {
 // max:  Max says a word with an article – sometimes the wrong one. Thumbs up or down; if he got it wrong she shows him the right circle.
 // hear: she sees the picture and Mila says only the word (no article). She picks the circle, then hears it with its article.
 const tricky = (w) => { const p = prog(w.id); return (needsPractice(w) ? 5 : 0) + ARTS.reduce((n, a) => n + ((p.mix || {})[a] || 0), 0); };
+// A couple of her tricky words always come along, the rest at random.
+const trickyFirst = (ws, n) => { const t = shuffle(ws).sort((a, b) => tricky(b) - tricky(a)); return [...t.slice(0, 2), ...shuffle(t.slice(2))].slice(0, n); };
 function gameWords(mode) {
-  let ws = mode === "max" ? allWords().filter(w => MAX_CLAIMS[w.id] && MAX_CLAIMS[w.id][0] === w.article && norm(w.noun) === w.id) : state.words;
-  if (mode !== "max") { const rec = ws.filter(w => N(w).key); if (rec.length >= 3) ws = rec; }
-  // a couple of her tricky words always come along, the rest at random
-  const byTrick = shuffle(ws).sort((a, b) => tricky(b) - tricky(a));
-  return shuffle([...byTrick.slice(0, 2), ...shuffle(byTrick.slice(2)).slice(0, 4)]);
+  if (mode === "max") {
+    // Max mostly tries this week's words, plus two older ones so they stay fresh.
+    const ok = (w) => MAX_CLAIMS[w.id] && MAX_CLAIMS[w.id][0] === w.article && norm(w.noun) === w.id;
+    const pick = [...trickyFirst(state.words.filter(ok), 4), ...trickyFirst(state.bank.filter(ok), 2)];
+    return shuffle([...pick, ...shuffle(allWords().filter(w => ok(w) && !pick.includes(w)))].slice(0, 6));
+  }
+  let ws = state.words;
+  const rec = ws.filter(w => N(w).key); if (rec.length >= 3) ws = rec;
+  return shuffle(trickyFirst(ws, 6));
 }
 const gPicEl = () => $("gPic").hidden ? $("gEmoji") : $("gPic");
 const gOrb = (a) => document.querySelector('#gChoices .choice[data-a="' + a + '"]');
