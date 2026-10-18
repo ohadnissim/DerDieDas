@@ -86,4 +86,6 @@ up when there are too few others. A new game should pick its words the same way,
 and count her answers with `scoreWord` (the first answer to each word in a round). Like Duolingo, a word is learned after
 `MASTERED` right answers in a row in any game (3 by default; grown-ups can pick 3, 4 or 5 in the word list). It then
 stops repeating and only comes back for a check after 4, 7, 14 and 30 days; a mistake starts the count again. Mila's
-tree hangs the words she is learning as leaves, and Mila asks for them one by one.
+tree hangs the words she is learning as leaves, and each branch is one of three games in turn (`TREE_GAMES`): Hör mal
+(Mila names a leaf), Mila's favourite (she only wants der, die or das leaves; these answers count with `scoreWord`) and
+falling leaves (catch the one she names).

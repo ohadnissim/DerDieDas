@@ -869,6 +869,8 @@ circle.inked{fill:#8E3FC7;stroke:none}
   transition:opacity .25s,scale .35s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
 .tsay::after{content:"";position:absolute;left:8%;bottom:2%;width:22%;height:22%;background:#fff;clip-path:polygon(0 100%,100% 0,100% 60%)}
 .tsay svg{width:56%;height:56%}
+.tsay.art{width:clamp(60px,46%,92px)}
+.tsay .orb{width:82%;pointer-events:none}
 .tmila.asking .tsay{opacity:1;scale:1;pointer-events:auto;animation:bob 2.4s ease-in-out infinite}
 .tmila.talk img{animation:mtalk .5s ease-in-out 2}
 @keyframes mtalk{0%,100%{transform:none}50%{transform:translateY(-5%) rotate(-3deg) scale(1.03)}}
@@ -882,6 +884,9 @@ circle.inked{fill:#8E3FC7;stroke:none}
 .tleaf.lift{z-index:5}
 .tleaf.lift .lf{animation:none;scale:1.15}
 .tleaf.new{animation:pop .5s cubic-bezier(.3,1.6,.5,1) both}
+/* falling leaves: the loop moves them; they sit in front of the tree so a tap always reaches them */
+.tleaf.fall{z-index:4;will-change:left,top}
+.tleaf.fall .lf{animation:none}
 @keyframes lsway{0%,100%{rotate:-6deg}50%{rotate:6deg}}
 .thungry{position:absolute;display:grid;place-items:center;width:clamp(76px,8%,110px);aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.85);box-shadow:var(--lift);translate:-50% -50%;
   animation:bob 2.6s ease-in-out infinite;color:var(--grape)}
@@ -1233,7 +1238,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
 <section class="screen" id="milaScreen" hidden>
   <div class="mtree-wrap"><div class="mtree" id="mtree">
     <img class="mtbg" src="img/mila-tree.webp" alt="">
-    <button class="tmila" id="tMila" aria-label="Mila"><img id="tMilaImg" src="img/mila.webp" alt=""><span class="tsay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></span></button>
+    <button class="tmila" id="tMila" aria-label="Mila"><img id="tMilaImg" src="img/mila.webp" alt=""><span class="tsay" id="tSay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></span></button>
     <div id="tLeaves"></div>
     <button class="thungry" id="tHungry" aria-label="Los geht's" hidden><img src="img/leaf.webp" alt=""><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></button>
   </div></div>
@@ -3319,7 +3324,11 @@ function finishMemory() {
 
 /* ---------- Mila's tree ----------
    The words she is learning now hang on Mila's tree as leaves: this week's words she doesn't know yet (tricky ones
-   first) and older words she still mixes up. Mila asks for one ("Hör mal! … die Leiter") and she feeds her that leaf.
+   first) and older words she still mixes up. Each branch is one of three little games, taking turns:
+   - Hör mal: Mila asks for a word ("Hör mal! … die Leiter") and she feeds her that leaf.
+   - Mila's favourite: Mila only wants der, die or das leaves right now (her speech bubble shows that friend), and she
+     feeds her all of them. These answers count for learning the words, like every other der/die/das game.
+   - Falling leaves: leaves float down from the tree, Mila names one and she catches it before it reaches the grass.
    Every leaf Mila eats makes her grow: bigger, chubby, a cocoon, and at last a butterfly. */
 const MILA_STAGES = [
   { at: 0, img: "img/mila.webp", w: 17, x: 38, bottom: 46.5, mouth: [30, 40], cls: "idle" },
@@ -3329,10 +3338,12 @@ const MILA_STAGES = [
   { at: 45, img: "img/mila-5.webp", w: 24, x: 38, bottom: 52, mouth: [50, 22], cls: "flies" }];
 // Leaves stay between 50% and 75% across, so they are on screen in portrait too.
 const LEAF_SPOTS = [[57, 40], [64, 34], [70.5, 41], [60, 26], [67, 21], [54.5, 31], [71, 29], [63.5, 47]];
+const TREE_GAMES = ["hoer", "art", "fall"];
+const SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
 const ateList = () => state.progress.ate || (state.progress.ate = []);   // every word she has fed Mila at least once
 const leafCount = () => Math.max(state.progress.leaves || 0, ateList().length);   // how many leaves Mila has eaten
 const milaStage = (n = leafCount()) => MILA_STAGES.reduce((k, s, i) => n >= s.at ? i : k, 0);
-let tw = null, TR = null;   // the leaf she is dragging; this branch's leaves and the one Mila wants
+let tw = null, TR = null, treeTurn = Math.floor(Math.random() * TREE_GAMES.length);   // the leaf she is dragging; this branch
 function renderMilaHome() {
   $("milaHomeImg").src = MILA_STAGES[milaStage()].img;
   // the badge: this week's words she hasn't fed Mila yet
@@ -3342,7 +3353,7 @@ function renderMilaHome() {
 function placeMila(grow) {
   const st = MILA_STAGES[milaStage()], m = $("tMila");
   $("tMilaImg").src = st.img;
-  m.className = "tmila " + st.cls + (grow ? " grow" : "") + (TR && TR.want ? " asking" : "");
+  m.className = "tmila " + st.cls + (grow ? " grow" : "") + (TR && TR.asking ? " asking" : "");
   Object.assign(m.style, { left: st.x + "%", width: st.w + "%", top: st.top != null ? st.top + "%" : "", bottom: st.bottom != null ? st.bottom + "%" : "" });
 }
 function renderGrowBar() {
@@ -3351,49 +3362,72 @@ function renderGrowBar() {
   $("tGrow").innerHTML = '<span class="lfi"></span><b>' + n + '</b><span class="bar2"><i style="width:' + pct + '%"></i></span>' +
     (nx ? '<img class="next" src="' + nx.img + '" alt="">' : '<img src="' + cur.img + '" alt="">');
 }
+const leafHTML = (w, cls, style) => '<button class="tleaf ' + cls + '" data-id="' + esc(w.id) + '" aria-label="' + esc(w.article + " " + w.noun) + '" style="' + style + '">' +
+  '<span class="lf" style="animation-delay:' + (-Math.random() * 3).toFixed(2) + 's"></span>' + faceHTML(w) + "</button>";
 function renderLeaves(ws) {
-  $("tLeaves").innerHTML = ws.map((w, i) => '<button class="tleaf new" data-id="' + esc(w.id) + '" aria-label="' + esc(w.article + " " + w.noun) +
-    '" style="left:' + LEAF_SPOTS[i][0] + "%;top:" + LEAF_SPOTS[i][1] + "%;animation-delay:" + (i * .08) + 's"><span class="lf" style="animation-delay:' + (-i * .7) + 's"></span>' + faceHTML(w) + "</button>").join("");
-  $("tHungry").hidden = true;
+  $("tLeaves").innerHTML = ws.map((w, i) => leafHTML(w, "new", "left:" + LEAF_SPOTS[i][0] + "%;top:" + LEAF_SPOTS[i][1] + "%;animation-delay:" + (i * .08) + "s")).join("");
 }
-// A new branch of leaves: the words she is learning now.
+// A new branch: the words she is learning now, and the next of the three games.
 function newLeaves() {
-  const my = TR = { ws: mixWords(LEAF_SPOTS.length, 2), want: null, last: null, eaten: 0, first: true };
-  renderLeaves(my.ws);
-  sleep(700).then(() => { if (TR === my && !$("milaScreen").hidden) { sparkle($("tLeaves"), 12); askLeaf(); } });
+  const mode = TREE_GAMES[treeTurn++ % TREE_GAMES.length];
+  const ws = mixWords(LEAF_SPOTS.length, 2, mode === "art" ? (w) => ARTS.includes(w.article) : undefined);
+  const my = TR = { mode, ws, eaten: new Set(), want: null, art: null, asking: false, last: null, first: true, scored: new Set(), fl: [] };
+  $("tHungry").hidden = true; $("tMila").classList.remove("asking");
+  if (mode === "fall") $("tLeaves").innerHTML = ""; else renderLeaves(ws);
+  sleep(700).then(() => {
+    if (TR !== my || $("milaScreen").hidden) return;
+    if (mode === "fall") { say([C("f-schau")]).then(() => { if (TR === my) { startFall(my); askLeaf(); } }); return; }
+    sparkle($("tLeaves"), 12); askLeaf();
+  });
 }
 function openTree() {
   show("milaScreen");
   TR = null; placeMila(false); renderGrowBar();
   newLeaves();
 }
-// Mila asks for the next leaf. When the branch is empty, she cheers and a button brings new leaves.
+const leavesLeft = () => TR.ws.filter(w => !TR.eaten.has(w.id));
+// Mila asks for the next leaf. When the branch is empty, she cheers and a button brings the next game.
 function askLeaf() {
   if (!TR || $("milaScreen").hidden) return;
-  const left = [...$("tLeaves").querySelectorAll(".tleaf")].map(el => TR.ws.find(w => w.id === el.dataset.id)).filter(Boolean);
+  const left = leavesLeft();
   if (!left.length) {
-    TR.want = null; confetti(); chime();
+    TR.want = TR.art = null; TR.asking = false; $("tMila").classList.remove("asking");
+    confetti(); chime();
     const h = $("tHungry"); h.hidden = false; Object.assign(h.style, { left: "62%", top: "36%" });
     say([C("f-supergemacht")]);
     return;
   }
-  const other = left.filter(w => w !== TR.last);
-  TR.want = pick(other.length ? other : left);
+  if (TR.mode === "art") {
+    if (TR.art && left.some(w => artOK(w, TR.art))) return;   // she still wants more of the same
+    const arts = ARTS.filter(a => left.some(w => artOK(w, a)));
+    TR.art = pick(arts.filter(a => a !== TR.art).length ? arts.filter(a => a !== TR.art) : arts);
+  } else {
+    const other = left.filter(w => w !== TR.last);
+    TR.want = pick(other.length ? other : left);
+  }
   sayWant();
 }
+// Mila says what she wants, and her speech bubble shows it: a speaker for a word, or the der/die/das friend.
 function sayWant() {
-  if (!TR || !TR.want) return;
-  retrigger($("tMila"), "talk", 1000); $("tMila").classList.add("asking");
-  say(TR.first ? [C("f-hoer"), W(TR.want)] : [W(TR.want)]);
+  if (!TR || !(TR.want || TR.art)) return;
+  TR.asking = true;
+  const m = $("tMila"), b = $("tSay");
+  b.innerHTML = TR.mode === "art" ? ORB(TR.art) : SPEAKER;
+  b.className = "tsay" + (TR.mode === "art" ? " art" : "");
+  retrigger(m, "talk", 1000); m.classList.add("asking");
+  say(TR.mode === "art" ? [C("a-" + TR.art)] : TR.first && TR.mode === "hoer" ? [C("f-hoer"), W(TR.want)] : [W(TR.want)]);
   TR.first = false;
 }
-// Mila eats the leaf she asked for: it flies into her mouth, she chews, says the word, and maybe grows.
+const isWanted = (w) => TR.mode === "art" ? artOK(w, TR.art) : w === TR.want;
+// Mila eats a leaf she wanted: it flies into her mouth, she chews, says the word, and maybe grows.
 function feedMila(el, w) {
   const round = TR, before = milaStage(), st = MILA_STAGES[before], img = $("tMilaImg").getBoundingClientRect(), r = el.getBoundingClientRect();
   const mx = img.left + img.width * st.mouth[0] / 100, my = img.top + img.height * st.mouth[1] / 100;
   const dx = el._dx || 0, dy = el._dy || 0;
   el.style.pointerEvents = "none";
-  round.want = null; round.last = w; $("tMila").classList.remove("asking");
+  round.eaten.add(w.id); round.last = w;
+  if (round.mode === "art") scoreWord(w.id, true, round.scored);
+  else { round.want = null; round.asking = false; $("tMila").classList.remove("asking"); }
   el.animate([{ translate: "calc(-50% + " + dx + "px) calc(-50% + " + dy + "px)", scale: 1 },
     { translate: "calc(-50% + " + (mx - (r.left + r.width / 2) + dx) + "px) calc(-50% + " + (my - (r.top + r.height / 2) + dy) + "px)", scale: .15, opacity: .6 }],
     { duration: 320, easing: "cubic-bezier(.5,0,.8,.6)", fill: "forwards" }).onfinish = () => {
@@ -3401,7 +3435,7 @@ function feedMila(el, w) {
     const n = leafCount() + 1;
     if (!ateList().includes(w.id)) ateList().push(w.id);
     state.progress.leaves = n;
-    round.eaten++; if (round.eaten % 2 === 0) addStars();
+    if (round.eaten.size % 2 === 0) addStars();
     saveProgress();
     nom(); retrigger($("tMila"), "chomp", 750); sparkle($("tMila"), 10);
     renderGrowBar(); renderMilaHome();
@@ -3415,21 +3449,62 @@ function feedMila(el, w) {
     }).then(() => sleep(350)).then(() => { if (TR === round) askLeaf(); });
   };
 }
-// Not the leaf she asked for: Mila shakes her head and says what it is; it goes back on its twig and she asks again.
+// Not a leaf she wants: Mila shakes her head (or spits it out) and says what it is, then asks again.
 function notThisLeaf(el, w) {
-  const round = TR, want = round.want;
-  backToTwig(el);
-  retrigger($("tMila"), "nope", 550); boop();
-  say([W(w)]).then(() => sleep(400)).then(() => { if (TR === round && round.want === want) sayWant(); });
+  const round = TR, ask = round.want || round.art;
+  if (round.mode === "art") { scoreWord(w.id, false, round.scored); noteMiss(w, round.art); saveProgress(); ptui(); } else boop();
+  if (el) backToTwig(el);
+  retrigger($("tMila"), "nope", 550);
+  say([W(w)]).then(() => sleep(400)).then(() => { if (TR === round && (round.want || round.art) === ask) sayWant(); });
 }
 function backToTwig(el) {
   const from = el.style.translate; el.style.translate = ""; el._dx = el._dy = 0;
-  el.animate([{ translate: from }, { translate: "-50% -50%" }], { duration: 380, easing: "cubic-bezier(.3,1.4,.5,1)" });
+  el.animate([{ translate: from || "-50% -50%" }, { translate: "-50% -50%" }], { duration: 380, easing: "cubic-bezier(.3,1.4,.5,1)" });
+}
+// Falling leaves: a few at a time float down past Mila, swaying; the one she asked for always comes along soon.
+function startFall(my) {
+  let last = 0, nextAt = 0;
+  const box = $("tLeaves");
+  const spawn = (t) => {
+    const falling = new Set(my.fl.map(f => f.w.id)), left = leavesLeft().filter(w => !falling.has(w.id));
+    if (!left.length) return;
+    const w = my.want && !falling.has(my.want.id) && (Math.random() < .6 || my.fl.length >= 2) ? my.want : pick(left);
+    const x = 50 + Math.random() * 22;
+    box.insertAdjacentHTML("beforeend", leafHTML(w, "fall", "left:" + x.toFixed(1) + "%;top:-8%"));
+    my.fl.push({ w, el: box.lastElementChild, x, y: -8, vy: 7 + Math.random() * 3, ph: Math.random() * 6 });
+    nextAt = t + 1300 + Math.random() * 700;
+  };
+  const step = (t) => {
+    if (TR !== my || $("milaScreen").hidden) return;
+    const dt = last ? Math.min(.05, (t - last) / 1000) : 0; last = t;
+    if (t >= nextAt && my.fl.length < 3 && leavesLeft().length) spawn(t);
+    for (const f of my.fl.slice()) {
+      f.y += f.vy * dt;
+      f.el.style.left = (f.x + Math.sin(t / 700 + f.ph) * 2.5).toFixed(2) + "%";
+      f.el.style.top = f.y.toFixed(2) + "%";
+      f.el.style.rotate = (Math.sin(t / 500 + f.ph) * 14).toFixed(1) + "deg";
+      if (f.y > 104) { f.el.remove(); my.fl.splice(my.fl.indexOf(f), 1); }   // on the grass: it floats down again later
+    }
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+function catchLeaf(el) {
+  const my = TR, f = my.fl.find(x => x.el === el); if (!f) return;
+  if (!my.want) return;
+  if (f.w !== my.want) {      // not that one: it wiggles and Mila says what it is
+    el.animate([{ scale: 1 }, { scale: 1.2 }, { scale: 1 }], { duration: 300 });
+    return notThisLeaf(null, f.w);
+  }
+  my.fl.splice(my.fl.indexOf(f), 1);
+  el.style.rotate = ""; pop();
+  feedMila(el, f.w);
 }
 const nearMila = (x, y) => { const m = $("tMilaImg").getBoundingClientRect(); return x > m.left - 30 && x < m.right + 30 && y > m.top - 40 && y < m.bottom + 30; };
 $("tLeaves").addEventListener("pointerdown", (e) => {
-  const el = e.target.closest(".tleaf"); if (!el || tw) return;
+  const el = e.target.closest(".tleaf"); if (!el || tw || !TR) return;
   e.preventDefault();
+  if (TR.mode === "fall") return catchLeaf(el);
   tw = { el, pid: e.pointerId, x0: e.clientX, y0: e.clientY, moved: false };
   try { el.setPointerCapture(e.pointerId); } catch {}
 });
@@ -3445,18 +3520,21 @@ function leafUp(e, cancel) {
   if (!tw || e.pointerId !== tw.pid) return;
   const d = tw; tw = null; $("tMila").classList.remove("hungry");
   const w = TR && TR.ws.find(x => x.id === d.el.dataset.id);
-  if (!d.moved) {      // a tap: the leaf wiggles and Mila says its word
-    if (!cancel && w) { d.el.animate([{ rotate: "0deg" }, { rotate: "-14deg" }, { rotate: "10deg" }, { rotate: "0deg" }], { duration: 450 }); say([W(w)]); }
+  if (!d.moved) {
+    // a tap: the leaf wiggles and Mila says the word (in the der/die/das game only the noun, so the article stays her job)
+    if (cancel || !w) return;
+    d.el.animate([{ rotate: "0deg" }, { rotate: "-14deg" }, { rotate: "10deg" }, { rotate: "0deg" }], { duration: 450 });
+    if (TR.mode !== "art") say([W(w)]); else if (N(w).key) say([N(w)]);
     return;
   }
   d.el.classList.remove("lift");
-  if (!cancel && w && TR.want && nearMila(e.clientX, e.clientY)) return w === TR.want ? feedMila(d.el, w) : notThisLeaf(d.el, w);
+  if (!cancel && w && TR.asking && nearMila(e.clientX, e.clientY)) return isWanted(w) ? feedMila(d.el, w) : notThisLeaf(d.el, w);
   backToTwig(d.el);      // not on Mila (or she hasn't asked yet): back to its twig
 }
 $("tLeaves").addEventListener("pointerup", (e) => leafUp(e, false));
 $("tLeaves").addEventListener("pointercancel", (e) => leafUp(e, true));
-// a tap on Mila: she asks again (with no leaf to ask for, she sings der, die, das)
-$("tMila").addEventListener("click", () => { if (tw) return; sparkle($("tMila"), 10); if (TR && TR.want) sayWant(); else playChant(); });
+// a tap on Mila: she says again what she wants (with nothing to ask for, she sings der, die, das)
+$("tMila").addEventListener("click", () => { if (tw) return; sparkle($("tMila"), 10); if (TR && TR.asking) sayWant(); else playChant(); });
 $("tHungry").addEventListener("click", () => { pop(); newLeaves(); });
 
 /* ---------- bubble game ----------
