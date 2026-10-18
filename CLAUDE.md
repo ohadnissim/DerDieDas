@@ -44,6 +44,12 @@ PR as a draft until the assets are made the usual way.
   sticker also has a cut-out, `img/cut-<id>.webp`: the sticker picture through Higgsfield `image_background_remover`
   (keeps the white die-cut edge), alpha under 10 dropped, trimmed with a 6 px margin, WebP q82. A new sticker set needs
   its island, its cut-outs and an entry in `ISLANDS` in `index.html`.
+  A new island also needs its two visitor spots (front edge, left and right) in `VISIT_SPOTS`.
+- **Mila's tree** (`img/mila-tree.webp`, 2400×1792 WebP q80) and its pictures: the leaf `img/leaf.webp` and Mila growing,
+  `img/mila-2.webp` to `img/mila-5.webp` (bigger, chubby, cocoon, butterfly). Higgsfield `nano_banana_flash`, the story
+  style reference `56a6949f-…` (plus Mila `81a49550-…` for Mila), `--aspect_ratio 1:1 --resolution 1k` on a plain pure white
+  background (the tree: 4:3, 2k), two takes, keep the better one, then `image_background_remover`, trimmed, WebP. The
+  stages are in `MILA_STAGES` (how many leaves each one needs, and where her mouth is).
 
 ## Voices
 - **Mila** (teacher, narrator, every word): ElevenLabs voice "German Girl - Mila".
@@ -74,3 +80,6 @@ PR as a draft until the assets are made the usual way.
 ## Weekly list
 `data/words.json` (bump `version`) and `data/stories.json`. When the list changes, the previous week's words move to
 review; build them into `index.html` the way `M_WORDS` and `I_WORDS` are.
+Every game picks its words with `mixWords` in `index.html`: mostly this week's list (the ones she finds tricky always
+come along), plus a few older words she still struggles with (`reviewWords`). A new game should pick its words the same way,
+so it follows the new list on its own. Words she has mastered become leaves on Mila's tree.

@@ -771,6 +771,39 @@ circle.inked{fill:#8E3FC7;stroke:none}
 .ghouse.nope .orb{animation:w-nope .5s}
 @keyframes w-nope{0%,100%{rotate:0deg}20%{rotate:-14deg}40%{rotate:12deg}60%{rotate:-8deg}80%{rotate:5deg}}
 .ghouse.target .orb{box-shadow:0 0 0 6px rgba(255,255,255,.9),0 0 28px 10px rgba(255,255,255,.7)}
+/* Mia, Mil or Max hops onto an island and asks for a sticker (a thought bubble with it above their head) */
+.visit{position:absolute;width:6.5%;padding:0;border:0;background:none;transform-origin:50% 100%;touch-action:manipulation;
+  transform:translate(-50%,-100%) translateZ(var(--z,24px)) scale(var(--d,1));transform-style:preserve-3d}
+.visit .vin{display:block;transform-origin:50% 100%;transition:scale .2s cubic-bezier(.3,1.5,.5,1)}
+.visit .vin img{display:block;width:100%;height:auto;pointer-events:none;filter:drop-shadow(0 6px 5px rgba(60,30,40,.25))}
+.visit::after{content:"";position:absolute;left:8%;right:8%;bottom:-2%;height:5%;border-radius:50%;background:radial-gradient(closest-side,rgba(50,25,60,.32),transparent);pointer-events:none}
+.visit.fromleft{animation:v-in-l 1.2s cubic-bezier(.3,.9,.5,1) both}
+.visit.fromright{animation:v-in-r 1.2s cubic-bezier(.3,.9,.5,1) both}
+@keyframes v-in-l{0%{translate:-320% -30%;opacity:0;rotate:-8deg}20%{opacity:1}30%{translate:-210% 0;rotate:6deg}45%{translate:-150% -14%;rotate:-6deg}
+  60%{translate:-80% 0;rotate:6deg}75%{translate:-30% -10%;rotate:-4deg}88%{translate:0 0;rotate:0deg}94%{translate:0 -4%}100%{translate:0 0;opacity:1;rotate:0deg}}
+@keyframes v-in-r{0%{translate:320% -30%;opacity:0;rotate:8deg}20%{opacity:1}30%{translate:210% 0;rotate:-6deg}45%{translate:150% -14%;rotate:6deg}
+  60%{translate:80% 0;rotate:-6deg}75%{translate:30% -10%;rotate:4deg}88%{translate:0 0;rotate:0deg}94%{translate:0 -4%}100%{translate:0 0;opacity:1;rotate:0deg}}
+.visit.leaving.fromleft{animation:v-out-l 1.2s ease-in both;pointer-events:none}
+.visit.leaving.fromright{animation:v-out-r 1.2s ease-in both;pointer-events:none}
+@keyframes v-out-l{0%{translate:0 0}25%{translate:-60% -14%;rotate:-6deg}50%{translate:-130% 0;rotate:6deg;opacity:1}75%{translate:-200% -14%;rotate:-6deg}100%{translate:-300% 0;opacity:0}}
+@keyframes v-out-r{0%{translate:0 0}25%{translate:60% -14%;rotate:6deg}50%{translate:130% 0;rotate:-6deg;opacity:1}75%{translate:200% -14%;rotate:6deg}100%{translate:300% 0;opacity:0}}
+.visit.asking .vin{animation:v-wait 1.8s ease-in-out infinite}
+@keyframes v-wait{0%,100%{transform:none}50%{transform:translateY(-3%) scale(1.02,.98)}}
+.visit .vin.nope{animation:w-nope .5s}
+.visit .vin.happy{animation:v-joy 1.2s cubic-bezier(.3,1.4,.5,1)}
+@keyframes v-joy{0%,100%{transform:none}20%{transform:translateY(-28%) rotate(-6deg)}40%{transform:scale(1.08,.92)}60%{transform:translateY(-22%) rotate(6deg)}80%{transform:scale(1.05,.95)}}
+.visit.target .vin{scale:1.12}
+.visit.target .vin img{filter:drop-shadow(0 0 10px #fff) drop-shadow(0 0 18px rgba(255,255,255,.9))}
+.vwant{position:absolute;left:50%;bottom:112%;width:160%;aspect-ratio:1;translate:-50% 0;border-radius:50%;background:#fff;
+  box-shadow:0 8px 20px rgba(92,38,130,.22);display:grid;place-items:center;opacity:0;scale:.2;transform-origin:50% 100%;
+  transition:opacity .25s,scale .35s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+.vwant::before,.vwant::after{content:"";position:absolute;border-radius:50%;background:#fff;box-shadow:0 4px 8px rgba(92,38,130,.18)}
+.vwant::before{width:16%;height:16%;left:34%;bottom:-13%}
+.vwant::after{width:9%;height:9%;left:40%;bottom:-24%}
+.vwant img{width:76%;height:76%;object-fit:contain;pointer-events:none}
+.visit.asking .vwant{opacity:1;scale:1}
+.vwant.wiggle{animation:wiggle .6s ease}
+.garden.night .visit .vin img{filter:brightness(.78) drop-shadow(0 7px 5px rgba(0,0,0,.35))}
 /* the sticker she is pulling out of the tray */
 .ghost{position:fixed;z-index:50;left:0;top:0;pointer-events:none;transform-origin:50% 100%;will-change:transform}
 .ghost img{display:block;width:100%;height:auto;filter:drop-shadow(0 24px 16px rgba(60,30,40,.32));animation:peel .25s cubic-bezier(.3,1.6,.5,1) both}
@@ -2789,7 +2822,7 @@ function openGarden(pref) {
 }
 function goIsland(id) {
   const isl = islandById(id);
-  paradeToken++; wd = null; document.querySelector(".ghost")?.remove();
+  paradeToken++; wd = null; document.querySelector(".ghost")?.remove(); clearVisit();
   curIsland = isl.id; state.progress.lastIsland = isl.id;
   const g = $("garden");
   g.style.background = isl.sky; g.classList.toggle("night", night); $("nightBtn").classList.toggle("on", night);
@@ -2801,6 +2834,7 @@ function goIsland(id) {
   renderTray();
   renderWorldBar(isl);
   enableTilt();
+  if (isl.set) planVisit(true);
   // the first visit to a newly opened island: a little party, and Mila names its mission
   const seen = state.progress.islandsSeen || (state.progress.islandsSeen = []);
   if (isl.set && !seen.includes(isl.id)) {
@@ -3019,7 +3053,11 @@ $("gardenScreen").addEventListener("pointermove", (e) => {
     el.style.left = x + "%"; el.style.top = y + "%";
     if (wd.kind === "stk") { el.style.setProperty("--d", depth(y).toFixed(3)); $("tray").classList.toggle("drop", overTray(e.clientY)); }
   }
-  if (wd.kind !== "house") { const h = houseAt(e); $("island").querySelectorAll(".ghouse").forEach(x => x.classList.toggle("target", x === h)); }
+  if (wd.kind !== "house") {
+    const v = visitAt(e), h = v ? null : houseAt(e);
+    $("island").querySelectorAll(".ghouse").forEach(x => x.classList.toggle("target", x === h));
+    V?.el.classList.toggle("target", !!v);
+  }
 });
 function endWorldDrag(e, cancel) {
   if (!wd || e.pointerId !== wd.pid) return;
@@ -3027,6 +3065,7 @@ function endWorldDrag(e, cancel) {
   $("tray").classList.remove("drop");
   const isl = $("island");
   if (isl) isl.querySelectorAll(".ghouse.target").forEach(x => x.classList.remove("target"));
+  V?.el.classList.remove("target");
   if (d.kind === "tray") {
     if (d.scroll != null) { glide(d.vx); return; }
     if (!d.moved) {      // a tap in the tray: it wiggles and Mila says it
@@ -3037,6 +3076,7 @@ function endWorldDrag(e, cancel) {
     }
     d.ghost.remove();
     if (cancel || overTray(e.clientY) || !isl) { d.src.classList.remove("taken"); pop(); return; }
+    if (visitAt(e)) { giveVisit(d.id, true); return; }
     const r = islandRect();
     placeSticker(d.id, { x: Math.max(3, Math.min(97, (e.clientX - r.left) / r.width * 100)), y: Math.max(10, Math.min(yMax(r), (e.clientY - r.top + d.half) / r.height * 100)) }, houseAt(e));
     return;
@@ -3056,6 +3096,7 @@ function endWorldDrag(e, cancel) {
       pop(); saveProgress(); renderTray();
       return;
     }
+    if (!cancel && visitAt(e)) { giveVisit(d.id, false, el); return; }
     const house = cancel ? null : houseAt(e), info = stickerInfo(d.id);
     let q = { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
     if (house) q = besideHouse(house, info && house.dataset.a === info.art);
@@ -3079,6 +3120,107 @@ function glide(v) {
   const step = () => { if (Math.abs(v) < 0.4 || wd) return; t.scrollLeft -= v; v *= 0.93; requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
+/* ---------- island visitors ----------
+   Now and then Mia, Mil or Max hops onto a sticker island and asks for one of her stickers ("Hilf mir mal!", then Mila
+   names it). She brings it to them, from the island or the tray: they say "Danke!", jump for joy and she gets a star. */
+const VISITORS = ["mia", "mil", "max"];
+// where a friend can stand on each island: the front edge, left or right
+const VISIT_SPOTS = { meer: [[24, 59], [76, 59]], wald: [[27, 57], [77, 57]], hof: [[26, 58], [75, 57]] };
+let V = null, visitT = 0, visitN = 0, lastKid = "";
+function clearVisit() {
+  clearTimeout(visitT); visitT = 0;
+  if (V) { clearTimeout(V.bored); V.el.remove(); V = null; }
+}
+// Called when an island opens: the first friend comes after a few seconds, then every half minute or so, three at most.
+function planVisit(first) {
+  clearTimeout(visitT);
+  if (first) visitN = 0;
+  if (visitN >= 3) return;
+  visitT = setTimeout(startVisit, first ? 6000 : 22000 + Math.random() * 12000);
+}
+// what a friend can ask for: her stickers of this island's set that are on this island or still in the tray
+function visitWants(isl) {
+  const t = themedSets().find(x => x.id === isl.set); if (!t) return [];
+  const here = islandData(isl.id).s, tray = new Set(trayIds());
+  return t.ids.filter(id => state.progress.stickers.includes(id) && (here[id] || tray.has(id)));
+}
+function startVisit() {
+  visitT = 0;
+  const isl = islandById(curIsland), fl = $("island")?.querySelector(".floaty");
+  if (!isl.set || !fl || $("gardenScreen").hidden || V) return;
+  if (wd || $("garden").classList.contains("design")) { visitT = setTimeout(startVisit, 4000); return; }   // she is busy: a bit later
+  const wants = visitWants(isl); if (!wants.length) return;
+  const kid = pick(VISITORS.filter(k => k !== lastKid)), want = pick(wants), left = Math.random() < .5;
+  const sp = (VISIT_SPOTS[isl.id] || [[24, 58], [76, 58]])[left ? 0 : 1];
+  lastKid = kid; visitN++;
+  const q = { x: sp[0], y: Math.min(yMax(islandRect()) - 1, sp[1]) };
+  const el = document.createElement("button");
+  el.className = "visit " + (left ? "fromleft" : "fromright");
+  el.setAttribute("aria-label", kid);
+  el.setAttribute("style", stkStyle(q));
+  el.innerHTML = '<span class="vin"><img src="img/kid-' + kid + '.webp" alt="" draggable="false"></span>' +
+    '<span class="vwant"><img src="img/cut-' + want + '.webp" alt="" draggable="false"></span>';
+  fl.appendChild(el);
+  V = { el, kid, want, q, bored: 0 };
+  pop();
+  // they hop in, then ask
+  setTimeout(() => { if (V && V.el === el) { el.classList.add("asking"); askVisit(); } }, 1300);
+  V.bored = setTimeout(() => leaveVisit(false), 45000);
+}
+function askVisit() {
+  if (!V || $("gardenScreen").hidden) return;
+  retrigger(V.el.querySelector(".vwant"), "wiggle", 600);
+  say([C("k-" + V.kid + "-hilf"), stickerSay(V.want)]);
+}
+function leaveVisit() {
+  if (!V) return;
+  const v = V; V = null; clearTimeout(v.bored);
+  v.el.classList.remove("asking", "target"); v.el.classList.add("leaving");
+  setTimeout(() => v.el.remove(), 1300);
+  planVisit(false);
+}
+// Is the finger on the friend (or their thought bubble)?
+const visitAt = (e) => {
+  if (!V) return null;
+  const a = V.el.getBoundingClientRect(), b = V.el.querySelector(".vwant").getBoundingClientRect(), m = a.width * .45;
+  const l = Math.min(a.left, b.left), t = Math.min(a.top, b.top), r = Math.max(a.right, b.right), btm = a.bottom;
+  return e.clientX > l - m && e.clientX < r + m && e.clientY > t - m && e.clientY < btm + m ? V : null;
+};
+// She dropped a sticker on the friend. The right one: it stands next to them and they say thank you.
+// Another one: it hops a bit away, the friend shakes their head, Mila names it and they ask again.
+function giveVisit(id, fromTray, el) {
+  const v = V, right = id === v.want, s = v.q.x < 50 ? 1 : -1;
+  const q = round1({ x: Math.max(3, Math.min(97, v.q.x + s * (right ? 11 : 19))), y: Math.min(yMax(islandRect()), v.q.y + (right ? 1.5 : 4)) });
+  v.el.classList.remove("target");
+  islandData(curIsland).s[id] = q;
+  if (fromTray) {
+    $("island").querySelector(".floaty").insertAdjacentHTML("beforeend", stkHTML(id, q));
+    el = $("island").querySelector('.stk[data-id="' + id + '"]');
+    $("trayIn").querySelector('.titem[data-id="' + id + '"]')?.remove();
+    if (!$("trayIn").querySelector(".titem")) renderTray();
+  } else el.setAttribute("style", stkStyle(q));
+  saveProgress();
+  sparkle(el, 8); pop(); wordChip(el, id);
+  if (!right) {
+    retrigger(v.el.querySelector(".vin"), "nope", 550);
+    say([stickerSay(id)]).then(() => sleep(300)).then(() => { if (V === v) askVisit(); });
+    return;
+  }
+  clearTimeout(v.bored);
+  react(el, 0);
+  v.el.classList.remove("asking"); v.el.classList.add("thanks");
+  retrigger(v.el.querySelector(".vin"), "happy", 1300); sparkle(v.el, 18); chime(); confetti();
+  // a star for helping (and if that wins a new sticker, it shows up in the tray right away)
+  const had = state.progress.stickers.length;
+  addStars(); renderStars(); saveProgress();
+  if (state.progress.stickers.length > had) { roundFresh = []; renderTray(); renderWorldBar(islandById(curIsland)); }
+  say([C("k-" + v.kid + "-danke"), stickerSay(id)]).then(() => sleep(500)).then(() => { if (V === v) leaveVisit(); });
+}
+// a tap on the friend: they hop and ask again
+$("garden").addEventListener("click", (e) => {
+  const el = e.target.closest(".visit"); if (!el || !V || V.el !== el || !el.classList.contains("asking")) return;
+  pop(); askVisit();
+});
 $("gardenScreen").addEventListener("pointerup", (e) => endWorldDrag(e, false));
 $("gardenScreen").addEventListener("pointercancel", (e) => endWorldDrag(e, true));
 
