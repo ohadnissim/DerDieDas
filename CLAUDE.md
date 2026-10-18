@@ -69,7 +69,7 @@ PR as a draft until the assets are made the usual way.
   `pk-sk7`, `pk-sk8`, `pk-xmax-l`), so the files that already exist are not re-encoded. Bump `AUDIO_V`.
 - Lines written but not recorded yet go in `PENDING` in `index.html`, so the app uses the device voice until they exist.
 - Every sticker says its word (Mila): themed ones are `stk-<set>-<id>` in `pk-stk`; the first stickers' words are in
-  `FIRST_WORDS` (`stk-<id>`, or an existing clip of the same word).
+  `FIRST_WORDS` (`stk-<id>` in `pk-stk-first`, or an existing clip of the same word).
 
 ## Weekly list
 `data/words.json` (bump `version`) and `data/stories.json`. When the list changes, the previous week's words move to
