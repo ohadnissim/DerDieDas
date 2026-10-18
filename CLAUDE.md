@@ -80,6 +80,10 @@ PR as a draft until the assets are made the usual way.
 ## Weekly list
 `data/words.json` (bump `version`) and `data/stories.json`. When the list changes, the previous week's words move to
 review; build them into `index.html` the way `M_WORDS` and `I_WORDS` are.
-Every game picks its words with `mixWords` in `index.html`: mostly this week's list (the ones she finds tricky always
-come along), plus a few older words she still struggles with (`reviewWords`). A new game should pick its words the same way,
-so it follows the new list on its own. Words she has mastered become leaves on Mila's tree.
+Every game picks its words with `mixWords` in `index.html`: this week's words she hasn't learned yet (the ones she finds
+tricky always come along), plus a few older words she still struggles with (`reviewWords`). Learned words only fill a game
+up when there are too few others. A new game should pick its words the same way, so it follows the new list on its own,
+and count her answers with `scoreWord` (the first answer to each word in a round). Like Duolingo, a word is learned after
+`MASTERED` right answers in a row in any game (3 by default; grown-ups can pick 3, 4 or 5 in the word list). It then
+stops repeating and only comes back for a check after 4, 7, 14 and 30 days; a mistake starts the count again. Mila's
+tree hangs the words she is learning as leaves, and Mila asks for them one by one.
