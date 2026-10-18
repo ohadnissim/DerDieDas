@@ -814,6 +814,35 @@ circle.inked{fill:#8E3FC7;stroke:none}
 .nstar{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 6px 2px rgba(255,255,255,.8);opacity:0;pointer-events:none;transition:opacity 1s}
 .garden.night .nstar{opacity:1;animation:twinkle 2.6s ease-in-out infinite}
 
+/* ---------- bubble game ---------- */
+#bubbles{max-width:none}
+#bubbles .bar{position:relative;z-index:3;width:100%;max-width:1000px;margin-inline:auto}
+.bfield{position:fixed;inset:0;z-index:0;overflow:hidden;touch-action:none;background:linear-gradient(#CDEBFF,#EAF6FF 55%,#FFEAF5)}
+.bub{position:absolute;left:0;top:0;width:var(--s);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;will-change:translate;
+  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,0) 58%,rgba(170,215,255,.35) 72%,rgba(255,255,255,.85) 100%);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.8),inset -6px -8px 18px rgba(255,160,220,.25),0 8px 18px rgba(80,120,200,.16)}
+.bub .face{width:70%;aspect-ratio:1;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:var(--paper);pointer-events:none}
+.bub .face .tile{width:100%;height:100%;border-radius:50%}
+.bub .face .emo{font-size:calc(var(--s) * .42);line-height:1}
+.bub .face .txt{font-family:var(--display);font-weight:800;font-size:calc(var(--s) * .16)}
+.bub::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.95) 0 5%,rgba(255,255,255,0) 13%)}
+.bub.miss{filter:grayscale(.85);opacity:.5;animation:bwob .45s}
+@keyframes bwob{25%{scale:1.12 .9}50%{scale:.92 1.1}75%{scale:1.05 .96}}
+.bub.pop{animation:bpop .3s ease-out forwards;pointer-events:none}
+@keyframes bpop{0%{scale:1;opacity:1}40%{scale:1.25;opacity:.9}100%{scale:1.6;opacity:0}}
+.bfriend{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));z-index:2;width:clamp(96px,15vmin,140px);translate:-50% 0;pointer-events:none;
+  transition:bottom .55s cubic-bezier(.3,1.3,.5,1),translate .55s cubic-bezier(.3,1.3,.5,1),scale .55s cubic-bezier(.3,1.3,.5,1)}
+.bfriend .orb{width:100%}
+.blabel{display:block;margin-top:2px;text-align:center;font-family:var(--display);font-weight:800;font-size:clamp(22px,4vmin,34px);line-height:1;color:var(--c)}
+.blabel.der{--c:var(--der)} .blabel.die{--c:var(--die)} .blabel.das{--c:#B08A00}
+.bfriend .orb::after{display:none}
+.bfriend.intro{bottom:50%;translate:-50% 50%;scale:2}
+.bfriend.nope .orb{animation:w-nope .5s}
+.bcombo{position:fixed;left:50%;top:22%;z-index:4;translate:-50% 0;pointer-events:none;font-family:var(--display);font-weight:800;font-size:clamp(40px,8vmin,72px);
+  color:#fff;text-shadow:0 4px 0 var(--grape-deep),0 8px 20px rgba(80,40,120,.35);opacity:0}
+.bcombo.show{animation:bcombo 1.1s cubic-bezier(.3,1.4,.5,1)}
+@keyframes bcombo{0%{opacity:0;scale:.4}20%{opacity:1;scale:1.15}70%{opacity:1;scale:1}100%{opacity:0;scale:1;translate:-50% -30px}}
+
 @media (max-width:560px){
   .row{grid-template-columns:36px 48px minmax(0,1fr) 40px 40px}
   .row .stat{display:none}
@@ -857,6 +886,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
       </button>
     </div>
     <div class="games">
+      <button class="candy sky game" id="bubbleBtn" aria-label="Blasen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="14.5" r="6"/><circle cx="17.5" cy="6.5" r="3.5"/><circle cx="18.5" cy="17" r="2"/><path d="M6.3 12.2a3.3 3.3 0 0 1 2.3-1.7"/></svg></button>
       <button class="candy pink game" id="memBtn" aria-label="Memory"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2.5" y="4" width="8.5" height="11" rx="2"/><rect x="13" y="9" width="8.5" height="11" rx="2" opacity=".75"/></svg></button>
       <button class="candy grape game" id="judgeBtn" aria-label="Stimmt das?"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21h3V10H2v11zm20-10a2 2 0 0 0-2-2h-6.3l1-4.6v-.3a1.5 1.5 0 0 0-.4-1L14.2 2 7.6 8.6A2 2 0 0 0 7 10v9a2 2 0 0 0 2 2h9a2 2 0 0 0 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg></button>
       <button class="candy grape game" id="hearBtn" aria-label="Hörspiel"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7h2a5 5 0 0 1 10 0c0 1.9-.9 2.9-2 4-1.2 1.1-2.5 2.3-2.9 4.6-.2 1.3-1 2.4-2.6 2.4A2.5 2.5 0 0 1 7 19.5H5A4.5 4.5 0 0 0 9.5 24c2.6 0 4.2-1.8 4.6-4.1.3-1.6 1.1-2.4 2.2-3.4C17.6 15.2 19 13.7 19 9a7 7 0 0 0-7-7zm0 4a3 3 0 0 0-3 3h2a1 1 0 0 1 2 0c0 .7-.4 1-1 1.5-.8.6-2 1.5-2 3.5h2c0-1 .5-1.4 1.2-1.9C14 11.5 15 10.6 15 9a3 3 0 0 0-3-3z"/></svg></button>
@@ -1019,6 +1049,18 @@ circle.inked{fill:#8E3FC7;stroke:none}
     <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
   </div>
   <div class="mwrap"><div class="mgrid" id="mgrid"></div></div>
+</section>
+
+<!-- BUBBLES: Mila calls der, die or das; she pops the bubbles whose word goes with it -->
+<section class="screen" id="bubbles" hidden>
+  <div class="bfield" id="bfield"></div>
+  <div class="bar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="dots" id="bdots"></div></div>
+    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+  </div>
+  <div class="bcombo" id="bcombo" aria-hidden="true"></div>
+  <div class="bfriend" id="bfriend" aria-hidden="true"><span class="orb der"><span class="eyes"><i></i><i></i></span><span class="cheeks"><i></i><i></i></span><span class="smile"></span><span class="mouth-o"></span></span><b class="blabel" id="blabel"></b></div>
 </section>
 
 <!-- STIMMT DAS? -->
@@ -1744,11 +1786,11 @@ function confetti() {
 }
 
 /* ---------- screens ---------- */
-const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "judge", "cgame", "shelf", "story", "gardenScreen", "sent", "write"];
+const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "bubbles", "judge", "cgame", "shelf", "story", "gardenScreen", "sent", "write"];
 function show(name) { clearFix(); for (const s of SCREENS) $(s).hidden = s !== name; }
-let S = null, Q = null, M = null, J = null, ST = null, WU = null, G = null, T = null, L = null;
+let S = null, Q = null, M = null, J = null, ST = null, WU = null, G = null, T = null, L = null, B = null;
 let lastActivity = "practice";
-const busy = () => !!(S || Q || M || J || ST || WU || G || T || L);
+const busy = () => !!(S || Q || M || J || ST || WU || G || T || L || B);
 
 /* ---------- home ---------- */
 function renderStars() {
@@ -1762,6 +1804,7 @@ function renderHome() {
   $("quizBtn").disabled = !(ready && state.words.length >= 3);
   $("quizDue").hidden = !quizDue();
   $("memBtn").disabled = $("judgeBtn").disabled = !(ready && state.words.length >= 3);
+  $("bubbleBtn").disabled = !(ready && bubbleWords().length >= 6);
   $("sentBtn").disabled = !state.wordsLoaded;
   $("hearBtn").disabled = !(ready && state.words.length >= 3);
   $("maxBtn").disabled = gameWords("max").length < 3;
@@ -1834,6 +1877,14 @@ function reviewWords(max) {
   return shuffle(cand).sort((a, b) => weakness(b) - weakness(a)).slice(0, max);
 }
 const allWords = () => [...state.words, ...state.bank];
+// Every game: mostly this week's words (the ones she finds tricky always come along), plus the older words she
+// struggled with most. ok() limits it to words a game can use (e.g. ones with a recording).
+function mixWords(n, older = 2, ok = () => true) {
+  const old = reviewWords(99).filter(ok).slice(0, older);
+  const pick = [...trickyFirst(state.words.filter(ok), n - old.length), ...old];
+  if (pick.length < n) pick.push(...shuffle(allWords().filter(w => ok(w) && !pick.includes(w))).slice(0, n - pick.length));
+  return shuffle(pick);
+}
 function startSession(only) {
   if (Array.isArray(only) && only.length) {
     // grown-ups' "Practise these now": just the tricky words (topped up to 3 with others)
@@ -2005,7 +2056,7 @@ function finishSession() {
 }
 function quitSession() {
   clearFix();
-  if (busy()) { saveProgress(); S = Q = M = J = ST = G = T = L = null; }
+  if (busy()) { saveProgress(); S = Q = M = J = ST = G = T = L = B = null; }
   stopRecording();
   stopAudio();
   renderHome(); show("home");
@@ -2201,9 +2252,10 @@ $("playBtn").addEventListener("click", () => { pop(); startPractice(); });
 $("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
 $("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
 $("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, judge: startJudge, story: () => startStory(state.stories.find(x => x.id === lastStoryId)), max: () => startCircleGame("max"), hear: () => startCircleGame("hear"), sent: startSent, write: () => startWrite(lastLetter) })[lastActivity](); });
+$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, bubbles: startBubbles, judge: startJudge, story: () => startStory(state.stories.find(x => x.id === lastStoryId)), max: () => startCircleGame("max"), hear: () => startCircleGame("hear"), sent: startSent, write: () => startWrite(lastLetter) })[lastActivity](); });
 $("doneGarden").addEventListener("click", () => { pop(); openGarden(); });
 $("memBtn").addEventListener("click", () => { pop(); startMemory(); });
+$("bubbleBtn").addEventListener("click", () => { pop(); startBubbles(); });
 $("judgeBtn").addEventListener("click", () => { pop(); startJudge(); });
 $("storyBtn").addEventListener("click", () => { pop(); openStories(); });
 $("gardenBtn").addEventListener("click", () => { pop(); openGarden(); });
@@ -2976,7 +3028,8 @@ $("gardenScreen").addEventListener("pointercancel", (e) => endWorldDrag(e, true)
 /* ---------- memory: find two pictures that live in the same house ---------- */
 const MEM_PAIRS = 8;
 function startMemory() {
-  const by = {}; for (const a of ARTS) by[a] = shuffle(state.words.filter(w => w.article === a));
+  const pool = mixWords(Math.max(12, state.words.length), 4);
+  const by = {}; for (const a of ARTS) by[a] = shuffle(pool.filter(w => w.article === a));
   // up to 8 pairs (16 cards); each article gets pairs in proportion to its words, at least one if it has any
   const want = Math.min(MEM_PAIRS, Math.max(3, state.words.length));
   const plan = {}; for (const a of ARTS) plan[a] = by[a].length ? Math.max(1, Math.floor(by[a].length / 2)) : 0;
@@ -3037,10 +3090,127 @@ function finishMemory() {
   showDone(earned, rows, stickersNow(), quizDue(), grew);
 }
 
+/* ---------- bubble game ----------
+   Mila calls der, die or das, and that circle friend waits at the bottom with its mouth open. Bubbles with her words float up;
+   she pops the ones that go with the friend and it eats them. A wrong bubble goes grey and Mila says it with its own article.
+   Three rounds, one per article, each a bit faster. A star for every three right pops. */
+const BUB_GOAL = 6;
+const bubbleWords = () => allWords().filter(w => ARTS.includes(w.article));
+function startBubbles() {
+  if (bubbleWords().length < 6) return;
+  // this week's words and her tricky older ones, with at least three words for every article
+  const pool = mixWords(16, 6, (w) => ARTS.includes(w.article));
+  for (const a of ARTS) { const have = pool.filter(w => w.article === a).length; if (have < 3) pool.push(...shuffle(bubbleWords().filter(w => w.article === a && !pool.includes(w))).slice(0, 3 - have)); }
+  B = { pool, rounds: shuffle([...ARTS]).filter(a => pool.some(w => w.article === a)), r: -1, got: 0, hits: 0, streak: 0, earned: 0,
+    popped: [], bubs: [], last: 0, next: 0, live: false };
+  $("bfield").innerHTML = ""; $("bfriend").className = "bfriend intro";
+  renderStars(); show("bubbles");
+  const my = B; requestAnimationFrame(t => bubLoop(my, t));
+  say([C("f-hoer")]).then(() => { if (B === my) nextBubRound(); });
+}
+function renderBDots() {
+  const a = B.rounds[B.r] || "";
+  $("bdots").innerHTML = Array.from({ length: BUB_GOAL }, (_, i) => '<span class="dot' + (i < B.got ? " " + a : "") + (i === B.got ? " now" : "") + '"></span>').join("");
+}
+function nextBubRound() {
+  const b = B; b.r++; b.got = 0; b.live = false;
+  if (b.r >= b.rounds.length) return finishBubbles();
+  const a = b.rounds[b.r], fr = $("bfriend");
+  fr.querySelector(".orb").className = "orb " + a;
+  $("blabel").className = "blabel " + a; $("blabel").textContent = a;
+  fr.className = "bfriend intro"; renderBDots();
+  sparkle(fr, 12); chime();
+  sleep(450).then(() => say([ART(a)], 0.8)).then(() => sleep(250)).then(() => {
+    if (B !== b) return;
+    fr.classList.remove("intro"); b.live = true; b.next = 0;
+  });
+}
+function spawnBubble(b, W, H) {
+  const a = b.rounds[b.r], live = b.bubs.filter(x => !x.done);
+  const wantTarget = !live.some(x => x.w.article === a) || Math.random() < 0.5;
+  const onScreen = new Set(live.map(x => x.w.id));
+  const pool = b.pool.filter(w => (w.article === a) === wantTarget && !onScreen.has(w.id));
+  if (!pool.length) return;
+  const w = pick(pool), size = Math.min(160, Math.max(92, Math.min(W, H) * .16)) * (0.88 + Math.random() * .24);
+  const el = document.createElement("div");
+  el.className = "bub"; el.dataset.id = w.id; el.style.setProperty("--s", size + "px");
+  el.innerHTML = '<span class="face">' + faceHTML(w) + "</span>";
+  // spread them out: start away from the bubbles that are still low on the screen
+  let x = 0;
+  for (let k = 0; k < 6; k++) { x = size / 2 + 10 + Math.random() * (W - size - 20); if (!live.some(o => o.y > H * .55 && Math.abs(o.x - x) < size)) break; }
+  const bb = { w, el, s: size, x, y: H + size / 2, vy: H / (7 - b.r * 1.3) * (0.9 + Math.random() * .2), amp: 10 + Math.random() * 16, f: 1 + Math.random(), ph: Math.random() * 6, done: false };
+  el.style.translate = (x - size / 2) + "px " + (bb.y - size / 2) + "px";
+  $("bfield").appendChild(el); b.bubs.push(bb);
+}
+function bubLoop(b, t) {
+  if (B !== b) return;
+  const dt = b.last ? Math.min(.05, (t - b.last) / 1000) : 0; b.last = t;
+  const F = $("bfield"), W = F.clientWidth, H = F.clientHeight;
+  if (b.live && t >= b.next && b.bubs.filter(x => !x.done).length < 3 + b.r) {
+    spawnBubble(b, W, H); b.next = t + (1250 - b.r * 220) * (0.8 + Math.random() * .4);
+  }
+  for (const x of b.bubs) {
+    if (x.done) continue;
+    x.y -= x.vy * dt;
+    const px = x.x + Math.sin(t / 1000 * x.f + x.ph) * x.amp;
+    x.cx = px; x.el.style.translate = (px - x.s / 2) + "px " + (x.y - x.s / 2) + "px";
+    if (x.y < -x.s) { x.done = true; x.el.remove(); }
+  }
+  b.bubs = b.bubs.filter(x => !x.done || x.el.isConnected);
+  requestAnimationFrame(tt => bubLoop(b, tt));
+}
+function bubLook(x, y) {
+  const o = $("bfriend").querySelector(".orb"), r = o.getBoundingClientRect(); if (!r.width) return;
+  const dx = x - (r.left + r.width / 2), dy = y - (r.top + r.height * .35), d = Math.hypot(dx, dy) || 1;
+  o.style.setProperty("--lx", (dx / d * 3).toFixed(2) + "cqw"); o.style.setProperty("--ly", (dy / d * 3).toFixed(2) + "cqw");
+}
+$("bfield").addEventListener("pointerdown", (e) => {
+  bubLook(e.clientX, e.clientY);
+  const el = e.target.closest(".bub"), b = B;
+  if (!el || !b || !b.live) return;
+  const bb = b.bubs.find(x => x.el === el); if (!bb || bb.done || bb.miss) return;
+  const a = b.rounds[b.r], fr = $("bfriend");
+  if (bb.w.article === a) {
+    bb.done = true; b.got++; b.hits++; b.streak++;
+    if (!b.popped.includes(bb.w)) b.popped.push(bb.w);
+    tone([520 + Math.min(b.streak, 10) * 70], "sine", 0.12, 0.1, 0.18);
+    // the picture flies into the friend's mouth, the bubble bursts
+    const face = el.querySelector(".face");
+    flyTo(face, fr.querySelector(".orb")); munch(fr, 650);
+    el.classList.add("pop"); sparkle(el, 8);
+    setTimeout(() => el.remove(), 320);
+    say([W(bb.w)]);
+    if (b.hits % 3 === 0) { addStars(); b.earned++; }
+    if (b.streak > 0 && b.streak % 5 === 0) { const c = $("bcombo"); c.textContent = "★ " + b.streak; restart(c, "show"); confetti(); }
+    renderBDots();
+    if (b.got >= BUB_GOAL) {
+      b.live = false;
+      setTimeout(() => {
+        if (B !== b) return;
+        b.bubs.forEach(x => { if (!x.done) { x.done = true; x.el.classList.add("pop"); setTimeout(() => x.el.remove(), 320); } });
+        say([C(pick(PRAISE))]).then(() => { if (B === b) nextBubRound(); });
+      }, 900);
+    }
+  } else {
+    bb.miss = true; b.streak = 0; noteMiss(bb.w, a);
+    el.classList.add("miss"); boop(); retrigger(fr, "nope", 550);
+    say([W(bb.w)]);
+  }
+});
+function finishBubbles() {
+  const b = B; if (!b) return;
+  b.bubs.forEach(x => x.el.remove());
+  const rows = b.popped.slice(0, 12).map(w => ({ w, mark: "ok" }));
+  const earned = b.earned, grew = markDay(); logDay("g");
+  B = null; lastActivity = "bubbles";
+  state.progress.lastPlayed = today(); saveProgress();
+  showDone(earned, rows, stickersNow(), quizDue(), grew);
+}
+
 /* ---------- "Stimmt das?": a grown-up answers (sometimes wrong on purpose), she judges ---------- */
 function startJudge() {
   if (state.words.length < 3) return;
-  J = { words: shuffle(state.words).slice(0, Math.min(6, state.words.length)), i: 0, earned: 0, res: {}, phase: "", claim: "" };
+  J = { words: mixWords(Math.min(6, state.words.length + 2), 2), i: 0, earned: 0, res: {}, phase: "", claim: "" };
   renderStars(); show("judge"); nextJudge(true);
 }
 function renderJDots() { $("jdots").innerHTML = J.words.map((w, i) => '<span class="dot ' + (w.id in J.res ? (J.res[w.id] ? "ok" : "miss") : "") + (i === J.i ? " now" : "") + '"></span>').join(""); }
@@ -3570,15 +3740,10 @@ const tricky = (w) => { const p = prog(w.id); return (needsPractice(w) ? 5 : 0) 
 // A couple of her tricky words always come along, the rest at random.
 const trickyFirst = (ws, n) => { const t = shuffle(ws).sort((a, b) => tricky(b) - tricky(a)); return [...t.slice(0, 2), ...shuffle(t.slice(2))].slice(0, n); };
 function gameWords(mode) {
-  if (mode === "max") {
-    // Max mostly tries this week's words, plus two older ones so they stay fresh.
-    const ok = (w) => MAX_CLAIMS[w.id] && MAX_CLAIMS[w.id][0] === w.article && norm(w.noun) === w.id;
-    const pick = [...trickyFirst(state.words.filter(ok), 4), ...trickyFirst(state.bank.filter(ok), 2)];
-    return shuffle([...pick, ...shuffle(allWords().filter(w => ok(w) && !pick.includes(w)))].slice(0, 6));
-  }
-  let ws = state.words;
-  const rec = ws.filter(w => N(w).key); if (rec.length >= 3) ws = rec;
-  return shuffle(trickyFirst(ws, 6));
+  // Max says only words he has a recording for; Hörspiel prefers words whose noun alone is recorded.
+  if (mode === "max") return mixWords(6, 2, (w) => MAX_CLAIMS[w.id] && MAX_CLAIMS[w.id][0] === w.article && norm(w.noun) === w.id);
+  const rec = (w) => !!N(w).key;
+  return mixWords(6, 2, state.words.filter(rec).length >= 3 ? rec : undefined);
 }
 const gPicEl = () => $("gPic").hidden ? $("gEmoji") : $("gPic");
 const gOrb = (a) => document.querySelector('#gChoices .choice[data-a="' + a + '"]');
