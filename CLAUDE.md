@@ -50,6 +50,9 @@ PR as a draft until the assets are made the usual way.
   style reference `56a6949f-…` (plus Mila `81a49550-…` for Mila), `--aspect_ratio 1:1 --resolution 1k` on a plain pure white
   background (the tree: 4:3, 2k), two takes, keep the better one, then `image_background_remover`, trimmed, WebP. The
   stages are in `MILA_STAGES` (how many leaves each one needs, and where her mouth is).
+  After `LIFE` leaves the butterfly flies away and leaves an egg, `img/mila-egg.webp` (same recipe, 1:1), and a new little
+  Mila hatches; `progress.lifeStart` and `progress.butterflies` keep count, and every butterfly that flew away flutters
+  around the tree (`BFLY_SPOTS`). Mia's lines for it are in the pack `pk-life`.
 
 ## Voices
 - **Mila** (teacher, narrator, every word): ElevenLabs voice "German Girl - Mila".
@@ -72,7 +75,7 @@ PR as a draft until the assets are made the usual way.
 - Sätze: one recording per sentence. `SENT_T` holds `[start, length, time of "malt", time of second article, file?]`.
 - Stories: one sprite file `audio/sp-storyN.mp3`, mapped in `data/stories.json`.
 - Mil's and Max's story lines and Max's claims for a new list go in their own packs in `PACKS` (for the L list:
-  `pk-sk7`, `pk-sk8`, `pk-xmax-l`), so the files that already exist are not re-encoded. Bump `AUDIO_V`.
+  `pk-sk7`, `pk-sk8`, `pk-sk9`, `pk-xmax-l`), so the files that already exist are not re-encoded. Bump `AUDIO_V`.
 - Lines written but not recorded yet go in `PENDING` in `index.html`, so the app uses the device voice until they exist.
 - Every sticker says its word (Mila): themed ones are `stk-<set>-<id>` in `pk-stk`; the first stickers' words are in
   `FIRST_WORDS` (`stk-<id>` in `pk-stk-first`, or an existing clip of the same word).
