@@ -1637,6 +1637,281 @@
      ]
     }
    }
+  },
+  {
+   "id": "story9",
+   "title": "Die neue Schaukel!",
+   "cover": "img/story9-4.webp",
+   "titleAudio": "t-story9",
+   "sprite": {
+    "file": "sp-story9",
+    "map": {
+     "t-story9": [
+      0.3,
+      1.55
+     ],
+     "story9-1": [
+      2.15,
+      3.64
+     ],
+     "sk9-1a": [
+      6.09,
+      1.58
+     ],
+     "story9-2": [
+      7.97,
+      4.54
+     ],
+     "story9-3": [
+      12.81,
+      3.646
+     ],
+     "sk9-3a": [
+      16.756,
+      1.18
+     ],
+     "sf9-seil": [
+      18.236,
+      1.74
+     ],
+     "story9-4": [
+      20.276,
+      3.22
+     ],
+     "sq9-fertig": [
+      23.796,
+      1.26
+     ],
+     "story9-5": [
+      25.356,
+      5.61
+     ],
+     "story9-6": [
+      31.266,
+      3.34
+     ],
+     "sk9-6a": [
+      34.906,
+      1.78
+     ],
+     "story9-7": [
+      36.986,
+      4.19
+     ],
+     "story9-8": [
+      41.476,
+      3.71
+     ],
+     "sk9-8a": [
+      45.486,
+      0.85
+     ],
+     "story9-9": [
+      46.636,
+      3.0
+     ],
+     "sq9-schlaeft": [
+      49.936,
+      1.15
+     ],
+     "story9-10": [
+      51.386,
+      5.99
+     ],
+     "sk9-10a": [
+      57.676,
+      0.96
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story9-1.webp",
+     "text": "Hallo, ich bin Mila! Es ist Abend. Die Lampe ist an.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Wir bauen etwas!",
+       "audio": "sk9-1a"
+      },
+      {
+       "who": "max",
+       "text": "Juhu!",
+       "audio": "sk9-1b"
+      }
+     ],
+     "audio": "story9-1",
+     "ask": {
+      "word": "lampe",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story9-2.webp",
+     "text": "Da ist die Leiter. Die Leiter ist lang. Mil klettert hoch.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Ich bin oben!",
+       "audio": "sk9-2a"
+      }
+     ],
+     "audio": "story9-2",
+     "ask": {
+      "word": "leiter",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story9-3.webp",
+     "text": "Da ist das Seil. Das Seil ist lang und stark.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Hilf mir mal!",
+       "audio": "sk9-3a"
+      }
+     ],
+     "audio": "story9-3",
+     "find": {
+      "text": "Wo ist das Seil? Zeig mal!",
+      "audio": "sf9-seil",
+      "answer": "seil",
+      "x": 85.5,
+      "y": 92.5,
+      "r": 9
+     }
+    },
+    {
+     "img": "img/story9-4.webp",
+     "text": "Fertig! Da ist die Schaukel. Die Schaukel ist toll!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Ich will schaukeln!",
+       "audio": "sk9-4a"
+      }
+     ],
+     "audio": "story9-4",
+     "q": {
+      "text": "Was ist fertig?",
+      "audio": "sq9-fertig",
+      "answer": "schaukel",
+      "choices": [
+       "schaukel",
+       "leiter",
+       "lampe"
+      ]
+     }
+    },
+    {
+     "img": "img/story9-5.webp",
+     "text": "Da ist das Lineal. Max misst die Schaukel. Die Schaukel ist gerade.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Super gerade!",
+       "audio": "sk9-5a"
+      }
+     ],
+     "audio": "story9-5",
+     "ask": {
+      "word": "lineal",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story9-6.webp",
+     "text": "Da ist der Bleistift. Mil malt den Bleistift.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Hihi, lustig!",
+       "audio": "sk9-6a"
+      }
+     ],
+     "audio": "story9-6",
+     "satz": {
+      "s": "mil",
+      "o": "bleistift"
+     }
+    },
+    {
+     "img": "img/story9-7.webp",
+     "text": "Oh, ein kleiner Käfer! Die Lupe ist groß. Der Käfer ist klein.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Wow!",
+       "audio": "sk9-7a"
+      }
+     ],
+     "audio": "story9-7",
+     "ask": {
+      "word": "lupe",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story9-8.webp",
+     "text": "Alle haben Hunger. Da ist die Suppe. Da ist der Löffel.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Lecker!",
+       "audio": "sk9-8a"
+      }
+     ],
+     "audio": "story9-8",
+     "ask": {
+      "word": "loeffel",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story9-9.webp",
+     "text": "Da ist die Blume. Die Blume schläft schon.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Psst, leise!",
+       "audio": "sk9-9a"
+      }
+     ],
+     "audio": "story9-9",
+     "q": {
+      "text": "Was schläft?",
+      "audio": "sq9-schlaeft",
+      "answer": "blume",
+      "choices": [
+       "blume",
+       "lampe",
+       "leiter"
+      ]
+     }
+    },
+    {
+     "img": "img/story9-10.webp",
+     "text": "Es ist dunkel. Die Lampe leuchtet. Max malt die Lampe. Gute Nacht!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Das war toll!",
+       "audio": "sk9-10a"
+      },
+      {
+       "who": "mil",
+       "text": "Gute Nacht!",
+       "audio": "sk9-10b"
+      }
+     ],
+     "audio": "story9-10",
+     "satz": {
+      "s": "max",
+      "o": "lampe"
+     }
+    }
+   ]
   }
  ]
 }
