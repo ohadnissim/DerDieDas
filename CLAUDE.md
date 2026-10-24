@@ -92,6 +92,12 @@ the word must be in `LAUT_WORDS` for that letter and in the page's picture). The
 - Every sticker says its word (Mila): themed ones are `stk-<set>-<id>` in `pk-stk`; the first stickers' words are in
   `FIRST_WORDS` (`stk-<id>` in `pk-stk-first`, or an existing clip of the same word).
 
+## Saved progress
+- On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
+  that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),
+  written right after every save and read at start, and the newer copy wins (`saved` stamp).
+- A new field in `state.progress` must also be listed in `normalizeProgress`, or it is dropped at every start.
+
 ## Weekly list
 `data/words.json` (bump `version`) and `data/stories.json`. When the list changes, the previous week's words move to
 review; build them into `index.html` the way `M_WORDS` and `I_WORDS` are.

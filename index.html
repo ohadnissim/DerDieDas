@@ -1530,6 +1530,8 @@ function normalizeProgress(p) {
     if (Array.isArray(p.ate)) out.ate = p.ate.filter(x => typeof x === "string");
     out.lastIsland = typeof p.lastIsland === "string" ? p.lastIsland : "";
     if (Array.isArray(p.starred)) out.starred = p.starred.filter(s => typeof s === "string");
+    if (p.lifeStart != null) out.lifeStart = Number(p.lifeStart) || 0;
+    if (p.butterflies != null) out.butterflies = Number(p.butterflies) || 0;
   }
   return out;
 }
@@ -1589,7 +1591,36 @@ function needsPractice(w) {
 /* ---------- local fallback storage ---------- */
 function lsGet() { try { return JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch { return null; } }
 function lsSet() {
-  try { localStorage.setItem(LS_KEY, JSON.stringify({ words: state.words, bank: state.bank, settings: state.settings, sample: state.sample, progress: state.progress })); } catch {}
+  const json = JSON.stringify({ words: state.words, bank: state.bank, settings: state.settings, sample: state.sample, progress: state.progress, saved: Date.now() });
+  try { localStorage.setItem(LS_KEY, json); } catch {}
+  nativeSave(json);
+}
+// In the iPad app iOS can empty the web storage (her islands and stickers were lost after an app update), so the app also
+// keeps the save in its own settings (SaveStore in SceneDelegate.swift). At start the newer of the two copies wins.
+const nativeStore = () => { const c = window.Capacitor; return c && c.nativePromise && (c.PluginHeaders || []).some(h => h.name === "SaveStore") ? c : null; };
+let nativeTimer = 0, nativeJson = null, nativeRead = false;   // only write after the copy was read, so a blank start never overwrites it
+function nativeSave(json) {
+  if (!nativeRead || !nativeStore()) return;
+  nativeJson = json; clearTimeout(nativeTimer);
+  nativeTimer = setTimeout(flushNative, 400);
+}
+function flushNative() {
+  const c = nativeStore(); if (!c || nativeJson === null) return;
+  const value = nativeJson; nativeJson = null; clearTimeout(nativeTimer);
+  c.nativePromise("SaveStore", "set", { key: LS_KEY, value }).catch(() => {});
+}
+document.addEventListener("visibilitychange", () => { if (document.hidden) flushNative(); });
+async function restoreNative() {
+  const c = nativeStore(); if (!c) return;
+  let r = null;
+  try { r = await Promise.race([c.nativePromise("SaveStore", "get", { key: LS_KEY }), sleep(4000).then(() => false)]); } catch { return; }
+  if (r === false) return;
+  nativeRead = true;
+  const copy = r && typeof r.value === "string" ? r.value : null;
+  let mine = null; try { mine = localStorage.getItem(LS_KEY); } catch {}
+  const at = (j) => { try { return Number(JSON.parse(j).saved) || 0; } catch { return -1; } };
+  if (copy && at(copy) >= 0 && (!mine || at(copy) > at(mine))) { try { localStorage.setItem(LS_KEY, copy); } catch {} }
+  else if (mine && (!copy || at(mine) > at(copy))) nativeSave(mine);
 }
 function loadLocal() {
   const d = lsGet();
@@ -5266,7 +5297,7 @@ renderHome();
 (async () => {
   let db = null;
   try { db = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch { db = null; }
-  if (!db) { state.mode = "local"; loadLocal(); renderHome(); applyDataFiles(); if (grownOpen) renderGrown(); return; }
+  if (!db) { state.mode = "local"; await restoreNative(); loadLocal(); renderHome(); applyDataFiles(); if (grownOpen) renderGrown(); return; }
   state.db = db; state.mode = "online";
   const onErr = (e) => { state.dbError = "Online storage stopped responding. Reload the page."; console.warn(e); if (grownOpen) renderGrown(); };
   db.doc("lists/current").onSnapshot((snap) => {
