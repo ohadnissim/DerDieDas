@@ -1529,7 +1529,7 @@ const LADEN = [
   { id: "laden-brunnen", kind: "welt", art: "der", noun: "Brunnen", price: 300, who: "la" },
   { id: "laden-schneemann", kind: "welt", art: "der", noun: "Schneemann", price: 350, who: "lw" },
   { id: "laden-schatzkiste", kind: "welt", art: "die", noun: "Schatzkiste", price: 400, who: "la" },
-  { id: "konfetti-halloween", kind: "konfetti", noun: "Halloween-Konfetti", boom: "🦇", price: 400, who: "la", line: "ld-hwkonfetti" },
+  { id: "konfetti-halloween", kind: "konfetti", noun: "Halloween-Konfetti", boom: "🦇", price: 400, who: "la", line: "ld-hwkonfetti", gift: "laden-fledermaus" },
   { id: "konfetti-sterne", kind: "konfetti", noun: "Sternen-Konfetti", boom: "🌟", price: 400, who: "lw", line: "ld-sterne" },
   { id: "konfetti-herzen", kind: "konfetti", noun: "Herzen-Konfetti", boom: "💖", price: 400, who: "la", line: "ld-herzen" },
   { id: "laden-baumhaus", kind: "welt", art: "das", noun: "Baumhaus", price: 450, who: "lw" },
@@ -1543,13 +1543,14 @@ const LADEN = [
   { id: "laden-leuchtturm", kind: "welt", art: "der", noun: "Leuchtturm", price: 650, who: "la" },
   { id: "laden-spukhaus", kind: "welt", art: "das", noun: "Spukhaus", price: 700, who: "lw" },
   { id: "laden-riesenrad", kind: "welt", art: "das", noun: "Riesenrad", price: 800, who: "lw" },
+  { id: "laden-fledermaus", kind: "welt", art: "die", noun: "Fledermaus", clip: "stk-halloween-fledermaus", price: 0, extra: true },
   { id: "insel-zucker", kind: "insel", noun: "Zuckerinsel", img: "img/island-zucker.webp", price: 2500, who: "lw", line: "ld-zucker" }
 ];
 const ladenItem = (id) => LADEN.find(x => x.id === id);
 const owns = (id) => (state.progress.owned || []).includes(id);
 const ownedWelt = () => (state.progress.owned || []).filter(id => (ladenItem(id) || {}).kind === "welt");
 const stickerInfo = (id) => {
-  const li = ladenItem(id); if (li && li.kind === "welt") return { set: null, art: li.art, noun: li.noun };
+  const li = ladenItem(id); if (li && li.kind === "welt") return { set: null, art: li.art, noun: li.noun, clip: li.clip };
   for (const t of STICKER_SETS) for (const i of t.items) if (t.id + "-" + i[0] === id) return { set: t, art: i[1], noun: i[2] };
   const f = FIRST_WORDS[id];
   return f ? { set: null, art: f[0], noun: f[1], clip: f[2] } : null;
@@ -1686,6 +1687,7 @@ function normalizeProgress(p) {
     if (p.lifeStart != null) out.lifeStart = Number(p.lifeStart) || 0;
     if (p.butterflies != null) out.butterflies = Number(p.butterflies) || 0;
     if (Array.isArray(p.owned)) out.owned = p.owned.filter(x => typeof x === "string");
+    for (const it of LADEN) if (it.gift && out.owned.includes(it.id) && !out.owned.includes(it.gift)) out.owned.push(it.gift);
     out.farbe = typeof p.farbe === "string" ? p.farbe : "";
     out.konfetti = typeof p.konfetti === "string" ? p.konfetti : "";
   }
@@ -3156,7 +3158,7 @@ const ISLANDS = [
 // How a sticker moves when it stands on an island (all others breathe).
 const STK_MOVE = {
   swim: ["halloween-geist", "meer-wal", "meer-delfin", "meer-fisch", "meer-qualle", "meer-seepferdchen", "meer-schildkroete", "meer-robbe", "meer-walross", "meer-krabbe", "flamingo"],
-  fly: ["halloween-fledermaus", "halloween-hexe", "halloween-besen", "laden-rakete", "meer-moewe", "wald-fee", "wald-eule", "wald-gluehwuermchen", "wald-drache", "wald-zauberstab", "wings", "balloon", "plane"],
+  fly: ["laden-fledermaus", "halloween-fledermaus", "halloween-hexe", "halloween-besen", "laden-rakete", "meer-moewe", "wald-fee", "wald-eule", "wald-gluehwuermchen", "wald-drache", "wald-zauberstab", "wings", "balloon", "plane"],
   rock: ["laden-kuerbiskutsche", "meer-schiff", "hof-traktor", "wald-kutsche", "firetruck", "dumptruck", "train"],
   still: ["laden-spukhaus", "laden-leuchtturm", "laden-baumhaus", "laden-riesenrad", "laden-karussell", "wald-schloss", "hof-scheune", "dollhouse", "rainbow"] };
 const moveOf = (id) => Object.keys(STK_MOVE).find(k => STK_MOVE[k].includes(id)) || "breathe";
@@ -5177,7 +5179,7 @@ function ladenArt(it) {
 const ladenOn = (it) => (it.kind === "farbe" && state.progress.farbe === it.id) || (it.kind === "konfetti" && state.progress.konfetti === it.id);
 function renderLaden() {
   renderStars();
-  $("ldGrid").innerHTML = LADEN.map(it => {
+  $("ldGrid").innerHTML = LADEN.filter(it => !it.extra).map(it => {
     const own = owns(it.id), poor = !own && state.progress.stars < it.price;
     return '<button class="lcard' + (own ? " own" : "") + (poor ? " poor" : "") + (ladenOn(it) ? " on" : "") + '" data-id="' + it.id + '" aria-label="' + esc(it.noun) + '">' +
       '<span class="art">' + ladenArt(it) + '</span><span class="price"><span class="s">★</span>' + it.price + '</span><span class="mine">✓</span></button>';
@@ -5235,6 +5237,7 @@ function buyLaden(it) {
   if (owns(it.id) || state.progress.stars < it.price) return;
   state.progress.stars -= it.price;
   (state.progress.owned || (state.progress.owned = [])).push(it.id);
+  if (it.gift && !owns(it.gift)) state.progress.owned.push(it.gift);
   if (it.kind === "farbe") state.progress.farbe = it.id;
   if (it.kind === "konfetti") state.progress.konfetti = it.id;
   saveProgress(); applyFarbe(); renderLaden();
@@ -5243,7 +5246,8 @@ function buyLaden(it) {
   setTimeout(() => { keeperEl("lw").classList.remove("hop"); keeperEl("la").classList.remove("hop"); }, 700);
   ladenPanel(it); sparkle($("ldPanel").querySelector(".big"), 18);
   const then = it.kind === "welt" ? ["lw", "lw-insel"] : it.kind === "farbe" ? ["la", "la-farbe"] : it.kind === "konfetti" ? ["la", "la-konfetti"] : null;
-  keeperSay("lw", ["lw-danke"]).then(() => !$("laden").hidden && keeperSay("la", ["la-juhu"])).then(() => { if (then && !$("laden").hidden) keeperSay(then[0], [then[1]]); });
+  keeperSay("lw", ["lw-danke"]).then(() => !$("laden").hidden && keeperSay("la", ["la-juhu"])).then(() => { if (then && !$("laden").hidden) return keeperSay(then[0], [then[1]]); })
+    .then(() => { if (it.gift && !$("laden").hidden) keeperSay("lw", ["lw-insel"]); });
 }
 // tap the Lion or the Llama: they say something funny
 const KEEPER_TAPS = { lw: ["lw-tap1", "lw-tap2", "lw-tap3"], la: ["la-tap1", "la-tap2", "la-tap3"] };

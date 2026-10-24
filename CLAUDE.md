@@ -97,7 +97,7 @@ the word must be in `LAUT_WORDS` for that letter and in the page's picture). The
 `LADEN` in `index.html` lists what she can buy: `welt` things go into her island tray like stickers (`img/stk-laden-<id>.webp`,
 cut-out `img/cut-laden-<id>.webp`, made like the stickers), `konfetti`, `farbe` (CSS under `data-farbe`), and `insel` (an island
 with `shop:` in `ISLANDS`, opened by buying it). Each has a shopkeeper line that says its price (`ld-<id>` in `pk-laden`).
-Buying takes `progress.stars` only; `progress.owned`, `farbe` and `konfetti` hold what she has.
+A `gift:` on an item is a `welt` thing that comes with it (marked `extra`, so it has no card of its own; `normalizeProgress` hands it out if she bought the item before the gift existed). Buying takes `progress.stars` only; `progress.owned`, `farbe` and `konfetti` hold what she has.
 Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the story style reference, 1:1 on white, then
 `image_background_remover`, trimmed to a 256 px square.
 
