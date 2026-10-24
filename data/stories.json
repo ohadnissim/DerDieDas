@@ -2242,6 +2242,253 @@
      }
     }
    ]
+  },
+  {
+   "id": "story11",
+   "title": "Fröhliches Halloween!",
+   "cover": "img/story11-1.webp",
+   "titleAudio": "t-story11",
+   "sprite": {
+    "file": "sp-story11",
+    "map": {
+     "t-story11": [
+      0.3,
+      1.65
+     ],
+     "story11-1": [
+      2.25,
+      6.03
+     ],
+     "sk11-1a": [
+      8.58,
+      1.75
+     ],
+     "story11-2": [
+      10.63,
+      2.9
+     ],
+     "sk11-2a": [
+      13.83,
+      1.03
+     ],
+     "story11-3": [
+      15.16,
+      2.97
+     ],
+     "story11-4": [
+      18.43,
+      2.85
+     ],
+     "story11-5": [
+      21.58,
+      2.81
+     ],
+     "story11-6": [
+      24.69,
+      4.78
+     ],
+     "sk11-6a": [
+      29.77,
+      1.54
+     ],
+     "sf11-mond": [
+      31.61,
+      1.81
+     ],
+     "story11-7": [
+      33.72,
+      3.64
+     ],
+     "sq11-licht": [
+      37.66,
+      1.13
+     ],
+     "story11-8": [
+      39.09,
+      5.02
+     ],
+     "story11-9": [
+      44.41,
+      5.16
+     ],
+     "story11-10": [
+      49.87,
+      4.98
+     ],
+     "sk11-10a": [
+      55.15,
+      1.31
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story11-1.webp",
+     "text": "Heute ist Halloween! Mila hat einen Kürbis. Mia, Mil und Max verkleiden sich.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Juhu, Halloween!",
+       "audio": "sk11-1a"
+      }
+     ],
+     "audio": "story11-1"
+    },
+    {
+     "img": "img/story11-2.webp",
+     "text": "Mia ist eine Maus. Die Maus hat große Ohren.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Piep, piep!",
+       "audio": "sk11-2a"
+      }
+     ],
+     "audio": "story11-2",
+     "ask": {
+      "word": "maus",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story11-3.webp",
+     "text": "Mil ist ein Löwe. Der Löwe hat eine Mähne.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Brüll!",
+       "audio": "sk11-3a"
+      }
+     ],
+     "audio": "story11-3",
+     "pos": {
+      "word": "loewe",
+      "letter": "l"
+     }
+    },
+    {
+     "img": "img/story11-4.webp",
+     "text": "Max ist ein Igel. Der Igel hat Stacheln.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Pieks!",
+       "audio": "sk11-4a"
+      }
+     ],
+     "audio": "story11-4",
+     "laut": {
+      "word": "igel",
+      "letter": "i"
+     }
+    },
+    {
+     "img": "img/story11-5.webp",
+     "text": "Mila schnitzt den Kürbis. Da ist der Löffel.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Der Kürbis lacht!",
+       "audio": "sk11-5a"
+      }
+     ],
+     "audio": "story11-5",
+     "ask": {
+      "word": "loeffel",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story11-6.webp",
+     "text": "Es ist dunkel. Da ist der Mond. Der Mond ist rund und hell.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Ui, wie schön!",
+       "audio": "sk11-6a"
+      }
+     ],
+     "audio": "story11-6",
+     "find": {
+      "text": "Wo ist der Mond? Zeig mal!",
+      "audio": "sf11-mond",
+      "answer": "mond",
+      "x": 25,
+      "y": 19,
+      "r": 9
+     }
+    },
+    {
+     "img": "img/story11-7.webp",
+     "text": "Die Kinder haben eine Lampe. Die Lampe leuchtet orange.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Wir gehen los!",
+       "audio": "sk11-7a"
+      }
+     ],
+     "audio": "story11-7",
+     "q": {
+      "text": "Was leuchtet?",
+      "audio": "sq11-licht",
+      "answer": "lampe",
+      "choices": [
+       "lampe",
+       "kiste",
+       "loeffel"
+      ]
+     }
+    },
+    {
+     "img": "img/story11-8.webp",
+     "text": "Klopf, klopf! Da ist die Kiste. Die Kiste ist voll mit Bonbons.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Lecker!",
+       "audio": "sk11-8a"
+      }
+     ],
+     "audio": "story11-8",
+     "laut": {
+      "word": "kiste",
+      "letter": "i"
+     }
+    },
+    {
+     "img": "img/story11-9.webp",
+     "text": "Zu Hause gibt es Limonade. Die Limonade ist orange wie ein Kürbis.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Prost!",
+       "audio": "sk11-9a"
+      }
+     ],
+     "audio": "story11-9",
+     "ask": {
+      "word": "limonade",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story11-10.webp",
+     "text": "Mila sagt: Fröhliches Halloween! Mil malt den Mond. Gute Nacht, Kinder!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Gute Nacht, Mila!",
+       "audio": "sk11-10a"
+      }
+     ],
+     "audio": "story11-10",
+     "satz": {
+      "s": "mil",
+      "o": "mond"
+     }
+    }
+   ]
   }
  ]
 }

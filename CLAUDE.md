@@ -101,6 +101,21 @@ Buying takes `progress.stars` only; `progress.owned`, `farbe` and `konfetti` hol
 Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the story style reference, 1:1 on white, then
 `image_background_remover`, trimmed to a 256 px square.
 
+## Halloween
+- From 15 October to 2 November (`HW_SEASON` in `index.html`; `?halloween=1` / `?halloween=0` force it for testing)
+  everyone dresses up, unless she picked another Laden colour; the Laden colour Kürbisnacht (`farbe-halloween`) keeps it all
+  year. `hwDress()` sets `data-hw` on the root: orange and purple background with floating bats and pumpkins (`.hwfly`), the
+  der/die/das circles in costume (a `.hw` span: vampire, witch hat, black cat), and every picture listed in `HW_IMG` swapped
+  for its costume version `img/hw-<name>.webp` (Mila and her stages, the kids, the Löwe and the Lama), also when the
+  picture appears later.
+- Costume pictures: the original (on a cream background) as Higgsfield reference, "Exactly the same … but dressed up as …",
+  then `image_background_remover`, then fitted into the original's exact canvas size (feet on the bottom), so every layout
+  and Mila's mouth spots stay the same. Keep them narrow (tails hanging down), or they come out small.
+- The Halloween sticker set is first in `STICKER_SETS` (her current mission); stickers are kept by id, so the other sets keep
+  everything she has. Its island is `img/island-halloween.webp`. Story 11 ("Fröhliches Halloween!") uses the M, I and L words.
+  Its Mila/Mia lines are in `audio/sp-story11.mp3`, Mil/Max in `pk-sk11`; the stickers', the mission's and the shopkeepers'
+  Halloween lines (`lw-hw`, `la-hw`, prices) are in `pk-hw`.
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),
