@@ -7,7 +7,7 @@ name: TestFlight
 on:
   push:
     branches: [main]
-    paths: ["index.html", "audio/**", "img/**", "data/**", "app/**", ".github/workflows/testflight.yml"]
+    paths: ["index.html", "audio/**", "img/**", "data/**", "fonts/**", "app/**", ".github/workflows/testflight.yml"]
   workflow_dispatch:
 
 concurrency:

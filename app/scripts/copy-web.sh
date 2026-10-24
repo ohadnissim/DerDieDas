@@ -4,4 +4,4 @@ set -e
 cd "$(dirname "$0")/.."
 rm -rf www && mkdir www
 cp ../index.html www/
-cp -R ../audio ../img ../data www/
+cp -R ../audio ../img ../data ../fonts www/
