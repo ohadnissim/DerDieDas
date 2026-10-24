@@ -172,7 +172,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Copies the website (index.html, audio, img, data at the top of the repo) into the app.\n# This way Xcode builds straight from a git checkout; no Node or npm needed.\nset -e\nROOT=\"${SRCROOT}/../../..\"\nDEST=\"${SRCROOT}/App/public\"\nmkdir -p \"$DEST\"\nrsync -a --delete --exclude \".DS_Store\" \"$ROOT/index.html\" \"$ROOT/audio\" \"$ROOT/img\" \"$ROOT/data\" \"$DEST/\"\n";
+			shellScript = "# Copies the website (index.html, audio, img, data, fonts at the top of the repo) into the app.\n# This way Xcode builds straight from a git checkout; no Node or npm needed.\nset -e\nROOT=\"${SRCROOT}/../../..\"\nDEST=\"${SRCROOT}/App/public\"\nmkdir -p \"$DEST\"\nrsync -a --delete --exclude \".DS_Store\" \"$ROOT/index.html\" \"$ROOT/audio\" \"$ROOT/img\" \"$ROOT/data\" \"$ROOT/fonts\" \"$DEST/\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

@@ -1912,6 +1912,272 @@
      }
     }
    ]
+  },
+  {
+   "id": "story10",
+   "title": "Der L-Test!",
+   "cover": "img/story10-2.webp",
+   "titleAudio": "t-story10",
+   "sprite": {
+    "file": "sp-story10",
+    "map": {
+     "t-story10": [
+      0.3,
+      1.397
+     ],
+     "story10-1": [
+      1.997,
+      6.07
+     ],
+     "sk10-1a": [
+      8.367,
+      1.53
+     ],
+     "story10-2": [
+      10.197,
+      5.56
+     ],
+     "sf10-l": [
+      16.057,
+      2.196
+     ],
+     "story10-3": [
+      18.553,
+      4.01
+     ],
+     "sk10-3a": [
+      22.863,
+      1.37
+     ],
+     "story10-4": [
+      24.533,
+      4.79
+     ],
+     "story10-5": [
+      29.623,
+      4.06
+     ],
+     "story10-6": [
+      33.983,
+      5.09
+     ],
+     "sk10-6a": [
+      39.373,
+      1.27
+     ],
+     "sq10-l": [
+      40.943,
+      1.54
+     ],
+     "story10-7": [
+      42.783,
+      4.1
+     ],
+     "story10-8": [
+      47.183,
+      2.29
+     ],
+     "sf10-lampe": [
+      49.773,
+      1.75
+     ],
+     "story10-9": [
+      51.823,
+      5.14
+     ],
+     "sk10-9a": [
+      57.263,
+      0.73
+     ],
+     "story10-10": [
+      58.293,
+      5.59
+     ],
+     "sk10-10a": [
+      64.183,
+      0.83
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story10-1.webp",
+     "text": "Hallo, ich bin Mila! Heute ist Schule. Heute machen wir einen Test. Der Test ist über das L.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Oh, ein Test!",
+       "audio": "sk10-1a"
+      },
+      {
+       "who": "max",
+       "text": "Ich bin bereit!",
+       "audio": "sk10-1b"
+      }
+     ],
+     "audio": "story10-1"
+    },
+    {
+     "img": "img/story10-2.webp",
+     "text": "So schreibt man das große L: Erst von oben nach unten. Dann nach rechts. Fertig!",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Das ist leicht!",
+       "audio": "sk10-2a"
+      }
+     ],
+     "audio": "story10-2",
+     "find": {
+      "text": "Wo ist das große L? Zeig mal!",
+      "audio": "sf10-l",
+      "answer": "",
+      "x": 20,
+      "y": 34,
+      "r": 11
+     }
+    },
+    {
+     "img": "img/story10-3.webp",
+     "text": "Und das kleine l? Das ist nur ein Strich: von oben nach unten.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Ganz einfach!",
+       "audio": "sk10-3a"
+      }
+     ],
+     "audio": "story10-3"
+    },
+    {
+     "img": "img/story10-4.webp",
+     "text": "Jetzt schreiben alle. Da ist der Bleistift. Max schreibt ein großes L.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Mein L ist schön!",
+       "audio": "sk10-4a"
+      }
+     ],
+     "audio": "story10-4",
+     "ask": {
+      "word": "bleistift",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story10-5.webp",
+     "text": "Da ist das Lineal. Mil macht das L ganz gerade.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Schau mal!",
+       "audio": "sk10-5a"
+      }
+     ],
+     "audio": "story10-5",
+     "ask": {
+      "word": "lineal",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story10-6.webp",
+     "text": "Jetzt kommen die Wörter. Da ist der Löwe. Löwe fängt mit L an!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "L wie Löwe!",
+       "audio": "sk10-6a"
+      }
+     ],
+     "audio": "story10-6",
+     "q": {
+      "text": "Was fängt mit L an?",
+      "audio": "sq10-l",
+      "answer": "loewe",
+      "choices": [
+       "loewe",
+       "maus",
+       "igel"
+      ]
+     }
+    },
+    {
+     "img": "img/story10-7.webp",
+     "text": "Da ist das Lama. Das Lama ist lustig. Max malt das Lama.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Hallo, Lama!",
+       "audio": "sk10-7a"
+      }
+     ],
+     "audio": "story10-7",
+     "satz": {
+      "s": "max",
+      "o": "lama"
+     }
+    },
+    {
+     "img": "img/story10-8.webp",
+     "text": "Da ist die Lampe. Die Lampe ist hell.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Ich sehe sie!",
+       "audio": "sk10-8a"
+      }
+     ],
+     "audio": "story10-8",
+     "find": {
+      "text": "Wo ist die Lampe? Zeig mal!",
+      "audio": "sf10-lampe",
+      "answer": "lampe",
+      "x": 91,
+      "y": 33,
+      "r": 10
+     }
+    },
+    {
+     "img": "img/story10-9.webp",
+     "text": "Mila schaut die Tests an. Alle haben das L geschafft! Super, Kinder!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Juhu!",
+       "audio": "sk10-9a"
+      },
+      {
+       "who": "mil",
+       "text": "Hurra!",
+       "audio": "sk10-9b"
+      }
+     ],
+     "audio": "story10-9"
+    },
+    {
+     "img": "img/story10-10.webp",
+     "text": "Zur Belohnung gibt es Limonade. Die Limonade ist lecker. Tschüss, bis morgen!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Lecker!",
+       "audio": "sk10-10a"
+      },
+      {
+       "who": "max",
+       "text": "Prost!",
+       "audio": "sk10-10b"
+      }
+     ],
+     "audio": "story10-10",
+     "ask": {
+      "word": "limonade",
+      "who": "mil"
+     }
+    }
+   ]
   }
  ]
 }

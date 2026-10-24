@@ -54,6 +54,13 @@ PR as a draft until the assets are made the usual way.
   Mila hatches; `progress.lifeStart` and `progress.butterflies` keep count, and every butterfly that flew away flutters
   around the tree (`BFLY_SPOTS`). Mia's lines for it are in the pack `pk-life`.
 
+## Letters on screen
+- The capital I always has its bars on top and bottom, like at school (otherwise it looks like an l). `fonts/schooli-*.woff2`
+  hold only that letter (Baloo 2 and Nunito's own I plus the two bars, one file per weight the app uses) and come first in
+  `--display` and `--body`. A new font weight needs its own file. `fonts/` is copied into the iPad app with the rest.
+- Story pictures that show writing must show it the school way: the L the right way round, and the small l as one straight
+  line (no curly ℓ). Check them zoomed in, and ask Higgsfield to edit out anything wrong.
+
 ## Voices
 - **Mila** (teacher, narrator, every word): ElevenLabs voice "German Girl - Mila".
 - **Mia**: ElevenLabs voice "Fünkchen".
@@ -75,7 +82,7 @@ PR as a draft until the assets are made the usual way.
 - Sätze: one recording per sentence. `SENT_T` holds `[start, length, time of "malt", time of second article, file?]`.
 - Stories: one sprite file `audio/sp-storyN.mp3`, mapped in `data/stories.json`.
 - Mil's and Max's story lines and Max's claims for a new list go in their own packs in `PACKS` (for the L list:
-  `pk-sk7`, `pk-sk8`, `pk-sk9`, `pk-xmax-l`), so the files that already exist are not re-encoded. Bump `AUDIO_V`.
+  `pk-sk7`, `pk-sk8`, `pk-sk9`, `pk-sk10`, `pk-xmax-l`), so the files that already exist are not re-encoded. Bump `AUDIO_V`.
 - Lines written but not recorded yet go in `PENDING` in `index.html`, so the app uses the device voice until they exist.
 - Every sticker says its word (Mila): themed ones are `stk-<set>-<id>` in `pk-stk`; the first stickers' words are in
   `FIRST_WORDS` (`stk-<id>` in `pk-stk-first`, or an existing clip of the same word).
