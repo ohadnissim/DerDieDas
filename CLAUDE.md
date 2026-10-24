@@ -64,6 +64,7 @@ PR as a draft until the assets are made the usual way.
 ## Voices
 - **Mila** (teacher, narrator, every word): ElevenLabs voice "German Girl - Mila".
 - **Mia**: ElevenLabs voice "Fünkchen".
+- **Löwe and Lama** (the Laden): ElevenLabs "Justus - Slapstick & Cartoon" (`BOXom31b0dZ8zv6QJFfQ`) for the Löwe and "Mrs. Bruelli" (`q6mfXZhCPNqTDA4sX437`) for the Lama, same settings as Mila. Their lines and Mila's words for the shop things are in `pk-laden`.
 - **Mil and Max**: Higgsfield "Seed Audio 1.0" (`seed_audio`) voice clones of Ohad's Sep 29 reference clips:
   `--audio-references 5c231e48-60a2-4e03-b0f2-32968633f0cb` for Mil, `7b457cbc-dbfa-451d-b8f6-a6db13f1c6cb` for Max,
   with `--sample_rate 24000 --format mp3 --pitch_rate 0 --speech_rate 0 --loudness_rate 0` (the server adds
@@ -91,6 +92,14 @@ the word must be in `LAUT_WORDS` for that letter and in the page's picture). The
 - Lines written but not recorded yet go in `PENDING` in `index.html`, so the app uses the device voice until they exist.
 - Every sticker says its word (Mila): themed ones are `stk-<set>-<id>` in `pk-stk`; the first stickers' words are in
   `FIRST_WORDS` (`stk-<id>` in `pk-stk-first`, or an existing clip of the same word).
+
+## The Laden
+`LADEN` in `index.html` lists what she can buy: `welt` things go into her island tray like stickers (`img/stk-laden-<id>.webp`,
+cut-out `img/cut-laden-<id>.webp`, made like the stickers), `konfetti`, `farbe` (CSS under `data-farbe`), and `insel` (an island
+with `shop:` in `ISLANDS`, opened by buying it). Each has a shopkeeper line that says its price (`ld-<id>` in `pk-laden`).
+Buying takes `progress.stars` only; `progress.owned`, `farbe` and `konfetti` hold what she has.
+Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the story style reference, 1:1 on white, then
+`image_background_remover`, trimmed to a 256 px square.
 
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
