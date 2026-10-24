@@ -477,6 +477,11 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .fmiss{position:absolute;width:44px;height:44px;border-radius:50%;transform:translate(-50%,-50%);border:4px solid rgba(255,255,255,.85);pointer-events:none;animation:fmiss .6s ease-out both}
 @keyframes fmiss{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(-50%,-50%) scale(1.4);opacity:0}}
 .squiz.asking{align-items:center}
+.squiz.lautq{align-items:center;flex-wrap:wrap;gap:clamp(8px,1.6vh,14px) clamp(12px,2.4vw,24px)}
+.squiz.lautq .askpic{width:clamp(72px,12vmin,110px);margin-right:0}
+.squiz.lautq .htile{width:clamp(44px,min(9vw,8vh),78px)}
+.squiz.lautq .htiles.pos .htile{width:clamp(60px,min(14vw,11vh),104px)}
+.squiz.lautq .hword{flex-basis:100%;text-align:center;font-size:clamp(24px,4vmin,38px)}
 .squiz .askpic{animation:none;margin-right:clamp(6px,2vw,20px)}
 .squiz.asking .choice.orb{flex:none;width:clamp(84px,14vmin,124px)}
 .squiz.asking .askpic{width:clamp(84px,14vmin,124px)}
@@ -4610,9 +4615,10 @@ function startStory(pick) {
   renderStars(); show("story"); showPage();
 }
 // A page: Mila reads, then the kids say their own lines, then (sometimes) something to do:
-//   satz – fill the circles of the page's picture sentence, find – tap the thing in the picture, ask – a kid asks her "der, die oder das?", q – pick the right picture.
+//   satz – fill the circles of the page's picture sentence, find – tap the thing in the picture, ask – a kid asks her "der, die oder das?", q – pick the right picture,
+//   laut – tap the tile (one per sound) where she hears the letter, pos – the letter at the beginning, in the middle or at the end (the two letter games).
 const pageLines = (pg) => pg.lines || (pg.kid ? [pg.kid] : []);
-const STEPS = ["satz", "find", "ask", "q"];
+const STEPS = ["satz", "find", "ask", "q", "laut", "pos"];
 function showPage() {
   const pg = ST.st.pages[ST.i];
   $("sdots").innerHTML = ST.st.pages.map((_, i) => '<span class="dot' + (i < ST.i ? " ok" : "") + (i === ST.i ? " now" : "") + '"></span>').join("");
@@ -4658,7 +4664,8 @@ function runStep(type, data) {
   return new Promise((resolve) => {
     ST.step = { type, data, resolve, tries: 0 };
     $("snav").hidden = true;
-    if (type === "satz") startSatz(data); else if (type === "find") startFind(data); else if (type === "ask") startAsk(data); else askStory(data);
+    if (type === "satz") startSatz(data); else if (type === "find") startFind(data); else if (type === "ask") startAsk(data);
+    else if (type === "laut" || type === "pos") startLautStep(data, type); else askStory(data);
   });
 }
 function endStep(delay = 400) {
@@ -4678,6 +4685,7 @@ function stepPrompt() {
   else if (s.type === "ask") say([C("f-welche")]);
   else if (s.type === "q") say([{ key: s.data.audio, text: s.data.text }]);
   else if (s.type === "satz") say([(s.f[0] ? s.t.o : s.t.s).say]);
+  else if (s.type === "laut" || s.type === "pos") say(lautAsk(s.t, s.type));
 }
 
 // satz: the page's sentence as a picture row like the school sheet. She fills the empty circles, then Mila reads it all.
@@ -4809,8 +4817,42 @@ function qTap(b) {
     oops(b, rb, right).then(() => endStep(400));
   }
 }
+// laut / pos: the letter games inside a story, on a word that is in the picture
+const lautAsk = (t, mode, first) => [C("lh-wo-" + t.letter), mode === "pos" && C("lp-frage"), first && C(mode === "pos" ? "lp-tipp" : "lh-tipp"), t.say];
+function startLautStep(d, mode) {
+  const e = (LAUT_WORDS[d.letter] || []).find(([id]) => id === d.word), t = e && lautItem(e[0], e[1], d.letter);
+  if (!t) { endStep(0); return; }
+  t.letter = d.letter;
+  const s = ST.step; s.t = t; s.want = mode === "pos" ? t.pos : t.at;
+  $("squiz").innerHTML = '<div class="sq askpic">' + t.html + '</div><div class="htiles' + (mode === "pos" ? " pos" : "") + '">' +
+    (mode === "pos"
+      ? ["Anfang", "Mitte", "Ende"].map((n, k) => '<button class="htile" data-k="' + k + '" aria-label="' + n + '"><span class="ch">' + (k === t.pos ? esc(t.parts[t.at]) : "") + "</span></button>").join("")
+      : t.parts.map((p, k) => '<button class="htile" data-k="' + k + '" aria-label="Laut ' + (k + 1) + '"><span class="ch">' + esc(p) + "</span></button>").join("")) +
+    '</div><div class="hword" aria-hidden="true"></div>';
+  $("squiz").className = "squiz lautq"; $("squiz").hidden = false;
+  const first = !(ST.lautSaid || (ST.lautSaid = {}))[mode]; ST.lautSaid[mode] = true;
+  say(lautAsk(t, mode, first));
+}
+async function lautStepTap(b) {
+  const s = ST.step, my = ST, t = s.t, mode = s.type, k = Number(b.dataset.k);
+  if (b.classList.contains("miss")) return;
+  if (k !== s.want) {
+    boop(); b.classList.add("miss"); s.tries++;
+    if (s.tries >= 2) $("squiz").querySelector('.htile[data-k="' + s.want + '"]').classList.add("hint");
+    say([C(s.tries === 1 ? "lh-nochmal" : pick(["f-upsi", "f-hoppla"])), t.say]);
+    return;
+  }
+  s.type = "busy"; chime(); sparkle(b, 14);
+  $("squiz").querySelectorAll(".htile").forEach(x => { x.classList.remove("hint"); x.classList.add("show"); x.disabled = true; });
+  b.classList.add("ok");
+  if (!s.tries) addStars();
+  if (mode === "pos") { const w = $("squiz").querySelector(".hword"); w.innerHTML = t.word; w.classList.add("show"); }
+  await say(mode === "pos" ? [C(pick(PRAISE)), t.say, C(POS_SAY[t.pos])] : [C(pick(PRAISE)), t.say]);
+  if (ST === my && ST.step === s) endStep(300);
+}
 $("squiz").addEventListener("click", (e) => {
   if (!ST || !ST.step) return;
+  if (ST.step.type === "laut" || ST.step.type === "pos") { const b = e.target.closest(".htile"); if (b) lautStepTap(b); return; }
   if (ST.step.type === "ask") { const b = e.target.closest(".choice"); if (b) askTap(b); }
   else if (ST.step.type === "q") { const b = e.target.closest(".sq"); if (b) qTap(b); }
   else if (ST.step.type === "satz") { const b = e.target.closest(".spick .choice"); if (b) satzTap(b); }

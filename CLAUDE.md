@@ -75,6 +75,11 @@ PR as a draft until the assets are made the usual way.
   Never re-encode an existing file; put new clips in a new file instead.
 - Check every clip with speech-to-text and re-record any that read back wrong.
 
+## Story steps
+A page can have `satz`, `find`, `ask`, `q`, and the two letter games `laut` and `pos` (`{"word": "maus", "letter": "m"}`,
+the word must be in `LAUT_WORDS` for that letter and in the page's picture). They use Mila's clips from `pk-laut` and
+`pk-pos`, so they need no new recordings. Give every new story one of each.
+
 ## Where audio goes
 - Each word: `w-<id>` (with its article), `n-<id>` (the word alone), `q-<id>-der|die|das` (said as a question) and
   `st-den-<id>` for der-words. These are packed into `audio/pw-<id>.mp3` and listed in `PACKS` in `index.html`.
