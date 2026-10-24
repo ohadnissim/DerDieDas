@@ -509,6 +509,10 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .htile .ch{opacity:0;transition:opacity .3s}
 .htile.show .ch{opacity:1}
 .htile.ok .ch{color:var(--grape)}
+.htiles.pos .htile{width:clamp(78px,min(22vw,15vh),140px)}
+.hword{font-family:var(--display);font-weight:800;font-size:clamp(28px,5.4vmin,46px);line-height:1;letter-spacing:.04em;color:var(--ink);min-height:1em;opacity:0;transition:opacity .3s}
+.hword.show{opacity:1}
+.hword b{color:var(--grape)}
 .wpick{flex:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(18px,4vw,40px);min-height:0}
 .wtile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:clamp(14px,2.4vh,24px) clamp(18px,3vw,32px);border-radius:32px;background:var(--surface);box-shadow:0 8px 0 var(--line),var(--lift)}
 .wtile:active{transform:translateY(5px);box-shadow:0 3px 0 var(--line),var(--lift)}
@@ -1008,6 +1012,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
       <button class="candy peach game" id="sentBtn" aria-label="Sätze"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.7 2.3a1 1 0 0 0-1.4 0l-8.6 8.6 2.4 2.4 8.6-8.6a1 1 0 0 0 0-1.4zM9.6 12.1c-1.9 0-3.4 1.5-3.4 3.4 0 1.3-.8 2.2-2.2 2.6 1 1.4 2.8 2.2 4.6 2.2 2.6 0 4.6-2 4.6-4.6 0-.4-.1-.8-.2-1.2z"/></svg></button>
       <button class="candy teal game" id="writeBtn" aria-label="Schreiben"><span class="glyph">Aa</span></button>
       <button class="candy sun game" id="lautBtn" aria-label="Wo hörst du?"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7h2a5 5 0 0 1 10 0c0 1.9-.9 2.9-2 4-1.2 1.1-2.5 2.3-2.9 4.6-.2 1.3-1 2.4-2.6 2.4A2.5 2.5 0 0 1 7 19.5H5A4.5 4.5 0 0 0 9.5 24c2.6 0 4.2-1.8 4.6-4.1.3-1.6 1.1-2.4 2.2-3.4C17.6 15.2 19 13.7 19 9a7 7 0 0 0-7-7z"/><rect x="15" y="17" width="8" height="6" rx="1.5" opacity=".85"/></svg></button>
+      <button class="candy sky game" id="posBtn" aria-label="Anfang, Mitte oder Ende?"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="1.5" y="7.5" width="6" height="9" rx="1.6"/><rect x="9" y="7.5" width="6" height="9" rx="1.6" fill="currentColor"/><rect x="16.5" y="7.5" width="6" height="9" rx="1.6"/></svg></button>
       <button class="candy mint game" id="gardenBtn" aria-label="Garten"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="3.2"/><circle cx="8.2" cy="6" r="2.6" opacity=".8"/><circle cx="15.8" cy="6" r="2.6" opacity=".8"/><circle cx="12" cy="3.6" r="2.6" opacity=".8"/><path d="M11 11h2v10h-2z"/><path d="M12 17c-2-3-5-3-6-2 1 2 3 3 6 2zm0-2c2-3 5-3 6-2-1 2-3 3-6 2z"/></svg><span class="due" id="gardenDue" hidden>!</span></button>
     </div>
     <button class="nextsticker" id="nextSticker" aria-label="Nächster Sticker"><span id="slots"></span><span class="gift" id="gift">?</span></button>
@@ -1118,6 +1123,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
     <div class="hletter" id="hLetter"></div>
     <button class="hpic" id="hPic" aria-label="Nochmal hören"></button>
     <div class="htiles" id="hTiles"></div>
+    <div class="hword" id="hWord" aria-hidden="true"></div>
     <div class="tctl">
       <button class="round mila-btn" id="hListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button>
       <button class="go" id="hNext" aria-label="Weiter" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -1605,7 +1611,7 @@ function saveWords() {
 
 /* ---------- sound: recorded voice first, iPad voice as fallback ---------- */
 // Bump AUDIO_V when a recording is replaced, so the iPad fetches the new file instead of a cached one.
-const AUDIO_V = 32;
+const AUDIO_V = 33;
 // Recorded clips (Mila's voice) live in audio/<key>.mp3. Words added later have no clip and use the iPad's German voice.
 const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p-prima":"Prima!","p-genau":"Genau!","p-klasse":"Klasse!",
   "f-wieheisst":"Wie heißt das?","f-schau":"Schau!","f-supergemacht":"Super gemacht!",
@@ -1628,14 +1634,15 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!",
   "wr-welcher":"Welchen Buchstaben schreibst du?","wr-gross-m":"Das ist das große M. M wie Maus!","wr-klein-m":"Und das ist das kleine m.","wr-gross-i":"Das ist das große I. I wie Igel!","wr-klein-i":"Und das ist das kleine i. Es hat einen Punkt!","wr-gross-l":"Das ist das große L. L wie Löwe!","wr-klein-l":"Und das ist das kleine l.","wr-jetztdu":"Jetzt du! Fahr mit dem Finger nach.","wr-punkte":"Jetzt mit Pünktchen!","wr-allein":"Und jetzt ganz allein!","wr-gruen":"Fang beim grünen Punkt an!","wr-punkt":"Und jetzt der Punkt!",
   "lh-welcher":"Welchen Buchstaben suchen wir?","lh-wo-m":"Wo hörst du das M?","lh-wo-i":"Wo hörst du das I?","lh-wo-l":"Wo hörst du das L?",
-  "lh-tipp":"Jedes Plättchen ist ein Laut. Tipp auf das richtige Plättchen!","lh-nochmal":"Hör noch mal genau!"};
+  "lh-tipp":"Jedes Plättchen ist ein Laut. Tipp auf das richtige Plättchen!","lh-nochmal":"Hör noch mal genau!",
+  "lp-frage":"Am Anfang, in der Mitte oder am Ende?","lp-tipp":"Tipp auf das richtige Kästchen!","lp-anfang":"Am Anfang!","lp-mitte":"In der Mitte!","lp-ende":"Am Ende!"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
 // Newer stories keep all their clips in one file: clip key -> [file, start, length] (seconds).
 const SPRITE = {};
 // Groups of short clips packed into one file each, so the page stays under its file limit: file -> { clip key: [start, length] }.
-const PACKS = /*PACKS*/{"pk-stk":{"stk-hof-ente":[0.3,1.01],"stk-hof-esel":[1.61,1.07],"stk-hof-hahn":[2.98,0.94],"stk-hof-huhn":[4.22,0.98],"stk-hof-kueken":[5.5,1.009],"stk-hof-kuh":[6.809,0.86],"stk-hof-pferd":[7.969,1.1],"stk-hof-schaf":[9.369,1.03],"stk-hof-scheune":[10.699,0.97],"stk-hof-schwein":[11.969,1.19],"stk-hof-traktor":[13.459,1.17],"stk-hof-ziege":[14.929,1.07],"stk-meer-delfin":[16.299,1.05],"stk-meer-fisch":[17.649,0.99],"stk-meer-krabbe":[18.939,0.87],"stk-meer-moewe":[20.109,0.99],"stk-meer-qualle":[21.399,1.03],"stk-meer-robbe":[22.729,0.93],"stk-meer-schiff":[23.959,1.05],"stk-meer-schildkroete":[25.309,1.32],"stk-meer-seepferdchen":[26.929,1.42],"stk-meer-seestern":[28.649,1.2],"stk-meer-wal":[30.149,1.0],"stk-meer-walross":[31.449,1.221],"stk-wald-drache":[32.97,0.95],"stk-wald-einhorn":[34.22,1.14],"stk-wald-eule":[35.66,0.91],"stk-wald-fee":[36.87,0.8],"stk-wald-fuchs":[37.97,1.03],"stk-wald-gluehwuermchen":[39.3,1.35],"stk-wald-kutsche":[40.95,0.95],"stk-wald-pilz":[42.2,1.02],"stk-wald-prinzessin":[43.52,1.18],"stk-wald-schloss":[45.0,1.11],"stk-wald-zauberbuch":[46.41,1.4],"stk-wald-zauberstab":[48.11,1.314]},"pw-igel":{"w-igel":[0.3,1.11],"n-igel":[1.71,0.77],"q-igel-der":[2.78,1.11],"q-igel-die":[4.19,1.13],"q-igel-das":[5.62,1.03],"x-max-igel-der":[6.95,1.0],"x-max-igel-die":[8.25,1.04],"st-den-igel":[9.59,1.05]},"pw-taxi":{"w-taxi":[0.3,1.08],"n-taxi":[1.68,0.86],"q-taxi-der":[2.84,1.15],"q-taxi-die":[4.29,1.04],"q-taxi-das":[5.63,1.11],"x-max-taxi-das":[7.04,1.05],"x-max-taxi-der":[8.39,1.25]},"pw-insel":{"w-insel":[0.3,0.97],"n-insel":[1.57,0.83],"q-insel-der":[2.7,1.01],"q-insel-die":[4.01,1.05],"q-insel-das":[5.36,1.04],"x-max-insel-die":[6.7,1.19],"x-max-insel-das":[8.19,1.1]},"pw-indianer":{"w-indianer":[0.3,1.24],"n-indianer":[1.84,1.01],"q-indianer-der":[3.15,1.18],"q-indianer-die":[4.63,1.08],"q-indianer-das":[6.01,1.17],"x-max-indianer-der":[7.48,1.36],"x-max-indianer-die":[9.14,1.51],"st-den-indianer":[10.95,1.17]},"pw-kiste":{"w-kiste":[0.3,1.03],"n-kiste":[1.63,0.89],"q-kiste-der":[2.82,1.03],"q-kiste-die":[4.15,1.0],"q-kiste-das":[5.45,1.12],"x-max-kiste-die":[6.87,1.09],"x-max-kiste-der":[8.26,1.1]},"pw-birne":{"w-birne":[0.3,1.03],"n-birne":[1.63,0.84],"q-birne-der":[2.77,0.89],"q-birne-die":[3.96,1.03],"q-birne-das":[5.29,1.03],"x-max-birne-die":[6.62,1.53],"x-max-birne-das":[8.45,1.07]},"pw-brille":{"w-brille":[0.3,0.97],"n-brille":[1.57,0.73],"q-brille-der":[2.6,0.91],"q-brille-die":[3.81,0.88],"q-brille-das":[4.99,1.11],"x-max-brille-die":[6.4,1.0],"x-max-brille-der":[7.7,1.03]},"pw-radio":{"w-radio":[0.3,1.12],"n-radio":[1.72,0.92],"q-radio-der":[2.94,1.12],"q-radio-die":[4.36,1.17],"q-radio-das":[5.83,1.12],"x-max-radio-das":[7.25,1.17],"x-max-radio-die":[8.72,1.02]},"pw-teppich":{"w-teppich":[0.3,1.12],"n-teppich":[1.72,0.896],"q-teppich-der":[2.916,1.14],"q-teppich-die":[4.356,0.952],"q-teppich-das":[5.608,1.1],"x-max-teppich-der":[7.008,1.12],"x-max-teppich-das":[8.428,1.33],"st-den-teppich":[10.058,1.13]},"pw-pinsel":{"w-pinsel":[0.3,0.98],"n-pinsel":[1.58,0.87],"q-pinsel-der":[2.75,1.06],"q-pinsel-die":[4.11,1.06],"q-pinsel-das":[5.47,1.1],"x-max-pinsel-der":[6.87,1.09],"x-max-pinsel-die":[8.26,1.09],"st-den-pinsel":[9.65,1.22]},"pw-lineal":{"w-lineal":[0.3,1.241],"n-lineal":[1.841,1.04],"q-lineal-der":[3.181,1.17],"q-lineal-die":[4.651,1.23],"q-lineal-das":[6.181,1.19],"x-max-lineal-das":[7.671,1.56],"x-max-lineal-der":[9.531,1.12]},"pw-polizist":{"w-polizist":[0.3,1.221],"n-polizist":[1.821,1.05],"q-polizist-der":[3.171,1.2],"q-polizist-die":[4.671,1.29],"q-polizist-das":[6.261,1.36],"x-max-polizist-der":[7.921,1.28],"x-max-polizist-das":[9.501,1.09],"st-den-polizist":[10.891,1.31]},"pw-iglu":{"w-iglu":[0.3,1.06],"n-iglu":[1.66,0.84],"q-iglu-der":[2.8,1.1],"q-iglu-die":[4.2,1.03],"q-iglu-das":[5.53,0.98],"x-max-iglu-das":[6.81,1.174],"x-max-iglu-die":[8.284,1.36]},"pw-laden":{"w-laden":[0.3,0.93],"n-laden":[1.53,0.74],"q-laden-der":[2.57,0.86],"q-laden-die":[3.73,0.86],"q-laden-das":[4.89,0.84],"st-den-laden":[6.03,0.94]},"pw-limonade":{"w-limonade":[0.3,1.12],"n-limonade":[1.72,0.99],"q-limonade-der":[3.01,1.17],"q-limonade-die":[4.48,1.01],"q-limonade-das":[5.79,1.03]},"pw-lupe":{"w-lupe":[0.3,0.93],"n-lupe":[1.53,0.83],"q-lupe-der":[2.66,0.77],"q-lupe-die":[3.73,1.03],"q-lupe-das":[5.06,0.9]},"pw-lehrerin":{"w-lehrerin":[0.3,0.94],"n-lehrerin":[1.54,1.13],"q-lehrerin-der":[2.97,1.04],"q-lehrerin-die":[4.31,0.99],"q-lehrerin-das":[5.6,0.97]},"pw-loewe":{"w-loewe":[0.3,0.84],"n-loewe":[1.44,0.66],"q-loewe-der":[2.4,0.86],"q-loewe-die":[3.56,0.85],"q-loewe-das":[4.71,0.72]},"pw-lama":{"w-lama":[0.3,0.94],"n-lama":[1.54,0.71],"q-lama-der":[2.55,0.89],"q-lama-die":[3.74,0.93],"q-lama-das":[4.97,0.97]},"pw-leiter":{"w-leiter":[0.3,0.9],"n-leiter":[1.5,0.69],"q-leiter-der":[2.49,0.89],"q-leiter-die":[3.68,0.83],"q-leiter-das":[4.81,0.82]},"pw-lampe":{"w-lampe":[0.3,0.92],"n-lampe":[1.52,0.66],"q-lampe-der":[2.48,0.93],"q-lampe-die":[3.71,0.88],"q-lampe-das":[4.89,0.9]},"pw-loeffel":{"w-loeffel":[0.3,0.91],"n-loeffel":[1.51,0.66],"q-loeffel-der":[2.47,0.85],"q-loeffel-die":[3.62,0.91],"q-loeffel-das":[4.83,0.91],"st-den-loeffel":[6.04,0.96]},"pw-seil":{"w-seil":[0.3,1.01],"n-seil":[1.61,0.62],"q-seil-der":[2.53,0.8],"q-seil-die":[3.63,0.75],"q-seil-das":[4.68,0.909]},"pw-salami":{"w-salami":[0.3,1.07],"n-salami":[1.67,0.97],"q-salami-der":[2.94,0.95],"q-salami-die":[4.19,0.92],"q-salami-das":[5.41,1.0]},"pw-bleistift":{"w-bleistift":[0.3,1.09],"n-bleistift":[1.69,1.05],"q-bleistift-der":[3.04,1.06],"q-bleistift-die":[4.4,1.09],"q-bleistift-das":[5.79,1.06],"st-den-bleistift":[7.15,1.3]},"pw-schaukel":{"w-schaukel":[0.3,0.95],"n-schaukel":[1.55,0.89],"q-schaukel-der":[2.74,0.94],"q-schaukel-die":[3.98,0.93],"q-schaukel-das":[5.21,0.98]},"pw-ball":{"n-ball":[0.3,0.64],"st-den-ball":[1.24,1.06]},"pw-blume":{"n-blume":[0.3,0.69]},"pk-sk7":{"sk7-1b":[0.3,0.63],"sk7-2a":[1.23,0.94],"sk7-4a":[2.47,1.78],"sk7-5a":[4.55,0.61],"sk7-7a":[5.46,0.96],"sk7-8a":[6.72,1.53],"sk7-9b":[8.55,0.71]},"pk-sk8":{"sk8-2a":[0.3,1.51],"sk8-3a":[2.11,0.79],"sk8-4a":[3.2,1.106],"sk8-6a":[4.606,0.91],"sk8-7a":[5.816,0.74],"sk8-9a":[6.856,0.39],"sk8-9b":[7.546,0.71]},"pk-xmax-l":{"x-max-laden-der":[0.3,0.63],"x-max-laden-das":[1.23,0.7],"x-max-limonade-die":[2.23,1.81],"x-max-limonade-der":[4.34,1.19],"x-max-lupe-die":[5.83,0.66],"x-max-lupe-das":[6.79,0.91],"x-max-lehrerin-die":[8.0,0.92],"x-max-lehrerin-der":[9.22,0.81],"x-max-loewe-der":[10.33,0.98],"x-max-loewe-die":[11.61,0.72],"x-max-lama-das":[12.63,1.03],"x-max-lama-die":[13.96,0.85],"x-max-leiter-die":[15.11,0.98],"x-max-leiter-der":[16.39,0.78],"x-max-lampe-die":[17.47,0.68],"x-max-lampe-das":[18.45,0.77],"x-max-loeffel-der":[19.52,0.67],"x-max-loeffel-die":[20.49,0.86],"x-max-ball-der":[21.65,0.63],"x-max-ball-das":[22.58,0.78],"x-max-seil-das":[23.66,0.74],"x-max-seil-der":[24.7,0.76],"x-max-blume-die":[25.76,0.95],"x-max-blume-der":[27.01,0.85],"x-max-salami-die":[28.16,0.81],"x-max-salami-das":[29.27,0.75],"x-max-bleistift-der":[30.32,0.94],"x-max-bleistift-die":[31.56,0.89],"x-max-schaukel-die":[32.75,0.92],"x-max-schaukel-der":[33.97,0.88]},"pk-stk-first":{"stk-balloon":[0.3,0.85],"stk-bracelet":[1.45,1.17],"stk-camera":[2.92,0.93],"stk-costume":[4.15,0.9],"stk-craft":[5.35,0.92],"stk-cupcake":[6.57,0.94],"stk-doll":[7.81,0.82],"stk-dollhouse":[8.93,1.21],"stk-dumptruck":[10.44,1.05],"stk-firetruck":[11.79,1.36],"stk-flamingo":[13.45,1.12],"stk-goggles":[14.87,1.07],"stk-lolly":[16.24,0.88],"stk-palette":[17.42,1.24],"stk-plane":[18.96,1.17],"stk-rainbow":[20.43,1.21],"stk-suitcase":[21.94,0.89],"stk-tiara":[23.13,0.92],"stk-train":[24.35,0.87],"stk-wings":[25.52,1.2]},"pk-sk9":{"sk9-1b":[0.3,1.16],"sk9-2a":[1.76,1.41],"sk9-4a":[3.47,1.56],"sk9-5a":[5.33,1.27],"sk9-7a":[6.9,0.76],"sk9-9a":[7.96,2.108],"sk9-10b":[10.368,1.14]},"pk-life":{"k-mia-tschuess":[0.3,1.85],"k-mia-ei":[2.45,2.46],"k-mia-hallomila":[5.21,1.93]},"pk-laut":{"lh-welcher":[0.3,1.76],"lh-wo-m":[2.36,1.417],"lh-wo-i":[4.077,1.51],"lh-wo-l":[5.887,1.31],"lh-tipp":[7.497,4.24],"lh-nochmal":[12.037,1.483]}}/*END*/;
+const PACKS = /*PACKS*/{"pk-stk":{"stk-hof-ente":[0.3,1.01],"stk-hof-esel":[1.61,1.07],"stk-hof-hahn":[2.98,0.94],"stk-hof-huhn":[4.22,0.98],"stk-hof-kueken":[5.5,1.009],"stk-hof-kuh":[6.809,0.86],"stk-hof-pferd":[7.969,1.1],"stk-hof-schaf":[9.369,1.03],"stk-hof-scheune":[10.699,0.97],"stk-hof-schwein":[11.969,1.19],"stk-hof-traktor":[13.459,1.17],"stk-hof-ziege":[14.929,1.07],"stk-meer-delfin":[16.299,1.05],"stk-meer-fisch":[17.649,0.99],"stk-meer-krabbe":[18.939,0.87],"stk-meer-moewe":[20.109,0.99],"stk-meer-qualle":[21.399,1.03],"stk-meer-robbe":[22.729,0.93],"stk-meer-schiff":[23.959,1.05],"stk-meer-schildkroete":[25.309,1.32],"stk-meer-seepferdchen":[26.929,1.42],"stk-meer-seestern":[28.649,1.2],"stk-meer-wal":[30.149,1.0],"stk-meer-walross":[31.449,1.221],"stk-wald-drache":[32.97,0.95],"stk-wald-einhorn":[34.22,1.14],"stk-wald-eule":[35.66,0.91],"stk-wald-fee":[36.87,0.8],"stk-wald-fuchs":[37.97,1.03],"stk-wald-gluehwuermchen":[39.3,1.35],"stk-wald-kutsche":[40.95,0.95],"stk-wald-pilz":[42.2,1.02],"stk-wald-prinzessin":[43.52,1.18],"stk-wald-schloss":[45.0,1.11],"stk-wald-zauberbuch":[46.41,1.4],"stk-wald-zauberstab":[48.11,1.314]},"pw-igel":{"w-igel":[0.3,1.11],"n-igel":[1.71,0.77],"q-igel-der":[2.78,1.11],"q-igel-die":[4.19,1.13],"q-igel-das":[5.62,1.03],"x-max-igel-der":[6.95,1.0],"x-max-igel-die":[8.25,1.04],"st-den-igel":[9.59,1.05]},"pw-taxi":{"w-taxi":[0.3,1.08],"n-taxi":[1.68,0.86],"q-taxi-der":[2.84,1.15],"q-taxi-die":[4.29,1.04],"q-taxi-das":[5.63,1.11],"x-max-taxi-das":[7.04,1.05],"x-max-taxi-der":[8.39,1.25]},"pw-insel":{"w-insel":[0.3,0.97],"n-insel":[1.57,0.83],"q-insel-der":[2.7,1.01],"q-insel-die":[4.01,1.05],"q-insel-das":[5.36,1.04],"x-max-insel-die":[6.7,1.19],"x-max-insel-das":[8.19,1.1]},"pw-indianer":{"w-indianer":[0.3,1.24],"n-indianer":[1.84,1.01],"q-indianer-der":[3.15,1.18],"q-indianer-die":[4.63,1.08],"q-indianer-das":[6.01,1.17],"x-max-indianer-der":[7.48,1.36],"x-max-indianer-die":[9.14,1.51],"st-den-indianer":[10.95,1.17]},"pw-kiste":{"w-kiste":[0.3,1.03],"n-kiste":[1.63,0.89],"q-kiste-der":[2.82,1.03],"q-kiste-die":[4.15,1.0],"q-kiste-das":[5.45,1.12],"x-max-kiste-die":[6.87,1.09],"x-max-kiste-der":[8.26,1.1]},"pw-birne":{"w-birne":[0.3,1.03],"n-birne":[1.63,0.84],"q-birne-der":[2.77,0.89],"q-birne-die":[3.96,1.03],"q-birne-das":[5.29,1.03],"x-max-birne-die":[6.62,1.53],"x-max-birne-das":[8.45,1.07]},"pw-brille":{"w-brille":[0.3,0.97],"n-brille":[1.57,0.73],"q-brille-der":[2.6,0.91],"q-brille-die":[3.81,0.88],"q-brille-das":[4.99,1.11],"x-max-brille-die":[6.4,1.0],"x-max-brille-der":[7.7,1.03]},"pw-radio":{"w-radio":[0.3,1.12],"n-radio":[1.72,0.92],"q-radio-der":[2.94,1.12],"q-radio-die":[4.36,1.17],"q-radio-das":[5.83,1.12],"x-max-radio-das":[7.25,1.17],"x-max-radio-die":[8.72,1.02]},"pw-teppich":{"w-teppich":[0.3,1.12],"n-teppich":[1.72,0.896],"q-teppich-der":[2.916,1.14],"q-teppich-die":[4.356,0.952],"q-teppich-das":[5.608,1.1],"x-max-teppich-der":[7.008,1.12],"x-max-teppich-das":[8.428,1.33],"st-den-teppich":[10.058,1.13]},"pw-pinsel":{"w-pinsel":[0.3,0.98],"n-pinsel":[1.58,0.87],"q-pinsel-der":[2.75,1.06],"q-pinsel-die":[4.11,1.06],"q-pinsel-das":[5.47,1.1],"x-max-pinsel-der":[6.87,1.09],"x-max-pinsel-die":[8.26,1.09],"st-den-pinsel":[9.65,1.22]},"pw-lineal":{"w-lineal":[0.3,1.241],"n-lineal":[1.841,1.04],"q-lineal-der":[3.181,1.17],"q-lineal-die":[4.651,1.23],"q-lineal-das":[6.181,1.19],"x-max-lineal-das":[7.671,1.56],"x-max-lineal-der":[9.531,1.12]},"pw-polizist":{"w-polizist":[0.3,1.221],"n-polizist":[1.821,1.05],"q-polizist-der":[3.171,1.2],"q-polizist-die":[4.671,1.29],"q-polizist-das":[6.261,1.36],"x-max-polizist-der":[7.921,1.28],"x-max-polizist-das":[9.501,1.09],"st-den-polizist":[10.891,1.31]},"pw-iglu":{"w-iglu":[0.3,1.06],"n-iglu":[1.66,0.84],"q-iglu-der":[2.8,1.1],"q-iglu-die":[4.2,1.03],"q-iglu-das":[5.53,0.98],"x-max-iglu-das":[6.81,1.174],"x-max-iglu-die":[8.284,1.36]},"pw-laden":{"w-laden":[0.3,0.93],"n-laden":[1.53,0.74],"q-laden-der":[2.57,0.86],"q-laden-die":[3.73,0.86],"q-laden-das":[4.89,0.84],"st-den-laden":[6.03,0.94]},"pw-limonade":{"w-limonade":[0.3,1.12],"n-limonade":[1.72,0.99],"q-limonade-der":[3.01,1.17],"q-limonade-die":[4.48,1.01],"q-limonade-das":[5.79,1.03]},"pw-lupe":{"w-lupe":[0.3,0.93],"n-lupe":[1.53,0.83],"q-lupe-der":[2.66,0.77],"q-lupe-die":[3.73,1.03],"q-lupe-das":[5.06,0.9]},"pw-lehrerin":{"w-lehrerin":[0.3,0.94],"n-lehrerin":[1.54,1.13],"q-lehrerin-der":[2.97,1.04],"q-lehrerin-die":[4.31,0.99],"q-lehrerin-das":[5.6,0.97]},"pw-loewe":{"w-loewe":[0.3,0.84],"n-loewe":[1.44,0.66],"q-loewe-der":[2.4,0.86],"q-loewe-die":[3.56,0.85],"q-loewe-das":[4.71,0.72]},"pw-lama":{"w-lama":[0.3,0.94],"n-lama":[1.54,0.71],"q-lama-der":[2.55,0.89],"q-lama-die":[3.74,0.93],"q-lama-das":[4.97,0.97]},"pw-leiter":{"w-leiter":[0.3,0.9],"n-leiter":[1.5,0.69],"q-leiter-der":[2.49,0.89],"q-leiter-die":[3.68,0.83],"q-leiter-das":[4.81,0.82]},"pw-lampe":{"w-lampe":[0.3,0.92],"n-lampe":[1.52,0.66],"q-lampe-der":[2.48,0.93],"q-lampe-die":[3.71,0.88],"q-lampe-das":[4.89,0.9]},"pw-loeffel":{"w-loeffel":[0.3,0.91],"n-loeffel":[1.51,0.66],"q-loeffel-der":[2.47,0.85],"q-loeffel-die":[3.62,0.91],"q-loeffel-das":[4.83,0.91],"st-den-loeffel":[6.04,0.96]},"pw-seil":{"w-seil":[0.3,1.01],"n-seil":[1.61,0.62],"q-seil-der":[2.53,0.8],"q-seil-die":[3.63,0.75],"q-seil-das":[4.68,0.909]},"pw-salami":{"w-salami":[0.3,1.07],"n-salami":[1.67,0.97],"q-salami-der":[2.94,0.95],"q-salami-die":[4.19,0.92],"q-salami-das":[5.41,1.0]},"pw-bleistift":{"w-bleistift":[0.3,1.09],"n-bleistift":[1.69,1.05],"q-bleistift-der":[3.04,1.06],"q-bleistift-die":[4.4,1.09],"q-bleistift-das":[5.79,1.06],"st-den-bleistift":[7.15,1.3]},"pw-schaukel":{"w-schaukel":[0.3,0.95],"n-schaukel":[1.55,0.89],"q-schaukel-der":[2.74,0.94],"q-schaukel-die":[3.98,0.93],"q-schaukel-das":[5.21,0.98]},"pw-ball":{"n-ball":[0.3,0.64],"st-den-ball":[1.24,1.06]},"pw-blume":{"n-blume":[0.3,0.69]},"pk-sk7":{"sk7-1b":[0.3,0.63],"sk7-2a":[1.23,0.94],"sk7-4a":[2.47,1.78],"sk7-5a":[4.55,0.61],"sk7-7a":[5.46,0.96],"sk7-8a":[6.72,1.53],"sk7-9b":[8.55,0.71]},"pk-sk8":{"sk8-2a":[0.3,1.51],"sk8-3a":[2.11,0.79],"sk8-4a":[3.2,1.106],"sk8-6a":[4.606,0.91],"sk8-7a":[5.816,0.74],"sk8-9a":[6.856,0.39],"sk8-9b":[7.546,0.71]},"pk-xmax-l":{"x-max-laden-der":[0.3,0.63],"x-max-laden-das":[1.23,0.7],"x-max-limonade-die":[2.23,1.81],"x-max-limonade-der":[4.34,1.19],"x-max-lupe-die":[5.83,0.66],"x-max-lupe-das":[6.79,0.91],"x-max-lehrerin-die":[8.0,0.92],"x-max-lehrerin-der":[9.22,0.81],"x-max-loewe-der":[10.33,0.98],"x-max-loewe-die":[11.61,0.72],"x-max-lama-das":[12.63,1.03],"x-max-lama-die":[13.96,0.85],"x-max-leiter-die":[15.11,0.98],"x-max-leiter-der":[16.39,0.78],"x-max-lampe-die":[17.47,0.68],"x-max-lampe-das":[18.45,0.77],"x-max-loeffel-der":[19.52,0.67],"x-max-loeffel-die":[20.49,0.86],"x-max-ball-der":[21.65,0.63],"x-max-ball-das":[22.58,0.78],"x-max-seil-das":[23.66,0.74],"x-max-seil-der":[24.7,0.76],"x-max-blume-die":[25.76,0.95],"x-max-blume-der":[27.01,0.85],"x-max-salami-die":[28.16,0.81],"x-max-salami-das":[29.27,0.75],"x-max-bleistift-der":[30.32,0.94],"x-max-bleistift-die":[31.56,0.89],"x-max-schaukel-die":[32.75,0.92],"x-max-schaukel-der":[33.97,0.88]},"pk-stk-first":{"stk-balloon":[0.3,0.85],"stk-bracelet":[1.45,1.17],"stk-camera":[2.92,0.93],"stk-costume":[4.15,0.9],"stk-craft":[5.35,0.92],"stk-cupcake":[6.57,0.94],"stk-doll":[7.81,0.82],"stk-dollhouse":[8.93,1.21],"stk-dumptruck":[10.44,1.05],"stk-firetruck":[11.79,1.36],"stk-flamingo":[13.45,1.12],"stk-goggles":[14.87,1.07],"stk-lolly":[16.24,0.88],"stk-palette":[17.42,1.24],"stk-plane":[18.96,1.17],"stk-rainbow":[20.43,1.21],"stk-suitcase":[21.94,0.89],"stk-tiara":[23.13,0.92],"stk-train":[24.35,0.87],"stk-wings":[25.52,1.2]},"pk-sk9":{"sk9-1b":[0.3,1.16],"sk9-2a":[1.76,1.41],"sk9-4a":[3.47,1.56],"sk9-5a":[5.33,1.27],"sk9-7a":[6.9,0.76],"sk9-9a":[7.96,2.108],"sk9-10b":[10.368,1.14]},"pk-life":{"k-mia-tschuess":[0.3,1.85],"k-mia-ei":[2.45,2.46],"k-mia-hallomila":[5.21,1.93]},"pk-pos":{"lp-frage":[0.3,2.47],"lp-tipp":[3.07,2.14],"lp-anfang":[5.51,0.97],"lp-mitte":[6.78,1.08],"lp-ende":[8.16,1.04]},"pk-laut":{"lh-welcher":[0.3,1.76],"lh-wo-m":[2.36,1.417],"lh-wo-i":[4.077,1.51],"lh-wo-l":[5.887,1.31],"lh-tipp":[7.497,4.24],"lh-nochmal":[12.037,1.483]}}/*END*/;
 for (const f in PACKS) for (const k in PACKS[f]) SPRITE[k] = [f, ...PACKS[f][k]];
 for (const k in SPRITE) CLIPS.delete(k);
 // The word alone (no article), for the listening and moving games.
@@ -2457,7 +2464,7 @@ $("playBtn").addEventListener("click", () => { pop(); startPractice(); });
 $("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
 $("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
 $("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, bubbles: startBubbles, judge: startJudge, story: () => startStory(state.stories.find(x => x.id === lastStoryId)), max: () => startCircleGame("max"), hear: () => startCircleGame("hear"), sent: startSent, write: () => startWrite(lastLetter), laut: () => startLaut(lastLaut) })[lastActivity](); });
+$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, bubbles: startBubbles, judge: startJudge, story: () => startStory(state.stories.find(x => x.id === lastStoryId)), max: () => startCircleGame("max"), hear: () => startCircleGame("hear"), sent: startSent, write: () => startWrite(lastLetter), laut: () => startLaut(lastLaut), pos: () => startLaut(lastLaut, "pos") })[lastActivity](); });
 $("doneGarden").addEventListener("click", () => { pop(); openGarden(); });
 $("memBtn").addEventListener("click", () => { pop(); startMemory(); });
 $("bubbleBtn").addEventListener("click", () => { pop(); startBubbles(); });
@@ -4077,25 +4084,34 @@ let lastLetter = "", wTouch = null;   // wTouch: the finger on the paper { id, p
 const LAUT_WORDS = {
   m: [["maus", ["M", "au", "s"]], ["mond", ["M", "o", "n", "d"]], ["mund", ["M", "u", "n", "d"]], ["milch", ["M", "i", "l", "ch"]], ["messer", ["M", "e", "ss", "er"]],
     ["mila", ["M", "i", "l", "a"]], ["max", ["M", "a", "x"]], ["muschel", ["M", "u", "sch", "e", "l"]], ["lama", ["L", "a", "m", "a"]], ["ameise", ["A", "m", "ei", "s", "e"]],
-    ["eimer", ["Ei", "m", "er"]], ["helm", ["H", "e", "l", "m"]], ["wurm", ["W", "u", "r", "m"]], ["lampe", ["L", "a", "m", "p", "e"]], ["blume", ["B", "l", "u", "m", "e"]]],
+    ["eimer", ["Ei", "m", "er"]], ["helm", ["H", "e", "l", "m"]], ["wurm", ["W", "u", "r", "m"]], ["lampe", ["L", "a", "m", "p", "e"]], ["blume", ["B", "l", "u", "m", "e"]],
+    ["ampel", ["A", "m", "p", "e", "l"]], ["mantel", ["M", "a", "n", "t", "e", "l"]], ["salami", ["S", "a", "l", "a", "m", "i"]], ["limonade", ["L", "i", "m", "o", "n", "a", "d", "e"]]],
   i: [["igel", ["I", "g", "e", "l"]], ["iglu", ["I", "g", "l", "u"]], ["insel", ["I", "n", "s", "e", "l"]], ["mia", ["M", "i", "a"]], ["mil", ["M", "i", "l"]], ["mila", ["M", "i", "l", "a"]],
     ["milch", ["M", "i", "l", "ch"]], ["kiste", ["K", "i", "s", "t", "e"]], ["birne", ["B", "i", "r", "n", "e"]], ["brille", ["B", "r", "i", "ll", "e"]], ["taxi", ["T", "a", "x", "i"]],
-    ["radio", ["R", "a", "d", "i", "o"]]],
+    ["radio", ["R", "a", "d", "i", "o"]], ["pinsel", ["P", "i", "n", "s", "e", "l"]], ["teppich", ["T", "e", "pp", "i", "ch"]], ["salami", ["S", "a", "l", "a", "m", "i"]],
+    ["limonade", ["L", "i", "m", "o", "n", "a", "d", "e"]]],
   l: [["lama", ["L", "a", "m", "a"]], ["lampe", ["L", "a", "m", "p", "e"]], ["loewe", ["L", "ö", "w", "e"]], ["lupe", ["L", "u", "p", "e"]], ["leiter", ["L", "ei", "t", "er"]],
     ["seil", ["S", "ei", "l"]], ["ball", ["B", "a", "ll"]], ["blume", ["B", "l", "u", "m", "e"]], ["helm", ["H", "e", "l", "m"]], ["igel", ["I", "g", "e", "l"]], ["iglu", ["I", "g", "l", "u"]],
-    ["mila", ["M", "i", "l", "a"]], ["mil", ["M", "i", "l"]], ["milch", ["M", "i", "l", "ch"]], ["schaukel", ["Sch", "au", "k", "e", "l"]]],
+    ["mila", ["M", "i", "l", "a"]], ["mil", ["M", "i", "l"]], ["milch", ["M", "i", "l", "ch"]], ["schaukel", ["Sch", "au", "k", "e", "l"]],
+    ["mantel", ["M", "a", "n", "t", "e", "l"]], ["muschel", ["M", "u", "sch", "e", "l"]], ["ampel", ["A", "m", "p", "e", "l"]], ["insel", ["I", "n", "s", "e", "l"]],
+    ["pinsel", ["P", "i", "n", "s", "e", "l"]], ["murmel", ["M", "u", "r", "m", "e", "l"]], ["salami", ["S", "a", "l", "a", "m", "i"]], ["limonade", ["L", "i", "m", "o", "n", "a", "d", "e"]]],
 };
 let H = null;
 // a word of the game: a picture word, or one of the names (Mila, Mia, Mil, Max) with its picture
 function lautItem(id, parts, letter) {
-  const at = parts.findIndex(p => p.toLowerCase().startsWith(letter) && !(letter === "i" && /^ei/i.test(p)));
-  if (NAMES[id]) return { id, parts, at, html: '<img class="pic" src="' + NAMES[id].src + '" alt="">', say: C("st-" + id) };
+  const hit = p => p.toLowerCase().startsWith(letter) && !(letter === "i" && /^ei/i.test(p));
+  if (parts.filter(hit).length !== 1) return null;   // the letter only once (no Mama for M, no Lineal for L)
+  const at = parts.findIndex(hit), pos = at === 0 ? 0 : at === parts.length - 1 ? 2 : 1;
+  const word = parts.map((p, k) => k === at ? "<b>" + esc(p) + "</b>" : esc(p)).join("");
+  if (NAMES[id]) return { id, parts, at, pos, word, html: '<span class="tile"><img class="pic" src="' + NAMES[id].src + '" alt=""></span>', say: C("st-" + id) };
   const w = findWord(id); if (!w) return null;
-  return { id, parts, at, w, html: faceHTML(w), say: N(w).key ? N(w) : { key: null, text: w.noun } };
+  return { id, parts, at, pos, word, w, html: faceHTML(w), say: N(w).key ? N(w) : { key: null, text: w.noun } };
 }
-function startLaut(id) {
+const POS_SAY = ["lp-anfang", "lp-mitte", "lp-ende"];
+// mode "laut": one tile per sound; mode "pos": three boxes, beginning / middle / end
+function startLaut(id, mode = "laut") {
   stopAudio();
-  H = { phase: "pick" };
+  H = { phase: "pick", mode };
   show("laut"); renderStars();
   if (id && LAUT_WORDS[id]) return pickLaut(id);
   $("hstage").hidden = true; $("hpick").hidden = false; $("hdots").innerHTML = "";
@@ -4111,8 +4127,14 @@ function pickLaut(id) {
   // six words: the letter at the start, in the middle and at the end, mixed
   const items = shuffle(LAUT_WORDS[id].map(([w, parts]) => lautItem(w, parts, id)).filter(Boolean));
   const first = items.filter(t => t.at === 0), later = items.filter(t => t.at > 0);
-  const list = shuffle([...first.slice(0, 3), ...later.slice(0, 6 - Math.min(3, first.length))]).slice(0, 6);
-  H = { l, list, i: 0, earned: 0, res: {}, phase: "", tries: 0 };
+  const mode = H && H.mode || "laut";
+  let list;
+  if (mode === "pos") {
+    // two at the beginning, two in the middle, two at the end (topped up when a letter has fewer)
+    const by = [0, 1, 2].map(k => items.filter(t => t.pos === k)), take = by.flatMap(g => g.slice(0, 2));
+    list = shuffle([...take, ...items.filter(t => !take.includes(t))].slice(0, 6));
+  } else list = shuffle([...first.slice(0, 3), ...later.slice(0, 6 - Math.min(3, first.length))]).slice(0, 6);
+  H = { l, list, mode, i: 0, earned: 0, res: {}, phase: "", tries: 0 };
   $("hpick").hidden = true; $("hstage").hidden = false;
   $("hLetter").textContent = l.up + " " + l.low;
   lautNext(true);
@@ -4123,18 +4145,23 @@ async function lautNext(first) {
   const t = H.list[H.i];
   H.phase = "listen"; H.tries = 0; $("hNext").hidden = true;
   $("hPic").innerHTML = t.html; restart($("hPic"), "enter");
-  $("hTiles").innerHTML = t.parts.map((p, k) => '<button class="htile" data-k="' + k + '" aria-label="Laut ' + (k + 1) + '"><span class="ch">' + esc(p) + "</span></button>").join("");
+  const pos = H.mode === "pos";
+  $("hTiles").classList.toggle("pos", pos); $("hWord").classList.remove("show"); $("hWord").innerHTML = "";
+  $("hTiles").innerHTML = pos
+    ? ["Anfang", "Mitte", "Ende"].map((n, k) => '<button class="htile" data-k="' + k + '" aria-label="' + n + '"><span class="ch">' + (k === t.pos ? esc(t.parts[t.at]) : "") + "</span></button>").join("")
+    : t.parts.map((p, k) => '<button class="htile" data-k="' + k + '" aria-label="Laut ' + (k + 1) + '"><span class="ch">' + esc(p) + "</span></button>").join("");
   renderHDots();
   H.phase = "tap";   // she can tap while Mila is still talking
-  say(first ? [C("lh-wo-" + H.l.id), C("lh-tipp"), t.say] : [C("lh-wo-" + H.l.id), t.say]);
+  const ask = pos ? [C("lh-wo-" + H.l.id), C("lp-frage")] : [C("lh-wo-" + H.l.id)];
+  say(first ? [...ask, C(pos ? "lp-tipp" : "lh-tipp"), t.say] : [...ask, t.say]);
 }
 $("hTiles").addEventListener("click", async (e) => {
   const b = e.target.closest(".htile"); if (!b || !H || H.phase !== "tap" || b.classList.contains("miss")) return;
-  const my = H, t = H.list[H.i], k = Number(b.dataset.k);
-  if (k !== t.at) {
+  const my = H, t = H.list[H.i], k = Number(b.dataset.k), want = H.mode === "pos" ? t.pos : t.at;
+  if (k !== want) {
     // not this one: a red line through it (like the teacher's), and she hears the word again
     boop(); b.classList.add("miss"); H.tries++;
-    if (H.tries >= 2) $("hTiles").querySelector('[data-k="' + t.at + '"]').classList.add("hint");
+    if (H.tries >= 2) $("hTiles").querySelector('[data-k="' + want + '"]').classList.add("hint");
     H.phase = "busy"; await say([C(H.tries === 1 ? "lh-nochmal" : pick(["f-upsi", "f-hoppla"])), t.say]); if (H === my) H.phase = "tap";
     return;
   }
@@ -4143,22 +4170,24 @@ $("hTiles").addEventListener("click", async (e) => {
   b.classList.add("ok");
   H.res[H.i] = H.tries === 0; if (H.tries === 0) { H.earned++; addStars(); }
   renderHDots();
-  await say([C(pick(PRAISE)), t.say]); if (H !== my) return;
+  if (H.mode === "pos") { $("hWord").innerHTML = t.word; $("hWord").classList.add("show"); }
+  await say(H.mode === "pos" ? [C(pick(PRAISE)), t.say, C(POS_SAY[t.pos])] : [C(pick(PRAISE)), t.say]); if (H !== my) return;
   H.phase = "next"; $("hNext").hidden = false; bump($("hNext"));
 });
 $("hNext").addEventListener("click", () => { if (!H || H.phase !== "next") return; pop(); H.i++; lautNext(false); });
-const lautSay = () => { if (!H || !H.list) return; const t = H.list[H.i]; say([H.phase === "next" ? t.say : C("lh-wo-" + H.l.id), t.say]); };
+const lautSay = () => { if (!H || !H.list) return; const t = H.list[H.i]; say(H.phase === "next" ? [t.say] : H.mode === "pos" ? [C("lh-wo-" + H.l.id), C("lp-frage"), t.say] : [C("lh-wo-" + H.l.id), t.say]); };
 $("hListen").addEventListener("click", lautSay);
 $("hPic").addEventListener("click", () => { if (H && H.list) say([H.list[H.i].say]); });
 function finishLaut() {
   const rows = H.list.map((t, i) => ({ html: t.html, mark: H.res[i] ? "ok" : "miss" }));
-  const earned = H.earned, grew = markDay(), id = H.l.id; logDay("g");
-  H = null; lastActivity = "laut"; lastLaut = id;
+  const earned = H.earned, grew = markDay(), id = H.l.id, mode = H.mode; logDay("g");
+  H = null; lastActivity = mode === "pos" ? "pos" : "laut"; lastLaut = id;
   state.progress.lastPlayed = today(); saveProgress();
   showDone(earned, rows, stickersNow(), quizDue(), grew);
 }
 let lastLaut = null;
 $("lautBtn").addEventListener("click", () => { pop(); startLaut(); });
+$("posBtn").addEventListener("click", () => { pop(); startLaut(null, "pos"); });
 
 function startWrite(id) {
   stopAudio(); wTouch = null;
