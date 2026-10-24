@@ -4089,7 +4089,7 @@ let H = null;
 // a word of the game: a picture word, or one of the names (Mila, Mia, Mil, Max) with its picture
 function lautItem(id, parts, letter) {
   const at = parts.findIndex(p => p.toLowerCase().startsWith(letter) && !(letter === "i" && /^ei/i.test(p)));
-  if (NAMES[id]) return { id, parts, at, html: '<img class="pic" src="' + NAMES[id].src + '" alt="">', say: C("st-" + id) };
+  if (NAMES[id]) return { id, parts, at, html: '<span class="tile"><img class="pic" src="' + NAMES[id].src + '" alt=""></span>', say: C("st-" + id) };
   const w = findWord(id); if (!w) return null;
   return { id, parts, at, w, html: faceHTML(w), say: N(w).key ? N(w) : { key: null, text: w.noun } };
 }
