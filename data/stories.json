@@ -90,6 +90,10 @@
      "ask": {
       "word": "eimer",
       "who": "mil"
+     },
+     "pos": {
+      "word": "wurm",
+      "letter": "m"
      }
     },
     {
@@ -134,7 +138,11 @@
        "audio": "sk3-7",
        "text": "Hallo, Mama!"
       }
-     ]
+     ],
+     "laut": {
+      "word": "mund",
+      "letter": "m"
+     }
     },
     {
      "img": "img/story3-8.webp",
@@ -415,6 +423,10 @@
      "ask": {
       "word": "ameise",
       "who": "max"
+     },
+     "pos": {
+      "word": "ameise",
+      "letter": "m"
      }
     },
     {
@@ -474,7 +486,11 @@
        "audio": "sk4-12b",
        "text": "Wir kommen wieder!"
       }
-     ]
+     ],
+     "laut": {
+      "word": "maus",
+      "letter": "m"
+     }
     }
    ]
   },
@@ -615,6 +631,10 @@
       "x": 83.5,
       "y": 62,
       "r": 7.5
+     },
+     "laut": {
+      "word": "maus",
+      "letter": "m"
      }
     },
     {
@@ -653,6 +673,10 @@
        "mann",
        "mama"
       ]
+     },
+     "pos": {
+      "word": "mantel",
+      "letter": "l"
      }
     },
     {
@@ -1012,6 +1036,10 @@
      "ask": {
       "word": "taxi",
       "who": "mil"
+     },
+     "pos": {
+      "word": "taxi",
+      "letter": "i"
      }
     },
     {
@@ -1060,6 +1088,10 @@
      "ask": {
       "word": "kiste",
       "who": "max"
+     },
+     "laut": {
+      "word": "kiste",
+      "letter": "i"
      }
     },
     {
@@ -1253,7 +1285,11 @@
       "word": "limonade",
       "who": "mil"
      },
-     "audio": "story7-5"
+     "audio": "story7-5",
+     "pos": {
+      "word": "salami",
+      "letter": "l"
+     }
     },
     {
      "img": "img/story7-6.webp",
@@ -1295,7 +1331,11 @@
       "r": 10,
       "audio": "sf7-lampe"
      },
-     "audio": "story7-7"
+     "audio": "story7-7",
+     "laut": {
+      "word": "lampe",
+      "letter": "l"
+     }
     },
     {
      "img": "img/story7-8.webp",
@@ -1441,7 +1481,11 @@
       "word": "lupe",
       "who": "max"
      },
-     "audio": "story8-2"
+     "audio": "story8-2",
+     "laut": {
+      "word": "lupe",
+      "letter": "l"
+     }
     },
     {
      "img": "img/story8-3.webp",
@@ -1505,7 +1549,11 @@
       "word": "seil",
       "who": "mia"
      },
-     "audio": "story8-6"
+     "audio": "story8-6",
+     "pos": {
+      "word": "seil",
+      "letter": "l"
+     }
     },
     {
      "img": "img/story8-7.webp",
@@ -1760,6 +1808,10 @@
      "ask": {
       "word": "leiter",
       "who": "max"
+     },
+     "laut": {
+      "word": "leiter",
+      "letter": "l"
      }
     },
     {
@@ -1802,6 +1854,10 @@
        "leiter",
        "lampe"
       ]
+     },
+     "pos": {
+      "word": "schaukel",
+      "letter": "l"
      }
     },
     {
@@ -2079,6 +2135,10 @@
      "ask": {
       "word": "lineal",
       "who": "max"
+     },
+     "pos": {
+      "word": "mil",
+      "letter": "l"
      }
     },
     {
@@ -2101,6 +2161,10 @@
        "maus",
        "igel"
       ]
+     },
+     "laut": {
+      "word": "loewe",
+      "letter": "l"
      }
     },
     {
