@@ -1487,7 +1487,8 @@ const RM = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const M_WORDS = [{"id":"maus","noun":"Maus","article":"die","emoji":"🐭","rec":true,"pic":"img/m-maus.webp"},{"id":"mann","noun":"Mann","article":"der","emoji":"👨","rec":true,"pic":"img/m-mann.webp"},{"id":"mond","noun":"Mond","article":"der","emoji":"🌙","rec":true,"pic":"img/m-mond.webp"},{"id":"mauer","noun":"Mauer","article":"die","emoji":"🧱","rec":true,"pic":"img/m-mauer.webp"},{"id":"wurm","noun":"Wurm","article":"der","emoji":"🪱","rec":true,"pic":"img/m-wurm.webp"},{"id":"mama","noun":"Mama","article":"die","emoji":"👩","rec":true,"pic":"img/m-mama.webp"},{"id":"messer","noun":"Messer","article":"das","emoji":"🔪","rec":true,"pic":"img/m-messer.webp"},{"id":"mantel","noun":"Mantel","article":"der","emoji":"🧥","rec":true,"pic":"img/m-mantel.webp"},{"id":"murmel","noun":"Murmel","article":"die","emoji":"🔮","rec":true,"pic":"img/m-murmel.webp"},{"id":"mund","noun":"Mund","article":"der","emoji":"👄","rec":true,"pic":"img/m-mund.webp"},{"id":"milch","noun":"Milch","article":"die","emoji":"🥛","rec":true,"pic":"img/m-milch.webp"},{"id":"ameise","noun":"Ameise","article":"die","emoji":"🐜","rec":true,"pic":"img/m-ameise.webp"},{"id":"muschel","noun":"Muschel","article":"die","emoji":"🐚","rec":true,"pic":"img/m-muschel.webp"},{"id":"eimer","noun":"Eimer","article":"der","emoji":"🪣","rec":true,"pic":"img/m-eimer.webp"},{"id":"helm","noun":"Helm","article":"der","emoji":"⛑️","rec":true,"pic":"img/m-helm.webp"},{"id":"ampel","noun":"Ampel","article":"die","emoji":"🚦","rec":true,"pic":"img/m-ampel.webp"}];
 // The I words (Wortschatz I,i) are built in too, so "Der fliegende Teppich!" works on a device that never had that list.
 const I_WORDS = [{"id":"igel","noun":"Igel","article":"der","emoji":"🦔","rec":true,"pic":"img/i-igel.webp"},{"id":"taxi","noun":"Taxi","article":"das","emoji":"🚕","rec":true,"pic":"img/i-taxi.webp"},{"id":"insel","noun":"Insel","article":"die","emoji":"🏝️","rec":true,"pic":"img/i-insel.webp"},{"id":"indianer","noun":"Indianer","article":"der","emoji":"🪶","rec":true,"pic":"img/i-indianer.webp"},{"id":"kiste","noun":"Kiste","article":"die","emoji":"📦","rec":true,"pic":"img/i-kiste.webp"},{"id":"birne","noun":"Birne","article":"die","emoji":"🍐","rec":true,"pic":"img/i-birne.webp"},{"id":"brille","noun":"Brille","article":"die","emoji":"👓","rec":true,"pic":"img/i-brille.webp"},{"id":"radio","noun":"Radio","article":"das","emoji":"📻","rec":true,"pic":"img/i-radio.webp"},{"id":"teppich","noun":"Teppich","article":"der","emoji":"🧶","rec":true,"pic":"img/i-teppich.webp"},{"id":"pinsel","noun":"Pinsel","article":"der","emoji":"🖌️","rec":true,"pic":"img/i-pinsel.webp"},{"id":"lineal","noun":"Lineal","article":"das","emoji":"📏","rec":true,"pic":"img/i-lineal.webp"},{"id":"polizist","noun":"Polizist","article":"der","emoji":"👮","rec":true,"pic":"img/i-polizist.webp"},{"id":"iglu","noun":"Iglu","article":"das","emoji":"🧊","rec":true,"pic":"img/i-iglu.webp","alt":["der"]}];
-const KNOWN_WORDS = () => normalizeWords([...SAMPLE, ...M_WORDS, ...I_WORDS]);
+const L_WORDS = [{"id":"lineal","noun":"Lineal","article":"das","emoji":"📏","rec":true,"pic":"img/i-lineal.webp"},{"id":"laden","noun":"Laden","article":"der","emoji":"🏪","rec":true,"pic":"img/l-laden.webp"},{"id":"limonade","noun":"Limonade","article":"die","emoji":"🍋","rec":true,"pic":"img/l-limonade.webp"},{"id":"lupe","noun":"Lupe","article":"die","emoji":"🔍","rec":true,"pic":"img/l-lupe.webp"},{"id":"lehrerin","noun":"Lehrerin","article":"die","emoji":"👩‍🏫","rec":true,"pic":"img/l-lehrerin.webp"},{"id":"loewe","noun":"Löwe","article":"der","emoji":"🦁","rec":true,"pic":"img/l-loewe.webp"},{"id":"lama","noun":"Lama","article":"das","emoji":"🦙","rec":true,"pic":"img/l-lama.webp"},{"id":"leiter","noun":"Leiter","article":"die","emoji":"🪜","rec":true,"pic":"img/l-leiter.webp"},{"id":"lampe","noun":"Lampe","article":"die","emoji":"💡","rec":true,"pic":"img/l-lampe.webp"},{"id":"loeffel","noun":"Löffel","article":"der","emoji":"🥄","rec":true,"pic":"img/l-loeffel.webp"},{"id":"ball","noun":"Ball","article":"der","emoji":"🏐","rec":true,"pic":"img/l-ball.webp"},{"id":"seil","noun":"Seil","article":"das","emoji":"🪢","rec":true,"pic":"img/l-seil.webp"},{"id":"blume","noun":"Blume","article":"die","emoji":"🌼","rec":true,"pic":"img/l-blume.webp"},{"id":"salami","noun":"Salami","article":"die","emoji":"🍖","rec":true,"pic":"img/l-salami.webp"},{"id":"bleistift","noun":"Bleistift","article":"der","emoji":"✏️","rec":true,"pic":"img/l-bleistift.webp"},{"id":"schaukel","noun":"Schaukel","article":"die","emoji":"🛝","rec":true,"pic":"img/l-schaukel.webp"}];
+const KNOWN_WORDS = () => normalizeWords([...SAMPLE, ...M_WORDS, ...I_WORDS, ...L_WORDS]);
 const SAMPLE = [
   {noun:"Hund",article:"der",emoji:"🐶"},{noun:"Apfel",article:"der",emoji:"🍎"},{noun:"Ball",article:"der",emoji:"⚽"},{noun:"Mond",article:"der",emoji:"🌙"},
   {noun:"Katze",article:"die",emoji:"🐱"},{noun:"Sonne",article:"die",emoji:"☀️"},{noun:"Banane",article:"die",emoji:"🍌"},{noun:"Blume",article:"die",emoji:"🌸"},
@@ -1849,8 +1850,8 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "f-upsi":"Upsi! Nicht schlimm.","f-hoppla":"Hoppla! Macht nichts.","f-jetztdu":"Jetzt du! Tipp mal!","f-jetztweisst":"Super! Jetzt weißt du es!",
   "f-maxsagt":"Max sagt ein Wort. Stimmt das?","f-hoerspiel":"Hörspiel! Hör gut zu!",
   "k-mia-hilf":"Hilf mir mal!","k-mia-danke":"Danke!","k-mil-hilf":"Hilf mir mal!","k-mil-danke":"Danke!","k-max-hilf":"Hilf mir mal!","k-max-danke":"Danke!","f-supergesagt":"Super gesagt!","f-fast":"Fast! Hör mal:","f-nichtgehoert":"Ich habe dich nicht gehört. Sag es nochmal!",
-  "wr-welcher":"Welchen Buchstaben schreibst du?","wr-gross-m":"Das ist das große M. M wie Maus!","wr-klein-m":"Und das ist das kleine m.","wr-gross-i":"Das ist das große I. I wie Igel!","wr-klein-i":"Und das ist das kleine i. Es hat einen Punkt!","wr-gross-l":"Das ist das große L. L wie Löwe!","wr-klein-l":"Und das ist das kleine l.","wr-jetztdu":"Jetzt du! Fahr mit dem Finger nach.","wr-punkte":"Jetzt mit Pünktchen!","wr-allein":"Und jetzt ganz allein!","wr-gruen":"Fang beim grünen Punkt an!","wr-punkt":"Und jetzt der Punkt!",
-  "lh-welcher":"Welchen Buchstaben suchen wir?","lh-wo-m":"Wo hörst du das M?","lh-wo-i":"Wo hörst du das I?","lh-wo-l":"Wo hörst du das L?",
+  "wr-welcher":"Welchen Buchstaben schreibst du?","wr-gross-m":"Das ist das große M. M wie Maus!","wr-klein-m":"Und das ist das kleine m.","wr-gross-i":"Das ist das große I. I wie Igel!","wr-klein-i":"Und das ist das kleine i. Es hat einen Punkt!","wr-gross-l":"Das ist das große L. L wie Löwe!","wr-klein-l":"Und das ist das kleine l.","wr-gross-a":"Das ist das große A. A wie Apfel!","wr-klein-a":"Und das ist das kleine a.","wr-jetztdu":"Jetzt du! Fahr mit dem Finger nach.","wr-punkte":"Jetzt mit Pünktchen!","wr-allein":"Und jetzt ganz allein!","wr-gruen":"Fang beim grünen Punkt an!","wr-punkt":"Und jetzt der Punkt!",
+  "lh-welcher":"Welchen Buchstaben suchen wir?","lh-wo-m":"Wo hörst du das M?","lh-wo-i":"Wo hörst du das I?","lh-wo-l":"Wo hörst du das L?","lh-wo-a":"Wo hörst du das A?",
   "lh-tipp":"Jedes Plättchen ist ein Laut. Tipp auf das richtige Plättchen!","lh-nochmal":"Hör noch mal genau!",
   "lp-frage":"Am Anfang, in der Mitte oder am Ende?","lp-tipp":"Tipp auf das richtige Kästchen!","lp-anfang":"Am Anfang!","lp-mitte":"In der Mitte!","lp-ende":"Am Ende!",
   "lw-hallo":"Willkommen im Laden! Ich bin der Löwe.","lw-tap1":"Brüll! Keine Angst, ich bin ganz lieb!","lw-tap2":"Ich verkaufe die schönsten Sachen der Welt!",
@@ -1878,10 +1879,12 @@ for (const k in SPRITE) CLIPS.delete(k);
 // The word alone (no article), for the listening and moving games.
 const NOUN_IDS = new Set(["maus", "mann", "mond", "mauer", "wurm", "mama", "messer", "mantel", "murmel", "mund", "milch", "ameise", "muschel", "eimer", "helm", "ampel",
   "igel", "taxi", "insel", "indianer", "kiste", "birne", "brille", "radio", "teppich", "pinsel", "lineal", "polizist", "iglu",
-  "laden", "limonade", "lupe", "lehrerin", "loewe", "lama", "leiter", "lampe", "loeffel", "ball", "seil", "blume", "salami", "bleistift", "schaukel"]);
+  "laden", "limonade", "lupe", "lehrerin", "loewe", "lama", "leiter", "lampe", "loeffel", "ball", "seil", "blume", "salami", "bleistift", "schaukel",
+  "apfel", "affe", "ast", "arm", "dackel", "hand", "lamm", "arzt", "gras", "banane"]);
 const N = (w) => ({ key: NOUN_IDS.has(w.id) && norm(w.noun) === w.id ? "n-" + w.id : null, text: w.noun });
 // Max says each of these words twice over: [the right article, his favourite mistake].
-const MAX_CLAIMS = { maus: ["die", "der"], mann: ["der", "die"], mond: ["der", "das"], mauer: ["die", "der"], wurm: ["der", "die"], mama: ["die", "der"], messer: ["das", "der"], mantel: ["der", "die"],
+const MAX_CLAIMS = { apfel: ["der", "die"], affe: ["der", "das"], ast: ["der", "die"], arm: ["der", "das"], dackel: ["der", "die"], hand: ["die", "der"],
+  lamm: ["das", "die"], arzt: ["der", "die"], gras: ["das", "der"], banane: ["die", "das"], maus: ["die", "der"], mann: ["der", "die"], mond: ["der", "das"], mauer: ["die", "der"], wurm: ["der", "die"], mama: ["die", "der"], messer: ["das", "der"], mantel: ["der", "die"],
   murmel: ["die", "der"], mund: ["der", "die"], milch: ["die", "das"], ameise: ["die", "der"], muschel: ["die", "das"], eimer: ["der", "die"], helm: ["der", "das"], ampel: ["die", "der"],
   igel: ["der", "die"], taxi: ["das", "der"], insel: ["die", "das"], indianer: ["der", "die"], kiste: ["die", "der"], birne: ["die", "das"], brille: ["die", "der"],
   radio: ["das", "die"], teppich: ["der", "das"], pinsel: ["der", "die"], lineal: ["das", "der"], polizist: ["der", "das"], iglu: ["das", "die"],
@@ -1899,7 +1902,7 @@ function registerClips() {
   for (const id of DEN_IDS) CLIPS.add("st-den-" + id);
   for (const k in SENT_T) CLIPS.add(sentFile(k));
   for (const t of STICKER_SETS) for (const i of t.items) CLIPS.add("stk-" + t.id + "-" + i[0]);
-  for (const w of [...state.words, ...state.bank, ...M_WORDS, ...I_WORDS]) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
+  for (const w of [...state.words, ...state.bank, ...M_WORDS, ...I_WORDS, ...L_WORDS]) if (w.rec) { CLIPS.add("w-" + w.id); for (const a of ARTS) CLIPS.add("q-" + w.id + "-" + a); }
   for (const st of state.stories) if (st.sprite) { CLIPS.add(st.sprite.file); for (const k in st.sprite.map) SPRITE[k] = [st.sprite.file, ...st.sprite.map[k]]; }
   for (const f in PACKS) CLIPS.add(f);
   for (const k in SPRITE) CLIPS.delete(k);   // packed clips play as slices of their file
@@ -4128,9 +4131,9 @@ function finishJudge() {
 // After "malt" the blue circle says "den" (den Mantel), red and yellow stay die and das – exactly like the sheet.
 const SCHOOL_SENTS = [["mila", "messer"], ["mama", "mauer"], ["ameise", "murmel"], ["mil", "muschel"], ["mia", "milch"], ["mann", "maus"], ["maus", "mantel"]];
 const NAMES = { mila: { name: "Mila", src: "img/who-mila.webp" }, mil: { name: "Mil", src: "img/who-mil.webp" }, mia: { name: "Mia", src: "img/who-mia.webp" }, max: { name: "Max", src: "img/who-max.webp" } };
-const DEN_IDS = ["mann", "mond", "wurm", "mantel", "mund", "eimer", "helm", "igel", "indianer", "teppich", "pinsel", "laden", "loeffel", "ball", "bleistift"];   // not Polizist: that one becomes "den Polizisten"
-const PAINTERS = ["mila", "mil", "mia", "max", "mama", "mann", "maus", "ameise", "wurm", "igel", "loewe", "lama", "lehrerin"];
-const NO_OBJ = new Set(["polizist", "loewe"]);   // after "malt" these change shape (den Polizisten, den Löwen)
+const DEN_IDS = ["mann", "mond", "wurm", "mantel", "mund", "eimer", "helm", "igel", "indianer", "teppich", "pinsel", "laden", "loeffel", "ball", "bleistift", "apfel", "ast", "arm", "dackel", "arzt"];   // not Polizist or Affe: that one becomes "den Polizisten"
+const PAINTERS = ["mila", "mil", "mia", "max", "mama", "mann", "maus", "ameise", "wurm", "igel", "loewe", "lama", "lehrerin", "affe"];
+const NO_OBJ = new Set(["polizist", "loewe", "affe"]);   // after "malt" these change shape (den Polizisten, den Löwen, den Affen)
 // Every painter × object sentence is recorded in one go. Each painter's sentences share one file ("ssp-mama"):
 // [start, length, seconds to "malt", seconds to the second article] within that file. The L sentences of the older painters
 // sit in a file of their own, named as a fifth entry ("ssl-mama"), so the first files never had to be encoded twice.
@@ -4311,11 +4314,14 @@ const GLYPHS = {
   i: { w: 0, strokes: [[[0, 50], [0, 100]], { dot: [0, 27] }] },
   L: { w: 50, strokes: [[[0, 0], [0, 100], [50, 100]]] },   // down, then along the line without lifting
   l: { w: 0, strokes: [[[0, 0], [0, 100]]] },
+  A: { w: 60, strokes: [[[0, 100], [30, 0], [60, 100]], [[12, 60], [48, 60]]] },   // up and down without lifting, then the bar from left to right
+  a: { w: 30, strokes: [[...arcPts(15, 75, 15, 25, Math.PI / 6, Math.PI / 6 + 2 * Math.PI, 28), [30, 50], [30, 100]]] },   // round the belly, then straight down on the right
 };
 const LETTERS = [
   { id: "m", up: "M", low: "m", word: "maus" },
   { id: "i", up: "I", low: "i", word: "igel" },
   { id: "l", up: "L", low: "l", word: "loewe" },
+  { id: "a", up: "A", low: "a", word: "apfel" },
 ];
 const W_R = 16, W_OFF = 34, W_START = 24, W_END = 6;   // units: on the line, too far off, near the green dot, near the end
 function wPath(pts) {   // a point every 2 units, with the length so far
@@ -4360,11 +4366,15 @@ const LAUT_WORDS = {
     ["mila", ["M", "i", "l", "a"]], ["mil", ["M", "i", "l"]], ["milch", ["M", "i", "l", "ch"]], ["schaukel", ["Sch", "au", "k", "e", "l"]],
     ["mantel", ["M", "a", "n", "t", "e", "l"]], ["muschel", ["M", "u", "sch", "e", "l"]], ["ampel", ["A", "m", "p", "e", "l"]], ["insel", ["I", "n", "s", "e", "l"]],
     ["pinsel", ["P", "i", "n", "s", "e", "l"]], ["murmel", ["M", "u", "r", "m", "e", "l"]], ["salami", ["S", "a", "l", "a", "m", "i"]], ["limonade", ["L", "i", "m", "o", "n", "a", "d", "e"]]],
+  a: [["apfel", ["A", "pf", "e", "l"]], ["ameise", ["A", "m", "ei", "s", "e"]], ["ampel", ["A", "m", "p", "e", "l"]], ["arzt", ["A", "r", "z", "t"]], ["affe", ["A", "ff", "e"]],
+    ["gras", ["G", "r", "a", "s"]], ["ast", ["A", "s", "t"]], ["arm", ["A", "r", "m"]], ["dackel", ["D", "a", "ck", "e", "l"]], ["hand", ["H", "a", "n", "d"]], ["lamm", ["L", "a", "mm"]],
+    ["max", ["M", "a", "x"]], ["mia", ["M", "i", "a"]], ["mila", ["M", "i", "l", "a"]], ["ball", ["B", "a", "ll"]], ["lampe", ["L", "a", "m", "p", "e"]], ["mantel", ["M", "a", "n", "t", "e", "l"]],
+    ["taxi", ["T", "a", "x", "i"]]],
 };
 let H = null;
 // a word of the game: a picture word, or one of the names (Mila, Mia, Mil, Max) with its picture
 function lautItem(id, parts, letter) {
-  const hit = p => p.toLowerCase().startsWith(letter) && !(letter === "i" && /^ei/i.test(p));
+  const hit = p => p.toLowerCase().startsWith(letter) && !(letter === "i" && /^ei/i.test(p)) && !(letter === "a" && /^au/i.test(p));
   if (parts.filter(hit).length !== 1) return null;   // the letter only once (no Mama for M, no Lineal for L)
   const at = parts.findIndex(hit), pos = at === 0 ? 0 : at === parts.length - 1 ? 2 : 1;
   const word = parts.map((p, k) => k === at ? "<b>" + esc(p) + "</b>" : esc(p)).join("");
