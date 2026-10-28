@@ -1,134 +1,102 @@
 {
- "version": 6,
- "week": "Wortschatz L,l",
+ "version": 7,
+ "week": "Wortschatz A,a",
  "words": [
   {
-   "id": "lineal",
-   "noun": "Lineal",
+   "id": "apfel",
+   "noun": "Apfel",
+   "article": "der",
+   "emoji": "🍏",
+   "rec": true,
+   "pic": "img/a-apfel.webp"
+  },
+  {
+   "id": "ameise",
+   "noun": "Ameise",
+   "article": "die",
+   "emoji": "🐜",
+   "rec": true,
+   "pic": "img/m-ameise.webp"
+  },
+  {
+   "id": "ampel",
+   "noun": "Ampel",
+   "article": "die",
+   "emoji": "🚦",
+   "rec": true,
+   "pic": "img/m-ampel.webp"
+  },
+  {
+   "id": "arzt",
+   "noun": "Arzt",
+   "article": "der",
+   "emoji": "🩺",
+   "rec": true,
+   "pic": "img/a-arzt.webp"
+  },
+  {
+   "id": "affe",
+   "noun": "Affe",
+   "article": "der",
+   "emoji": "🐒",
+   "rec": true,
+   "pic": "img/a-affe.webp"
+  },
+  {
+   "id": "gras",
+   "noun": "Gras",
    "article": "das",
-   "emoji": "📏",
+   "emoji": "🌱",
    "rec": true,
-   "pic": "img/i-lineal.webp"
+   "pic": "img/a-gras.webp"
   },
   {
-   "id": "laden",
-   "noun": "Laden",
+   "id": "ast",
+   "noun": "Ast",
    "article": "der",
-   "emoji": "🏪",
+   "emoji": "🌿",
    "rec": true,
-   "pic": "img/l-laden.webp"
+   "pic": "img/a-ast.webp"
   },
   {
-   "id": "limonade",
-   "noun": "Limonade",
+   "id": "banane",
+   "noun": "Banane",
    "article": "die",
-   "emoji": "🍋",
+   "emoji": "🍌",
    "rec": true,
-   "pic": "img/l-limonade.webp"
+   "pic": "img/a-banane.webp"
   },
   {
-   "id": "lupe",
-   "noun": "Lupe",
-   "article": "die",
-   "emoji": "🔍",
-   "rec": true,
-   "pic": "img/l-lupe.webp"
-  },
-  {
-   "id": "lehrerin",
-   "noun": "Lehrerin",
-   "article": "die",
-   "emoji": "👩‍🏫",
-   "rec": true,
-   "pic": "img/l-lehrerin.webp"
-  },
-  {
-   "id": "loewe",
-   "noun": "Löwe",
+   "id": "arm",
+   "noun": "Arm",
    "article": "der",
-   "emoji": "🦁",
+   "emoji": "💪",
    "rec": true,
-   "pic": "img/l-loewe.webp"
+   "pic": "img/a-arm.webp"
   },
   {
-   "id": "lama",
-   "noun": "Lama",
+   "id": "dackel",
+   "noun": "Dackel",
+   "article": "der",
+   "emoji": "🐕",
+   "rec": true,
+   "pic": "img/a-dackel.webp"
+  },
+  {
+   "id": "hand",
+   "noun": "Hand",
+   "article": "die",
+   "emoji": "✋",
+   "rec": true,
+   "pic": "img/a-hand.webp"
+  },
+  {
+   "id": "lamm",
+   "noun": "Lamm",
    "article": "das",
-   "emoji": "🦙",
+   "emoji": "🐑",
    "rec": true,
-   "pic": "img/l-lama.webp"
-  },
-  {
-   "id": "leiter",
-   "noun": "Leiter",
-   "article": "die",
-   "emoji": "🪜",
-   "rec": true,
-   "pic": "img/l-leiter.webp"
-  },
-  {
-   "id": "lampe",
-   "noun": "Lampe",
-   "article": "die",
-   "emoji": "💡",
-   "rec": true,
-   "pic": "img/l-lampe.webp"
-  },
-  {
-   "id": "loeffel",
-   "noun": "Löffel",
-   "article": "der",
-   "emoji": "🥄",
-   "rec": true,
-   "pic": "img/l-loeffel.webp"
-  },
-  {
-   "id": "ball",
-   "noun": "Ball",
-   "article": "der",
-   "emoji": "🏐",
-   "rec": true,
-   "pic": "img/l-ball.webp"
-  },
-  {
-   "id": "seil",
-   "noun": "Seil",
-   "article": "das",
-   "emoji": "🪢",
-   "rec": true,
-   "pic": "img/l-seil.webp"
-  },
-  {
-   "id": "blume",
-   "noun": "Blume",
-   "article": "die",
-   "emoji": "🌼",
-   "rec": true,
-   "pic": "img/l-blume.webp"
-  },
-  {
-   "id": "salami",
-   "noun": "Salami",
-   "article": "die",
-   "emoji": "🍖",
-   "rec": true,
-   "pic": "img/l-salami.webp"
-  },
-  {
-   "id": "bleistift",
-   "noun": "Bleistift",
-   "article": "der",
-   "emoji": "✏️",
-   "rec": true,
-   "pic": "img/l-bleistift.webp"
-  },
-  {
-   "id": "schaukel",
-   "noun": "Schaukel",
-   "article": "die",
-   "emoji": "🛝",
-   "rec": true,
-   "pic": "img/l-schaukel.webp"
+   "pic": "img/a-lamm.webp"
   }
  ]
 }
