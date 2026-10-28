@@ -18,8 +18,14 @@ PR as a draft until the assets are made the usual way.
 - The claude.ai Higgsfield connector only browses (balance, models, past generations); it can't generate.
 
 ## Pictures
-- **Word pictures** (`img/<letter>-<id>.webp`, 420×420, cream paper background `#F2EFE7`): cut out of the photo of
-  the school sheet. They are the school's own drawings, so they look exactly like the sheet at school.
+- **Word pictures** (`img/<letter>-<id>.webp`, 420×420, cream paper background `#F2EFE7`): the school sheet's own drawings.
+  Up to the L list they were cut out of the photo of the sheet. From the A list on they are made with **Higgsfield**
+  (`nano_banana_2`, 1:1, 1k), with three image references: the drawing cut from the sheet photo, then `img/i-igel.webp`
+  and `img/l-lama.webp` as the style. Prompt: "Picture card for a children's word game: <the thing>, drawn like the first
+  reference image (the school worksheet drawing: same pose, same shapes and colours). Draw it in exactly the same style as
+  the second and third reference images (the hedgehog and the llama): soft hand-drawn coloured pencil and watercolour
+  children's book illustration … on a plain flat warm cream paper background (#F2EFE7). No frame … no text, no letters."
+  Two takes, keep the one closest to the sheet; set the paper to `#F2EFE7`, trim, fit the drawing into 330 px, centre it on 420×420.
 - **Story pictures** (`img/storyN-K.webp`, 1280×720, WebP): made with **Higgsfield** in the clay / plasticine
   stop-motion style of the earlier stories. Mia, Mil, Max and Mila (the caterpillar) must look like
   `img/kid-*.webp` and `img/mila.webp`. Recipe (stories 5 to 8): model `nano_banana_flash` (Nano Banana 2),
@@ -70,6 +76,10 @@ PR as a draft until the assets are made the usual way.
   with `--sample_rate 24000 --format mp3 --pitch_rate 0 --speech_rate 0 --loudness_rate 0` (the server adds
   expression 5, mood 0; the CLI doesn't take those two). Max's claims are said as "Der Laden!".
 - When only the ElevenLabs connector is available (no API key in the session), make one `tts` node per line with `model_parameters` `{"language_code": "de", "voice_settings": {...}}` and the voice from `creative_list_voices`. It only gives MP3 (44.1 kHz, 128k): decode it once, run the same processing, and encode once into the new pack (as for `pk-billig`).
+  For many lines, put 10 to 15 lines in one node separated by `<break time="1.5s" />` and split the take at the pauses
+  (0.7 s for words and sentences, 1.6 s for story pages, which have long pauses of their own; check the count). Put a take on
+  the flow with `creative_add_flow_asset_node` (its `generation_id`) and transcribe it to get word times (free; it aligns the
+  prompt text, which is how the Sätze "malt" and article times are taken).
 - ElevenLabs settings: model `eleven_turbo_v2_5`, `language_code: de`, speed 0.90, output `pcm_24000` (native PCM,
   never the MP3 output).
 - Processing for every clip: trim the silence (and any click after it), apply gentle 2:1 compression, normalise to
@@ -89,7 +99,13 @@ the word must be in `LAUT_WORDS` for that letter and in the page's picture). The
 - Sätze: one recording per sentence. `SENT_T` holds `[start, length, time of "malt", time of second article, file?]`.
 - Stories: one sprite file `audio/sp-storyN.mp3`, mapped in `data/stories.json`.
 - Mil's and Max's story lines and Max's claims for a new list go in their own packs in `PACKS` (for the L list:
-  `pk-sk7`, `pk-sk8`, `pk-sk9`, `pk-sk10`, `pk-xmax-l`), so the files that already exist are not re-encoded. Bump `AUDIO_V`.
+  `pk-sk7`, `pk-sk8`, `pk-sk9`, `pk-sk10`, `pk-xmax-l`; for the A list: `pk-sk12`, `pk-xmax-a`), so the files that already
+  exist are not re-encoded. Bump `AUDIO_V`.
+- New objects for the old painters in Sätze go in a new file per painter with the file in `SENT_T`'s 5th slot (`ssl-<painter>`
+  for the L objects, `ssa-<painter>` for the A objects); a new painter gets all its sentences in `ssp-<painter>`.
+- Seed Audio can't say every word: for Arzt every take came out as "der A", so Arzt has no Max claim. Check Max's and Mil's
+  clips with a real speech-to-text run (attach the pushed pack's raw GitHub URL, then `creative_transcribe_audio`), not with
+  the transcript of an ElevenLabs TTS take: that one only lines up the prompt text (it even keeps the `<break>` tags).
 - Lines written but not recorded yet go in `PENDING` in `index.html`, so the app uses the device voice until they exist.
 - Every sticker says its word (Mila): themed ones are `stk-<set>-<id>` in `pk-stk`; the first stickers' words are in
   `FIRST_WORDS` (`stk-<id>` in `pk-stk-first`, or an existing clip of the same word).

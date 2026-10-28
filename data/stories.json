@@ -2489,6 +2489,550 @@
      }
     }
    ]
+  },
+  {
+   "id": "story12",
+   "title": "Der Affe und der Apfel!",
+   "cover": "img/story12-1.webp",
+   "titleAudio": "t-story12",
+   "sprite": {
+    "file": "sp-story12",
+    "map": {
+     "t-story12": [
+      0.3,
+      2.02
+     ],
+     "story12-1": [
+      2.62,
+      6.94
+     ],
+     "story12-2": [
+      9.86,
+      4.81
+     ],
+     "sf12-affe": [
+      14.97,
+      2.82
+     ],
+     "story12-3": [
+      18.09,
+      4.14
+     ],
+     "story12-4": [
+      22.53,
+      3.98
+     ],
+     "story12-5": [
+      26.81,
+      4.63
+     ],
+     "story12-6": [
+      31.74,
+      4.83
+     ],
+     "sq12-hand": [
+      36.87,
+      2.21
+     ],
+     "story12-7": [
+      39.38,
+      4.88
+     ],
+     "story12-8": [
+      44.56,
+      5.48
+     ],
+     "story12-9": [
+      50.34,
+      4.78
+     ],
+     "story12-10": [
+      55.42,
+      4.14
+     ],
+     "sk12-2a": [
+      59.86,
+      1.04
+     ],
+     "sk12-5a": [
+      61.2,
+      0.49
+     ],
+     "sk12-6a": [
+      61.99,
+      1.11
+     ],
+     "sk12-10a": [
+      63.4,
+      1.08
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story12-1.webp",
+     "text": "Mila, Mia, Mil und Max gehen in den Park. Da ist die Ampel. Die Ampel ist grün.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Los geht's!",
+       "audio": "sk12-1a"
+      }
+     ],
+     "audio": "story12-1",
+     "ask": {
+      "word": "ampel",
+      "who": "mil"
+     }
+    },
+    {
+     "img": "img/story12-2.webp",
+     "text": "Im Park ist ein großer Baum. Auf einem Ast sitzt ein Affe!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Ein Affe!",
+       "audio": "sk12-2a"
+      }
+     ],
+     "audio": "story12-2",
+     "find": {
+      "text": "Wo ist der Affe? Zeig mal!",
+      "audio": "sf12-affe",
+      "answer": "affe",
+      "x": 67,
+      "y": 26,
+      "r": 9
+     }
+    },
+    {
+     "img": "img/story12-3.webp",
+     "text": "Der Affe hat einen Apfel. Er gibt Mil den Apfel.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Danke, Affe!",
+       "audio": "sk12-3a"
+      }
+     ],
+     "audio": "story12-3",
+     "laut": {
+      "word": "apfel",
+      "letter": "a"
+     }
+    },
+    {
+     "img": "img/story12-4.webp",
+     "text": "Da ist ein Dackel. Der Dackel gräbt ein Loch im Gras.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Was sucht er?",
+       "audio": "sk12-4a"
+      }
+     ],
+     "audio": "story12-4",
+     "pos": {
+      "word": "dackel",
+      "letter": "a"
+     }
+    },
+    {
+     "img": "img/story12-5.webp",
+     "text": "Der Dackel findet eine Banane! Die Banane ist gelb.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Lecker!",
+       "audio": "sk12-5a"
+      }
+     ],
+     "audio": "story12-5",
+     "ask": {
+      "word": "banane",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story12-6.webp",
+     "text": "Da ist eine Ameise. Die Ameise krabbelt auf Mias Hand.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Das kitzelt!",
+       "audio": "sk12-6a"
+      }
+     ],
+     "audio": "story12-6",
+     "q": {
+      "text": "Wo krabbelt die Ameise?",
+      "audio": "sq12-hand",
+      "answer": "hand",
+      "choices": [
+       "hand",
+       "ast",
+       "apfel"
+      ]
+     }
+    },
+    {
+     "img": "img/story12-7.webp",
+     "text": "Oh! Ein kleines Lamm. Das Lamm frisst das Gras.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "So süß!",
+       "audio": "sk12-7a"
+      }
+     ],
+     "audio": "story12-7",
+     "laut": {
+      "word": "lamm",
+      "letter": "a"
+     }
+    },
+    {
+     "img": "img/story12-8.webp",
+     "text": "Max springt und fällt hin. Au, sein Arm! Der Arzt kommt.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Mein Arm!",
+       "audio": "sk12-8a"
+      }
+     ],
+     "audio": "story12-8",
+     "ask": {
+      "word": "arzt",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story12-9.webp",
+     "text": "Der Arzt klebt ein Pflaster auf den Arm. Alles wieder gut!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Danke!",
+       "audio": "sk12-9a"
+      }
+     ],
+     "audio": "story12-9",
+     "pos": {
+      "word": "arzt",
+      "letter": "a"
+     }
+    },
+    {
+     "img": "img/story12-10.webp",
+     "text": "Zum Schluss malt der Affe den Apfel. Tschüss, Affe!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Tschüss, Affe!",
+       "audio": "sk12-10a"
+      }
+     ],
+     "audio": "story12-10",
+     "satz": {
+      "s": "affe",
+      "o": "apfel"
+     }
+    }
+   ]
+  },
+  {
+   "id": "story13",
+   "title": "Lias lila Ball!",
+   "cover": "img/story13-1.webp",
+   "titleAudio": "t-story13",
+   "sprite": {
+    "file": "sp-story13",
+    "map": {
+     "sk13-1a": [
+      0.3,
+      1.8
+     ],
+     "sk13-2a": [
+      2.4,
+      1.09
+     ],
+     "sk13-3a": [
+      3.79,
+      1.0
+     ],
+     "sk13-4a": [
+      5.09,
+      1.68
+     ],
+     "sk13-5a": [
+      7.07,
+      1.04
+     ],
+     "sk13-6a": [
+      8.41,
+      1.89
+     ],
+     "sk13-7a": [
+      10.6,
+      1.78
+     ],
+     "sk13-8a": [
+      12.68,
+      1.59
+     ],
+     "sk13-9a": [
+      14.57,
+      0.78
+     ],
+     "sk13-10a": [
+      15.65,
+      1.1
+     ],
+     "t-story13": [
+      17.05,
+      1.96
+     ],
+     "story13-1": [
+      19.31,
+      9.45
+     ],
+     "story13-2": [
+      29.06,
+      5.11
+     ],
+     "story13-3": [
+      34.47,
+      5.95
+     ],
+     "sq13-affe": [
+      40.72,
+      1.55
+     ],
+     "story13-4": [
+      42.57,
+      6.57
+     ],
+     "sf13-ampel": [
+      49.44,
+      2.46
+     ],
+     "story13-5": [
+      52.2,
+      5.68
+     ],
+     "story13-6": [
+      58.18,
+      6.51
+     ],
+     "story13-7": [
+      64.99,
+      5.79
+     ],
+     "story13-8": [
+      71.08,
+      6.02
+     ],
+     "sq13-banane": [
+      77.4,
+      1.84
+     ],
+     "story13-9": [
+      79.54,
+      4.34
+     ],
+     "sf13-lamm": [
+      84.18,
+      2.6
+     ],
+     "story13-10": [
+      87.08,
+      5.9
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story13-1.webp",
+     "text": "Mia spielt mit Lena, Lilia und Lia. Lia hat einen lila Ball. Lena wirft den Ball mit dem Arm.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Wirf mal, Lena!",
+       "audio": "sk13-1a"
+      }
+     ],
+     "audio": "story13-1",
+     "laut": {
+      "word": "arm",
+      "letter": "a"
+     }
+    },
+    {
+     "img": "img/story13-2.webp",
+     "text": "Der Ball fliegt hoch in den Baum. Er hängt an einem Ast!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Oh nein, der Ball!",
+       "audio": "sk13-2a"
+      }
+     ],
+     "audio": "story13-2",
+     "ask": {
+      "word": "ast",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story13-3.webp",
+     "text": "Da kommt ein Affe. Der Affe schüttelt den Ast. Der Ball fällt ins Gras.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Danke, Affe!",
+       "audio": "sk13-3a"
+      }
+     ],
+     "audio": "story13-3",
+     "q": {
+      "text": "Wer schüttelt den Ast?",
+      "audio": "sq13-affe",
+      "answer": "affe",
+      "choices": [
+       "affe",
+       "dackel",
+       "lamm"
+      ]
+     }
+    },
+    {
+     "img": "img/story13-4.webp",
+     "text": "Der Ball rollt und rollt – bis zur Ampel. Die Ampel ist rot. Alle warten.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Stopp! Rot!",
+       "audio": "sk13-4a"
+      }
+     ],
+     "audio": "story13-4",
+     "find": {
+      "text": "Wo ist die Ampel? Zeig mal!",
+      "audio": "sf13-ampel",
+      "answer": "ampel",
+      "x": 31,
+      "y": 32,
+      "r": 10
+     }
+    },
+    {
+     "img": "img/story13-5.webp",
+     "text": "Grün! Der Ball rollt weiter in einen Garten. Da ist ein Dackel.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Hallo, Dackel!",
+       "audio": "sk13-5a"
+      }
+     ],
+     "audio": "story13-5",
+     "ask": {
+      "word": "dackel",
+      "who": "mia"
+     }
+    },
+    {
+     "img": "img/story13-6.webp",
+     "text": "Der Dackel gräbt im Gras. Er gräbt und gräbt – und findet den lila Ball!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Super, Dackel!",
+       "audio": "sk13-6a"
+      }
+     ],
+     "audio": "story13-6",
+     "pos": {
+      "word": "gras",
+      "letter": "a"
+     }
+    },
+    {
+     "img": "img/story13-7.webp",
+     "text": "Auf dem Ball krabbelt eine Ameise. Lilia nimmt die Ameise auf die Hand.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Hallo, kleine Ameise!",
+       "audio": "sk13-7a"
+      }
+     ],
+     "audio": "story13-7",
+     "pos": {
+      "word": "ameise",
+      "letter": "a"
+     }
+    },
+    {
+     "img": "img/story13-8.webp",
+     "text": "Picknick! Lena isst einen Apfel. Lia isst eine Banane.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Mmh, lecker!",
+       "audio": "sk13-8a"
+      }
+     ],
+     "audio": "story13-8",
+     "q": {
+      "text": "Was isst Lia?",
+      "audio": "sq13-banane",
+      "answer": "banane",
+      "choices": [
+       "banane",
+       "apfel",
+       "gras"
+      ]
+     }
+    },
+    {
+     "img": "img/story13-9.webp",
+     "text": "Da ist ein kleines Lamm. Das Lamm will auch spielen!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Komm, Lamm!",
+       "audio": "sk13-9a"
+      }
+     ],
+     "audio": "story13-9",
+     "find": {
+      "text": "Wo ist das Lamm? Zeig mal!",
+      "audio": "sf13-lamm",
+      "answer": "lamm",
+      "x": 83,
+      "y": 68,
+      "r": 10
+     }
+    },
+    {
+     "img": "img/story13-10.webp",
+     "text": "Zum Schluss malt Mia das Lamm – in Lila! Tschüss, Lena, Lilia und Lia!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Ein lila Lamm!",
+       "audio": "sk13-10a"
+      }
+     ],
+     "audio": "story13-10",
+     "satz": {
+      "s": "mia",
+      "o": "lamm"
+     }
+    }
+   ]
   }
  ]
 }
