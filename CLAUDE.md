@@ -69,6 +69,7 @@ PR as a draft until the assets are made the usual way.
   `--audio-references 5c231e48-60a2-4e03-b0f2-32968633f0cb` for Mil, `7b457cbc-dbfa-451d-b8f6-a6db13f1c6cb` for Max,
   with `--sample_rate 24000 --format mp3 --pitch_rate 0 --speech_rate 0 --loudness_rate 0` (the server adds
   expression 5, mood 0; the CLI doesn't take those two). Max's claims are said as "Der Laden!".
+- When only the ElevenLabs connector is available (no API key in the session), make one `tts` node per line with `model_parameters` `{"language_code": "de", "voice_settings": {...}}` and the voice from `creative_list_voices`. It only gives MP3 (44.1 kHz, 128k): decode it once, run the same processing, and encode once into the new pack (as for `pk-billig`).
 - ElevenLabs settings: model `eleven_turbo_v2_5`, `language_code: de`, speed 0.90, output `pcm_24000` (native PCM,
   never the MP3 output).
 - Processing for every clip: trim the silence (and any click after it), apply gentle 2:1 compression, normalise to
