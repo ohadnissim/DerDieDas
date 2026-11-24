@@ -217,8 +217,8 @@ button:disabled{cursor:default}
 .boom.lights{filter:drop-shadow(0 0 8px #FFD43B)}
 
 /* ---------- the Christmas tree ---------- */
-.xtwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 12px}
-.xtree{position:relative;height:100%;max-height:100%;aspect-ratio:4/3;max-width:100%;border-radius:26px;overflow:hidden;box-shadow:var(--lift);touch-action:none}
+.xtwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 12px;container-type:size}
+.xtree{position:relative;width:min(100cqw,133.33cqh);height:auto;aspect-ratio:4/3;border-radius:26px;overflow:hidden;box-shadow:var(--lift);touch-action:none}
 .xtree .xbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .xorn{position:absolute;width:8.5%;translate:-50% -30%;filter:drop-shadow(0 3px 3px rgba(0,0,0,.28));cursor:grab;touch-action:none;transform-origin:50% 0}
 .xorn.lift{z-index:5;scale:1.25;cursor:grabbing}
@@ -2029,7 +2029,7 @@ function loadLocal() {
   } else {
     state.words = normalizeWords(SAMPLE); state.sample = true;
   }
-  state.wordsLoaded = true;
+  state.wordsLoaded = true; state.progressLoaded = true;
 }
 
 /* ---------- saving (one write at a time per document) ---------- */
@@ -3429,7 +3429,7 @@ let curIsland = "garten", night = false, wd = null, paradeToken = 0;
 const islandById = (id) => ISLANDS.find(i => i.id === id) || ISLANDS[0];
 function islandOpen(isl) {
   if (isl.shop) return owns(isl.shop);
-  if (!isl.set) return true;
+  if (!isl.set || isl.set === "weihnachten" || isl.set === "halloween") return true;
   const sets = themedSets(), i = sets.findIndex(t => t.id === isl.set), got = state.progress.stickers;
   if (i < 0) return false;
   return i === 0 || sets[i].ids.some(id => got.includes(id)) || sets[i - 1].ids.every(id => got.includes(id));
@@ -4562,13 +4562,13 @@ const GLYPHS = {
   A: { w: 60, strokes: [[[0, 100], [30, 0], [60, 100]], [[12, 60], [48, 60]]] },   // up and down without lifting, then the bar from left to right
   a: { w: 30, strokes: [[...arcPts(15, 75, 15, 25, Math.PI / 6, Math.PI / 6 + 2 * Math.PI, 28), [30, 50], [30, 100]]] },   // round the belly, then straight down on the right
   T: { w: 50, strokes: [[[25, 0], [25, 100]], [[0, 0], [50, 0]]] },   // down first, then the roof from left to right
-  t: { w: 24, strokes: [[[6, 18], [6, 88], ...arcPts(16, 88, 10, 12, Math.PI, Math.PI / 2, 8)], [[0, 50], [22, 50]]] },   // down with a little curl, then across
+  t: { w: 24, strokes: [[[6, 18], [6, 88], ...arcPts(16, 88, 10, 12, Math.PI, 1.5 * Math.PI, 8)], [[0, 50], [22, 50]]] },   // down with a little curl, then across
 };
 // Like at school, a letter ends right ON the line and never pokes over it: the strokes are drawn W_HALF thick on
 // each side, so the centre of every stroke is moved in by W_HALF from the top line, the middle line and the base line
 // (above the middle line everything moves down by W_HALF, between middle and base line it is squeezed in a little).
 const W_HALF = 6;
-const wy = (y) => y <= 50 ? y + W_HALF : 50 + W_HALF + (y - 50) * (50 - 2 * W_HALF) / 50;
+const wy = (y) => y <= 50 ? y + W_HALF : y <= 100 ? 50 + W_HALF + (y - 50) * (50 - 2 * W_HALF) / 50 : y - W_HALF;
 for (const g of Object.values(GLYPHS)) g.strokes = g.strokes.map(s => Array.isArray(s) ? s.map(([x, y]) => [x, wy(y)]) : s && s.dot ? { dot: [s.dot[0], wy(s.dot[1])] } : s);
 GLYPHS.t.strokes[1] = [[0, 50], [22, 50]];   // the t's bar is written ON the middle line, like at school
 const LETTERS = [
@@ -5318,7 +5318,7 @@ function askTap(b) {
     chime(); b.classList.add("right"); cheer(w.article, b); sparkle(b, 12); addStars();
     say([W(w)]).then(() => sleep(200)).then(thanks).then(() => endStep(300));
   } else {
-    noteMiss(w, b.dataset.a);
+    if (allWords().some(x => x.id === w.id)) noteMiss(w, b.dataset.a);
     const rb = $("squiz").querySelector('.choice[data-a="' + w.article + '"]');
     oops(b, rb, w, { pic: $("squiz").querySelector(".askpic") }).then(() => sleep(200)).then(thanks).then(() => endStep(300));
   }
@@ -5548,8 +5548,10 @@ $("ldPanel").addEventListener("click", (e) => {
   }
   if (act === "go") { pop(); stopAudio(); if (it.kind === "insel") openGarden("zucker"); else if (it.kind === "baum" || it.kind === "schmuck") openTree(); else openGarden(); }
 });
+let ldBoughtAt = 0;
 function buyLaden(it) {
-  if (owns(it.id) || state.progress.stars < it.price) return;
+  if (owns(it.id) || state.progress.stars < it.price || Date.now() - ldBoughtAt < 1200) return;   // a double tap buys once
+  ldBoughtAt = Date.now();
   state.progress.stars -= it.price;
   if (it.kind === "schmuck") return buySchmuck(it);
   (state.progress.owned || (state.progress.owned = [])).push(it.id);
@@ -5763,7 +5765,7 @@ function giveOrnament(id) {
 function xmWinOrnament() {
   if (!XM_SEASON) return null;
   let g = state.progress.xmWin;
-  if (!g || g.d !== today()) g = state.progress.xmWin = { d: today(), n: 0 };
+  if (!g || g.d !== xmToday()) g = state.progress.xmWin = { d: xmToday(), n: 0 };
   if (g.n >= ORN_PER_DAY) return null;
   g.n++;
   return giveOrnament();
@@ -5896,7 +5898,7 @@ function renderAdvent() {
     '<span class="adeco d3" aria-hidden="true"><img src="img/cut-weihnachten-rentier.webp" alt=""></span>';
 }
 $("advGrid").addEventListener("click", async (e) => {
-  const b = e.target.closest(".adoor"); if (!b || !ADV || ADV.busy) return;
+  const b = e.target.closest(".adoor"); if (!b || !ADV || ADV.busy || !$("advGift").hidden) return;
   const n = Number(b.dataset.d);
   if (b.classList.contains("open")) { pop(); retrigger(b, "wiggle", 600); return; }
   if (b.classList.contains("locked")) { boop(); retrigger(b, "wiggle", 600); say([C(advDay() ? "adv-warte" : "adv-bald")]); return; }
@@ -5908,13 +5910,13 @@ $("advGrid").addEventListener("click", async (e) => {
   const from = b.getBoundingClientRect();
   b.classList.remove("ready", "today"); b.classList.add("opening");
   tone([523, 659, 784], "triangle", .09); sparkle(b, 10);
-  await sleep(620);
+  await sleep(620); if (!ADV) return;
   chime(); sparkle(b, 26); pop();
-  await sleep(300);
+  await sleep(300); if (!ADV) return;
   renderAdvent(); showAdvGift(n, from);
+  ADV.busy = false;   // the gift card covers the doors; she can tap on as soon as she closes it
   if (n === 24 || ADV_GIFT[n].lichter) { fanfare(); confetti(); }
   await say([C("adv-" + n), ...parts]);
-  if (ADV) ADV.busy = false;
 });
 // what's behind door n: put it where it belongs and say it
 function advGive(n) {
@@ -5960,10 +5962,12 @@ $("advGift").addEventListener("click", (e) => {
   if (act === "tree") openTree();
 });
 // the first visit on a day with a closed door: the calendar opens by itself
+const xmToday = () => fmt(xmDate());
 function xmAuto() {
-  if (!XM_SEASON || !advDue() || busy() || $("home").hidden || grownOpen) return;
-  if (state.progress.xmAdvSeen === today()) return;
-  state.progress.xmAdvSeen = today(); saveProgress();
+  // never before her saved progress is loaded: saving then would write an empty progress over hers
+  if (!state.progressLoaded || !XM_SEASON || !advDue() || busy() || $("home").hidden || grownOpen) return;
+  if (state.progress.xmAdvSeen === xmToday()) return;
+  state.progress.xmAdvSeen = xmToday(); saveProgress();
   openAdvent(true);
 }
 
@@ -6006,7 +6010,7 @@ async function slTap(isSch, btn) {
   // the picture gets on the train: a new wagon behind the Lok (a little sun on it for the S words)
   const wag = document.createElement("span");
   wag.className = "slwagon"; wag.innerHTML = '<img class="wg" src="img/sl-wagen.webp" alt="" draggable="false"><span class="load">' + faceHTML(t.w) + "</span>" + (t.sch ? "" : '<img class="sun" src="img/sl-sonne.webp" alt="">');
-  $("slTrain").appendChild(wag); restart(wag, "pop");
+  $("slTrain").appendChild(wag); restart(wag, "pop"); slFit();
   $("slTrack").scrollLeft = 0;
   await say([C(t.sch ? "sl-sch" : "sl-s"), slSay(t)]); if (SL !== my) return;
   if (t.sch) { $("slMund").hidden = false; restart($("slMund"), "enter"); await say([C("sl-sag"), slSay(t)]); if (SL !== my) return; }
@@ -6041,6 +6045,12 @@ function slFinale() {
     if (SL.x > 110) return slDone();
     requestAnimationFrame(go);
   })();
+}
+// a long train gets smaller so the Lok always stays on the track
+function slFit() {
+  const tr = $("slTrain"), tk = $("slTrack"); tr.style.scale = "";
+  const room = tk.clientWidth * 0.94, w = tr.scrollWidth;
+  if (w > room) { tr.style.scale = (room / w).toFixed(3); tr.style.transformOrigin = "0 100%"; }
 }
 /* The Sch-Meter: tells a "Schhh" from a "Sss" by where the hiss is loudest. In children's speech /ʃ/ peaks around
    4.5–5.5 kHz and /s/ around 6.5–7.5 kHz (Wong & Munson 2025; children 9–11: centroid 5.5 vs 7.6 kHz), so the
@@ -6368,7 +6378,7 @@ renderHome();
   }, onErr);
   db.doc("progress/main").onSnapshot((snap) => {
     if (progSaving || busy() || snap.metadata.hasPendingWrites) return;
-    state.progress = normalizeProgress(snap.exists ? snap.data() : null);
+    state.progress = normalizeProgress(snap.exists ? snap.data() : null); state.progressLoaded = true;
     renderHome();
     if (grownOpen && !document.activeElement?.matches?.("input,textarea,select")) renderGrown();
   }, onErr);
