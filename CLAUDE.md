@@ -118,6 +118,11 @@ A `gift:` on an item is a `welt` thing that comes with it (marked `extra`, so it
 Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the story style reference, 1:1 on white, then
 `image_background_remover`, trimmed to a 256 px square.
 
+- Schreiben: a letter ends right ON the line and never pokes over it (the school insists). The glyphs are written on the
+  lines 0 / 50 / 100 / 150; `wy()` then moves every stroke in by `W_HALF` (half the drawn stroke) from the top, middle and
+  base line, so the stroke's edge touches the line. Keep the track (`.wsvg .track`) and the ink no thicker than
+  2 × `W_HALF`. The t's bar stays centred on the middle line.
+
 ## Halloween
 - From 15 October to 2 November (`HW_SEASON` in `index.html`; `?halloween=1` / `?halloween=0` force it for testing)
   everyone dresses up, unless she picked another Laden colour; the Laden colour Kürbisnacht (`farbe-halloween`) keeps it all
@@ -132,6 +137,35 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   everything she has. Its island is `img/island-halloween.webp`. Story 11 ("Fröhliches Halloween!") uses the M, I and L words.
   Its Mila/Mia lines are in `audio/sp-story11.mp3`, Mil/Max in `pk-sk11`; the stickers', the mission's and the shopkeepers'
   Halloween lines (`lw-hw`, `la-hw`, prices) are in `pk-hw`.
+
+## Weihnachten
+- From 24 November to 6 January (`XM_SEASON`; `?weihnachten=1` / `?weihnachten=0` force it, `?tag=2026-12-05` pretends it is
+  that day) everyone dresses up for Christmas; the Laden colour Winterwunder (`farbe-weihnachten`) keeps it all year. It wins
+  over Halloween. `hwDress()` handles both: `costume()` is "xm", "hw" or "", the root gets `data-xm` / `data-hw` and
+  `data-costume`, `HW_IMG` pictures swap to `img/xm-<name>.webp` / `img/hw-<name>.webp`, the circles get an `.xm` span
+  (snowman hat and carrot nose, Santa hat, antlers), and `hwSky()` lets it snow.
+- Advent calendar: `ADV_GIFT` (what is behind each door), `ADV_ORDER` (where the doors are), door art `img/adv-<art>.webp`
+  (clay presents through `image_background_remover`, standing on the bottom of a square), background `img/xm-advent-bg.webp`.
+  `progress.xmAdvent = {y, days}` is the year and the opened doors; `progress.xmAdvSeen` makes it open by itself once a day.
+- Her tree: `img/xm-baum.webp`, ornaments `img/o-<id>.webp` (`ORNAMENTS`), `progress.xmBox` (ornaments in the box, by id),
+  `progress.xmTree` (`{o, x, y}` in % of the picture), `TREE` is the green triangle of the picture where ornaments may hang.
+  `progress.xmWin` counts the ornaments won from rounds today (max 3). Lichterkette and Baumspitze are Laden items of kind
+  `baum`; the Schmuckkiste is kind `schmuck` and can be bought again and again.
+- Christmas sticker set and Winterinsel (`island-weihnachten`), stories 14–16 (`sp-story14..16`, Mil/Max in `pk-sk14`),
+  everything else Mila, Löwe and Lama say for Christmas in `pk-xm`.
+
+## T and Sch
+- `X_WORDS`: picture words for T, Sch and S (Tanne, Tasse, Tisch, Tür, Hut, Schal, Schuh … Sonne, Sofa, Socke, Suppe), cards
+  `img/x-<id>.webp` made on Higgsfield in the word-card style (i-igel / l-lama as references). They are NOT in her der/die/das
+  list: they only appear in the letter games, the Sch-Lok and the stories (a story "ask" step doesn't score them). Mila's
+  `w-<id>` / `n-<id>` are in `pk-xw`.
+- `LAUT_WORDS.t` / `LAUT_WORDS.sch`; Sch is in `LAUT_ONLY` (letter games only, not in Schreiben). T is in `LETTERS` and
+  `GLYPHS`.
+- The Sch-Lok (`startSch`) ends with the Sch-Meter (`schMeter()`): an AnalyserNode on the microphone (echo cancelling, noise
+  suppression and auto gain off, they smear hiss), and on every frame that is a clear hiss (loud over the room, much more
+  energy above 2 kHz than below 1 kHz) the strongest frequency between 3 and 9 kHz decides: up to `SCH_MAX` (5.4 kHz) is
+  Sch, from `S_MIN` (6.2 kHz) is S, in between grey. The grown-ups panel's mic line shows her median, to tune the two numbers.
+- When TTS has to say "Sch" or "S" alone, write "Schhh" / "Sss", or it spells the letters.
 
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
