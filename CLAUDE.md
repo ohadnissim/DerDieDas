@@ -161,10 +161,18 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   `w-<id>` / `n-<id>` are in `pk-xw`.
 - `LAUT_WORDS.t` / `LAUT_WORDS.sch`; Sch is in `LAUT_ONLY` (letter games only, not in Schreiben). T is in `LETTERS` and
   `GLYPHS`.
-- The Sch-Lok (`startSch`) ends with the Sch-Meter (`schMeter()`): an AnalyserNode on the microphone (echo cancelling, noise
-  suppression and auto gain off, they smear hiss), and on every frame that is a clear hiss (loud over the room, much more
-  energy above 2 kHz than below 1 kHz) the strongest frequency between 3 and 9 kHz decides: up to `SCH_MAX` (5.4 kHz) is
-  Sch, from `S_MIN` (6.2 kHz) is S, in between grey. The grown-ups panel's mic line shows her median, to tune the two numbers.
+- The Sch-Lok (`startSch`) listens with the Sch-Meter (`schMeter()`): an AnalyserNode on the microphone (echo cancelling,
+  noise suppression and auto gain off, they smear hiss). Only clear-hiss frames count (loud over the room, much more energy
+  above 2 kHz than below 1 kHz). Each one gives three numbers: the loudest frequency (3 to 9 kHz), the centre (2.5 to 11 kHz)
+  and the low/high balance in dB (`SCH_F`); `schScorer()` turns them into a score (below 0 Sch, above 0 S), smoothed over
+  about 0.1 to 0.2 s with a grey zone, so one frame never decides.
+- The meter is tuned to her: before the finale (first time, then every `SCH_DAYS` = 30 days) a warm-up (`slTune`) asks for
+  the snake's "Sss" and the Lok's "Schhh" and `schFit()` stores her own means and spread in `progress.schCal`; until then the
+  textbook values `SCH_TEXTBOOK` count (Sch about 4.8 kHz, S about 6.8 kHz). Grown-ups see it in the Voice section and can
+  tune it again.
+- After "Mach die Lippen rund … sag es mit mir" for each Sch word, Mila says "Jetzt du!" and the meter listens 3.5 s
+  (`slSayCheck`): a Schhh gets "Ja! Das war ein schönes Schhh!", a Sss gets the round-lips tip. The mic stays open from
+  then until the train has left. Mila's lines for it are in `pk-schm`.
 - When TTS has to say "Sch" or "S" alone, write "Schhh" / "Sss", or it spells the letters.
 
 ## Saved progress
