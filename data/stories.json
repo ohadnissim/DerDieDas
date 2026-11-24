@@ -3033,6 +3033,827 @@
      }
     }
    ]
+  },
+  {
+   "id": "story14",
+   "title": "Schnee! Schnee!",
+   "cover": "img/story14-1.webp",
+   "titleAudio": "t-story14",
+   "sprite": {
+    "file": "sp-story14",
+    "map": {
+     "t-story14": [
+      0.3,
+      1.91
+     ],
+     "story14-1": [
+      2.51,
+      6.43
+     ],
+     "story14-2": [
+      9.24,
+      4.93
+     ],
+     "story14-3": [
+      14.47,
+      3.07
+     ],
+     "story14-4": [
+      17.84,
+      4.74
+     ],
+     "sf14-schal": [
+      22.88,
+      2.94
+     ],
+     "story14-5": [
+      26.12,
+      3.26
+     ],
+     "story14-6": [
+      29.68,
+      4.27
+     ],
+     "sq14-schlitten": [
+      34.25,
+      2.9
+     ],
+     "story14-7": [
+      37.45,
+      5.07
+     ],
+     "sf14-schuh": [
+      42.82,
+      1.99
+     ],
+     "story14-8": [
+      45.11,
+      3.68
+     ],
+     "story14-9": [
+      49.09,
+      4.69
+     ],
+     "sq14-schokolade": [
+      54.08,
+      1.76
+     ],
+     "story14-10": [
+      56.14,
+      4.4
+     ],
+     "sk14-1a": [
+      60.84,
+      1.25
+     ],
+     "sk14-4a": [
+      62.39,
+      1.95
+     ],
+     "sk14-6a": [
+      64.64,
+      1.83
+     ],
+     "sk14-8a": [
+      66.77,
+      1.5
+     ],
+     "sk14-10a": [
+      68.57,
+      1.04
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story14-1.webp",
+     "text": "Es schneit! Mia, Mil und Max ziehen schnell Schuhe und Schals an.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Schnee! Schnee!",
+       "audio": "sk14-1a"
+      }
+     ],
+     "audio": "story14-1",
+     "laut": {
+      "word": "schuh",
+      "letter": "sch"
+     }
+    },
+    {
+     "img": "img/story14-2.webp",
+     "text": "Draußen ist alles weiß. Die Kinder bauen einen Schneemann.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Noch eine Kugel!",
+       "audio": "sk14-2a"
+      }
+     ],
+     "audio": "story14-2",
+     "ask": {
+      "word": "schneemann",
+      "who": "max"
+     }
+    },
+    {
+     "img": "img/story14-3.webp",
+     "text": "Mil setzt dem Schneemann einen Hut auf.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Ein Hut für dich!",
+       "audio": "sk14-3a"
+      }
+     ],
+     "audio": "story14-3",
+     "pos": {
+      "word": "hut",
+      "letter": "t"
+     }
+    },
+    {
+     "img": "img/story14-4.webp",
+     "text": "Mia bindet ihm ihren Schal um. Jetzt friert er nicht mehr.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "So, schön warm!",
+       "audio": "sk14-4a"
+      }
+     ],
+     "audio": "story14-4",
+     "find": {
+      "text": "Wo ist der Schal? Zeig mal!",
+      "audio": "sf14-schal",
+      "answer": "schal",
+      "x": 55,
+      "y": 52,
+      "r": 11
+     }
+    },
+    {
+     "img": "img/story14-5.webp",
+     "text": "Max holt den Schlitten. Alle steigen auf.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Festhalten!",
+       "audio": "sk14-5a"
+      }
+     ],
+     "audio": "story14-5",
+     "laut": {
+      "word": "schlitten",
+      "letter": "sch"
+     }
+    },
+    {
+     "img": "img/story14-6.webp",
+     "text": "Schhhh! Der Schlitten saust den Berg hinunter.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Juhuuu!",
+       "audio": "sk14-6a"
+      }
+     ],
+     "audio": "story14-6",
+     "q": {
+      "text": "Womit fahren die Kinder den Berg hinunter?",
+      "audio": "sq14-schlitten",
+      "answer": "schlitten",
+      "choices": [
+       "schlitten",
+       "sofa",
+       "taxi"
+      ]
+     }
+    },
+    {
+     "img": "img/story14-7.webp",
+     "text": "Plumps! Alle liegen im Schnee. Wo ist Mils Schuh?",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Mein Schuh!",
+       "audio": "sk14-7a"
+      }
+     ],
+     "audio": "story14-7",
+     "find": {
+      "text": "Wo ist der Schuh? Zeig mal!",
+      "audio": "sf14-schuh",
+      "answer": "schuh",
+      "x": 89,
+      "y": 75,
+      "r": 9
+     }
+    },
+    {
+     "img": "img/story14-8.webp",
+     "text": "Zu Hause gibt es heiße Schokolade in einer Tasse.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Mmh, lecker!",
+       "audio": "sk14-8a"
+      }
+     ],
+     "audio": "story14-8",
+     "laut": {
+      "word": "tasse",
+      "letter": "t"
+     }
+    },
+    {
+     "img": "img/story14-9.webp",
+     "text": "Max trinkt die Tasse leer. Jetzt hat er einen Schokoladen-Bart!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Ho ho ho!",
+       "audio": "sk14-9a"
+      }
+     ],
+     "audio": "story14-9",
+     "q": {
+      "text": "Was trinken die Kinder?",
+      "audio": "sq14-schokolade",
+      "answer": "schokolade",
+      "choices": [
+       "schokolade",
+       "suppe",
+       "limonade"
+      ]
+     }
+    },
+    {
+     "img": "img/story14-10.webp",
+     "text": "Draußen wartet der Schneemann. Gute Nacht, Schneemann!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Gute Nacht!",
+       "audio": "sk14-10a"
+      }
+     ],
+     "audio": "story14-10",
+     "pos": {
+      "word": "schneemann",
+      "letter": "sch"
+     }
+    }
+   ]
+  },
+  {
+   "id": "story15",
+   "title": "O Tannenbaum",
+   "cover": "img/story15-1.webp",
+   "titleAudio": "t-story15",
+   "sprite": {
+    "file": "sp-story15",
+    "map": {
+     "t-story15": [
+      0.3,
+      1.13
+     ],
+     "story15-1": [
+      1.73,
+      5.0
+     ],
+     "story15-2": [
+      7.03,
+      3.31
+     ],
+     "sf15-tuer": [
+      10.64,
+      2.76
+     ],
+     "story15-3": [
+      13.7,
+      5.27
+     ],
+     "story15-4": [
+      19.27,
+      3.24
+     ],
+     "story15-5": [
+      22.81,
+      2.76
+     ],
+     "sq15-tasche": [
+      25.87,
+      2.0
+     ],
+     "story15-6": [
+      28.17,
+      4.16
+     ],
+     "story15-7": [
+      32.63,
+      5.74
+     ],
+     "sf15-lama": [
+      38.67,
+      3.0
+     ],
+     "story15-8": [
+      41.97,
+      3.81
+     ],
+     "sq15-lama": [
+      46.08,
+      1.74
+     ],
+     "story15-9": [
+      48.12,
+      4.67
+     ],
+     "story15-10": [
+      53.09,
+      3.21
+     ],
+     "sk15-1a": [
+      56.6,
+      0.68
+     ],
+     "sk15-4a": [
+      57.58,
+      1.62
+     ],
+     "sk15-7a": [
+      59.5,
+      1.78
+     ],
+     "sk15-10a": [
+      61.58,
+      1.21
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story15-1.webp",
+     "text": "Bald ist Weihnachten! Mia, Mil und Max suchen eine Tanne aus.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Die da!",
+       "audio": "sk15-1a"
+      }
+     ],
+     "audio": "story15-1",
+     "laut": {
+      "word": "tanne",
+      "letter": "t"
+     }
+    },
+    {
+     "img": "img/story15-2.webp",
+     "text": "Die Tanne ist sehr groß. Sie passt nicht durch die Tür!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Oh nein!",
+       "audio": "sk15-2a"
+      }
+     ],
+     "audio": "story15-2",
+     "find": {
+      "text": "Wo ist die Tür? Zeig mal!",
+      "audio": "sf15-tuer",
+      "answer": "tuer",
+      "x": 82,
+      "y": 50,
+      "r": 14
+     }
+    },
+    {
+     "img": "img/story15-3.webp",
+     "text": "Mil schiebt, Max zieht – plopp! Die Tanne ist drin.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Geschafft!",
+       "audio": "sk15-3a"
+      }
+     ],
+     "audio": "story15-3",
+     "pos": {
+      "word": "tuer",
+      "letter": "t"
+     }
+    },
+    {
+     "img": "img/story15-4.webp",
+     "text": "Mia holt den Schmuck aus einer großen Tasche.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Kugeln und Sterne!",
+       "audio": "sk15-4a"
+      }
+     ],
+     "audio": "story15-4",
+     "pos": {
+      "word": "tasche",
+      "letter": "sch"
+     }
+    },
+    {
+     "img": "img/story15-5.webp",
+     "text": "Alle hängen bunte Kugeln an die Tanne.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Noch eine!",
+       "audio": "sk15-5a"
+      }
+     ],
+     "audio": "story15-5",
+     "q": {
+      "text": "Woraus holt Mia den Schmuck?",
+      "audio": "sq15-tasche",
+      "answer": "tasche",
+      "choices": [
+       "tasche",
+       "flasche",
+       "tasse"
+      ]
+     }
+    },
+    {
+     "img": "img/story15-6.webp",
+     "text": "Oben fehlt noch der Stern. Max steigt auf den Tisch.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Vorsicht, Max!",
+       "audio": "sk15-6a"
+      }
+     ],
+     "audio": "story15-6",
+     "laut": {
+      "word": "tisch",
+      "letter": "t"
+     }
+    },
+    {
+     "img": "img/story15-7.webp",
+     "text": "Max ist zu klein! Da fliegt das Lama herein – als Engel!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Ein Engel-Lama!",
+       "audio": "sk15-7a"
+      }
+     ],
+     "audio": "story15-7",
+     "find": {
+      "text": "Wo ist das Lama? Zeig mal!",
+      "audio": "sf15-lama",
+      "answer": "lama",
+      "x": 83,
+      "y": 33,
+      "r": 12
+     }
+    },
+    {
+     "img": "img/story15-8.webp",
+     "text": "Das Lama setzt den Stern ganz oben auf die Tanne.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Danke, Lama!",
+       "audio": "sk15-8a"
+      }
+     ],
+     "audio": "story15-8",
+     "q": {
+      "text": "Wer bringt den Stern?",
+      "audio": "sq15-lama",
+      "answer": "lama",
+      "choices": [
+       "lama",
+       "frosch",
+       "igel"
+      ]
+     }
+    },
+    {
+     "img": "img/story15-9.webp",
+     "text": "Mil macht das Licht aus. Die Lichter am Ast leuchten.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Ohhh!",
+       "audio": "sk15-9a"
+      }
+     ],
+     "audio": "story15-9",
+     "pos": {
+      "word": "ast",
+      "letter": "t"
+     }
+    },
+    {
+     "img": "img/story15-10.webp",
+     "text": "Alle singen zusammen: O Tannenbaum!",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Frohe Weihnachten!",
+       "audio": "sk15-10a"
+      }
+     ],
+     "audio": "story15-10",
+     "ask": {
+      "word": "tanne",
+      "who": "mia"
+     }
+    }
+   ]
+  },
+  {
+   "id": "story16",
+   "title": "Der Weihnachtsmann kommt!",
+   "cover": "img/story16-1.webp",
+   "titleAudio": "t-story16",
+   "sprite": {
+    "file": "sp-story16",
+    "map": {
+     "t-story16": [
+      0.3,
+      1.78
+     ],
+     "story16-1": [
+      2.38,
+      5.14
+     ],
+     "story16-2": [
+      7.82,
+      2.63
+     ],
+     "story16-3": [
+      10.75,
+      4.22
+     ],
+     "sq16-socke": [
+      15.27,
+      1.67
+     ],
+     "story16-4": [
+      17.24,
+      4.14
+     ],
+     "story16-5": [
+      21.68,
+      4.64
+     ],
+     "sf16-schlitten": [
+      26.62,
+      2.56
+     ],
+     "story16-6": [
+      29.48,
+      6.39
+     ],
+     "sf16-loewe": [
+      36.17,
+      2.96
+     ],
+     "story16-7": [
+      39.43,
+      3.28
+     ],
+     "sq16-milch": [
+      43.01,
+      1.82
+     ],
+     "story16-8": [
+      45.13,
+      3.69
+     ],
+     "story16-9": [
+      49.12,
+      6.73
+     ],
+     "sq16-fisch": [
+      56.15,
+      1.43
+     ],
+     "story16-10": [
+      57.88,
+      4.14
+     ],
+     "sk16-1a": [
+      62.32,
+      1.33
+     ],
+     "sk16-4a": [
+      63.95,
+      2.77
+     ],
+     "sk16-7a": [
+      67.02,
+      1.01
+     ],
+     "sk16-9a": [
+      68.33,
+      1.3
+     ]
+    }
+   },
+   "pages": [
+    {
+     "img": "img/story16-1.webp",
+     "text": "Heute ist Heiligabend. Mia stellt Plätzchen auf den Tisch.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Für den Weihnachtsmann!",
+       "audio": "sk16-1a"
+      }
+     ],
+     "audio": "story16-1",
+     "pos": {
+      "word": "tisch",
+      "letter": "sch"
+     }
+    },
+    {
+     "img": "img/story16-2.webp",
+     "text": "Max stellt eine Flasche Milch dazu.",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Er hat bestimmt Durst!",
+       "audio": "sk16-2a"
+      }
+     ],
+     "audio": "story16-2",
+     "laut": {
+      "word": "flasche",
+      "letter": "sch"
+     }
+    },
+    {
+     "img": "img/story16-3.webp",
+     "text": "Mil hängt drei Socken auf, für jedes Kind eine.",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Meine ist die rote!",
+       "audio": "sk16-3a"
+      }
+     ],
+     "audio": "story16-3",
+     "q": {
+      "text": "Was hängt Mil auf?",
+      "audio": "sq16-socke",
+      "answer": "socke",
+      "choices": [
+       "socke",
+       "schuh",
+       "hut"
+      ]
+     }
+    },
+    {
+     "img": "img/story16-4.webp",
+     "text": "Dann gehen alle ins Bett. Mia nimmt ihren Frosch mit.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Gute Nacht, Frosch!",
+       "audio": "sk16-4a"
+      }
+     ],
+     "audio": "story16-4",
+     "laut": {
+      "word": "frosch",
+      "letter": "sch"
+     }
+    },
+    {
+     "img": "img/story16-5.webp",
+     "text": "Mitten in der Nacht klingelt es. Ein Schlitten landet auf dem Dach!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Was ist das?",
+       "audio": "sk16-5a"
+      }
+     ],
+     "audio": "story16-5",
+     "find": {
+      "text": "Wo ist der Schlitten? Zeig mal!",
+      "audio": "sf16-schlitten",
+      "answer": "schlitten",
+      "x": 22,
+      "y": 45,
+      "r": 13
+     }
+    },
+    {
+     "img": "img/story16-6.webp",
+     "text": "Leise geht die Tür auf. Der Weihnachtsmann kommt – es ist der Löwe!",
+     "lines": [
+      {
+       "who": "mil",
+       "text": "Psst! Der Löwe!",
+       "audio": "sk16-6a"
+      }
+     ],
+     "audio": "story16-6",
+     "find": {
+      "text": "Wo ist der Löwe? Zeig mal!",
+      "audio": "sf16-loewe",
+      "answer": "loewe",
+      "x": 87,
+      "y": 55,
+      "r": 14
+     }
+    },
+    {
+     "img": "img/story16-7.webp",
+     "text": "Der Löwe trinkt die Milch und isst alle Plätzchen.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Alle Plätzchen?",
+       "audio": "sk16-7a"
+      }
+     ],
+     "audio": "story16-7",
+     "q": {
+      "text": "Was trinkt der Löwe?",
+      "audio": "sq16-milch",
+      "answer": "milch",
+      "choices": [
+       "milch",
+       "suppe",
+       "limonade"
+      ]
+     }
+    },
+    {
+     "img": "img/story16-8.webp",
+     "text": "Er legt Geschenke in die Socken. Ho ho ho!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Ho ho ho!",
+       "audio": "sk16-8a"
+      }
+     ],
+     "audio": "story16-8",
+     "pos": {
+      "word": "geschenk",
+      "letter": "sch"
+     }
+    },
+    {
+     "img": "img/story16-9.webp",
+     "text": "Am Morgen! Mia bekommt eine Tasche, Max einen Fisch und Mil Schokolade.",
+     "lines": [
+      {
+       "who": "mia",
+       "text": "Juhu!",
+       "audio": "sk16-9a"
+      }
+     ],
+     "audio": "story16-9",
+     "q": {
+      "text": "Was bekommt Max?",
+      "audio": "sq16-fisch",
+      "answer": "fisch",
+      "choices": [
+       "fisch",
+       "frosch",
+       "flasche"
+      ]
+     }
+    },
+    {
+     "img": "img/story16-10.webp",
+     "text": "Frohe Weihnachten, Löwe! Frohe Weihnachten, alle!",
+     "lines": [
+      {
+       "who": "max",
+       "text": "Frohe Weihnachten!",
+       "audio": "sk16-10a"
+      }
+     ],
+     "audio": "story16-10",
+     "ask": {
+      "word": "geschenk",
+      "who": "max"
+     }
+    }
+   ]
   }
  ]
 }
