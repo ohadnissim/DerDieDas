@@ -92,7 +92,7 @@ button:disabled{cursor:default}
   .hshelves{--tw:clamp(50px,14.6vw,66px);--tg:4px;flex-direction:column;align-items:stretch;gap:10px}
   .hshelf{flex-direction:row;padding:8px 10px;gap:8px}
   .hshelf-h{flex-direction:column;padding:6px 4px;gap:3px;font-size:15px}
-  .ptiles,.s-welt .ptiles{width:auto;flex:1;flex-wrap:nowrap;justify-content:flex-start}
+  .ptiles,.s-welt .ptiles{width:auto;flex:1;flex-wrap:wrap;justify-content:flex-start}
   .ptile .tl{font-size:10.5px}
 }
 
@@ -206,6 +206,7 @@ button:disabled{cursor:default}
 .orb.das .xm{background:radial-gradient(circle at 50% 57%,#FF5A5F 0 7%,#C8102E 8%,transparent 9%)}
 #choices .orb .xm{display:none}
 .orb.das:has(.ow) .xm{background:none}
+.orb.der:has(.ow) .xm::after{display:none}
 .sw.weihnachten{background:linear-gradient(135deg,#D9343A 0 34%,#fff 34% 40%,#2F9A5E 40%)}
 /* the Laden for Christmas: a garland with little lights over the wall */
 :root[data-xm] #shop::before{content:"";position:absolute;left:0;right:0;top:0;height:34px;z-index:3;pointer-events:none;
@@ -247,12 +248,15 @@ button:disabled{cursor:default}
 .adoor{position:relative;border:0;background:none;padding:0;display:grid;place-items:center;min-width:0;min-height:0;rotate:var(--r,0deg);scale:var(--s,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .adoor .box{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,30,.45))}
 .adoor .num{position:absolute;left:50%;bottom:2%;translate:-50% 0;min-width:2em;height:2em;padding:0 .3em;border-radius:999px;background:#FFF8EC;color:#C0262F;font:800 clamp(13px,2.5vmin,24px)/2em var(--display);text-align:center;box-shadow:0 3px 0 rgba(0,0,0,.2),0 0 0 3px rgba(255,255,255,.55);pointer-events:none}
-.adoor.big{grid-column:3/5;grid-row:2/4;z-index:1}
+.adoor.big{grid-column:3/5;grid-row:2/4}
 .adoor.big .num{font-size:clamp(20px,4.2vmin,38px);background:linear-gradient(#FFE27A,#F5B92A);color:#8A2A12}
 .adoor.locked{animation:advdoze 3.2s ease-in-out infinite;animation-delay:var(--dl,0s)}
 .adoor.locked .box{filter:drop-shadow(0 6px 6px rgba(0,0,30,.45)) saturate(.6) brightness(.82)}
 .adoor.locked::after{content:"z";position:absolute;right:14%;top:2%;font:800 clamp(12px,2.2vmin,20px)/1 var(--display);color:#DDEBFF;opacity:0;animation:advzz 3.2s ease-out infinite;animation-delay:var(--dl,0s);pointer-events:none}
-.adoor.ready::before{content:"";position:absolute;inset:-4%;border-radius:50%;background:radial-gradient(circle,rgba(255,228,110,.8),rgba(255,228,110,0) 68%);animation:advglow 1.6s ease-in-out infinite alternate;z-index:-1;pointer-events:none}
+.adoor{z-index:1}.adoor.big{z-index:0}
+.adoor.ready{animation:advbob 1.8s ease-in-out infinite;animation-delay:var(--dl,0s)}
+@keyframes advbob{50%{translate:0 -5%}}
+.adoor.ready::before{content:"";position:absolute;inset:-16%;border-radius:50%;background:radial-gradient(circle,rgba(255,236,130,.95),rgba(255,214,80,0) 66%);animation:advglow 1.6s ease-in-out infinite alternate;z-index:-1;pointer-events:none}
 .adoor.today{z-index:3;animation:advhop 1.2s ease-in-out infinite}
 .adoor.today::before{inset:-22%;background:radial-gradient(circle,rgba(255,236,140,.95),rgba(255,200,60,0) 68%)}
 .adoor.today::after{content:"👆";position:absolute;right:-6%;bottom:-10%;font-size:clamp(22px,4.4vmin,42px);animation:advtap 1.2s ease-in-out infinite;pointer-events:none}
@@ -310,6 +314,7 @@ button:disabled{cursor:default}
 @keyframes steam{0%{opacity:.9;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(-30px,-40px) scale(1.6)}}
 .slpic{display:block;margin:12px auto 0;width:clamp(120px,26vmin,220px);aspect-ratio:1;border-radius:26px;background:var(--surface);box-shadow:var(--lift);padding:10px}
 .slpic.enter{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+#schScreen .tctl{justify-content:center;margin-top:auto;padding-bottom:12px}
 .slbtns{display:flex;gap:clamp(14px,4vw,40px);justify-content:center;margin:14px 0 4px}
 .slbtn{width:clamp(130px,30vmin,220px);aspect-ratio:1.15;border-radius:30px;background:var(--surface);box-shadow:var(--lift);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:4px solid transparent}
 .slbtn img{height:58%;object-fit:contain}
@@ -318,7 +323,7 @@ button:disabled{cursor:default}
 .slbtn.right{border-color:#3DBE78;animation:pop .45s}
 .slbtn.miss{animation:shake .45s}
 .slbtn.hint{border-color:var(--star);box-shadow:0 0 24px 6px rgba(255,212,59,.8)}
-.slmund{position:absolute;left:50%;bottom:22%;translate:-50% 0;background:var(--surface);border-radius:999px;padding:10px 22px;box-shadow:var(--lift);font:800 26px/1 var(--display);color:#D9343A;z-index:5}
+.slmund{position:fixed;left:50%;top:0;translate:-50% 0;white-space:nowrap;background:var(--surface);border-radius:999px;padding:10px 22px;box-shadow:var(--lift);font:800 26px/1 var(--display);color:#D9343A;z-index:5}
 .slmund.enter{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
 .slpuste{display:flex;justify-content:center;margin-top:18px}
 .slblow{padding:22px 40px;border-radius:999px;background:linear-gradient(160deg,#E8484E,#B9252E);color:#fff;font:800 clamp(26px,6vmin,42px)/1 var(--display);box-shadow:0 6px 0 #8A1C22,var(--lift);touch-action:none;user-select:none}
@@ -796,6 +801,11 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .hword.show{opacity:1}
 .hword b{color:var(--grape)}
 .wpick{flex:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(18px,4vw,40px);min-height:0}
+#hpick{display:grid;grid-template-columns:repeat(3,auto);align-content:center;gap:clamp(12px,2.4vmin,28px)}
+#hpick .wtile{padding:clamp(10px,1.6vh,18px) clamp(14px,2.4vw,26px)}
+#hpick .wtile .pair{font-size:clamp(40px,8vmin,84px);white-space:nowrap}
+#hpick .wtile .tile{width:clamp(52px,9vmin,84px);height:clamp(52px,9vmin,84px)}
+@media (orientation:portrait){#hpick{grid-template-columns:repeat(2,auto)}}
 .wtile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:clamp(14px,2.4vh,24px) clamp(18px,3vw,32px);border-radius:32px;background:var(--surface);box-shadow:0 8px 0 var(--line),var(--lift)}
 .wtile:active{transform:translateY(5px);box-shadow:0 3px 0 var(--line),var(--lift)}
 .wtile .pair{font-family:var(--display);font-weight:800;font-size:clamp(64px,13vmin,120px);line-height:1;color:var(--grape)}
@@ -874,7 +884,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
 .fixed{box-shadow:0 0 0 7px var(--star),var(--lift)}
 
 /* ---------- story shelf ---------- */
-.shelf{flex:1;min-height:0;overflow-y:auto;display:flex;flex-wrap:wrap;gap:clamp(16px,3vw,32px);justify-content:center;align-content:center;padding:12px 4px 20px}
+.shelf{flex:1;min-height:0;overflow-y:auto;display:flex;flex-wrap:wrap;gap:clamp(16px,3vw,32px);justify-content:center;align-content:flex-start;align-content:safe center;padding:12px 4px 20px}
 .scard{position:relative;width:min(44vw,400px);border-radius:30px;background:var(--surface);box-shadow:var(--lift);overflow:hidden;display:flex;flex-direction:column;text-align:left;animation:pop .45s cubic-bezier(.3,1.6,.5,1) both;transition:transform .15s}
 .scard:nth-child(2){animation-delay:.08s} .scard:nth-child(3){animation-delay:.16s}
 .scard:active{transform:scale(.97)}
@@ -1030,8 +1040,8 @@ circle.inked{fill:#8E3FC7;stroke:none}
 .wend{display:flex;gap:12px}
 #nightBtn.on{background:#2B2560;color:#FFE27A}
 /* islands to fly to */
-.islands{position:absolute;z-index:6;left:max(14px,env(safe-area-inset-left));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px}
-.inav{position:relative;width:clamp(58px,8.5vmin,76px);aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+.islands{position:absolute;z-index:6;left:max(14px,env(safe-area-inset-left));top:44%;transform:translateY(-50%);display:flex;flex-direction:column;gap:clamp(8px,1.4vh,14px)}
+.inav{position:relative;width:clamp(44px,min(8.5vmin,7.4vh),76px);aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
   box-shadow:var(--lift);display:grid;place-items:center;transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
 .inav img{width:76%;height:76%;object-fit:contain;pointer-events:none}
 .inav.on{box-shadow:0 0 0 5px var(--star),var(--lift);transform:scale(1.08)}
@@ -5119,7 +5129,7 @@ function openStories() {
   $("shelfList").innerHTML = state.stories.slice().reverse().map(st =>
     '<button class="scard" data-id="' + esc(st.id) + '"><img src="' + esc(st.cover || st.pages[0].img) + '" alt="">' +
     '<span class="stitle">' + colourText(st.title || "") + "</span>" + (storyDone(st) ? "" : '<span class="snew">Neu!</span>') + "</button>").join("");
-  renderStars(); show("shelf");
+  renderStars(); show("shelf"); $("shelfList").scrollTop = 0;
   say([C("f-welchegeschichte")]);
 }
 $("shelfList").addEventListener("click", (e) => {
@@ -5546,7 +5556,7 @@ $("ldPanel").addEventListener("click", (e) => {
     if (state.progress[key]) { if (key === "konfetti") confetti(); keeperSay("la", [key === "farbe" ? "la-farbe" : "la-konfetti"]); }
     renderLaden(); ladenPanel(it); return;
   }
-  if (act === "go") { pop(); stopAudio(); if (it.kind === "insel") openGarden("zucker"); else if (it.kind === "baum" || it.kind === "schmuck") openTree(); else openGarden(); }
+  if (act === "go") { pop(); stopAudio(); if (it.kind === "insel") openGarden("zucker"); else if (it.kind === "baum" || it.kind === "schmuck") openXmTree(); else openGarden(); }
 });
 let ldBoughtAt = 0;
 function buyLaden(it) {
@@ -5573,7 +5583,7 @@ function buySchmuck(it) {
   saveProgress(); renderLaden(); chime(); fanfare(); confetti();
   ladenPanel(it);
   $("ldPanel").querySelector(".big").innerHTML = '<span class="kiste">' + got.map(o => '<img src="' + ornImg(o) + '" alt="">').join("") + "</span>";
-  $("ldPanel").querySelector(".row").insertAdjacentHTML("afterbegin", '<button class="buy ok" data-act="go">🎄 Zum Baum</button>');
+  $("ldPanel").querySelector(".row").innerHTML = '<button class="buy ok" data-act="go">🎄 Zum Baum</button>';
   sparkle($("ldPanel").querySelector(".big"), 18);
   keeperSay("lw", ["lw-danke"]).then(() => !$("laden").hidden && keeperSay("la", ["la-juhu"])).then(() => !$("laden").hidden && keeperSay("lw", ["lw-baum"]));
 }
@@ -5772,7 +5782,7 @@ function xmWinOrnament() {
 }
 
 let xtDrag = null;
-function openTree() {
+function openXmTree() {
   stopAudio(); show("xmTreeScreen"); renderStars(); renderTree();
   const n = Object.values(xmBox()).reduce((a, b) => a + b, 0);
   say([C(n ? "xb-hallo" : xmTree().length ? "xb-schoen" : "xb-leer")]);
@@ -5959,7 +5969,7 @@ function showAdvGift(n, from) {
 $("advGift").addEventListener("click", (e) => {
   const act = e.target.closest("[data-act]")?.dataset.act; if (!act) return;
   pop(); $("advGift").hidden = true;
-  if (act === "tree") openTree();
+  if (act === "tree") openXmTree();
 });
 // the first visit on a day with a closed door: the calendar opens by itself
 const xmToday = () => fmt(xmDate());
@@ -6013,7 +6023,7 @@ async function slTap(isSch, btn) {
   $("slTrain").appendChild(wag); restart(wag, "pop"); slFit();
   $("slTrack").scrollLeft = 0;
   await say([C(t.sch ? "sl-sch" : "sl-s"), slSay(t)]); if (SL !== my) return;
-  if (t.sch) { $("slMund").hidden = false; restart($("slMund"), "enter"); await say([C("sl-sag"), slSay(t)]); if (SL !== my) return; }
+  if (t.sch) { slMund(true); await say([C("sl-sag"), slSay(t)]); if (SL !== my) return; }
   SL.phase = "next"; $("slNext").hidden = false; bump($("slNext"));
 }
 $("slSch").addEventListener("click", () => slTap(true, $("slSch")));
@@ -6038,7 +6048,7 @@ function slFinale() {
       const v = slMic.m.frame();
       slMeterShow(v);
       if (v.kind === "sch") { push = Math.max(push, 1.1); SL.sTime = 0; }
-      else if (v.kind === "s") { SL.sTime = (SL.sTime || 0) + 1; if (SL.sTime === 30 && !SL.sHint) { SL.sHint = 1; $("slMund").hidden = false; say([C("sl-lippen")]).then(() => { $("slMund").hidden = true; }); } }
+      else if (v.kind === "s") { SL.sTime = (SL.sTime || 0) + 1; if (SL.sTime === 30 && !SL.sHint) { SL.sHint = 1; slMund(true); say([C("sl-lippen")]).then(() => slMund(false)); } }
       else SL.sTime = Math.max(0, (SL.sTime || 0) - 1);
     }
     if (push) { SL.x += push; $("slTrain").style.translate = SL.x + "vw 0"; $("slTrain").classList.add("puff"); } else $("slTrain").classList.remove("puff");
@@ -6047,6 +6057,13 @@ function slFinale() {
   })();
 }
 // a long train gets smaller so the Lok always stays on the track
+// "Schhh…" with round lips, just above the buttons (or above the push button at the end)
+function slMund(on) {
+  const m = $("slMund"); m.hidden = !on; if (!on) return;
+  const ref = !$("slBtns").hidden ? $("slBtns") : $("slPuste");
+  m.style.top = Math.max(8, ref.getBoundingClientRect().top - m.offsetHeight - 10) + "px";
+  restart(m, "enter");
+}
 function slFit() {
   const tr = $("slTrain"), tk = $("slTrack"); tr.style.scale = "";
   const room = tk.clientWidth * 0.94, w = tr.scrollWidth;
@@ -6120,9 +6137,9 @@ async function slDone() {
   showDone(earned, rows, stickersNow(), quizDue(), grew);
 }
 $("schBtn").addEventListener("click", () => { pop(); startSch(); });
-$("xmTreeBtn").addEventListener("click", () => { pop(); openTree(); });
+$("xmTreeBtn").addEventListener("click", () => { pop(); openXmTree(); });
 $("xmAdvBtn").addEventListener("click", () => { pop(); openAdvent(false); });
-$("doneOrn").addEventListener("click", () => { pop(); openTree(); });
+$("doneOrn").addEventListener("click", () => { pop(); openXmTree(); });
 
 /* ---------- this week's list (data/words.json) and stories (data/stories.json) ---------- */
 // Claude updates these files when you send a photo of the school list; a newer version replaces the word list once.
