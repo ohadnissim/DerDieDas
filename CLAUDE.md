@@ -187,6 +187,12 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   wrong (Hand came out as "Hunt" once). New words: add them to the tool's list and run it again, then replace `pk-lesen`.
 - Mila's lines are in `pk-le`. Round length grows with `progress.lesen.rounds` (3 tiles, then 4, then 5).
 
+## Lautdetektiv
+- `startDet` / `detPool()`: every picture word with sound tiles (`LAUT_WORDS`, `LESEN_WORDS`, `DET_EXTRA`) and a recorded `n-` clip.
+  `detHit()` says whether a tile is the sound (St / Sp at the start count as Sch; au is not an a, tz not a t). A round is 4 words
+  with the sound and 4 without; for Sch, the "without" words are mostly S words (`S_SOUND`). Mila's lines are in `pk-det`.
+  TTS dropped the letter in "Wir suchen das I!", so that line is "Wir suchen das I, wie Igel!".
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),
