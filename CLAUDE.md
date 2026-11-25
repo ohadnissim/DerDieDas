@@ -249,6 +249,12 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   (`progress.letters`, `progress.played`, met St/Sp words); `progress.mapSeen` makes a new place celebrate once. Lines in `pk-mk`.
 - A new sound gets a place: add it to the picture (edit both versions, same spot), to `KARTE`, `karteOpen()` and a `mk-<id>` line.
 
+## Mein Buch
+- Built from the Sätze engine: `bookObjs(h)` = known words with a sentence recorded in one go for that hero (`SENT_T`), pages are
+  `makeSent(h, o)`, drawn with `renderSentRow` and read with `sayLit` (silent first for her, then Mila). `BOOK_HEROES`; books in
+  `progress.books` (last 30) on the stories shelf (`openStories` always shows the shelf now). Lines in `pk-bk`. Nothing is
+  generated while she plays; new heroes or things need their Sätze recordings first.
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),

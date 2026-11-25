@@ -7,7 +7,8 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 - [x] St and Sp in the Sch-Lok, said with a real Schhh (#21)
 - [x] Lesen (blending), step 1 below (#22)
 - [x] Lautdetektiv, step 2 below (#23)
-- [x] Weekly-list tool, step 10: tools/make_week.py
+- [x] Her storybook, step 9: Mein Buch on the stories shelf
+- [x] Weekly-list tool, step 10 (#33): tools/make_week.py
 - [x] Voice report, step 11 (#32): This week → Her sounds this week
 - [x] The map, step 8 (#31)
 - [x] Her voice book, step 7 (#30) (and the checker's line from grown-ups' marks, finishing step 3)
@@ -19,7 +20,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 - [x] Pronunciation checker, step 3 (#24), its line set from the voice book: in the Sch-Lok, switched on by grown-ups; her scores are logged. Still to do: set her
       line from real scores (a warm-up), then use it in the other speaking steps and the Ch-Zoo.
 
-## Next, in order
+## Next, in order (all eleven steps are built as of 2026-11-25)
 0. [x] **Motion pass** (Ohad, 2026-11-25: "add motion … more interactive … so the all app will feel more alive"): tiles breathe,
        characters blink and bounce, cards fly and flip, screens slide, stars fly to the counter; still for reduced motion.
 1. [x] **Lesen (blending):** sound tiles slide together into a word (M + au + s = Maus); Mila blends slowly, then she taps
@@ -39,7 +40,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 7. [x] **Her own voice:** a word she said well is kept, so the card can play Mila and then her.
 8. [x] **The map:** each letter or sound is a place on her island map (M mill, Sch station, Ch zoo, St star tower …),
        unlocked as she learns it.
-9. [ ] **Her storybook:** she picks characters and things she knows; a story is put together from the existing story
+9. [x] **Her storybook:** she picks characters and things she knows; a story is put together from the existing story
        pieces (no paid AI at runtime), she reads the coloured parts aloud, and it is saved as her book.
 10. [x] **Weekly list from a photo:** a Mac tool (`tools/`) that takes a photo of the school sheet and makes the word list,
         cards and Mila's voices the usual way (CLAUDE.md), ready as a PR.
