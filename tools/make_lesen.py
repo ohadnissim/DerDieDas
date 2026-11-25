@@ -2,8 +2,8 @@
 """Make the sound of every tile for the Lesen game (audio/pk-lesen.mp3).
 
 For each word: Mila says it (ElevenLabs, native PCM, the CLAUDE.md settings), ElevenLabs forced alignment gives the time
-of every letter, and each tile (M | au | s) is cut out of that take. Sounds you can hold (m, n, l, s, sch, f, w, vowels …)
-are stretched to a length she can hear, without changing the pitch; sounds you can't hold (t, k, p, b, d, g) stay short.
+of every letter, and each tile plays the word up to and including that tile, cut from that take at Mila's own speed
+(M … Mau … Maus). Nothing is stretched (stretched single sounds sounded robotic).
 The whole word is set to -14 LUFS once and every tile gets that same gain, then one soxr resample and one MP3 encode
 for the whole pack. Prints the PACKS entry for index.html.
 
@@ -72,21 +72,19 @@ def main(words_file, out):
         heard = json.loads(post("https://api.elevenlabs.io/v1/speech-to-text", files={"file": raw, "model_id": "scribe_v1", "language_code": "de"}))["text"]
         report.append(f"{noun:10s} heard: {heard}")
         gain = -14 - lufs(raw)
+        # Each tile plays the word SO FAR, at Mila's own speed: M … Mau … Maus. (The first version cut each sound alone and
+        # stretched the short ones; Ohad: "the words sound robotic/slowed down".) Nothing is stretched, only cut.
+        a0 = max(0, chars[0]["start"] - 0.03)
+        total = float(subprocess.run(["soxi", "-D", raw], capture_output=True, text=True).stdout)
         k = 0
         for i, p in enumerate(parts):
             seg = chars[k:k + len(p)]; k += len(p)
-            a, b = seg[0]["start"], seg[-1]["end"]
-            if i == 0: a = max(0, a - 0.03)
-            low = p.lower()
-            target = 0.42 if low in HOLD else 0.34 if low in VOWELS else 0
-            dur = b - a
-            fx = ["vol", f"{gain}dB"]
-            if target and dur < target:
-                fx += ["tempo", "-s", f"{max(0.25, dur / target):.3f}"]
+            last = i == len(parts) - 1
+            b = total if last else min(total, seg[-1]["end"] + 0.02)
+            dur = b - a0
             cut = os.path.join(out, f"{wid}-{i}.wav")
-            sh("sox", raw, "-b", "32", "-e", "floating-point", cut, "trim", f"{a:.3f}", f"{dur:.3f}", *fx,
-               "fade", "t", f"{min(0.012, dur / 4):.3f}", "0", f"{min(0.03, dur / 3):.3f}", "rate", "-v", "44100")
-            # a soft peak catch at -1 dBFS, the same as the other clips
+            sh("sox", raw, "-b", "32", "-e", "floating-point", cut, "trim", f"{a0:.3f}", f"{dur:.3f}", "vol", f"{gain}dB",
+               "fade", "t", "0.008", "0", "0.012" if last else "0.035", "rate", "-v", "44100")
             lim = os.path.join(out, f"{wid}-{i}.l.wav")
             sh("ffmpeg", "-y", "-i", cut, "-af", "alimiter=limit=0.891:attack=5:release=60:level=false", "-c:a", "pcm_f32le", lim)
             d = float(subprocess.run(["soxi", "-D", lim], capture_output=True, text=True).stdout)

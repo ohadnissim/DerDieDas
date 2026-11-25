@@ -187,10 +187,12 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
 
 ## Lesen
 - `LESEN_WORDS` (`[id, tiles]`) in `index.html`; a word plays only when its tile sounds exist (`lt-<id>-<k>` in `pk-lesen`) and it
-  has a picture. Tile sounds come from `tools/make_lesen.py`: a fresh Mila take of the word (same ElevenLabs settings), ElevenLabs
-  forced alignment for the letter times, each tile cut out, sounds you can hold stretched (pitch kept), the whole word's -14 LUFS
-  gain on every tile, one soxr resample, one MP3 encode. It checks every take with speech-to-text: re-record any that read back
-  wrong (Hand came out as "Hunt" once). New words: add them to the tool's list and run it again, then replace `pk-lesen`.
+  has a picture. Tile sounds (`lt-<id>-<k>` in `pk-lesen2`) come from `tools/make_lesen.py`: a fresh Mila take of the word (same
+  ElevenLabs settings), ElevenLabs forced alignment for the letter times, and each tile plays **the word so far** (M … Mau … Maus),
+  cut at Mila's own speed, never stretched (Ohad 2026-11-25: stretched single sounds were "robotic/slowed down"); the whole
+  word's -14 LUFS gain on every cut, one soxr resample, one MP3 encode. The 53 takes and their timings are kept in
+  `/Volumes/WORK/CLAUDE/Learn German/_lesen-takes` (copy them into the tool's out folder and re-run: no new recordings). It checks every take with speech-to-text: re-record any that read back
+  wrong (Hand came out as "Hunt" once). New words: add them to the tool's list and run it again, then replace `pk-lesen2`.
 - Mila's lines are in `pk-le`. Round length grows with `progress.lesen.rounds` (3 tiles, then 4, then 5).
 
 ## Lautdetektiv
