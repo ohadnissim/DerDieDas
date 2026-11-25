@@ -7,12 +7,16 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 - [x] St and Sp in the Sch-Lok, said with a real Schhh (#21)
 - [x] Lesen (blending), step 1 below (#22)
 - [x] Lautdetektiv, step 2 below (#23)
-- [x] Mouth guide, step 4: Mila's mouths in img/mund-*.webp; in the Sch-Lok bubble, and the S → Sch pair when she says Sss
+- [x] Echo, step 6
+- [x] Ch-Zoo + known words first (#26), grown-ups tabs + Christmas costumes (#27)
+- [x] Mouth guide, step 4 (#25): Mila's mouths in img/mund-*.webp; in the Sch-Lok bubble, and the S → Sch pair when she says Sss
 - [x] Ch-Zoo, step 5: cat (ich), dragon (ach), fox (chs), speaking checked by the Aussprache-Helfer
 - [~] Pronunciation checker, step 3 (#24): in the Sch-Lok, switched on by grown-ups; her scores are logged. Still to do: set her
       line from real scores (a warm-up), then use it in the other speaking steps and the Ch-Zoo.
 
 ## Next, in order
+0. [ ] **Motion pass** (Ohad, 2026-11-25: "add motion … more interactive … so the all app will feel more alive"): tiles breathe,
+       characters blink and bounce, cards fly and flip, screens slide, stars fly to the counter; still for reduced motion.
 1. [x] **Lesen (blending):** sound tiles slide together into a word (M + au + s = Maus); Mila blends slowly, then she taps
        the matching picture. Words from the letters she knows. First step into reading, the way German schools teach it.
 2. [x] **Lautdetektiv:** Mila says words one at a time with the picture hidden; she decides whether she hears the sound
@@ -26,7 +30,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
        she is asked to say it and when she gets it wrong.
 5. [x] **Ch-Zoo (Group 2: ich-Ch, ach-Ch, Chs):** a soft hissing cat (ich) and a rough dragon (ach); words go to the right
        animal and she feeds them by saying the word right. Chs (Fuchs, Dachs, sechs) as a third friend.
-6. [ ] **Echo:** Mila says a word, she repeats, faster and faster, across all the sounds.
+6. [x] **Echo:** Mila says a word, she repeats, faster and faster, across all the sounds.
 7. [ ] **Her own voice:** a word she said well is kept, so the card can play Mila and then her.
 8. [ ] **The map:** each letter or sound is a place on her island map (M mill, Sch station, Ch zoo, St star tower …),
        unlocked as she learns it.
