@@ -235,6 +235,13 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   things travel instead of popping (zoo card arcs `m-arc-*`, a star flies to the counter `flyStar()`, screens slide in `m-in`).
 - A new game gets the same: its pictures drop in (`.enter` → `m-drop`), its characters breathe, its buttons spring.
 
+## Her voice book
+- `vbKeep(id, buf, margin)`: every word she says in the Sch-Lok, Ch-Zoo or Echo is kept on the device (IndexedDB
+  `derdiedas.voicebook`, 16 kHz WAV, the last `VB_KEEP` = 40) with the Aussprache-Helfer's score (or none).
+- Grown-ups play and mark them in Sounds → Her voice book; `vbLine()` puts the line where the marks disagree least (between her
+  lowest ✓ and highest ✗; only ✓ marks lower it, only ✗ marks raise it) and saves it as `progress.phonCal = {line, t}`.
+  `phonLine()` is what every judge uses. Clips never leave the device.
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),

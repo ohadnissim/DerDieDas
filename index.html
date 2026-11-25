@@ -934,6 +934,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 @keyframes m-arc-r{0%{transform:none}45%{transform:translate(14vw,-6vh) scale(.75) rotate(12deg)}100%{transform:translate(30vw,30vh) scale(.2) rotate(30deg);opacity:0}}
 @keyframes m-screen{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes m-pill{0%{transform:none}40%{transform:scale(1.25)}100%{transform:none}}
+.list.vb li{display:flex;align-items:center;gap:10px}.list.vb .vbw{font-weight:800;min-width:90px}.vbm{margin-left:auto;font-weight:800}.vbm.ok{color:#3FB37F}.vbm.no{color:#D9343A}
+.vbmark{display:flex;gap:4px}.vbmark .btn.on{background:var(--grape);color:#fff}
 .hstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,2.6vh,26px);min-height:0;padding:0 12px}
 .hletter{font-family:var(--display);font-weight:800;font-size:clamp(34px,6vmin,56px);line-height:1;color:var(--grape)}
 .hpic{width:clamp(130px,26vmin,240px);aspect-ratio:1;border-radius:28px;background:var(--paper);box-shadow:0 0 0 3px var(--line),var(--lift);padding:0;overflow:hidden}
@@ -6318,6 +6320,84 @@ const PHON_IPA = {schal:"ʃɑːl",schuh:"ʃuː",schlitten:"ʃlɪtən",schokolade
   geschenk:"ɡəʃɛŋk",fisch:"fɪʃ",frosch:"frɔʃ",tisch:"tɪʃ",muschel:"mʊʃəl",stern:"ʃtɛɾn",stuhl:"ʃtuːl",stiefel:"ʃtiːfəl",stift:"ʃtɪft",spinne:"ʃpɪnə",
   spiegel:"ʃpiːɡəl",spaten:"ʃpɑːtən",spatz:"ʃpats"};
 let PH = null;   // { m: the phon.js module, ok, err, pct }
+/* Her voice book: the last VB_KEEP words she said in the speaking games, kept on this device only (IndexedDB), as small
+   16 kHz WAV clips with what the Aussprache-Helfer scored. Grown-ups play them in the Sounds tab and mark each one right or
+   wrong; those marks set the checker's line for her voice (progress.phonCal.line), so it judges her, not a textbook. */
+const VB_KEEP = 40;
+const phonLine = () => (state.progress.phonCal && Number.isFinite(state.progress.phonCal.line)) ? state.progress.phonCal.line : 0;
+let vbDb = null;
+function vbOpen() {
+  if (vbDb) return vbDb;
+  vbDb = new Promise((res, rej) => {
+    try {
+      const r = indexedDB.open("derdiedas.voicebook", 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("clips", { keyPath: "k", autoIncrement: true });
+      r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+    } catch (e) { rej(e); }
+  }).catch(() => null);
+  return vbDb;
+}
+async function vbStore(fn) {
+  const db = await vbOpen(); if (!db) return null;
+  return new Promise(res => { try { const tx = db.transaction("clips", "readwrite"), st = tx.objectStore("clips"); const out = fn(st); tx.oncomplete = () => res(out && out.result !== undefined ? out.result : out); tx.onerror = () => res(null); } catch (e) { res(null); } });
+}
+// 16 kHz mono WAV of what the microphone heard
+async function vbWav(buf) {
+  const oc = new OfflineAudioContext(1, Math.ceil(buf.duration * 16000), 16000), src = oc.createBufferSource();
+  src.buffer = buf; src.connect(oc.destination); src.start();
+  const d = (await oc.startRendering()).getChannelData(0), out = new DataView(new ArrayBuffer(44 + d.length * 2));
+  const w = (o, t) => { for (let i = 0; i < t.length; i++) out.setUint8(o + i, t.charCodeAt(i)); };
+  w(0, "RIFF"); out.setUint32(4, 36 + d.length * 2, true); w(8, "WAVEfmt "); out.setUint32(16, 16, true); out.setUint16(20, 1, true); out.setUint16(22, 1, true);
+  out.setUint32(24, 16000, true); out.setUint32(28, 32000, true); out.setUint16(32, 2, true); out.setUint16(34, 16, true); w(36, "data"); out.setUint32(40, d.length * 2, true);
+  for (let i = 0; i < d.length; i++) out.setInt16(44 + i * 2, Math.max(-1, Math.min(1, d[i])) * 32767, true);
+  return new Blob([out], { type: "audio/wav" });
+}
+async function vbKeep(id, buf, margin) {
+  if (!buf) return;
+  try {
+    const wav = await vbWav(buf);
+    await vbStore(st => st.add({ w: id, d: today(), m: margin == null ? null : Math.round(margin * 100) / 100, wav, mark: null }));
+    const all = await vbAll(); if (all.length > VB_KEEP) await vbStore(st => { for (const c of all.slice(0, all.length - VB_KEEP)) st.delete(c.k); });
+  } catch (e) { micStat.err = "Voice book: " + (e && e.message || e); }
+}
+const vbAll = () => vbStore(st => st.getAll()).then(x => x || []);
+// the line from the grown-ups' marks: between her lowest "right" and her highest "wrong" score
+function vbLine(clips) {
+  const R = clips.filter(c => c.mark === "ok" && c.m != null).map(c => c.m), W = clips.filter(c => c.mark === "no" && c.m != null).map(c => c.m);
+  if (!R.length && !W.length) return null;
+  if (R.length && W.length) {
+    const cands = [...new Set([...R, ...W])].sort((a, b) => a - b), cuts = [cands[0] - 0.5, ...cands.slice(1).map((v, i) => (v + cands[i]) / 2), cands[cands.length - 1] + 0.5];
+    let best = cuts[0], err = Infinity;
+    for (const c of cuts) { const e = R.filter(v => v < c).length + W.filter(v => v >= c).length; if (e < err || (e === err && Math.abs(c) < Math.abs(best))) { err = e; best = c; } }
+    return Math.round(best * 100) / 100;
+  }
+  return R.length ? Math.round(Math.min(0, Math.min(...R) - 0.5) * 100) / 100 : Math.round(Math.max(0, Math.max(...W) + 0.5) * 100) / 100;
+}
+let vbPlaying = null;
+async function vbRender() {
+  const box = document.getElementById("vbList"); if (!box) return;
+  const all = (await vbAll()).reverse();
+  if (!all.length) { box.innerHTML = '<p class="small">No words kept yet. They appear here after she speaks in the Sch-Lok, the Ch-Zoo or Echo.</p>'; return; }
+  const line = phonLine(), cal = state.progress.phonCal;
+  box.innerHTML = '<p class="small">Line: <b>' + line + "</b>" + (cal && cal.t ? " (set from your marks on " + esc(cal.t) + ")" : " (not set yet: mark a few words)") + '. Scores above the line count as said right.</p><ul class="list vb">' +
+    all.map(c => { const w = findWord(c.w);
+      return '<li data-k="' + c.k + '"><button class="btn" data-vb="play" aria-label="Play">▶</button><span class="vbw">' + esc(w ? w.noun : c.w) + '</span><span class="small">' + esc(c.d) + "</span>" +
+        '<span class="vbm ' + (c.m == null ? "" : c.m >= line ? "ok" : "no") + '">' + (c.m == null ? "–" : (c.m >= line ? "✓ " : "✗ ") + c.m) + "</span>" +
+        '<span class="vbmark"><button class="btn' + (c.mark === "ok" ? " on" : "") + '" data-vb="ok" aria-label="Said right">✓</button><button class="btn' + (c.mark === "no" ? " on" : "") + '" data-vb="no" aria-label="Said wrong">✗</button></span></li>'; }).join("") + "</ul>";
+}
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest && e.target.closest("[data-vb]"); if (!b) return;
+  const k = Number(b.closest("li").dataset.k), all = await vbAll(), c = all.find(x => x.k === k); if (!c) return;
+  if (b.dataset.vb === "play") {
+    try { if (vbPlaying) vbPlaying.pause(); vbPlaying = new Audio(URL.createObjectURL(c.wav)); vbPlaying.play(); } catch (err) {}
+    return;
+  }
+  c.mark = c.mark === b.dataset.vb ? null : b.dataset.vb;
+  await vbStore(st => st.put(c));
+  const line = vbLine(await vbAll());
+  if (line == null) delete state.progress.phonCal; else state.progress.phonCal = { line, t: today() };
+  saveProgress(); vbRender();
+});
 const phonStatText = () => !state.settings.phon ? "off. Switching it on downloads about 240 MB once (Wi-Fi), then works without the internet." :
   PH && PH.ok ? "on, ready (" + esc(PH.device) + ")." : PH && PH.busy ? "on, downloading " + (PH.pct || 0) + " %." : PH && PH.err ? "on, but it could not load: " + esc(PH.err) : "on; it loads when she opens the Sch-Lok.";
 const phonStatShow = () => { const el = document.getElementById("phonStat"); if (el) el.innerHTML = phonStatText(); };
@@ -6350,9 +6430,10 @@ async function phonJudge(t, buf) {
   try {
     const w = await PH.m.to16k(buf), rows = await PH.m.phonFrames(w);
     const margin = PH.m.phonMargin(rows, ipa, ipa.replace(/ʃ/g, "s")), heard = PH.m.phonHeard(rows);
-    const line = (state.progress.phonCal && Number.isFinite(state.progress.phonCal.line)) ? state.progress.phonCal.line : 0;
+    const line = phonLine();
     const log = state.progress.phonLog = state.progress.phonLog || [];
     log.push({ d: today(), w: t.id, m: Math.round(margin * 100) / 100, h: heard }); if (log.length > 40) log.splice(0, log.length - 40);
+    vbKeep(t.id, buf, margin);
     return margin >= line ? "sch" : "s";
   } catch (e) { micStat.err = "Aussprache-Helfer: " + (e && e.message || e); return null; }
 }
@@ -6417,10 +6498,14 @@ async function slSayCheck(t) {
   const my = SL, m = $("slMund");
   await say([C("sm-du")]); if (SL !== my) return;
   m.classList.add("listen"); m.innerHTML = MUND.sch + 'Schhh… <span class="sldot idle"></span>';
-  const rec = PH && PH.ok ? slRecord(3500) : null;
+  const rec = slRecord(3500);   // kept in her voice book; judged by the Aussprache-Helfer when it is on
   let heard = await slListenHiss(3500, m.querySelector(".sldot")); if (SL !== my) return;
   // the model hears which sound it was; the meter only judged the hiss (and stays the judge when the model isn't there)
-  if (rec && heard !== null) { const v = await phonJudge(t, await rec); if (SL !== my) return; if (v) heard = v; }
+  if (heard !== null) {
+    const buf = await rec; if (SL !== my) return;
+    const v = PH && PH.ok ? await phonJudge(t, buf) : null; if (SL !== my) return;
+    if (v) heard = v; else vbKeep(t.id, buf, null);
+  }
   m.classList.remove("listen"); m.innerHTML = MUND.sch + "Schhh…";
   SL.said = SL.said || { sch: 0, s: 0, none: 0 }; SL.said[heard || "none"]++;
   if (heard === "sch") { chime(); sparkle(m, 12); await say([C("sm-gut")]); }
@@ -6934,19 +7019,9 @@ async function zooSpeak(t) {
     m.hidden = false; m.className = "zoomund listen"; m.innerHTML = (ZOO_MUND[t.a] ? MUND[ZOO_MUND[t.a]] : "") + '<span class="lbl">' + esc(t.w.noun) + '</span><span class="sldot"></span>';
     const buf = await recordStream(zooMic, 2800); if (ZO !== my) return;
     m.classList.remove("listen");
-    let loud = 0; if (buf) { const d = buf.getChannelData(0); for (let i = 0; i < d.length; i += 64) loud = Math.max(loud, Math.abs(d[i])); }
-    if (loud < 0.02) { m.hidden = true; return; }   // she didn't say it: no judgement either way
-    const ipa = t.id === "milch" ? null : ZOO_IPA[t.id];
-    let ok = true;
-    if (ipa && PH && PH.ok) {
-      try {
-        const rows = await PH.m.phonFrames(await PH.m.to16k(buf)), margin = PH.m.phonMargin(rows, ipa[0], ipa[1]);
-        const log = state.progress.phonLog = state.progress.phonLog || [];
-        log.push({ d: today(), w: t.id, m: Math.round(margin * 100) / 100, h: PH.m.phonHeard(rows) }); if (log.length > 40) log.splice(0, log.length - 40);
-        const line = (state.progress.phonCal && Number.isFinite(state.progress.phonCal.line)) ? state.progress.phonCal.line : 0;
-        ok = margin >= line;
-      } catch (e) { micStat.err = "Ch-Zoo: " + (e && e.message || e); }
-    }
+    const res = await judgeSaid(t.id, buf); if (ZO !== my) return;
+    if (!res.said) { m.hidden = true; return; }   // she didn't say it: no judgement either way
+    const ok = res.ok !== false;
     if (ZO !== my) return;
     if (ok) { chime(); sparkle(m, 12); await say([C("cz-gut")]); m.hidden = true; return; }
     boop(); m.classList.add("tip");
@@ -6972,12 +7047,13 @@ async function judgeSaid(id, buf) {
   let loud = 0; if (buf) { const d = buf.getChannelData(0); for (let i = 0; i < d.length; i += 64) loud = Math.max(loud, Math.abs(d[i])); }
   if (loud < 0.02) return { said: false };
   const ipa = sayIpa(id);
-  if (!ipa || !PH || !PH.ok) return { said: true, ok: null };
+  if (!ipa || !PH || !PH.ok) { vbKeep(id, buf, null); return { said: true, ok: null }; }
   try {
     const rows = await PH.m.phonFrames(await PH.m.to16k(buf)), margin = PH.m.phonMargin(rows, ipa[0], ipa[1]);
     const log = state.progress.phonLog = state.progress.phonLog || [];
     log.push({ d: today(), w: id, m: Math.round(margin * 100) / 100, h: PH.m.phonHeard(rows) }); if (log.length > 40) log.splice(0, log.length - 40);
-    const line = (state.progress.phonCal && Number.isFinite(state.progress.phonCal.line)) ? state.progress.phonCal.line : 0;
+    const line = phonLine();
+    vbKeep(id, buf, margin);
     return { said: true, ok: margin >= line };
   } catch (e) { micStat.err = "Aussprache-Helfer: " + (e && e.message || e); return { said: true, ok: null }; }
 }
@@ -7242,7 +7318,9 @@ function voiceSection() {
   body += '<p class="small" style="margin-top:4px">Aussprache-Helfer (hears which sound she made, in the Sch-Lok): ' +
     '<span id="phonStat">' + phonStatText() + "</span>" +
     (pl.length ? "<br>Her last words (score above 0 = a real Schhh): " + pl.slice(-10).map(x => esc(x.w) + " " + x.m).join(", ") : "") + "</p>";
-  return '<section><h3>Voice</h3>' + body +
+  setTimeout(vbRender, 0);
+  return '<section><h3>Her voice book</h3><p class="small">The last words she said in the Sch-Lok, the Ch-Zoo and Echo, kept on this iPad only. Play one and mark it ✓ if she said it right or ✗ if not: your marks teach the Aussprache-Helfer where right ends for her voice.</p><div id="vbList"></div></section>' +
+  '<section><h3>Voice</h3>' + body +
     '<div class="settings" style="margin-top:10px"><button class="btn" data-act="testclip">Test recorded voice</button>' +
     (hasTTS ? '<button class="btn" data-act="testvoice">Test iPad voice</button>' : "") +
     (state.progress.schCal ? '<button class="btn" data-act="schretune">Tune the Sch-Meter again</button>' : "") +
