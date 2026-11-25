@@ -3,5 +3,5 @@
 set -e
 cd "$(dirname "$0")/.."
 rm -rf www && mkdir www
-cp ../index.html www/
+cp ../index.html ../phon.js www/   # phon.js: the Aussprache-Helfer, loaded by index.html
 cp -R ../audio ../img ../data ../fonts www/
