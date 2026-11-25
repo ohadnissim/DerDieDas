@@ -5,12 +5,14 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 
 ## Done
 - [x] St and Sp in the Sch-Lok, said with a real Schhh (#21)
-- [x] Lesen (blending), step 1 below
+- [x] Lesen (blending), step 1 below (#22)
+- [x] Lautdetektiv, step 2 below
 
 ## Next, in order
 1. [x] **Lesen (blending):** sound tiles slide together into a word (M + au + s = Maus); Mila blends slowly, then she taps
        the matching picture. Words from the letters she knows. First step into reading, the way German schools teach it.
-2. [ ] **Lautdetektiv:** Mila tells a mini story; every time she hears the sound (Schhh, later Ch …) she taps the detective.
+2. [x] **Lautdetektiv:** Mila says words one at a time with the picture hidden; she decides whether she hears the sound
+       (magnifier yes, hand no). A word parade instead of a story, so it runs on Mila's existing word recordings.
 3. [ ] **Pronunciation checker:** a real model that hears which sounds she made (ʃ / s / ç / x …), scored against the word
        she was asked to say and its likely mistakes (Stern vs Schtern, ich vs isch). Model picked from the research run
        on 2026-11-25: facebook/wav2vec2-lv-60-espeak-cv-ft (onnx-community q4f16, about 190 MB, transformers.js) won the
