@@ -23,7 +23,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 ## Next, in order (all eleven steps are built as of 2026-11-25)
 0. [x] **Motion pass** (Ohad, 2026-11-25: "add motion … more interactive … so the all app will feel more alive"): tiles breathe,
        characters blink and bounce, cards fly and flip, screens slide, stars fly to the counter; still for reduced motion.
-1. [x] **Lesen (blending):** sound tiles slide together into a word (M + au + s = Maus); Mila blends slowly, then she taps
+1. [–] **Lesen (blending), removed 2026-11-25 ("not working well"):** sound tiles slide together into a word (M + au + s = Maus); Mila blends slowly, then she taps
        the matching picture. Words from the letters she knows. First step into reading, the way German schools teach it.
 2. [x] **Lautdetektiv:** Mila says words one at a time with the picture hidden; she decides whether she hears the sound
        (magnifier yes, hand no). A word parade instead of a story, so it runs on Mila's existing word recordings.

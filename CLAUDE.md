@@ -185,15 +185,11 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   the head, 512 px). `MUND` in `index.html`; the Sch-Lok bubble shows the Sch mouth, and S → Sch when the meter or model heard Sss.
 - When TTS has to say "Sch" or "S" alone, write "Schhh" / "Sss", or it spells the letters.
 
-## Lesen
-- `LESEN_WORDS` (`[id, tiles]`) in `index.html`; a word plays only when its tile sounds exist (`lt-<id>-<k>` in `pk-lesen`) and it
-  has a picture. Tile sounds (`lt-<id>-<k>` in `pk-lesen2`) come from `tools/make_lesen.py`: a fresh Mila take of the word (same
-  ElevenLabs settings), ElevenLabs forced alignment for the letter times, and each tile plays **the word so far** (M … Mau … Maus),
-  cut at Mila's own speed, never stretched (Ohad 2026-11-25: stretched single sounds were "robotic/slowed down"); the whole
-  word's -14 LUFS gain on every cut, one soxr resample, one MP3 encode. The 53 takes and their timings are kept in
-  `/Volumes/WORK/CLAUDE/Learn German/_lesen-takes` (copy them into the tool's out folder and re-run: no new recordings). It checks every take with speech-to-text: re-record any that read back
-  wrong (Hand came out as "Hunt" once). New words: add them to the tool's list and run it again, then replace `pk-lesen2`.
-- Mila's lines are in `pk-le`. Round length grows with `progress.lesen.rounds` (3 tiles, then 4, then 5).
+## Lesen (removed)
+- Removed 2026-11-25 (Ohad: "remove LESEN, it's not working well"; first its stretched tile sounds were "robotic/slowed down",
+  then the word-so-far version did not work for her either). `LESEN_WORDS` stays: the Lautdetektiv takes words from it.
+  The game, `tools/make_lesen.py` and its packs are in the git history (#22, #39); Mila's 53 word takes are kept in
+  `/Volumes/WORK/CLAUDE/Learn German/_lesen-takes` should reading come back in another form.
 
 ## Lautdetektiv
 - `startDet` / `detPool()`: every picture word with sound tiles (`LAUT_WORDS`, `LESEN_WORDS`, `DET_EXTRA`) and a recorded `n-` clip.
