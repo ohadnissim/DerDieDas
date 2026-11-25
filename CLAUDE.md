@@ -180,6 +180,11 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
 - After "Mach die Lippen rund … sag es mit mir" for each Sch word, Mila says "Jetzt du!" and the meter listens 3.5 s
   (`slSayCheck`): a Schhh gets "Ja! Das war ein schönes Schhh!", a Sss gets the round-lips tip. The mic stays open from
   then until the train has left. Mila's lines for it are in `pk-schm`.
+- She says every word, S words too (Ohad, 2026-11-25: "she needs to say also S not just SCH"): for S words Mila says "Lächle wie
+  eine Schlange, die Zähne zusammen, und sag es mit mir:" (`sl-sag-s`), the bubble shows the S mouth, and `slSayCheck` wants a Sss: a
+  Schhh gets the Sch → S mouths and `sl-zaehne`. An S at the start of a word is a soft buzzing z the meter often can't judge; then a
+  plain praise if she said something. Lines in `pk-sss` ("Ja! Das war ein schönes Sss!" read back as "Sys", so it is "Ja! Super
+  gezischt, wie eine Schlange!").
 - Mouth guide: `img/mund-sch|s|ich|ach.webp` (Mila's head, Higgsfield `nano_banana_flash` with the story style and Mila
   references, "close-up … showing clearly how to make a sound with the mouth: …", two takes, `image_background_remover`, cropped to
   the head, 512 px). `MUND` in `index.html`; the Sch-Lok bubble shows the Sch mouth, and S → Sch when the meter or model heard Sss.
