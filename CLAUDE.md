@@ -236,6 +236,8 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
 - One block of CSS, "Motion pass", inside `@media (prefers-reduced-motion: no-preference)`: devices set to reduce motion keep the
   still version, and JS motion checks `RM()`. Idle life is slow and out of step (`--d` offsets); taps answer fast and springy;
   things travel instead of popping (zoo card arcs `m-arc-*`, a star flies to the counter `flyStar()`, screens slide in `m-in`).
+- Never animate `.orb` itself (the der/die/das friends): its face is sized in `cqw`, and on the iPad an animated `.orb` lost its
+  face (2026-11-25). They already float through `.orbwrap`.
 - A new game gets the same: its pictures drop in (`.enter` → `m-drop`), its characters breathe, its buttons spring.
 
 ## Her voice book

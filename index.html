@@ -872,8 +872,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
   body.talking .mila-face{animation:talk .28s ease-in-out infinite alternate}
   .zooani img{animation:m-sway 3.4s ease-in-out var(--d,0s) infinite;transform-origin:50% 95%}
   .zooani.right img{animation:m-munch .9s ease-in-out}
-  .orb{animation:m-breathe 4s ease-in-out var(--d,0s) infinite}
-  .orb.die{--d:-1.4s}.orb.das{--d:-2.7s}
+  /* (not on .orb itself: its face is sized in cqw, and on the iPad an animated .orb lost its face; the friends already float via .orbwrap) */
   /* words and pictures arrive with a little drop and settle */
   .zoocard.enter,.detcard.enter,.slpic.enter,.hpic.enter,.meetcard.enter{animation:m-drop .55s cubic-bezier(.3,1.5,.5,1)}
   /* Lautdetektiv: a real card flip */
@@ -7079,7 +7078,7 @@ $("echoBtn").addEventListener("click", () => { pop(); startEcho(); });
 for (const b of document.querySelectorAll("#echoScreen [data-home]")) b.addEventListener("click", () => { EC = null; zooMicStop(); });
 
 // every tile, animal and circle friend breathes a little out of step with its neighbours, and a tapped home tile wiggles
-document.querySelectorAll(".ptile, .zooani, .orb").forEach((el, i) => el.style.setProperty("--d", (-((i * 0.73) % 3.4)).toFixed(2) + "s"));
+document.querySelectorAll(".ptile, .zooani").forEach((el, i) => el.style.setProperty("--d", (-((i * 0.73) % 3.4)).toFixed(2) + "s"));
 document.addEventListener("pointerdown", (e) => { const t = e.target.closest && e.target.closest(".ptile"); if (t && !RM()) restart(t, "m-tap"); }, { capture: true });
 /* ---------- Die Karte: her island map. Every sound she learns opens a place (Mühle M, Iglu I, Leuchtturm L, Apfelbaum A,
    Tannenwald T, Bahnhof Sch, Sternturm St, Spinnengarten Sp, Zoo Ch). A letter's place opens once she has written it in
