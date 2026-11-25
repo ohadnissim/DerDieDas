@@ -7,7 +7,8 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 - [x] St and Sp in the Sch-Lok, said with a real Schhh (#21)
 - [x] Lesen (blending), step 1 below (#22)
 - [x] Lautdetektiv, step 2 below (#23)
-- [~] Pronunciation checker, step 3: in the Sch-Lok, switched on by grown-ups; her scores are logged. Still to do: set her
+- [x] Mouth guide, step 4: Mila's mouths in img/mund-*.webp; in the Sch-Lok bubble, and the S → Sch pair when she says Sss
+- [~] Pronunciation checker, step 3 (#24): in the Sch-Lok, switched on by grown-ups; her scores are logged. Still to do: set her
       line from real scores (a warm-up), then use it in the other speaking steps and the Ch-Zoo.
 
 ## Next, in order
@@ -20,7 +21,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
        on 2026-11-25: facebook/wav2vec2-lv-60-espeak-cv-ft (onnx-community q4f16, about 190 MB, transformers.js) won the
        test on synthetic voices (about 85 to 97 % right; ZIPA-small lower). Weak spot: high child voices push ç toward s/ʃ,
        so it needs her own warm-up recordings and a per-word threshold before it judges her. Replaces the hiss-only check where it is better; the Sch-Meter stays as the fallback.
-4. [ ] **Mouth guide:** a picture of Mila's mouth for each sound (round lips Sch, flat smile ich, throat ach), shown when
+4. [x] **Mouth guide:** a picture of Mila's mouth for each sound (round lips Sch, flat smile ich, throat ach), shown when
        she is asked to say it and when she gets it wrong.
 5. [ ] **Ch-Zoo (Group 2: ich-Ch, ach-Ch, Chs):** a soft hissing cat (ich) and a rough dragon (ach); words go to the right
        animal and she feeds them by saying the word right. Chs (Fuchs, Dachs, sechs) as a third friend.
