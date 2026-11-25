@@ -229,6 +229,12 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   Lautdetektiv leave new words out; the Sch-Lok and the Ch-Zoo show up to today's two first, then play with what she knows.
 - A new picture word that is not from her school sheet goes into `NEW_WORDS`. Words from a new school list are known already.
 
+## Motion (Ohad, 2026-11-25: "so the all app will feel more alive")
+- One block of CSS, "Motion pass", inside `@media (prefers-reduced-motion: no-preference)`: devices set to reduce motion keep the
+  still version, and JS motion checks `RM()`. Idle life is slow and out of step (`--d` offsets); taps answer fast and springy;
+  things travel instead of popping (zoo card arcs `m-arc-*`, a star flies to the counter `flyStar()`, screens slide in `m-in`).
+- A new game gets the same: its pictures drop in (`.enter` → `m-drop`), its characters breathe, its buttons spring.
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),
