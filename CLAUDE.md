@@ -209,6 +209,23 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   Spinne 2.75, Schal 1.59, Fisch 2.66, Schuh 0.76, Frosch 3.64, Tisch 0.82; Sonne (z vs ʃ) -0.11. Synthetic tests: 85 to 88 %
   right, 75 % on raised "child" voices (ç heard as ʃ).
 
+## Ch-Zoo
+- `ZOO` (which words each animal gets), `ZOO_IPA` ([right, mistake] for the Aussprache-Helfer), `ZOO_MUND`. Cards `img/x-<id>.webp`
+  (word-card recipe), animals `img/zoo-katze|drache|fuchs.webp` (story style, background removed), Mila in `pk-zoo`.
+- The model hears Mila's soft ch as ɕ as often as ç, so ich words accept either (`ICH()`); the child's mistake is ʃ. Write ich
+  words with spaced sounds, or "tç" in Brötchen merges into the single sound tʃ. Mila's checked margins (2026-11-25): ach words
+  +1 to +7, Chs words about +6, ich words +1.1 to +5.1. Milch sat at -0.09 on its older recording, so it is not asked for yet.
+- espeak writes Fuchs as fʊxs; it is fʊks (and Dachs daks, Ochse ɔksə). TTS: Mila never says "Ch" alone; she says example words.
+
+## Known words first (Ohad, 2026-11-25)
+"We have to make sure to currently use words she knows … happy to introduce slowly new words, but we cant stir too far away."
+- `NEW_WORDS`: picture words that are not from her school lists (the St/Sp words and the Ch-Zoo words, added 2026-11-25).
+  `isKnown(id)` is true for every other word, and for a new word once Mila has shown it (`progress.met[id]` = the day).
+- `meetWords(ids)`: the "Neue Wörter!" card (picture, article in its colour, the word, Mila's `w-` clip, tap on), lines in `pk-mw`.
+- At most `NEW_PER_DAY` (2) new words a day across the whole app (`canMeet`). Every game picks only known words: Lesen and
+  Lautdetektiv leave new words out; the Sch-Lok and the Ch-Zoo show up to today's two first, then play with what she knows.
+- A new picture word that is not from her school sheet goes into `NEW_WORDS`. Words from a new school list are known already.
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),
