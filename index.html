@@ -338,6 +338,10 @@ button:disabled{cursor:default}
 .sltune[data-kind="s"] .tring{background:conic-gradient(#F2A23A calc(var(--p) * 360deg),#E6E1D8 0)}
 .sltune.listen{animation:breathe 1.4s ease-in-out infinite}
 .slmund.listen{display:flex;align-items:center;gap:12px}
+.slmund{display:flex;align-items:center;gap:10px}.slmund[hidden]{display:none}
+.slmund .mund{width:clamp(70px,11vmin,104px);height:auto;margin:-6px 0 -6px -10px}
+.slmund .was{position:relative;display:inline-flex}.slmund .was::after{content:"";position:absolute;inset:18% 8% 8%;background:linear-gradient(to top right,transparent 45%,#D9343A 46% 54%,transparent 55%)}
+.slmund .to{font-size:28px}
 .slmund .sldot{position:relative;top:auto;translate:none;left:auto!important;width:22px;height:22px}
 .slblow{padding:22px 40px;border-radius:999px;background:linear-gradient(160deg,#E8484E,#B9252E);color:#fff;font:800 clamp(26px,6vmin,42px)/1 var(--display);box-shadow:0 6px 0 #8A1C22,var(--lift);touch-action:none;user-select:none}
 .slblow:active{translate:0 4px;box-shadow:0 2px 0 #8A1C22}
@@ -1500,7 +1504,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
   <button class="slpic" id="slPic" aria-label="Nochmal hören"></button>
   <div class="slword" id="slWord" hidden aria-hidden="true"></div>
   <div class="slbtns" id="slBtns"><button class="slbtn sch" id="slSch" aria-label="Sch"><img src="img/sl-lok.webp" alt="" draggable="false"><b>Sch</b></button><button class="slbtn s" id="slS" aria-label="S"><img src="img/sl-sonne.webp" alt="" draggable="false"><b>S</b></button></div>
-  <div class="slmund" id="slMund" hidden>😗 Schhh…</div>
+  <div class="slmund" id="slMund" hidden><img class="mund" src="img/mund-sch.webp" alt="" draggable="false">Schhh…</div>
   <div class="slpuste" id="slPuste" hidden><div class="sltune" id="slTune" hidden><span class="tsnk">🐍</span><img class="tlok" src="img/sl-lok.webp" alt="" draggable="false"><span class="tring" id="slTuneFill"></span></div><div class="slmeter" id="slMeter" hidden><span class="snk">🐍 Sss</span><span class="sldot idle" id="slDot"></span><span class="trn">Schhh 🚂</span></div><button class="slblow" id="slBlow">🚂 Schhhhh!</button></div>
   <div class="tctl">
     <button class="round mila-btn" id="slListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button>
@@ -6193,18 +6197,25 @@ async function slTap(isSch, btn) {
   SL.phase = "next"; $("slNext").hidden = false; bump($("slNext"));
 }
 // she says the word herself and the meter listens for its hiss: a real Schhh gets a cheer, a Sss gets the round-lips tip
+// Mila's mouth for each sound (img/mund-*.webp): round lips Sch, snake smile S, flat cat smile ich, open dragon mouth ach
+const MUND = Object.fromEntries(["sch", "s", "ich", "ach"].map(k => [k, '<img class="mund" src="img/mund-' + k + '.webp" alt="" draggable="false">']));
 async function slSayCheck(t) {
   const my = SL, m = $("slMund");
   await say([C("sm-du")]); if (SL !== my) return;
-  m.classList.add("listen"); m.innerHTML = '😗 Schhh… <span class="sldot idle"></span>';
+  m.classList.add("listen"); m.innerHTML = MUND.sch + 'Schhh… <span class="sldot idle"></span>';
   const rec = PH && PH.ok ? slRecord(3500) : null;
   let heard = await slListenHiss(3500, m.querySelector(".sldot")); if (SL !== my) return;
   // the model hears which sound it was; the meter only judged the hiss (and stays the judge when the model isn't there)
   if (rec && heard !== null) { const v = await phonJudge(t, await rec); if (SL !== my) return; if (v) heard = v; }
-  m.classList.remove("listen"); m.textContent = "😗 Schhh…";
+  m.classList.remove("listen"); m.innerHTML = MUND.sch + "Schhh…";
   SL.said = SL.said || { sch: 0, s: 0, none: 0 }; SL.said[heard || "none"]++;
   if (heard === "sch") { chime(); sparkle(m, 12); await say([C("sm-gut")]); }
-  else if (heard === "s") { boop(); await say([C("sl-lippen")]); }
+  else if (heard === "s") {
+    // the mouth she made (the smile of the snake) and the one Schhh needs (round lips), side by side while Mila explains
+    boop(); m.innerHTML = '<span class="was">' + MUND.s + '</span><span class="to">→</span>' + MUND.sch; restart(m, "enter");
+    await say([C("sl-lippen")]); if (SL !== my) return;
+    m.innerHTML = MUND.sch + "Schhh…";
+  }
 }
 $("slSch").addEventListener("click", () => slTap(true, $("slSch")));
 $("slS").addEventListener("click", () => slTap(false, $("slS")));
