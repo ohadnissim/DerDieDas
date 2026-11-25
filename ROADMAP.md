@@ -8,6 +8,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 - [x] Lesen (blending), step 1 below (#22)
 - [x] Lautdetektiv, step 2 below (#23)
 - [x] Mouth guide, step 4: Mila's mouths in img/mund-*.webp; in the Sch-Lok bubble, and the S → Sch pair when she says Sss
+- [x] Ch-Zoo, step 5: cat (ich), dragon (ach), fox (chs), speaking checked by the Aussprache-Helfer
 - [~] Pronunciation checker, step 3 (#24): in the Sch-Lok, switched on by grown-ups; her scores are logged. Still to do: set her
       line from real scores (a warm-up), then use it in the other speaking steps and the Ch-Zoo.
 
@@ -23,7 +24,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
        so it needs her own warm-up recordings and a per-word threshold before it judges her. Replaces the hiss-only check where it is better; the Sch-Meter stays as the fallback.
 4. [x] **Mouth guide:** a picture of Mila's mouth for each sound (round lips Sch, flat smile ich, throat ach), shown when
        she is asked to say it and when she gets it wrong.
-5. [ ] **Ch-Zoo (Group 2: ich-Ch, ach-Ch, Chs):** a soft hissing cat (ich) and a rough dragon (ach); words go to the right
+5. [x] **Ch-Zoo (Group 2: ich-Ch, ach-Ch, Chs):** a soft hissing cat (ich) and a rough dragon (ach); words go to the right
        animal and she feeds them by saying the word right. Chs (Fuchs, Dachs, sechs) as a third friend.
 6. [ ] **Echo:** Mila says a word, she repeats, faster and faster, across all the sounds.
 7. [ ] **Her own voice:** a word she said well is kept, so the card can play Mila and then her.
@@ -36,6 +37,8 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 11. [ ] **Weekly voice report for grown-ups:** per sound, how often she said it right, with a couple of her clips.
 
 ## Rules for every step
+- Known words first: games use only words she knows; new words are shown on a "Neue Wörter!" card first, at most two a day
+  (Ohad, 2026-11-25: "we cant stir too far away").
 - Same tools and settings as CLAUDE.md (Higgsfield pictures, ElevenLabs Mila, -14 LUFS, speech-to-text check).
 - Nothing that needs paid credits while she plays: generation happens when we build, not in the app.
 - Test it running in the browser before the PR; say what could not be tested (the microphone on the iPad).

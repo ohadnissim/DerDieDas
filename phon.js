@@ -81,7 +81,10 @@ export function phonFit(rows, ipa) {
 }
 
 // above 0: the right way fits better than the mistake
-export function phonMargin(rows, right, wrong) { return phonFit(rows, right) - phonFit(rows, wrong); }
+// right / wrong may each be a list of ways of saying it (the best fitting one counts): the soft ch of ich comes out as ç or ɕ
+// (both fine), the child's mistake is the round ʃ
+const bestFit = (rows, x) => Array.isArray(x) ? Math.max(...x.map(y => phonFit(rows, y))) : phonFit(rows, x);
+export function phonMargin(rows, right, wrong) { return bestFit(rows, right) - bestFit(rows, wrong); }
 
 // what it heard, plainly (for the grown-ups' test page)
 export function phonHeard(rows) {
