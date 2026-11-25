@@ -936,7 +936,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 @keyframes m-pill{0%{transform:none}40%{transform:scale(1.25)}100%{transform:none}}
 .list.vb li{display:flex;align-items:center;gap:10px}.list.vb .vbw{font-weight:800;min-width:90px}.vbm{margin-left:auto;font-weight:800}.vbm.ok{color:#3FB37F}.vbm.no{color:#D9343A}
 .vbmark{display:flex;gap:4px}.vbmark .btn.on{background:var(--grape);color:#fff}
-.kstage{flex:1;display:grid;place-items:center;min-height:0;padding:0 8px 8px}
+.kstage{flex:1;display:grid;place-items:center;min-height:0;padding:0 8px 8px;position:relative}
+.kmila{position:absolute;left:clamp(10px,2vw,24px);bottom:clamp(10px,2vh,24px)}
 .kmap{position:relative;width:min(100%,calc((100vh - 90px) * 1.339));aspect-ratio:2400/1792}
 .kmap img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
 .kspots{position:absolute;inset:0}
@@ -1714,6 +1715,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
     <button class="zoocard" id="ecCard" aria-label="Nochmal hören"></button>
     <div class="zoomund" id="ecMund" hidden></div>
     <div class="ecear" id="ecEar" aria-hidden="true">🗣️</div>
+    <div class="tctl"><button class="round mila-btn" id="ecListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button></div>
   </div>
 </section>
 
@@ -1723,7 +1725,8 @@ circle.inked{fill:#8E3FC7;stroke:none}
     <div class="bar-mid"></div>
     <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
   </div>
-  <div class="kstage"><div class="kmap"><img src="img/karte.webp" alt="" draggable="false"><div class="kspots" id="karteSpots"></div></div></div>
+  <div class="kstage"><div class="kmap"><img src="img/karte.webp" alt="" draggable="false"><div class="kspots" id="karteSpots"></div></div>
+    <button class="round mila-btn kmila" id="karteListen" aria-label="Mila"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button></div>
 </section>
 
 <section class="screen" id="mybookScreen" hidden>
@@ -1739,7 +1742,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
       <div class="trow" id="mbRow"></div>
       <div class="ttext" id="mbText"></div>
     </div>
-    <div class="tctl"><button class="go" id="mbNext" aria-label="Weiter" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+    <div class="tctl"><button class="round mila-btn" id="mbListen" aria-label="Mila, nochmal"><img class="mila-face" src="img/mila-face.webp" alt="" data-friend="1"></button><button class="go" id="mbNext" aria-label="Weiter" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
   </div>
 </section>
 
@@ -7079,13 +7082,13 @@ async function zooTap(btn) {
 async function zooSpeak(t) {
   const my = ZO;
   if (!micAllowed()) return;
-  if (!await talkMicOpen("Ch-Zoo")) return;
   if (ZO !== my) return;
   const m = $("zooMund");
   for (let round = 0; round < 2; round++) {
     await say([C("cz-sag")]); if (ZO !== my) return;
     m.hidden = false; m.className = "zoomund listen"; m.innerHTML = (ZOO_MUND[t.a] ? MUND[ZOO_MUND[t.a]] : "") + '<span class="lbl">' + esc(t.w.noun) + '</span><span class="sldot"></span>';
-    const buf = await recordStream(zooMic, 2800); if (ZO !== my) return;
+    if (!await talkMicOpen("Ch-Zoo")) { m.hidden = true; return; }
+    const buf = await recordStream(zooMic, 2800); zooMicStop(); if (ZO !== my) return;   // mic off again: Mila stays loud
     m.classList.remove("listen");
     const res = await judgeSaid(t.id, buf); if (ZO !== my) return;
     if (!res.said) { m.hidden = true; return; }   // she didn't say it: no judgement either way
@@ -7097,7 +7100,8 @@ async function zooSpeak(t) {
   }
   m.hidden = true;
 }
-// one microphone for the speaking games (Ch-Zoo, Echo): opened on the first word, closed when the game ends or she goes home
+// the microphone for the speaking games (Ch-Zoo, Echo): on only while she speaks, then off again. While it is on, iOS puts the
+// iPad in "play-and-record" and plays everything much quieter, so leaving it on made Mila drop in volume halfway through a game.
 async function talkMicOpen(who) {
   if (zooMic) return true;
   try {
@@ -7167,8 +7171,9 @@ async function echoNext() {
   let res = { said: false };
   if (micAllowed() && await talkMicOpen("Echo")) {
     for (let go = 0; go < 2; go++) {
+      if (go && !await talkMicOpen("Echo")) break;
       $("ecEar").classList.add("listen");
-      const buf = await recordStream(zooMic, fast ? 1900 : 2600); if (EC !== my) return;
+      const buf = await recordStream(zooMic, fast ? 1900 : 2600); zooMicStop(); if (EC !== my) return;   // mic off again: Mila stays loud
       $("ecEar").classList.remove("listen");
       res = await judgeSaid(t.id, buf); if (EC !== my) return;
       if (res.said && res.ok === false && go === 0) {
@@ -7250,6 +7255,10 @@ $("karteSpots").addEventListener("click", async (e) => {
   if (!$("karteScreen").hidden) k.go();
 });
 $("karteBtn").addEventListener("click", () => { pop(); startKarte(); });
+$("ecListen").addEventListener("click", () => { if (EC && EC.list[EC.i]) say([N(EC.list[EC.i].w)]); });
+$("mbListen").addEventListener("click", () => { if (!MB) return; if (MB.step === "read") { const my = MB; sayLit(MB.list[MB.i], $("mbRow"), $("mbText"), () => MB === my, false); } else say([C(MB.step === "hero" ? "bk-wer" : "bk-was")]); });
+$("karteListen").addEventListener("click", () => say([C("mk-intro")]));
+
 
 /* ---------- Mein Buch: she makes her own little book. She picks a hero and three things she knows, and every page is one of
    the Sätze sentences recorded in one go ("Mia malt den Apfel."), so no new voices and nothing generated while she plays.
