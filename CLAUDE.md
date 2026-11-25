@@ -212,7 +212,12 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   Spinne 2.75, Schal 1.59, Fisch 2.66, Schuh 0.76, Frosch 3.64, Tisch 0.82; Sonne (z vs ʃ) -0.11. Synthetic tests: 85 to 88 %
   right, 75 % on raised "child" voices (ç heard as ʃ).
 
-## Ch-Zoo
+## ich · ach (was the Ch-Zoo)
+- Ohad, 2026-11-25: "in the zoo i dont get the cat dragon … whats the point?" → simplify, and "she cant read though… she needs
+  something that will have this in the word". So the buttons are pictures of words with the sound (`ZOO_ANCHOR`: Milch, Buch,
+  Fuchs, drawn with `faceHTML(findWord(…))` so they match the game's own picture), lit in turn while Mila says them on the first
+  word (`zooIntro`); Buch and Fuchs are met first. Lines without animals in `pk-zoo2` (a later pack wins for the same clip name).
+  The animal pictures `img/zoo-*.webp` are no longer used by the game; inside the code the keys are still katze/drache/fuchs.
 - `ZOO` (which words each animal gets), `ZOO_IPA` ([right, mistake] for the Aussprache-Helfer), `ZOO_MUND`. Cards `img/x-<id>.webp`
   (word-card recipe), animals `img/zoo-katze|drache|fuchs.webp` (story style, background removed), Mila in `pk-zoo`.
 - The model hears Mila's soft ch as ɕ as often as ç, so ich words accept either (`ICH()`); the child's mistake is ʃ. Write ich
