@@ -159,6 +159,10 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   `img/x-<id>.webp` made on Higgsfield in the word-card style (i-igel / l-lama as references). They are NOT in her der/die/das
   list: they only appear in the letter games, the Sch-Lok and the stories (a story "ask" step doesn't score them). Mila's
   `w-<id>` / `n-<id>` are in `pk-xw`.
+- St and Sp (`ST_WORDS`, `SP_WORDS`, cards `img/x-<id>.webp`, Mila's `w-`/`n-` and `sl-stsp` in `pk-st`): in the Sch-Lok they go
+  on the Lok side, since at the start of a word the S is said Schhh. A round is 3 Sch, 2 St, 2 Sp and 2 S words. They are not
+  in the letter games (their Schhh is always the first sound). TTS can't say "Scht" or "Schp" (speech-to-text heard "St" and
+  worse), so Mila never says them alone: she says "Hier klingt das S am Anfang wie Schhh!".
 - `LAUT_WORDS.t` / `LAUT_WORDS.sch`; Sch is in `LAUT_ONLY` (letter games only, not in Schreiben). T is in `LETTERS` and
   `GLYPHS`.
 - The Sch-Lok (`startSch`) listens with the Sch-Meter (`schMeter()`): an AnalyserNode on the microphone (echo cancelling,
