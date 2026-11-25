@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aussprache-Helfer Test</title>
+<style>
+  :root{--bg:#1d1630;--ink:#f4efff;--ok:#3FB37F;--bad:#D9343A}
+  body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,sans-serif}
+  table{border-collapse:collapse;margin-top:12px}td,th{padding:4px 10px;border-bottom:1px solid #443a5c;text-align:left}
+  .ok{color:var(--ok)}.bad{color:var(--bad)}#log{white-space:pre-wrap;opacity:.8}
+</style></head><body>
+<h1>Aussprache-Helfer: Test</h1>
+<p>Runs the checker on Mila's own recordings. Each row: does the right way of saying it fit better than the mistake?</p>
+<button id="go">Start</button>
+<div id="log"></div>
+<table id="out"><tr><th>Word</th><th>Right / mistake</th><th>Heard</th><th>Margin</th><th>Time</th></tr></table>
+<script type="module">
+import { loadPhon, phonFrames, phonMargin, phonHeard, to16k } from "../phon.js";
+const CASES = [
+  // file, start, length (from PACKS), word, right, mistake
+  ["pk-st", 9.327, 0.657, "Stern", "ʃ t ɛ ʁ n", "s t ɛ ʁ n"],
+  ["pk-st", 13.342, 0.75, "Spinne", "ʃ p ɪ n ə", "s p ɪ n ə"],
+  ["pk-xw", 26.53, 0.61, "Schal", "ʃ aː l", "s aː l"],
+  ["pk-xw", 34.36, 0.55, "Fisch", "f ɪ ʃ", "f ɪ s"],
+  ["pk-xw", 36.22, 0.54, "Sonne", "z ɔ n ə", "ʃ ɔ n ə"],
+];
+const log = (t) => { document.getElementById("log").textContent += t + "\n"; };
+document.getElementById("go").onclick = async () => {
+  const t0 = performance.now();
+  const q = new URLSearchParams(location.search), force = q.get("device") ? { device: q.get("device"), dtype: q.get("dtype") || "q4" } : null;
+  const p = await loadPhon((e) => { if (e.status === "progress" && e.file && e.file.endsWith(".onnx")) document.getElementById("log").dataset.p = Math.round(e.progress); }, force);
+  log("model ready on " + p.device + " " + (force ? force.dtype : "") + " in " + Math.round(performance.now() - t0) + " ms");
+  const ac = new AudioContext(), packs = {};
+  for (const [file, from, len, word, right, wrong] of CASES) {
+    if (!packs[file]) packs[file] = await ac.decodeAudioData(await (await fetch("../audio/" + file + ".mp3")).arrayBuffer());
+    const b = packs[file], sr = b.sampleRate, cut = ac.createBuffer(1, Math.round(len * sr), sr);
+    cut.copyToChannel(b.getChannelData(0).subarray(Math.round(from * sr), Math.round((from + len) * sr)), 0);
+    const w = await to16k(cut), t1 = performance.now();
+    const rows = await phonFrames(w), m = phonMargin(rows, right, wrong), ms = Math.round(performance.now() - t1);
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${word}</td><td>${right} / ${wrong}</td><td>${phonHeard(rows)}</td><td class="${m > 0 ? "ok" : "bad"}">${m.toFixed(2)}</td><td>${ms} ms</td>`;
+    document.getElementById("out").appendChild(tr);
+  }
+  log("done");
+  window.PHON_DONE = true;
+};
+</script>
+</body></html>
