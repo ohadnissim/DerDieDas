@@ -7,7 +7,8 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 - [x] St and Sp in the Sch-Lok, said with a real Schhh (#21)
 - [x] Lesen (blending), step 1 below (#22)
 - [x] Lautdetektiv, step 2 below (#23)
-- [x] Her voice book, step 7 (and the checker's line from grown-ups' marks, finishing step 3)
+- [x] The map, step 8
+- [x] Her voice book, step 7 (#30) (and the checker's line from grown-ups' marks, finishing step 3)
 - [x] Motion pass across the app
 - [x] Echo, step 6 (#28)
 - [x] Ch-Zoo + known words first (#26), grown-ups tabs + Christmas costumes (#27)
@@ -34,7 +35,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
        animal and she feeds them by saying the word right. Chs (Fuchs, Dachs, sechs) as a third friend.
 6. [x] **Echo:** Mila says a word, she repeats, faster and faster, across all the sounds.
 7. [x] **Her own voice:** a word she said well is kept, so the card can play Mila and then her.
-8. [ ] **The map:** each letter or sound is a place on her island map (M mill, Sch station, Ch zoo, St star tower …),
+8. [x] **The map:** each letter or sound is a place on her island map (M mill, Sch station, Ch zoo, St star tower …),
        unlocked as she learns it.
 9. [ ] **Her storybook:** she picks characters and things she knows; a story is put together from the existing story
        pieces (no paid AI at runtime), she reads the coloured parts aloud, and it is saved as her book.

@@ -242,6 +242,13 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   lowest ✓ and highest ✗; only ✓ marks lower it, only ✗ marks raise it) and saves it as `progress.phonCal = {line, t}`.
   `phonLine()` is what every judge uses. Clips never leave the device.
 
+## Die Karte
+- `img/karte.webp` (2400×1792, Higgsfield `nano_banana_flash` 4:3 2k with the story style and `img/island.webp` as references; nine
+  places asked for in three rows of three; the "ZOO" sign was edited blank) and `img/xm-karte.webp` (the same picture made snowy,
+  every place in the same spot). `KARTE` holds each place's % position and the game it opens; `karteOpen()` decides when it opens
+  (`progress.letters`, `progress.played`, met St/Sp words); `progress.mapSeen` makes a new place celebrate once. Lines in `pk-mk`.
+- A new sound gets a place: add it to the picture (edit both versions, same spot), to `KARTE`, `karteOpen()` and a `mk-<id>` line.
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),
