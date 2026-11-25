@@ -5663,9 +5663,14 @@ const hwOn = () => !xmOn() && (state.progress.farbe === "farbe-halloween" || (HW
 const costume = () => xmOn() ? "xm" : hwOn() ? "hw" : "";
 // Pictures that have costume versions img/hw-<name>.webp (Halloween) and img/xm-<name>.webp (Christmas).
 const HW_IMG = ["mila", "mila-2", "mila-3", "mila-4", "mila-5", "mila-face", "kid-mia", "kid-mil", "kid-max", "laden-loewe", "laden-lama"];
+// Pictures with only a Christmas costume (img/xm-<name>.webp): Mila's mouths, the zoo animals and the new home icons
+// (added 2026-11-25); at Halloween they stay as they are.
+const XM_ONLY = ["mund-sch", "mund-s", "mund-ich", "mund-ach", "zoo-katze", "zoo-drache", "zoo-fuchs", "ic-lesen", "ic-detektiv", "ic-zoo"];
 function hwFix(el, kind) {
   const m = /^img\/(?:(hw|xm)-)?([a-z0-9-]+)\.webp$/.exec((el.getAttribute && el.getAttribute("src")) || "");
-  if (m && HW_IMG.includes(m[2]) && (m[1] || "") !== kind) el.setAttribute("src", "img/" + (kind ? kind + "-" : "") + m[2] + ".webp");
+  if (!m) return;
+  const k = XM_ONLY.includes(m[2]) ? (kind === "xm" ? "xm" : "") : HW_IMG.includes(m[2]) ? kind : null;
+  if (k !== null && (m[1] || "") !== k) el.setAttribute("src", "img/" + (k ? k + "-" : "") + m[2] + ".webp");
 }
 function hwOrb(o, kind) {
   for (const k of ["hw", "xm"]) {

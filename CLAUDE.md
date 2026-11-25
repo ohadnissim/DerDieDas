@@ -151,6 +151,9 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   `progress.xmTree` (`{o, x, y}` in % of the picture), `TREE` is the green triangle of the picture where ornaments may hang.
   `progress.xmWin` counts the ornaments won from rounds today (max 3). Lichterkette and Baumspitze are Laden items of kind
   `baum`; the Schmuckkiste is kind `schmuck` and can be bought again and again.
+- `XM_ONLY`: pictures with only a Christmas costume (Mila's mouths, the zoo animals, the Lesen / Detektiv / Ch-Zoo icons);
+  `hwFix` swaps them at Christmas and leaves them alone at Halloween. Made like the other costumes (original on cream as the
+  only reference, "exactly the same … but dressed up for Christmas", background removed, fitted to the original canvas).
 - Christmas sticker set and Winterinsel (`island-weihnachten`), stories 14–16 (`sp-story14..16`, Mil/Max in `pk-sk14`),
   everything else Mila, Löwe and Lama say for Christmas in `pk-xm`.
 
