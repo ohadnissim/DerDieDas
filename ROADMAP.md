@@ -3,11 +3,36 @@
 Ohad, 2026-11-25: "lets build it all really. and upgrade everything we can."
 Built in this order, one PR per step. Tick a step when its PR is merged, and note its number.
 
+## RESUME HERE (paused 2026-11-25 for an account switch)
+Merged to main: #21 St/Sp, #22 Lesen, #23 Lautdetektiv, #24 Aussprache-Helfer, #25 mouth guide, #26 Ch-Zoo + known words
+first, #27 grown-ups tabs + Christmas costumes.
+
+**In progress: Echo (step 6), branch `claude/echo` (pushed, not merged, no PR yet).** The code is written (screen, game,
+shared `talkMicOpen` / `judgeSaid` used by Ch-Zoo and Echo, home tile, lines in CLIP_TEXT, `ic-echo` in XM_ONLY).
+Still to do before its PR:
+1. Mila's 4 Echo lines are recorded and checked: `/Volumes/WORK/CLAUDE/Learn German/_wip-echo/ec-*.wav` (processed 44.1 kHz,
+   not the `.24.wav`). Pack them into `audio/pk-ec.mp3` (0.3 s gaps, one MP3 encode), add `"pk-ec"` to PACKS, `AUDIO_V` 45.
+2. Icon: `_wip-echo/ic-echo-raw.png` (Mila calling, echo off a small mountain). Remove the background (Higgsfield
+   `image_background_remover`; it hung twice today, so use `--wait-timeout 4m` and retry), fit into 256 px →
+   `img/ic-echo.webp`; then its Christmas costume (Santa hat, snow on the mountain) → `img/xm-ic-echo.webp`.
+3. Test in the browser (round of 8 known words, faster after half, no mic in the preview), PR, merge (Ohad: "merge
+   everything when it's done", then "keep building the rest of the roadmap").
+
+**Next after Echo: a motion pass across the whole app** (Ohad: "add motion … more interactive … so the all app will feel
+more alive"): home tiles breathing out of step, icons wiggle on tap, circle friends blink and sway; Mila, zoo animals and
+shopkeepers idle-breathe, blink, bounce when they talk or cheer; Lesen tiles hop and snap like magnets; the zoo card arcs
+into the animal, which munches; a real 3D flip in Detektiv; screen changes slide and fade; stars fly to the counter.
+Calm for a 6-year-old; prefers-reduced-motion gets the still version.
+
+Then the rest: 7 her own voice / voice book (keep her clips, grown-ups mark right/wrong, which sets the checker's line),
+8 map, 9 storybook, 10 weekly-list tool, 11 voice report.
+
 ## Done
 - [x] St and Sp in the Sch-Lok, said with a real Schhh (#21)
 - [x] Lesen (blending), step 1 below (#22)
 - [x] Lautdetektiv, step 2 below (#23)
-- [x] Mouth guide, step 4: Mila's mouths in img/mund-*.webp; in the Sch-Lok bubble, and the S → Sch pair when she says Sss
+- [x] Ch-Zoo + known words first (#26), grown-ups tabs + Christmas costumes (#27)
+- [x] Mouth guide, step 4 (#25): Mila's mouths in img/mund-*.webp; in the Sch-Lok bubble, and the S → Sch pair when she says Sss
 - [x] Ch-Zoo, step 5: cat (ich), dragon (ach), fox (chs), speaking checked by the Aussprache-Helfer
 - [~] Pronunciation checker, step 3 (#24): in the Sch-Lok, switched on by grown-ups; her scores are logged. Still to do: set her
       line from real scores (a warm-up), then use it in the other speaking steps and the Ch-Zoo.

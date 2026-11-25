@@ -879,6 +879,7 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 .gtab[data-tab="settings"] .settings .btn{grid-column:1/-1;justify-self:start}
 @media (max-width:560px){.gtab[data-tab="settings"] .settings{grid-template-columns:1fr}}
 .danger-zone{box-shadow:0 0 0 2px rgba(217,52,58,.45);border-radius:18px;padding:14px 16px}
+.ecear{font-size:clamp(54px,10vmin,90px);opacity:.35;transition:opacity .2s}.ecear.listen{opacity:1;animation:pulse 1s ease-in-out infinite}
 .hstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,2.6vh,26px);min-height:0;padding:0 12px}
 .hletter{font-family:var(--display);font-weight:800;font-size:clamp(34px,6vmin,56px);line-height:1;color:var(--grape)}
 .hpic{width:clamp(130px,26vmin,240px);aspect-ratio:1;border-radius:28px;background:var(--paper);box-shadow:0 0 0 3px var(--line),var(--lift);padding:0;overflow:hidden}
@@ -1397,7 +1398,7 @@ circle.inked{fill:#8E3FC7;stroke:none}
     </div>
     <div class="hshelves">
       <div class="hshelf s-art"><div class="hshelf-h" aria-hidden="true"><i class="d der"></i><i class="d die"></i><i class="d das"></i></div><div class="ptiles"><button class="ptile" id="bubbleBtn" aria-label="Blasen"><img src="img/ic-blasen.webp" alt="" draggable="false"><span class="tl">Blasen</span></button><button class="ptile" id="memBtn" aria-label="Memory"><img src="img/ic-memory.webp" alt="" draggable="false"><span class="tl">Memory</span></button><button class="ptile" id="judgeBtn" aria-label="Stimmt das?"><img src="img/ic-stimmt.webp" alt="" draggable="false"><span class="tl">Stimmt das?</span></button><button class="ptile" id="hearBtn" aria-label="Hör mal"><img src="img/ic-hoer.webp" alt="" draggable="false"><span class="tl">Hör mal</span></button><button class="ptile" id="maxBtn" aria-label="Max"><img src="img/kid-max.webp" alt="" draggable="false"><span class="tl">Max</span></button></div></div>
-      <div class="hshelf s-abc"><div class="hshelf-h" aria-hidden="true"><b>M</b><b>I</b><b>L</b><b>A</b><b>T</b></div><div class="ptiles"><button class="ptile" id="writeBtn" aria-label="Schreiben"><img src="img/ic-schreiben.webp" alt="" draggable="false"><span class="tl">Schreiben</span></button><button class="ptile" id="lautBtn" aria-label="Wo hörst du?"><img src="img/ic-wohoer.webp" alt="" draggable="false"><span class="tl">Wo hörst du?</span></button><button class="ptile" id="lesenBtn" aria-label="Lesen"><img src="img/ic-lesen.webp" alt="" draggable="false"><span class="tl">Lesen</span></button><button class="ptile" id="detBtn" aria-label="Lautdetektiv"><img src="img/ic-detektiv.webp" alt="" draggable="false"><span class="tl">Detektiv</span></button><button class="ptile" id="posBtn" aria-label="Anfang, Ende"><img src="img/ic-anfang.webp" alt="" draggable="false"><span class="tl">Anfang, Ende</span></button><button class="ptile" id="sentBtn" aria-label="Sätze"><img src="img/ic-saetze.webp" alt="" draggable="false"><span class="tl">Sätze</span></button><button class="ptile" id="storyBtn" aria-label="Geschichten"><img src="img/ic-geschichte.webp" alt="" draggable="false"><span class="tl">Geschichten</span><span class="due" id="storyDue" hidden>!</span></button><button class="ptile" id="zooBtn" aria-label="Ch-Zoo"><img src="img/ic-zoo.webp" alt="" draggable="false"><span class="tl">Ch-Zoo</span></button><button class="ptile" id="schBtn" aria-label="Sch-Lok"><img src="img/ic-schlok.webp" alt="" draggable="false"><span class="tl">Sch-Lok</span></button></div></div>
+      <div class="hshelf s-abc"><div class="hshelf-h" aria-hidden="true"><b>M</b><b>I</b><b>L</b><b>A</b><b>T</b></div><div class="ptiles"><button class="ptile" id="writeBtn" aria-label="Schreiben"><img src="img/ic-schreiben.webp" alt="" draggable="false"><span class="tl">Schreiben</span></button><button class="ptile" id="lautBtn" aria-label="Wo hörst du?"><img src="img/ic-wohoer.webp" alt="" draggable="false"><span class="tl">Wo hörst du?</span></button><button class="ptile" id="lesenBtn" aria-label="Lesen"><img src="img/ic-lesen.webp" alt="" draggable="false"><span class="tl">Lesen</span></button><button class="ptile" id="detBtn" aria-label="Lautdetektiv"><img src="img/ic-detektiv.webp" alt="" draggable="false"><span class="tl">Detektiv</span></button><button class="ptile" id="posBtn" aria-label="Anfang, Ende"><img src="img/ic-anfang.webp" alt="" draggable="false"><span class="tl">Anfang, Ende</span></button><button class="ptile" id="sentBtn" aria-label="Sätze"><img src="img/ic-saetze.webp" alt="" draggable="false"><span class="tl">Sätze</span></button><button class="ptile" id="storyBtn" aria-label="Geschichten"><img src="img/ic-geschichte.webp" alt="" draggable="false"><span class="tl">Geschichten</span><span class="due" id="storyDue" hidden>!</span></button><button class="ptile" id="zooBtn" aria-label="Ch-Zoo"><img src="img/ic-zoo.webp" alt="" draggable="false"><span class="tl">Ch-Zoo</span></button><button class="ptile" id="echoBtn" aria-label="Echo"><img src="img/ic-echo.webp" alt="" draggable="false"><span class="tl">Echo</span></button><button class="ptile" id="schBtn" aria-label="Sch-Lok"><img src="img/ic-schlok.webp" alt="" draggable="false"><span class="tl">Sch-Lok</span></button></div></div>
       <div class="hshelf s-welt"><div class="hshelf-h" aria-hidden="true"><b>★</b></div><div class="ptiles"><button class="ptile" id="gardenBtn" aria-label="Inseln"><img src="img/ic-inseln.webp" alt="" draggable="false"><span class="tl">Inseln</span><span class="due" id="gardenDue" hidden>!</span></button><button class="ptile" id="ladenBtn" aria-label="Laden"><img src="img/ic-laden.webp" alt="" draggable="false"><span class="tl">Laden</span></button><button class="ptile" id="xmAdvBtn" aria-label="Adventskalender" hidden><img src="img/ic-advent.webp" alt="" draggable="false"><span class="tl">Kalender</span><span class="due" id="advDue" hidden>!</span></button><button class="ptile" id="xmTreeBtn" aria-label="Weihnachtsbaum" hidden><img src="img/ic-baum.webp" alt="" draggable="false"><span class="tl">Baum</span></button></div></div>
     </div>
     <button class="nextsticker" id="nextSticker" aria-label="Nächster Sticker"><span id="slots"></span><span class="gift" id="gift">?</span></button>
@@ -1613,6 +1614,19 @@ circle.inked{fill:#8E3FC7;stroke:none}
 </section>
 
 <div class="meet" id="meetBox" hidden><div class="meetin"><div class="meetttl">Neue Wörter!</div><button class="meetcard" id="meetCard" aria-label="Nochmal hören"></button><div class="meetword" id="meetWord"></div><button class="go" id="meetGo" aria-label="Weiter" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
+
+<section class="screen" id="echoScreen" hidden>
+  <div class="bar">
+    <button class="icon-btn" data-home aria-label="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="bar-mid"><div class="dots" id="ecDots"></div></div>
+    <div class="pill"><span class="s">★</span><span class="starsN">0</span></div>
+  </div>
+  <div class="zoostage">
+    <button class="zoocard" id="ecCard" aria-label="Nochmal hören"></button>
+    <div class="zoomund" id="ecMund" hidden></div>
+    <div class="ecear" id="ecEar" aria-hidden="true">🗣️</div>
+  </div>
+</section>
 
 <section class="screen" id="laut" hidden>
   <div class="bar">
@@ -2331,7 +2345,7 @@ const CLIP_TEXT = {"p-super":"Super!","p-richtig":"Richtig!","p-toll":"Toll!","p
   "stk-laden-brunnen":"der Brunnen","stk-laden-schneemann":"der Schneemann","stk-laden-schatzkiste":"die Schatzkiste",
   "stk-laden-baumhaus":"das Baumhaus","stk-laden-rakete":"die Rakete","stk-laden-karussell":"das Karussell",
   "stk-laden-leuchtturm":"der Leuchtturm","stk-laden-riesenrad":"das Riesenrad",
-  "f-mission-weihnachten":"Neue Mission: Weihnachten! Sammle alle Weihnachts-Sticker!","o-gewonnen":"Juhu! Du hast Schmuck für deinen Baum gewonnen!","xb-hallo":"Schau mal, dein Weihnachtsbaum! Zieh den Schmuck aus der Kiste an den Baum!","xb-schoen":"Oh, wie schön dein Baum glitzert!","xb-leer":"Die Schmuckkiste ist leer. Spiel eine Runde, dann gibt es neuen Schmuck!","xb-tipp":"Zieh den Schmuck an einen grünen Zweig!","adv-hallo":"Der Adventskalender! Welches Türchen ist heute dran?","adv-heute":"Mach das Türchen von heute auf!","adv-morgen":"Toll! Morgen wartet das nächste Türchen auf dich.","adv-bald":"Am ersten Dezember geht es los. Dann gibt es jeden Tag ein Türchen!","adv-warte":"Psst! Dieses Türchen ist noch zu. Ein bisschen warten!","adv-baum":"Komm, wir hängen es an den Baum!","adv-sticker":"Ein neuer Sticker für dich!","adv-nikolaus":"Heute ist Nikolaus! Ein Sticker für dich!","adv-lichter":"Eine Lichterkette für deinen Baum! Jetzt leuchtet er!","adv-spitze":"Frohe Weihnachten! Der goldene Stern für die Spitze von deinem Baum!","adv-sterne-20":"Zwanzig Sterne für dich!","adv-sterne-30":"Dreißig Sterne für dich!","adv-sterne-40":"Vierzig Sterne für dich!","adv-sterne-50":"Fünfzig Sterne für dich!","sl-intro":"Tschu tschu! Das ist die Schhh-Lok. Sie fährt nur mit Schhh!","sl-frage":"Hörst du Schhh oder Sss?","sl-sch":"Ja, Schhh!","sl-s":"Ja, Sss!","sl-nein":"Hör noch mal genau.","sl-sag":"Mach die Lippen rund wie ein Kuss und sag es mit mir:","sl-puste":"Jetzt schieb die Lok an! Sag ganz lange Schhhhh!","sl-stsp":"Hör mal genau: Hier klingt das S am Anfang wie Schhh!","le-intro":"Jetzt lesen wir! Zieh deinen Finger langsam unter den Buchstaben entlang.","le-ziehen":"Lies mit dem Finger!","le-was":"Was hast du gelesen? Tipp auf das Bild!","le-nochmal":"Lies noch mal ganz langsam mit mir.","ld-intro":"Du bist jetzt Lautdetektiv! Ich sage dir Wörter. Hörst du unseren Laut, tipp auf die Lupe. Hörst du ihn nicht, tipp auf Nein.","ld-m":"Wir suchen das M!","ld-i":"Wir suchen das I, wie Igel!","ld-l":"Wir suchen das L!","ld-a":"Wir suchen das A!","ld-t":"Wir suchen das T!","ld-sch":"Wir suchen das Schhh!","ld-jaes":"Ja! Da ist es!","ld-keins-gut":"Richtig! Da ist keins.","ld-doch":"Hör noch mal genau. Da ist es doch!","ld-keins":"Hör noch mal genau. Da ist keins.","cz-intro":"Willkommen im Zoo! Die Katze mag Wörter wie ich und Milch. Der Drache mag Wörter wie Buch und Dach. Und der Fuchs mag Wörter wie Fuchs und Dachs.","cz-frage":"Wer bekommt dieses Wort?","cz-katze":"Ja! Die Katze! Ganz weich, wie bei ich.","cz-drache":"Ja! Der Drache! Ganz rau, wie bei Buch.","cz-fuchs":"Ja! Der Fuchs! Das klingt wie ks, wie bei Fuchs.","cz-nein":"Hör noch mal genau.","cz-sag":"Jetzt du! Sag es ganz deutlich.","cz-ich-tipp":"Lächle wie eine Katze und lass die Luft ganz leise zischen. So: ich.","cz-ach-tipp":"Mach den Mund weit auf, und lass es hinten im Hals kratzen, wie ein Drache. So: ach.","cz-gut":"Super! Genau so!","cz-fertig":"Alle Tiere sind satt! Toll gemacht!","mw-intro":"Neue Wörter! Schau gut hin und hör gut zu.","mw-los":"Jetzt kennst du sie. Los geht es!","sl-lippen":"Das war ein S wie eine Schlange. Mach die Lippen rund wie ein Kuss, dann wird es ein Schhh!","sl-fertig":"Tschu tschu! Die Schhh-Lok ist angekommen. Super gemacht!","sm-schlange":"Erst üben wir! Mach wie die Schlange: Sss!","sm-lok":"Und jetzt wie die Lok: Schhh!","sm-nochmal":"Noch mal, ganz lange und laut!","sm-kenne":"Super! Jetzt kenne ich dein Schhh und dein Sss.","sm-du":"Jetzt du!","sm-gut":"Ja! Das war ein schönes Schhh!","wr-gross-t":"Das ist das große T. T wie Tanne!","wr-klein-t":"Und das ist das kleine t.","lh-wo-t":"Wo hörst du das T?","lh-wo-sch":"Wo hörst du das Schhh?","adv-1":"Türchen eins!","adv-2":"Türchen zwei!","adv-3":"Türchen drei!","adv-4":"Türchen vier!","adv-5":"Türchen fünf!","adv-6":"Türchen sechs!","adv-7":"Türchen sieben!","adv-8":"Türchen acht!","adv-9":"Türchen neun!","adv-10":"Türchen zehn!","adv-11":"Türchen elf!","adv-12":"Türchen zwölf!","adv-13":"Türchen dreizehn!","adv-14":"Türchen vierzehn!","adv-15":"Türchen fünfzehn!","adv-16":"Türchen sechzehn!","adv-17":"Türchen siebzehn!","adv-18":"Türchen achtzehn!","adv-19":"Türchen neunzehn!","adv-20":"Türchen zwanzig!","adv-21":"Türchen einundzwanzig!","adv-22":"Türchen zweiundzwanzig!","adv-23":"Türchen dreiundzwanzig!","adv-24":"Türchen vierundzwanzig!","o-kugel-rot":"Eine rote Kugel!","o-kugel-blau":"Eine blaue Kugel!","o-kugel-gold":"Eine goldene Kugel!","o-kugel-lila":"Eine lila Kugel!","o-stern":"Ein Stern!","o-glocke":"Eine Glocke!","o-zuckerstange":"Eine Zuckerstange!","o-lebkuchenmann":"Ein Lebkuchenmann!","o-engel":"Ein Engel!","o-schneeflocke":"Eine Schneeflocke!","o-tannenzapfen":"Ein Tannenzapfen!","o-herz":"Ein Herz!","stk-weihnachten-tannenbaum":"der Tannenbaum","stk-weihnachten-stern":"der Stern","stk-weihnachten-schlitten":"der Schlitten","stk-weihnachten-nussknacker":"der Nussknacker","stk-weihnachten-kerze":"die Kerze","stk-weihnachten-glocke":"die Glocke","stk-weihnachten-zuckerstange":"die Zuckerstange","stk-weihnachten-schneeflocke":"die Schneeflocke","stk-weihnachten-geschenk":"das Geschenk","stk-weihnachten-rentier":"das Rentier","stk-weihnachten-plaetzchen":"das Plätzchen","stk-weihnachten-lebkuchenhaus":"das Lebkuchenhaus","stk-laden-schneekugel":"die Schneekugel","stk-laden-eisbahn":"die Eisbahn","stk-laden-weihnachtsmarkt":"der Weihnachtsmarkt","stk-laden-rentierschlitten":"der Rentierschlitten","lw-xm":"Ho ho ho! Ich bin der Weihnachts-Löwe! Frohe Weihnachten!","lw-baum":"Schau gleich an deinem Weihnachtsbaum nach!","ld-lichterkette":"Die Lichterkette kostet zweihundertfünfzig Sterne. Möchtest du sie kaufen?","ld-schneekonfetti":"Das Schneeflocken-Konfetti kostet vierhundert Sterne. Möchtest du es kaufen?","ld-eisbahn":"Die Eisbahn kostet vierhundertfünfzig Sterne. Möchtest du sie kaufen?","ld-rentierschlitten":"Der Rentierschlitten kostet siebenhundert Sterne. Möchtest du ihn kaufen?","la-xm":"Hallo! Ich bin ein kleiner Weihnachtsengel! Frohe Weihnachten!","ld-schmuckkiste":"Die Schmuckkiste kostet sechzig Sterne. Da sind drei Sachen für deinen Baum drin!","ld-baumspitze":"Die Baumspitze kostet dreihundert Sterne. Möchtest du sie kaufen?","ld-schneekugel":"Die Schneekugel kostet dreihundert Sterne. Möchtest du sie kaufen?","ld-winterwunder":"Das Winterwunder kostet fünfhundert Sterne. Dann ist bei dir immer Weihnachten!","ld-weihnachtsmarkt":"Der Weihnachtsmarkt kostet sechshundertfünfzig Sterne. Möchtest du ihn kaufen?"};
+  "f-mission-weihnachten":"Neue Mission: Weihnachten! Sammle alle Weihnachts-Sticker!","o-gewonnen":"Juhu! Du hast Schmuck für deinen Baum gewonnen!","xb-hallo":"Schau mal, dein Weihnachtsbaum! Zieh den Schmuck aus der Kiste an den Baum!","xb-schoen":"Oh, wie schön dein Baum glitzert!","xb-leer":"Die Schmuckkiste ist leer. Spiel eine Runde, dann gibt es neuen Schmuck!","xb-tipp":"Zieh den Schmuck an einen grünen Zweig!","adv-hallo":"Der Adventskalender! Welches Türchen ist heute dran?","adv-heute":"Mach das Türchen von heute auf!","adv-morgen":"Toll! Morgen wartet das nächste Türchen auf dich.","adv-bald":"Am ersten Dezember geht es los. Dann gibt es jeden Tag ein Türchen!","adv-warte":"Psst! Dieses Türchen ist noch zu. Ein bisschen warten!","adv-baum":"Komm, wir hängen es an den Baum!","adv-sticker":"Ein neuer Sticker für dich!","adv-nikolaus":"Heute ist Nikolaus! Ein Sticker für dich!","adv-lichter":"Eine Lichterkette für deinen Baum! Jetzt leuchtet er!","adv-spitze":"Frohe Weihnachten! Der goldene Stern für die Spitze von deinem Baum!","adv-sterne-20":"Zwanzig Sterne für dich!","adv-sterne-30":"Dreißig Sterne für dich!","adv-sterne-40":"Vierzig Sterne für dich!","adv-sterne-50":"Fünfzig Sterne für dich!","sl-intro":"Tschu tschu! Das ist die Schhh-Lok. Sie fährt nur mit Schhh!","sl-frage":"Hörst du Schhh oder Sss?","sl-sch":"Ja, Schhh!","sl-s":"Ja, Sss!","sl-nein":"Hör noch mal genau.","sl-sag":"Mach die Lippen rund wie ein Kuss und sag es mit mir:","sl-puste":"Jetzt schieb die Lok an! Sag ganz lange Schhhhh!","sl-stsp":"Hör mal genau: Hier klingt das S am Anfang wie Schhh!","le-intro":"Jetzt lesen wir! Zieh deinen Finger langsam unter den Buchstaben entlang.","le-ziehen":"Lies mit dem Finger!","le-was":"Was hast du gelesen? Tipp auf das Bild!","le-nochmal":"Lies noch mal ganz langsam mit mir.","ld-intro":"Du bist jetzt Lautdetektiv! Ich sage dir Wörter. Hörst du unseren Laut, tipp auf die Lupe. Hörst du ihn nicht, tipp auf Nein.","ld-m":"Wir suchen das M!","ld-i":"Wir suchen das I, wie Igel!","ld-l":"Wir suchen das L!","ld-a":"Wir suchen das A!","ld-t":"Wir suchen das T!","ld-sch":"Wir suchen das Schhh!","ld-jaes":"Ja! Da ist es!","ld-keins-gut":"Richtig! Da ist keins.","ld-doch":"Hör noch mal genau. Da ist es doch!","ld-keins":"Hör noch mal genau. Da ist keins.","cz-intro":"Willkommen im Zoo! Die Katze mag Wörter wie ich und Milch. Der Drache mag Wörter wie Buch und Dach. Und der Fuchs mag Wörter wie Fuchs und Dachs.","cz-frage":"Wer bekommt dieses Wort?","cz-katze":"Ja! Die Katze! Ganz weich, wie bei ich.","cz-drache":"Ja! Der Drache! Ganz rau, wie bei Buch.","cz-fuchs":"Ja! Der Fuchs! Das klingt wie ks, wie bei Fuchs.","cz-nein":"Hör noch mal genau.","cz-sag":"Jetzt du! Sag es ganz deutlich.","cz-ich-tipp":"Lächle wie eine Katze und lass die Luft ganz leise zischen. So: ich.","cz-ach-tipp":"Mach den Mund weit auf, und lass es hinten im Hals kratzen, wie ein Drache. So: ach.","cz-gut":"Super! Genau so!","cz-fertig":"Alle Tiere sind satt! Toll gemacht!","mw-intro":"Neue Wörter! Schau gut hin und hör gut zu.","mw-los":"Jetzt kennst du sie. Los geht es!","ec-intro":"Echo! Ich sage ein Wort, und du sagst es mir nach. Wir werden immer schneller!","ec-schneller":"Und jetzt schneller!","ec-fertig":"Was für ein tolles Echo! Super gemacht!","ec-nochmal":"Sag es noch mal mit mir.","sl-lippen":"Das war ein S wie eine Schlange. Mach die Lippen rund wie ein Kuss, dann wird es ein Schhh!","sl-fertig":"Tschu tschu! Die Schhh-Lok ist angekommen. Super gemacht!","sm-schlange":"Erst üben wir! Mach wie die Schlange: Sss!","sm-lok":"Und jetzt wie die Lok: Schhh!","sm-nochmal":"Noch mal, ganz lange und laut!","sm-kenne":"Super! Jetzt kenne ich dein Schhh und dein Sss.","sm-du":"Jetzt du!","sm-gut":"Ja! Das war ein schönes Schhh!","wr-gross-t":"Das ist das große T. T wie Tanne!","wr-klein-t":"Und das ist das kleine t.","lh-wo-t":"Wo hörst du das T?","lh-wo-sch":"Wo hörst du das Schhh?","adv-1":"Türchen eins!","adv-2":"Türchen zwei!","adv-3":"Türchen drei!","adv-4":"Türchen vier!","adv-5":"Türchen fünf!","adv-6":"Türchen sechs!","adv-7":"Türchen sieben!","adv-8":"Türchen acht!","adv-9":"Türchen neun!","adv-10":"Türchen zehn!","adv-11":"Türchen elf!","adv-12":"Türchen zwölf!","adv-13":"Türchen dreizehn!","adv-14":"Türchen vierzehn!","adv-15":"Türchen fünfzehn!","adv-16":"Türchen sechzehn!","adv-17":"Türchen siebzehn!","adv-18":"Türchen achtzehn!","adv-19":"Türchen neunzehn!","adv-20":"Türchen zwanzig!","adv-21":"Türchen einundzwanzig!","adv-22":"Türchen zweiundzwanzig!","adv-23":"Türchen dreiundzwanzig!","adv-24":"Türchen vierundzwanzig!","o-kugel-rot":"Eine rote Kugel!","o-kugel-blau":"Eine blaue Kugel!","o-kugel-gold":"Eine goldene Kugel!","o-kugel-lila":"Eine lila Kugel!","o-stern":"Ein Stern!","o-glocke":"Eine Glocke!","o-zuckerstange":"Eine Zuckerstange!","o-lebkuchenmann":"Ein Lebkuchenmann!","o-engel":"Ein Engel!","o-schneeflocke":"Eine Schneeflocke!","o-tannenzapfen":"Ein Tannenzapfen!","o-herz":"Ein Herz!","stk-weihnachten-tannenbaum":"der Tannenbaum","stk-weihnachten-stern":"der Stern","stk-weihnachten-schlitten":"der Schlitten","stk-weihnachten-nussknacker":"der Nussknacker","stk-weihnachten-kerze":"die Kerze","stk-weihnachten-glocke":"die Glocke","stk-weihnachten-zuckerstange":"die Zuckerstange","stk-weihnachten-schneeflocke":"die Schneeflocke","stk-weihnachten-geschenk":"das Geschenk","stk-weihnachten-rentier":"das Rentier","stk-weihnachten-plaetzchen":"das Plätzchen","stk-weihnachten-lebkuchenhaus":"das Lebkuchenhaus","stk-laden-schneekugel":"die Schneekugel","stk-laden-eisbahn":"die Eisbahn","stk-laden-weihnachtsmarkt":"der Weihnachtsmarkt","stk-laden-rentierschlitten":"der Rentierschlitten","lw-xm":"Ho ho ho! Ich bin der Weihnachts-Löwe! Frohe Weihnachten!","lw-baum":"Schau gleich an deinem Weihnachtsbaum nach!","ld-lichterkette":"Die Lichterkette kostet zweihundertfünfzig Sterne. Möchtest du sie kaufen?","ld-schneekonfetti":"Das Schneeflocken-Konfetti kostet vierhundert Sterne. Möchtest du es kaufen?","ld-eisbahn":"Die Eisbahn kostet vierhundertfünfzig Sterne. Möchtest du sie kaufen?","ld-rentierschlitten":"Der Rentierschlitten kostet siebenhundert Sterne. Möchtest du ihn kaufen?","la-xm":"Hallo! Ich bin ein kleiner Weihnachtsengel! Frohe Weihnachten!","ld-schmuckkiste":"Die Schmuckkiste kostet sechzig Sterne. Da sind drei Sachen für deinen Baum drin!","ld-baumspitze":"Die Baumspitze kostet dreihundert Sterne. Möchtest du sie kaufen?","ld-schneekugel":"Die Schneekugel kostet dreihundert Sterne. Möchtest du sie kaufen?","ld-winterwunder":"Das Winterwunder kostet fünfhundert Sterne. Dann ist bei dir immer Weihnachten!","ld-weihnachtsmarkt":"Der Weihnachtsmarkt kostet sechshundertfünfzig Sterne. Möchtest du ihn kaufen?"};
 const PRAISE = ["p-super","p-richtig","p-toll","p-prima","p-genau","p-klasse"];
 const CLIPS = new Set([...Object.keys(CLIP_TEXT), ...Object.keys(DEFAULT_ART).flatMap(id => ["w-" + id, ...ARTS.map(a => "q-" + id + "-" + a)])]);
 const C = (key) => ({ key, text: CLIP_TEXT[key] });
@@ -2730,7 +2744,7 @@ function confetti() {
 }
 
 /* ---------- screens ---------- */
-const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "bubbles", "milaScreen", "judge", "cgame", "shelf", "story", "gardenScreen", "sent", "write", "laut", "laden", "xmTreeScreen", "xmAdvScreen", "schScreen", "lesenScreen", "detScreen", "zooScreen"];
+const SCREENS = ["home", "warm", "play", "quiz", "done", "bookScreen", "memory", "bubbles", "milaScreen", "judge", "cgame", "shelf", "story", "gardenScreen", "sent", "write", "laut", "laden", "xmTreeScreen", "xmAdvScreen", "schScreen", "lesenScreen", "detScreen", "zooScreen", "echoScreen"];
 function show(name) { clearFix(); for (const s of SCREENS) $(s).hidden = s !== name; }
 let S = null, Q = null, M = null, J = null, ST = null, WU = null, G = null, T = null, L = null, B = null, SL = null;
 let lastActivity = "practice";
@@ -3205,7 +3219,7 @@ $("playBtn").addEventListener("click", () => { pop(); startPractice(); });
 $("quizBtn").addEventListener("click", () => { pop(); startQuiz(); });
 $("doneQuiz").addEventListener("click", () => { pop(); startQuiz(); });
 $("homeBtn").addEventListener("click", () => { lastFresh = []; renderHome(); show("home"); });
-$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, bubbles: startBubbles, judge: startJudge, story: () => startStory(state.stories.find(x => x.id === lastStoryId)), max: () => startCircleGame("max"), hear: () => startCircleGame("hear"), sent: startSent, sch: startSch, write: () => startWrite(lastLetter), laut: () => startLaut(lastLaut), lesen: startLesen, det: () => startDet(lastDet), zoo: startZoo, pos: () => startLaut(lastLaut, "pos") })[lastActivity](); });
+$("againSessionBtn").addEventListener("click", () => { pop(); ({ practice: startPractice, quiz: startQuiz, memory: startMemory, bubbles: startBubbles, judge: startJudge, story: () => startStory(state.stories.find(x => x.id === lastStoryId)), max: () => startCircleGame("max"), hear: () => startCircleGame("hear"), sent: startSent, sch: startSch, write: () => startWrite(lastLetter), laut: () => startLaut(lastLaut), lesen: startLesen, det: () => startDet(lastDet), zoo: startZoo, echo: startEcho, pos: () => startLaut(lastLaut, "pos") })[lastActivity](); });
 $("doneGarden").addEventListener("click", () => { pop(); openGarden(); });
 $("memBtn").addEventListener("click", () => { pop(); startMemory(); });
 $("bubbleBtn").addEventListener("click", () => { pop(); startBubbles(); });
@@ -5665,7 +5679,7 @@ const costume = () => xmOn() ? "xm" : hwOn() ? "hw" : "";
 const HW_IMG = ["mila", "mila-2", "mila-3", "mila-4", "mila-5", "mila-face", "kid-mia", "kid-mil", "kid-max", "laden-loewe", "laden-lama"];
 // Pictures with only a Christmas costume (img/xm-<name>.webp): Mila's mouths, the zoo animals and the new home icons
 // (added 2026-11-25); at Halloween they stay as they are.
-const XM_ONLY = ["mund-sch", "mund-s", "mund-ich", "mund-ach", "zoo-katze", "zoo-drache", "zoo-fuchs", "ic-lesen", "ic-detektiv", "ic-zoo"];
+const XM_ONLY = ["ic-echo", "mund-sch", "mund-s", "mund-ich", "mund-ach", "zoo-katze", "zoo-drache", "zoo-fuchs", "ic-lesen", "ic-detektiv", "ic-zoo"];
 function hwFix(el, kind) {
   const m = /^img\/(?:(hw|xm)-)?([a-z0-9-]+)\.webp$/.exec((el.getAttribute && el.getAttribute("src")) || "");
   if (!m) return;
@@ -6837,13 +6851,7 @@ async function zooTap(btn) {
 async function zooSpeak(t) {
   const my = ZO;
   if (!micAllowed()) return;
-  if (!zooMic) {
-    try {
-      audioMode("play-and-record");
-      zooMic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
-      try { await ctx().resume(); } catch (e) {}
-    } catch (e) { zooMic = null; audioMode("playback"); micStat.err = "Ch-Zoo: " + (e && e.message || e); return; }
-  }
+  if (!await talkMicOpen("Ch-Zoo")) return;
   if (ZO !== my) return;
   const m = $("zooMund");
   for (let round = 0; round < 2; round++) {
@@ -6871,7 +6879,33 @@ async function zooSpeak(t) {
   }
   m.hidden = true;
 }
+// one microphone for the speaking games (Ch-Zoo, Echo): opened on the first word, closed when the game ends or she goes home
+async function talkMicOpen(who) {
+  if (zooMic) return true;
+  try {
+    audioMode("play-and-record");
+    zooMic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+    try { await ctx().resume(); } catch (e) {}
+    return true;
+  } catch (e) { zooMic = null; audioMode("playback"); micStat.err = who + ": " + (e && e.message || e); return false; }
+}
 function zooMicStop() { if (zooMic) { try { zooMic.getTracks().forEach(t => t.stop()); } catch (e) {} zooMic = null; audioMode("playback"); } }
+// the right way and the likely mistake for a word, when the Aussprache-Helfer knows one (Sch, St, Sp and the Ch words)
+const sayIpa = (id) => ZOO_IPA[id] && id !== "milch" ? ZOO_IPA[id] : PHON_IPA[id] ? [PHON_IPA[id], PHON_IPA[id].replace(/ʃ/g, "s")] : null;
+// how she said it: { said: false } when it was too quiet; { said: true, ok } where ok is null when nothing could judge the sound
+async function judgeSaid(id, buf) {
+  let loud = 0; if (buf) { const d = buf.getChannelData(0); for (let i = 0; i < d.length; i += 64) loud = Math.max(loud, Math.abs(d[i])); }
+  if (loud < 0.02) return { said: false };
+  const ipa = sayIpa(id);
+  if (!ipa || !PH || !PH.ok) return { said: true, ok: null };
+  try {
+    const rows = await PH.m.phonFrames(await PH.m.to16k(buf)), margin = PH.m.phonMargin(rows, ipa[0], ipa[1]);
+    const log = state.progress.phonLog = state.progress.phonLog || [];
+    log.push({ d: today(), w: id, m: Math.round(margin * 100) / 100, h: PH.m.phonHeard(rows) }); if (log.length > 40) log.splice(0, log.length - 40);
+    const line = (state.progress.phonCal && Number.isFinite(state.progress.phonCal.line)) ? state.progress.phonCal.line : 0;
+    return { said: true, ok: margin >= line };
+  } catch (e) { micStat.err = "Aussprache-Helfer: " + (e && e.message || e); return { said: true, ok: null }; }
+}
 async function zooDone() {
   zooMicStop();
   const my = ZO; fanfare(); await say([C("cz-fertig")]); if (ZO !== my) return;
@@ -6886,6 +6920,66 @@ $("zooCard").addEventListener("click", () => { if (ZO && ZO.list[ZO.i]) say([N(Z
 $("zooListen").addEventListener("click", () => { if (ZO && ZO.list[ZO.i]) say([C("cz-frage"), N(ZO.list[ZO.i].w)]); });
 $("zooBtn").addEventListener("click", () => { pop(); startZoo(); });
 for (const b of document.querySelectorAll("[data-home]")) b.addEventListener("click", zooMicStop);
+
+/* ---------- Echo: Mila says a word she knows, she says it back, and it gets faster. Mostly words with the sounds she is
+   working on (Sch, St, Sp, the two Ch, Chs), the rest from her lists. With the Aussprache-Helfer on, those sounds are judged
+   (Schal not Sal, ich not isch) and a miss gets the mouth and one more go together with Mila. ---------- */
+let EC = null;
+const ECHO_SOUND = () => [...SCH_WORDS, ...ST_WORDS, ...SP_WORDS, ...ZOO.katze, ...ZOO.drache, ...ZOO.fuchs];
+function echoMouth(id) { if (ZOO.katze.includes(id)) return "ich"; if (ZOO.drache.includes(id)) return "ach"; return PHON_IPA[id] ? "sch" : null; }
+async function startEcho() {
+  stopAudio(); zooMicStop(); show("echoScreen"); renderStars(); phonStart();
+  const ok = (id) => isKnown(id) && findWord(id) && N(findWord(id)).key;
+  const sound = shuffle(ECHO_SOUND().filter(ok)).slice(0, 5);
+  const other = shuffle(allWords().map(w => w.id).filter(id => ok(id) && !sound.includes(id))).slice(0, 8 - sound.length);
+  EC = { list: shuffle([...sound, ...other]).map(id => ({ id, w: findWord(id) })), i: 0, res: {}, earned: 0, phase: "" };
+  await say([C("ec-intro")]); if (!EC) return;
+  echoNext();
+}
+function echoDots() { $("ecDots").innerHTML = EC.list.map((_, i) => '<span class="dot ' + (i in EC.res ? (EC.res[i] ? "ok" : "miss") : "") + (i === EC.i ? " now" : "") + '"></span>').join(""); }
+async function echoNext() {
+  const my = EC;
+  if (EC.i >= EC.list.length) return echoDone();
+  const t = EC.list[EC.i], fast = EC.i >= EC.list.length / 2;
+  if (EC.i === Math.ceil(EC.list.length / 2)) { await say([C("ec-schneller")]); if (EC !== my) return; }
+  $("ecCard").innerHTML = faceHTML(t.w); restart($("ecCard"), "enter"); echoDots();
+  const m = $("ecMund"); m.hidden = true;
+  await say([N(t.w)]); if (EC !== my) return;
+  let res = { said: false };
+  if (micAllowed() && await talkMicOpen("Echo")) {
+    for (let go = 0; go < 2; go++) {
+      $("ecEar").classList.add("listen");
+      const buf = await recordStream(zooMic, fast ? 1900 : 2600); if (EC !== my) return;
+      $("ecEar").classList.remove("listen");
+      res = await judgeSaid(t.id, buf); if (EC !== my) return;
+      if (res.said && res.ok === false && go === 0) {
+        // the sound wasn't right: Mila's mouth for it, and once more together
+        const k = echoMouth(t.id); boop();
+        if (k) { m.innerHTML = MUND[k]; m.hidden = false; restart(m, "enter"); }
+        await say([C("ec-nochmal"), N(t.w)]); if (EC !== my) return;
+        continue;
+      }
+      break;
+    }
+  } else { await sleep(fast ? 900 : 1400); res = { said: true, ok: null }; }   // no microphone: Mila waits for her echo
+  m.hidden = true;
+  const good = res.said && res.ok !== false;
+  EC.res[EC.i] = good; if (good) { EC.earned++; addStars(); chime(); sparkle($("ecCard"), 10); }
+  echoDots(); EC.i++;
+  await sleep(fast ? 250 : 500); if (EC !== my) return;
+  echoNext();
+}
+async function echoDone() {
+  zooMicStop();
+  const my = EC; fanfare(); await say([C("ec-fertig")]); if (EC !== my) return;
+  const rows = EC.list.map((t, i) => ({ w: t.w, mark: EC.res[i] ? "ok" : "miss" }));
+  const earned = EC.earned, grew = markDay(); logDay("g");
+  EC = null; lastActivity = "echo"; state.progress.lastPlayed = today(); saveProgress();
+  showDone(earned, rows, stickersNow(), quizDue(), grew);
+}
+$("ecCard").addEventListener("click", () => { if (EC && EC.list[EC.i]) say([N(EC.list[EC.i].w)]); });
+$("echoBtn").addEventListener("click", () => { pop(); startEcho(); });
+for (const b of document.querySelectorAll("#echoScreen [data-home]")) b.addEventListener("click", () => { EC = null; zooMicStop(); });
 
 /* ---------- this week's list (data/words.json) and stories (data/stories.json) ---------- */
 // Claude updates these files when you send a photo of the school list; a newer version replaces the word list once.
