@@ -951,6 +951,8 @@ textarea{width:100%;min-height:110px;resize:vertical;line-height:1.5}
 }
 @keyframes k-glow{0%,100%{box-shadow:0 0 0 0 rgba(255,225,90,0)}50%{box-shadow:0 0 18px 6px rgba(255,225,90,.45)}}
 @keyframes k-new{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,225,90,0)}50%{transform:scale(1.15);box-shadow:0 0 30px 12px rgba(255,225,90,.8)}}
+.sndrep{display:grid;gap:10px;margin-top:6px}.sndrow{display:grid;grid-template-columns:48px 1fr auto;gap:4px 12px;align-items:center}
+.sndrow .small{grid-column:2/-1}.sndbar{height:12px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}.sndbar i{display:block;height:100%;background:#3FB37F;border-radius:6px}
 .hstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,2.6vh,26px);min-height:0;padding:0 12px}
 .hletter{font-family:var(--display);font-weight:800;font-size:clamp(34px,6vmin,56px);line-height:1;color:var(--grape)}
 .hpic{width:clamp(130px,26vmin,240px);aspect-ratio:1;border-radius:28px;background:var(--paper);box-shadow:0 0 0 3px var(--line),var(--lift);padding:0;overflow:hidden}
@@ -7282,6 +7284,7 @@ function renderGrown() {
     '<nav class="gtabs" role="tablist">' + GROWN_TABS.map(([id, name]) => '<button role="tab" data-act="gtab" data-tab="' + id + '" aria-selected="' + (grownTab === id) + '">' + name + "</button>").join("") + "</nav>" +
     tab("week",
     weeklyReport() +
+    soundReport() +
     '<section><h3>Needs practice (' + weak.length + ')</h3>' +
       (weak.length ? '<ul class="list">' + weak.map(x => wordRow(x.w, x.r)).join("") + "</ul>" +
       '<div class="settings" style="margin-top:10px"><button class="btn primary" data-act="drill">Practise these now</button></div>' +
@@ -7399,6 +7402,24 @@ function voiceSection() {
     (hasTTS ? '<button class="btn" data-act="testvoice">Test iPad voice</button>' : "") +
     (state.progress.schCal ? '<button class="btn" data-act="schretune">Tune the Sch-Meter again</button>' : "") +
     '<button class="btn" data-act="phon">' + (state.settings.phon ? "Switch the Aussprache-Helfer off" : "Switch the Aussprache-Helfer on") + "</button></div></section>";
+}
+// The grown-ups' voice report: for each sound she is working on, how often the Aussprache-Helfer heard it right in the last
+// 7 days (from progress.phonLog, judged by her current line), with a bar, and a way to the clips in the voice book.
+const SOUND_OF = (id) => ST_WORDS.includes(id) ? "St" : SP_WORDS.includes(id) ? "Sp" : ZOO.katze.includes(id) ? "ich" : ZOO.drache.includes(id) ? "ach" : ZOO.fuchs.includes(id) ? "chs" : PHON_IPA[id] ? "Sch" : null;
+function soundReport() {
+  const since = addDays(today(), -6), line = phonLine(), rows = {};
+  for (const x of state.progress.phonLog || []) {
+    if (!x.d || x.d < since) continue;
+    const k = SOUND_OF(x.w); if (!k) continue;
+    const r = rows[k] = rows[k] || { ok: 0, n: 0, miss: {} };
+    r.n++; if (x.m >= line) r.ok++; else r.miss[x.w] = (r.miss[x.w] || 0) + 1;
+  }
+  const order = ["Sch", "St", "Sp", "ich", "ach", "chs"].filter(k => rows[k]);
+  if (!order.length) return '<section><h3>Her sounds this week</h3><p class="small">' + (state.settings.phon ? "No words checked this week yet. They show up here after she speaks in the Sch-Lok, the Ch-Zoo or Echo." : "Switch on the Aussprache-Helfer (Sounds tab) to see which sounds she says right.") + "</p></section>";
+  return '<section><h3>Her sounds this week</h3><div class="sndrep">' + order.map(k => {
+    const r = rows[k], pc = Math.round(r.ok / r.n * 100), miss = Object.entries(r.miss).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([w]) => { const f = findWord(w); return esc(f ? f.noun : w); });
+    return '<div class="sndrow"><b>' + k + '</b><span class="sndbar"><i style="width:' + pc + '%"></i></span><span>' + r.ok + " of " + r.n + " right</span>" + (miss.length ? '<span class="small">still tricky: ' + miss.join(", ") + "</span>" : "") + "</div>";
+  }).join("") + '</div><p class="small" style="margin-top:8px">Judged by the line set in her voice book (now ' + line + '). <button class="btn" data-act="gtab" data-tab="sounds">Listen to her words</button></p></section>';
 }
 // The grown-ups' weekly summary: last 7 days from the daily log.
 function weeklyReport() {
