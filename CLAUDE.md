@@ -179,6 +179,14 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   then until the train has left. Mila's lines for it are in `pk-schm`.
 - When TTS has to say "Sch" or "S" alone, write "Schhh" / "Sss", or it spells the letters.
 
+## Lesen
+- `LESEN_WORDS` (`[id, tiles]`) in `index.html`; a word plays only when its tile sounds exist (`lt-<id>-<k>` in `pk-lesen`) and it
+  has a picture. Tile sounds come from `tools/make_lesen.py`: a fresh Mila take of the word (same ElevenLabs settings), ElevenLabs
+  forced alignment for the letter times, each tile cut out, sounds you can hold stretched (pitch kept), the whole word's -14 LUFS
+  gain on every tile, one soxr resample, one MP3 encode. It checks every take with speech-to-text: re-record any that read back
+  wrong (Hand came out as "Hunt" once). New words: add them to the tool's list and run it again, then replace `pk-lesen`.
+- Mila's lines are in `pk-le`. Round length grows with `progress.lesen.rounds` (3 tiles, then 4, then 5).
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),
