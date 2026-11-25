@@ -1983,7 +1983,8 @@ const X_WORDS = [
    slowly new words, but we cant stir too far away"). Her school lists and the words that have been in her games for weeks
    are known. The picture words added on 2026-11-25 (St, Sp and the Ch-Zoo words) are new: a game uses one only after
    Mila has shown it to her ("Neue Wörter!", meetWords), and at most NEW_PER_DAY new words a day across the whole app. */
-const NEW_WORDS = new Set(["stern", "stuhl", "stiefel", "stift", "spinne", "spiegel", "spaten", "spatz",
+// St and Sp words are known from the start (Ohad, 2026-11-25: "add them now, she needs to practice these as well")
+const NEW_WORDS = new Set([
   "licht", "becher", "broetchen", "kirche", "maedchen", "buch", "dach", "bauch", "kuchen", "koch", "drache", "fuchs", "dachs", "ochse"]);
 const NEW_PER_DAY = 2;
 const isKnown = (id) => !NEW_WORDS.has(id) || !!(state.progress.met && state.progress.met[id]);

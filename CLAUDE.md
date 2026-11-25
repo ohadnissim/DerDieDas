@@ -230,7 +230,8 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
 
 ## Known words first (Ohad, 2026-11-25)
 "We have to make sure to currently use words she knows … happy to introduce slowly new words, but we cant stir too far away."
-- `NEW_WORDS`: picture words that are not from her school lists (the St/Sp words and the Ch-Zoo words, added 2026-11-25).
+- `NEW_WORDS`: picture words that are not from her school lists (the ich · ach words, added 2026-11-25). The St/Sp words were
+  taken out the same day (Ohad: "add them now, she needs to practice these as well"), so they play straight away.
   `isKnown(id)` is true for every other word, and for a new word once Mila has shown it (`progress.met[id]` = the day).
 - `meetWords(ids)`: the "Neue Wörter!" card (picture, article in its colour, the word, Mila's `w-` clip, tap on), lines in `pk-mw`.
 - At most `NEW_PER_DAY` (2) new words a day across the whole app (`canMeet`). Every game picks only known words: Lesen and
