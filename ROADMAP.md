@@ -6,7 +6,9 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 ## Done
 - [x] St and Sp in the Sch-Lok, said with a real Schhh (#21)
 - [x] Lesen (blending), step 1 below (#22)
-- [x] Lautdetektiv, step 2 below
+- [x] Lautdetektiv, step 2 below (#23)
+- [~] Pronunciation checker, step 3: in the Sch-Lok, switched on by grown-ups; her scores are logged. Still to do: set her
+      line from real scores (a warm-up), then use it in the other speaking steps and the Ch-Zoo.
 
 ## Next, in order
 1. [x] **Lesen (blending):** sound tiles slide together into a word (M + au + s = Maus); Mila blends slowly, then she taps

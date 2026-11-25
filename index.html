@@ -2023,6 +2023,8 @@ function normalizeProgress(p) {
     out.lastPlayed = p.lastPlayed || null;
     if (p.words && typeof p.words === "object") out.words = clone(p.words);
     if (p.letters && typeof p.letters === "object") out.letters = clone(p.letters);
+    if (Array.isArray(p.phonLog)) out.phonLog = p.phonLog.filter(x => x && typeof x.w === "string" && Number.isFinite(Number(x.m))).slice(-40).map(x => ({ d: String(x.d || ""), w: x.w, m: Number(x.m), h: String(x.h || "") }));
+    if (p.phonCal && Number.isFinite(Number(p.phonCal.line))) out.phonCal = { line: Number(p.phonCal.line), t: String(p.phonCal.t || "") };
     if (p.lesen && typeof p.lesen === "object") out.lesen = { rounds: Math.max(0, Number(p.lesen.rounds) || 0) };
     if (Array.isArray(p.stickers)) out.stickers = p.stickers.filter(s => typeof s === "string");
     out.nextStk = typeof p.nextStk === "string" ? p.nextStk : "";
@@ -6095,10 +6097,56 @@ const S_WORDS = ["sonne", "sofa", "socke", "suppe", "salami", "seil", "maus", "g
 // St and Sp at the start of a word sound Schht / Schhp, so they ride on the Lok too, and she says them with a real Schhh
 const ST_WORDS = ["stern", "stuhl", "stiefel", "stift"], SP_WORDS = ["spinne", "spiegel", "spaten", "spatz"];
 const slSay = (t) => N(t.w).key ? N(t.w) : W(t.w);
+/* The Aussprache-Helfer (phon.js): when a grown-up has switched it on, the Sch-Lok also records the word she says and asks the
+   speech-sound model how well "Schal" fits her voice compared with "Sal" (every Sch made an S). Above her line = a real Schhh.
+   The Sch-Meter stays as it was and decides whenever the model isn't there (switched off, still downloading, no network).
+   Every score is kept (progress.phonLog, the last 40) so the line can be set from her own voice. IPA from espeak-ng (de). */
+const PHON_IPA = {schal:"ʃɑːl",schuh:"ʃuː",schlitten:"ʃlɪtən",schokolade:"ʃoːkoːlɑːdə",schneemann:"ʃneːman",schaukel:"ʃaʊkəl",tasche:"taʃə",flasche:"flaʃə",
+  geschenk:"ɡəʃɛŋk",fisch:"fɪʃ",frosch:"frɔʃ",tisch:"tɪʃ",muschel:"mʊʃəl",stern:"ʃtɛɾn",stuhl:"ʃtuːl",stiefel:"ʃtiːfəl",stift:"ʃtɪft",spinne:"ʃpɪnə",
+  spiegel:"ʃpiːɡəl",spaten:"ʃpɑːtən",spatz:"ʃpats"};
+let PH = null;   // { m: the phon.js module, ok, err, pct }
+const phonStatText = () => !state.settings.phon ? "off. Switching it on downloads about 240 MB once (Wi-Fi), then works without the internet." :
+  PH && PH.ok ? "on, ready (" + esc(PH.device) + ")." : PH && PH.busy ? "on, downloading " + (PH.pct || 0) + " %." : PH && PH.err ? "on, but it could not load: " + esc(PH.err) : "on; it loads when she opens the Sch-Lok.";
+const phonStatShow = () => { const el = document.getElementById("phonStat"); if (el) el.innerHTML = phonStatText(); };
+function phonStart() {
+  if (!state.settings.phon || (PH && (PH.ok || PH.busy))) return;
+  PH = { busy: true, pct: 0 };
+  import("./phon.js").then(m => m.loadPhon((e) => { if (e.status === "progress" && e.file && /\.onnx$/.test(e.file)) { PH.pct = Math.round(e.progress); phonStatShow(); } })
+    .then(p => { PH = { m, ok: true, device: p.device }; phonStatShow(); }))
+    .catch(e => { PH = { ok: false, err: String(e && e.message || e) }; micStat.err = "Aussprache-Helfer: " + PH.err; phonStatShow(); });
+}
+// records what the microphone hears for ms, as an AudioBuffer (for the model)
+function slRecord(ms) {
+  return new Promise(res => {
+    if (!slMic) return res(null);
+    const ac = ctx(), src = ac.createMediaStreamSource(slMic.stream), sp = ac.createScriptProcessor(4096, 1, 1), parts = [];
+    sp.onaudioprocess = (e) => parts.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+    const mute = ac.createGain(); mute.gain.value = 0; src.connect(sp); sp.connect(mute); mute.connect(ac.destination);
+    setTimeout(() => {
+      try { src.disconnect(); sp.disconnect(); mute.disconnect(); } catch (e) {}
+      const n = parts.reduce((a, p) => a + p.length, 0); if (!n) return res(null);
+      const b = ac.createBuffer(1, n, ac.sampleRate); let o = 0; for (const p of parts) { b.copyToChannel(p, 0, o); o += p.length; }
+      res(b);
+    }, ms);
+  });
+}
+// the model's verdict on her word: "sch" / "s", or null when it can't judge
+async function phonJudge(t, buf) {
+  const ipa = PHON_IPA[t.id]; if (!buf || !ipa || !PH || !PH.ok) return null;
+  try {
+    const w = await PH.m.to16k(buf), rows = await PH.m.phonFrames(w);
+    const margin = PH.m.phonMargin(rows, ipa, ipa.replace(/ʃ/g, "s")), heard = PH.m.phonHeard(rows);
+    const line = (state.progress.phonCal && Number.isFinite(state.progress.phonCal.line)) ? state.progress.phonCal.line : 0;
+    const log = state.progress.phonLog = state.progress.phonLog || [];
+    log.push({ d: today(), w: t.id, m: Math.round(margin * 100) / 100, h: heard }); if (log.length > 40) log.splice(0, log.length - 40);
+    return margin >= line ? "sch" : "s";
+  } catch (e) { micStat.err = "Aussprache-Helfer: " + (e && e.message || e); return null; }
+}
 // the word written out with its Sch / St / Sp in colour (shown once she has put it on the right side)
 const slSpell = (t) => { const n = t.w.noun, m = n.match(/sch|st|sp/i); if (!m || t.kind === "s") return esc(n); const i = m.index; return esc(n.slice(0, i)) + "<b>" + esc(n.slice(i, i + m[0].length)) + "</b>" + esc(n.slice(i + m[0].length)); };
 function startSch() {
   stopAudio(); slMicStop(); show("schScreen"); renderStars();
+  phonStart();
   const pick = (ids, n, kind) => shuffle(ids).slice(0, n).map(id => ({ id, sch: kind !== "s", kind }));
   const list = shuffle([...pick(SCH_WORDS, 3, "sch"), ...pick(ST_WORDS, 2, "st"), ...pick(SP_WORDS, 2, "sp"), ...pick(S_WORDS, 2, "s")]).map(t => ({ ...t, w: findWord(t.id) })).filter(t => t.w);
   SL = { list, i: 0, res: {}, earned: 0, tries: 0, phase: "", x: 0 };
@@ -6149,7 +6197,10 @@ async function slSayCheck(t) {
   const my = SL, m = $("slMund");
   await say([C("sm-du")]); if (SL !== my) return;
   m.classList.add("listen"); m.innerHTML = '😗 Schhh… <span class="sldot idle"></span>';
-  const heard = await slListenHiss(3500, m.querySelector(".sldot")); if (SL !== my) return;
+  const rec = PH && PH.ok ? slRecord(3500) : null;
+  let heard = await slListenHiss(3500, m.querySelector(".sldot")); if (SL !== my) return;
+  // the model hears which sound it was; the meter only judged the hiss (and stays the judge when the model isn't there)
+  if (rec && heard !== null) { const v = await phonJudge(t, await rec); if (SL !== my) return; if (v) heard = v; }
   m.classList.remove("listen"); m.textContent = "😗 Schhh…";
   SL.said = SL.said || { sch: 0, s: 0, none: 0 }; SL.said[heard || "none"]++;
   if (heard === "sch") { chime(); sparkle(m, 12); await say([C("sm-gut")]); }
@@ -6735,10 +6786,15 @@ function voiceSection() {
   const sc = state.progress.schCal;
   body += '<p class="small" style="margin-top:4px">Sch-Meter (Sch-Lok): ' + (sc ? "tuned to her voice on " + esc(sc.t) + " (her Schhh around " + Math.round(sc.sch.cen) + " Hz, her Sss around " + Math.round(sc.s.cen) + " Hz" + (schCalFresh() ? "" : ", due again") + ")" : "not tuned yet, so it uses textbook values") +
     '. She tunes it with a short warm-up before the train leaves, every ' + SCH_DAYS + " days.</p>";
+  const pl = state.progress.phonLog || [];
+  body += '<p class="small" style="margin-top:4px">Aussprache-Helfer (hears which sound she made, in the Sch-Lok): ' +
+    '<span id="phonStat">' + phonStatText() + "</span>" +
+    (pl.length ? "<br>Her last words (score above 0 = a real Schhh): " + pl.slice(-10).map(x => esc(x.w) + " " + x.m).join(", ") : "") + "</p>";
   return '<section><h3>Voice</h3>' + body +
     '<div class="settings" style="margin-top:10px"><button class="btn" data-act="testclip">Test recorded voice</button>' +
     (hasTTS ? '<button class="btn" data-act="testvoice">Test iPad voice</button>' : "") +
-    (state.progress.schCal ? '<button class="btn" data-act="schretune">Tune the Sch-Meter again</button>' : "") + "</div></section>";
+    (state.progress.schCal ? '<button class="btn" data-act="schretune">Tune the Sch-Meter again</button>' : "") +
+    '<button class="btn" data-act="phon">' + (state.settings.phon ? "Switch the Aussprache-Helfer off" : "Switch the Aussprache-Helfer on") + "</button></div></section>";
 }
 // The grown-ups' weekly summary: last 7 days from the daily log.
 function weeklyReport() {
@@ -6797,6 +6853,7 @@ $("sheet").addEventListener("click", async (e) => {
   if (act === "add") return addOne();
   if (act === "drill") { const ws = allWords().filter(w => needsPractice(w)); closeGrown(); if (ws.length) startSession(ws); return; }
   if (act === "print") { openPrint(b.dataset.pairs === "1"); return; }
+  if (act === "phon") { state.settings.phon = !state.settings.phon; saveWords(); if (state.settings.phon) phonStart(); const y = $("grown").scrollTop; renderGrown(); $("grown").scrollTop = y; return; }
   if (act === "schretune") { delete state.progress.schCal; saveProgress(); b.remove(); return; }
   if (act === "testclip") { say([C("p-super"), { key: "w-hund", text: "der Hund" }]); return; }
   if (act === "testvoice") { say("der Hund, die Katze, das Haus"); return; }

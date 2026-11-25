@@ -193,6 +193,19 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
   with the sound and 4 without; for Sch, the "without" words are mostly S words (`S_SOUND`). Mila's lines are in `pk-det`.
   TTS dropped the letter in "Wir suchen das I!", so that line is "Wir suchen das I, wie Igel!".
 
+## Aussprache-Helfer (phon.js)
+- `phon.js`: facebook/wav2vec2-lv-60-espeak-cv-ft, the onnx-community **q4** build, through transformers.js 3.5.1 from jsDelivr
+  (WebGPU when there is one, else WASM). Not q4f16: on WebGPU it lost almost every sound. For a known word it scores the right
+  sounds against the likely mistake (CTC log-likelihood, `phonMargin`); above 0 means the right way fits better.
+- `PHON_IPA` in `index.html` (espeak-ng `-v de --ipa`, stress kept, `phon.js` drops it and splits into the model's tokens);
+  the mistake is every ʃ made an s. A new Sch-Lok word needs its line there.
+- Off until a grown-up switches it on (`state.settings.phon`); it loads when the Sch-Lok opens (`phonStart`). In `slSayCheck`
+  the meter still listens, and when it heard a hiss the model's verdict replaces the meter's. Her scores go to
+  `progress.phonLog` (last 40); `progress.phonCal.line` is the line (0 until it is set from her own scores).
+- `tools/phon-test.html` runs it on Mila's recordings (`?device=wasm&dtype=q4` to force a build). 2026-11-25: Stern 2.03,
+  Spinne 2.75, Schal 1.59, Fisch 2.66, Schuh 0.76, Frosch 3.64, Tisch 0.82; Sonne (z vs ʃ) -0.11. Synthetic tests: 85 to 88 %
+  right, 75 % on raised "child" voices (ç heard as ʃ).
+
 ## Saved progress
 - On the website and in the iPad app her progress lives in `localStorage` (`derdiedas.local.v1`). In the app iOS can empty
   that, so the app also keeps the save natively: `SaveStore` in `app/ios/App/App/SceneDelegate.swift` (UserDefaults),
