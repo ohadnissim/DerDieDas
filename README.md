@@ -34,7 +34,7 @@ A der/die/das practice game for young children. No reading needed: every word is
 - **The capital I** has its bars on top and bottom everywhere in the app, like at school, so it never looks like an l.
 - **Mia, Mil and Max talk:** tap them in the garden to hear hello, one of them sometimes pops up to cheer a right answer, and in the story each says a short line in their own voice.
 - **Remembering the colours:** every practice round starts with a 6-tap colour warm-up: Mila says der, die or das and the child taps the matching circle. When she misses, the right circle glows and Mila says its article. Tapping Mila on the home screen lights up the three circles while she says der, die, das.
-- **Grown-ups:** tap ⚙️ and answer the sum to see which words need practice, edit the word list (`der Hund 🐶`, one per line) and change settings.
+- **Grown-ups:** tap ⚙️ and answer the sum. Five tabs: **This week** (the report, words that need practice, progress), **Words** (her list, older words, the new words she has met and those still to come, add or paste words, print cards), **Sounds** (Mila, the iPad voice, microphone, Sch-Meter and Aussprache-Helfer), **Settings** (Rounds, Learning, Speaking, and Start over) and **Help**. It opens on the tab you used last.
 
 **New words each week:** `data/words.json` (bump `version`; add `"replace": true` to drop earlier words instead of keeping them for review) and `data/stories.json`; the app picks them up automatically.
 
