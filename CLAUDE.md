@@ -256,6 +256,13 @@ Home icons are `img/ic-<name>.webp`: Higgsfield `nano_banana_flash` with the sto
 - A new field in `state.progress` must also be listed in `normalizeProgress`, or it is dropped at every start.
 
 ## Weekly list
+**The tool:** Claude reads the photo of the school sheet and writes the list (`der Bär 🐻 | den Bären`, the `| den …` form for
+words whose den-form is not just "den <word>"), then `python3 tools/make_week.py week.txt --title "Wortschatz B,b" [--refs crops/]`
+makes the cards (crops of the sheet's own drawings in `--refs/<id>.png` are the first reference), Mila's w/n/q/den clips (checked
+with speech-to-text; mismatches are listed) in `pw-<id>`, the new `data/words.json`, the index.html lists and `AUDIO_V`, and builds
+last week's words in as `<LETTER>_WORDS`. Look at both card takes in `--work` and re-run with `--pick id=2` where take 2 is closer
+to the sheet. Stories, Max's claims and Mil/Max lines are still made by hand. `--root <copy>` runs it on a test copy.
+Higgsfield replies also list the reference images: read `result_url`, never the first link in the reply.
 `data/words.json` (bump `version`) and `data/stories.json`. When the list changes, the previous week's words move to
 review; build them into `index.html` the way `M_WORDS` and `I_WORDS` are.
 Every game picks its words with `mixWords` in `index.html`: this week's words she hasn't learned yet (the ones she finds

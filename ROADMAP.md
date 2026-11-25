@@ -7,7 +7,8 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
 - [x] St and Sp in the Sch-Lok, said with a real Schhh (#21)
 - [x] Lesen (blending), step 1 below (#22)
 - [x] Lautdetektiv, step 2 below (#23)
-- [x] Voice report, step 11: This week → Her sounds this week
+- [x] Weekly-list tool, step 10: tools/make_week.py
+- [x] Voice report, step 11 (#32): This week → Her sounds this week
 - [x] The map, step 8 (#31)
 - [x] Her voice book, step 7 (#30) (and the checker's line from grown-ups' marks, finishing step 3)
 - [x] Motion pass across the app
@@ -40,7 +41,7 @@ Built in this order, one PR per step. Tick a step when its PR is merged, and not
        unlocked as she learns it.
 9. [ ] **Her storybook:** she picks characters and things she knows; a story is put together from the existing story
        pieces (no paid AI at runtime), she reads the coloured parts aloud, and it is saved as her book.
-10. [ ] **Weekly list from a photo:** a Mac tool (`tools/`) that takes a photo of the school sheet and makes the word list,
+10. [x] **Weekly list from a photo:** a Mac tool (`tools/`) that takes a photo of the school sheet and makes the word list,
         cards and Mila's voices the usual way (CLAUDE.md), ready as a PR.
 11. [x] **Weekly voice report for grown-ups:** per sound, how often she said it right, with a couple of her clips.
 
